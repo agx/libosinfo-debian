@@ -1,3 +1,10 @@
+libosinfo (0.0.4-2) experimental; urgency=low
+
+  * [62490ca] Make the dev package depend on the gir package.
+    Thanks to Jeremy Bicha
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 14 Jan 2012 21:39:19 +0100
+
 libosinfo (0.0.4-1) experimental; urgency=low
 
   * Initial release (Closes: #649780)
