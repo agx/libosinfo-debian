@@ -1,3 +1,9 @@
+libosinfo (0.0.5-1) experimental; urgency=low
+
+  * New upstream version 0.0.5
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 22 Jan 2012 17:30:46 +0100
+
 libosinfo (0.0.4-2) experimental; urgency=low
 
   * [62490ca] Make the dev package depend on the gir package.
