@@ -6,6 +6,11 @@
     <version>5</version>
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
+
+    <devices>
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1b36/0100"/> <!-- QXL -->
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/8086/2415"/> <!-- AC97 -->
+    </devices>
   </os>
 
   <os id="http://fedoraproject.org/fedora/6">
@@ -15,6 +20,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/5"/>
+    <derives-from id="http://fedoraproject.org/fedora/5"/>
   </os>
 
   <os id="http://fedoraproject.org/fedora/7">
@@ -24,6 +30,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/6"/>
+    <derives-from id="http://fedoraproject.org/fedora/6"/>
   </os>
 
   <os id="http://fedoraproject.org/fedora/8">
@@ -33,6 +40,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/7"/>
+    <derives-from id="http://fedoraproject.org/fedora/7"/>
   </os>
 
   <os id="http://fedoraproject.org/fedora/9">
@@ -42,9 +50,10 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/8"/>
+    <derives-from id="http://fedoraproject.org/fedora/8"/>
 
     <devices>
-      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1000"/>
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1000"/> <!-- virtio-net -->
       <!-- Apparently F9 has selinux errors when installing with virtio:
            https://bugzilla.redhat.com/show_bug.cgi?id=470386
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/>
@@ -59,9 +68,10 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/9"/>
+    <derives-from id="http://fedoraproject.org/fedora/9"/>
 
     <devices>
-      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/>
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/> <!-- virtio-block -->
     </devices>
   </os>
 
@@ -72,9 +82,10 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/10"/>
+    <derives-from id="http://fedoraproject.org/fedora/10"/>
 
     <devices>
-      <device id="http://www.linux-usb.org/usb.ids/80ee/0021"/>
+      <device id="http://www.linux-usb.org/usb.ids/80ee/0021"/> <!-- USB tablet -->
     </devices>
   </os>
 
@@ -85,6 +96,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/11"/>
+    <derives-from id="http://fedoraproject.org/fedora/11"/>
 
     <media arch="i386">
       <url>http://download.fedoraproject.org/pub/fedora/linux/releases/12/Fedora/i386/os/</url>
@@ -113,6 +125,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/12"/>
+    <derives-from id="http://fedoraproject.org/fedora/12"/>
 
     <media arch="i386">
       <url>http://download.fedoraproject.org/pub/fedora/linux/releases/13/Fedora/i386/os/</url>
@@ -141,6 +154,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/13"/>
+    <derives-from id="http://fedoraproject.org/fedora/13"/>
 
     <media arch="i386">
       <url>http://download.fedoraproject.org/pub/fedora/linux/releases/14/Fedora/i386/os/</url>
@@ -202,6 +216,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/14"/>
+    <derives-from id="http://fedoraproject.org/fedora/14"/>
 
     <media arch="i386">
       <url>http://download.fedoraproject.org/pub/fedora/linux/releases/15/Fedora/i386/os/</url>
@@ -263,6 +278,7 @@
     <vendor>Fedora Project</vendor>
     <family>Linux</family>
     <upgrades id="http://fedoraproject.org/fedora/15"/>
+    <derives-from id="http://fedoraproject.org/fedora/15"/>
 
     <media arch="i386">
       <url>http://download.fedoraproject.org/pub/fedora/linux/releases/16/Fedora/i386/os/</url>
