@@ -1,3 +1,14 @@
+libosinfo (0.1.0-1) experimental; urgency=low
+
+  [ Jeremy Bicha ]
+  * [7d2cd26] Use dots at the end of the short description
+
+  [ Guido Günther ]
+  * New upstream version (Closes: #663122)
+  * [18b4441] Add watch file
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 08 Mar 2012 19:21:20 +0100
+
 libosinfo (0.0.5-1) experimental; urgency=low
 
   * New upstream version 0.0.5
