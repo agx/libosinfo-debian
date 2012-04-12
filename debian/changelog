@@ -1,3 +1,9 @@
+libosinfo (0.1.0-2) experimental; urgency=low
+
+  * [883b6ab] Add symbols file (Closes: #668433)
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 12 Apr 2012 08:53:44 +0200
+
 libosinfo (0.1.0-1) experimental; urgency=low
 
   [ Jeremy Bicha ]
