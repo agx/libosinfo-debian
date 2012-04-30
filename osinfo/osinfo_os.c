@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 
 G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
@@ -34,7 +36,7 @@ G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
  * @see_also: #OsinfoOs, #OsinfoDeployment
  *
  * #OsinfoOs is an entity representing an operating system.
- * Operating systems have a list of supported devices. 
+ * Operating systems have a list of supported devices.
  * There are relationships amongst operating systems to
  * declare which are newest releases, which are clones
  * and which are derived from a common ancestry.
@@ -46,6 +48,7 @@ struct _OsinfoOsPrivate
     GList *deviceLinks;
 
     OsinfoMediaList *medias;
+    OsinfoTreeList *trees;
     OsinfoResourcesList *minimum;
     OsinfoResourcesList *recommended;
 };
@@ -59,6 +62,7 @@ enum {
     PROP_0,
 
     PROP_FAMILY,
+    PROP_DISTRO,
 };
 
 static void osinfo_os_finalize (GObject *object);
@@ -83,6 +87,11 @@ osinfo_os_get_property (GObject    *object,
                                 osinfo_entity_get_param_value (entity,
                                                                "family"));
             break;
+        case PROP_DISTRO:
+            g_value_set_string (value,
+                                osinfo_entity_get_param_value (entity,
+                                                               "distro"));
+            break;
         default:
             /* We don't have any other property... */
             G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -97,6 +106,8 @@ osinfo_os_finalize (GObject *object)
 
     g_list_foreach(os->priv->deviceLinks, osinfo_device_link_free, NULL);
     g_list_free(os->priv->deviceLinks);
+    g_object_unref(os->priv->medias);
+    g_object_unref(os->priv->trees);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
@@ -117,11 +128,11 @@ osinfo_os_class_init (OsinfoOsClass *klass)
     /**
      * OsinfoOs:family:
      *
-     * The generic family this OS belongs to, for example Linux, Windows,
-     * Solaris, UNIX etc.
+     * The generic family this OS belongs to, based upon its kernel,
+     * for example linux, winnt, solaris, freebsd etc.
      */
     pspec = g_param_spec_string ("family",
-                                 "FAMILY",
+                                 "Family",
                                  "Generic Family",
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
@@ -130,6 +141,24 @@ osinfo_os_class_init (OsinfoOsClass *klass)
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass,
                                      PROP_FAMILY,
+                                     pspec);
+
+    /**
+     * OsinfoOs:distro:
+     *
+     * The generic distro this OS belongs to, for example fedora, windows,
+     * solaris, freebsd etc.
+     */
+    pspec = g_param_spec_string ("distro",
+                                 "Distro",
+                                 "Generic Distro",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass,
+                                     PROP_DISTRO,
                                      pspec);
 }
 
@@ -141,6 +170,7 @@ osinfo_os_init (OsinfoOs *os)
 
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new ();
+    os->priv->trees = osinfo_treelist_new ();
     os->priv->minimum = osinfo_resourceslist_new ();
     os->priv->recommended = osinfo_resourceslist_new ();
 }
@@ -148,7 +178,7 @@ osinfo_os_init (OsinfoOs *os)
 /**
  * osinfo_os_new:
  * @id: a unique identifier
- * 
+ *
  * Create a new operating system entity
  *
  * Returns: (transfer full): a new operating system entity
@@ -181,8 +211,8 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
     tmp = os->priv->deviceLinks;
 
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
-        OsinfoDevice *dev = osinfo_devicelink_get_target(link);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDevice *dev = osinfo_devicelink_get_target(devlink);
         if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
             osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
@@ -291,10 +321,10 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
     tmp = os->priv->deviceLinks;
 
     while (tmp) {
-        OsinfoDeviceLink *link = OSINFO_DEVICELINK(tmp->data);
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
 
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(link)))
-            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link));
+        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(devlink)))
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(devlink));
 
         tmp = tmp->next;
     }
@@ -319,19 +349,19 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
     g_return_val_if_fail(OSINFO_IS_DEVICE(dev), NULL);
 
-    OsinfoDeviceLink *link = osinfo_devicelink_new(dev);
+    OsinfoDeviceLink *devlink = osinfo_devicelink_new(dev);
 
-    os->priv->deviceLinks = g_list_append(os->priv->deviceLinks, link);
+    os->priv->deviceLinks = g_list_append(os->priv->deviceLinks, devlink);
 
-    return link;
+    return devlink;
 }
 
 /**
  * osinfo_os_get_family:
  * @os: a OsinfoOs
  *
- * Retrieves the generic family the OS @os belongs to, for example Linux,
- * Windows, Solaris, UNIX etc.
+ * Retrieves the generic family the OS @os belongs to, based upon its kernel,
+ * for example linux, winnt, solaris, freebsd etc.
  *
  * Returns: (transfer none): the family of this os
  */
@@ -340,6 +370,22 @@ const gchar *osinfo_os_get_family(OsinfoOs *os)
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
 
     return osinfo_entity_get_param_value(OSINFO_ENTITY(os), "family");
+}
+
+/**
+ * osinfo_os_get_distro:
+ * @os: a OsinfoOs
+ *
+ * Retrieves the generic family the OS @os belongs to, for example fedora,
+ * ubuntu, windows, solaris, freebsd etc.
+ *
+ * Returns: (transfer none): the distro of this os
+ */
+const gchar *osinfo_os_get_distro(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(os), "distro");
 }
 
 /**
@@ -374,6 +420,40 @@ void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media)
     g_return_if_fail(OSINFO_IS_MEDIA(media));
 
     osinfo_list_add(OSINFO_LIST(os->priv->medias), OSINFO_ENTITY(media));
+}
+
+/**
+ * osinfo_os_get_tree_list:
+ * @os: an operating system
+ *
+ * Get all installation trees associated with operating system @os.
+ *
+ * Returns: (transfer full): A list of trees
+ */
+OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoTreeList *newList = osinfo_treelist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->trees));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_add_tree:
+ * @os: an operating system
+ * @tree: (transfer none): the tree to add
+ *
+ * Adds installation tree @tree to operating system @os.
+ */
+void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_TREE(tree));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->trees), OSINFO_ENTITY(tree));
 }
 
 /**

@@ -1,7 +1,7 @@
 /*
  * osinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,7 +22,12 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
+
+#include <stdlib.h>
+#include <string.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoProduct, osinfo_product, OSINFO_TYPE_ENTITY);
 
@@ -70,13 +75,14 @@ enum {
     PROP_SHORT_ID,
     PROP_VENDOR,
     PROP_VERSION,
+    PROP_CODENAME,
 };
 
 static void osinfo_product_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
 {
-    struct _OsinfoProductProductLink *link = data;
-    g_object_unref(link->otherProduct);
-    g_free(link);
+    struct _OsinfoProductProductLink *prodlink = data;
+    g_object_unref(prodlink->otherProduct);
+    g_free(prodlink);
 }
 
 
@@ -119,6 +125,11 @@ osinfo_product_get_property (GObject    *object,
     case PROP_VERSION:
         g_value_set_string (value,
                             osinfo_product_get_version (product));
+        break;
+
+    case PROP_CODENAME:
+        g_value_set_string (value,
+                            osinfo_product_get_codename (product));
         break;
 
     default:
@@ -198,6 +209,21 @@ osinfo_product_class_init (OsinfoProductClass *klass)
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass, PROP_VERSION, pspec);
+
+    /**
+     * OsinfoProduct::codename:
+     *
+     * The codename of this product.
+     */
+    pspec = g_param_spec_string ("codename",
+                                 "Codename",
+                                 "Codename",
+                                 NULL /* default value */,
+                                 G_PARAM_READABLE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_NAME, pspec);
 }
 
 static void
@@ -215,7 +241,7 @@ osinfo_product_init (OsinfoProduct *product)
  * @product: an product
  * @relshp: the relationship to query
  *
- * Get a list of products satisfying the the requested
+ * Get a list of products satisfying the requested
  * relationship
  *
  * Returns: (transfer full): a list of related products
@@ -229,10 +255,10 @@ OsinfoProductList *osinfo_product_get_related(OsinfoProduct *product, OsinfoProd
     GList *tmp = product->priv->productLinks;
 
     while (tmp) {
-        struct _OsinfoProductProductLink *link = tmp->data;
+        struct _OsinfoProductProductLink *prodlink = tmp->data;
 
-        if (link->relshp == relshp)
-            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(link->otherProduct));
+        if (prodlink->relshp == relshp)
+            osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(prodlink->otherProduct));
 
         tmp = tmp->next;
     }
@@ -279,6 +305,56 @@ const gchar *osinfo_product_get_name(OsinfoProduct *prod)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_NAME);
 }
+
+const gchar *osinfo_product_get_codename(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_CODENAME);
+}
+
+const gchar *osinfo_product_get_release_date_string(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_RELEASE_DATE);
+}
+
+const gchar *osinfo_product_get_eol_date_string(OsinfoProduct *prod)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_EOL_DATE);
+}
+
+
+static GDate *date_from_string(const gchar *str)
+{
+    int y, m, d;
+    const gchar *tmp;
+
+    y = strtoll(str, NULL, 10);
+    tmp = strchr(str, '-');
+    m = strtoll(tmp+1, NULL, 10);
+    tmp = strchr(tmp+1, '-');
+    d = strtoll(tmp+1, NULL, 10);
+    return g_date_new_dmy(d,m,y);
+}
+
+GDate *osinfo_product_get_release_date(OsinfoProduct *prod)
+{
+    const gchar *str = osinfo_product_get_release_date_string(prod);
+    if (!str)
+        return NULL;
+
+    return date_from_string(str);
+}
+
+
+GDate *osinfo_product_get_eol_date(OsinfoProduct *prod)
+{
+    const gchar *str = osinfo_product_get_eol_date_string(prod);
+    if (!str)
+        return NULL;
+
+    return date_from_string(str);
+}
+
+
 
 /*
  * Local variables:

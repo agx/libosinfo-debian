@@ -1,7 +1,7 @@
 /*
  * libosinfo: Database loader
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -72,6 +72,9 @@ OsinfoDb *osinfo_loader_get_db(OsinfoLoader *loader);
 void osinfo_loader_process_path(OsinfoLoader *loader, const gchar *path, GError **err);
 void osinfo_loader_process_uri(OsinfoLoader *loader, const gchar *uri, GError **err);
 void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err);
+void osinfo_loader_process_system_path(OsinfoLoader *loader, GError **err);
+void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err);
+void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err);
 
 
 #endif /* __OSINFO_LOADER_H__ */

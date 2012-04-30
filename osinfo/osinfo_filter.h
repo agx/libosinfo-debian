@@ -1,7 +1,7 @@
 /*
  * libosinfo: a mechanism to filter enities
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -82,7 +82,7 @@ GList *osinfo_filter_get_constraint_values(OsinfoFilter *filter,
                                            const gchar *propName);
 
 gboolean osinfo_filter_matches(OsinfoFilter *filter,
-			       OsinfoEntity *entity);
+                               OsinfoEntity *entity);
 
 #endif /* __OSINFO_FILTER_H__ */
 /*

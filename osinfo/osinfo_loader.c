@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 
@@ -261,7 +263,9 @@ static void osinfo_loader_device(OsinfoLoader *loader,
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
         OSINFO_DEVICE_PROP_VENDOR,
+        OSINFO_DEVICE_PROP_VENDOR_ID,
         OSINFO_DEVICE_PROP_PRODUCT,
+        OSINFO_DEVICE_PROP_PRODUCT_ID,
         OSINFO_DEVICE_PROP_BUS_TYPE,
         OSINFO_DEVICE_PROP_CLASS,
         OSINFO_DEVICE_PROP_NAME,
@@ -304,18 +308,18 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
         g_free(id);
 
-        OsinfoDeviceLink *link = NULL;
+        OsinfoDeviceLink *devlink = NULL;
         if (OSINFO_IS_PLATFORM(entity)) {
-            link = osinfo_platform_add_device(OSINFO_PLATFORM(entity), dev);
+            devlink = osinfo_platform_add_device(OSINFO_PLATFORM(entity), dev);
         } else if (OSINFO_IS_OS(entity)) {
-            link = osinfo_os_add_device(OSINFO_OS(entity), dev);
+            devlink = osinfo_os_add_device(OSINFO_OS(entity), dev);
         } else if (OSINFO_IS_DEPLOYMENT(entity)) {
-            link = osinfo_deployment_add_device(OSINFO_DEPLOYMENT(entity), dev);
+            devlink = osinfo_deployment_add_device(OSINFO_DEPLOYMENT(entity), dev);
         }
 
         xmlNodePtr saved = ctxt->node;
         ctxt->node = related[i];
-        osinfo_loader_entity(loader, OSINFO_ENTITY(link), keys, ctxt, root, err);
+        osinfo_loader_entity(loader, OSINFO_ENTITY(devlink), keys, ctxt, root, err);
         ctxt->node = saved;
         if (error_is_set(err))
             goto cleanup;
@@ -370,6 +374,9 @@ static void osinfo_loader_product(OsinfoLoader *loader,
         OSINFO_PRODUCT_PROP_VENDOR,
         OSINFO_PRODUCT_PROP_VERSION,
         OSINFO_PRODUCT_PROP_SHORT_ID,
+        OSINFO_PRODUCT_PROP_RELEASE_DATE,
+        OSINFO_PRODUCT_PROP_EOL_DATE,
+        OSINFO_PRODUCT_PROP_CODENAME,
         NULL,
     };
 
@@ -530,7 +537,9 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
              strcmp((const gchar *)nodes[i]->name,
                     OSINFO_MEDIA_PROP_SYSTEM_ID) != 0 &&
              strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0))
+                    OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0 &&
+             strcmp((const gchar *)nodes[i]->name,
+                    OSINFO_MEDIA_PROP_APPLICATION_ID) != 0))
             continue;
 
         osinfo_entity_set_param(OSINFO_ENTITY(media),
@@ -541,6 +550,64 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     g_free(nodes);
 
     return media;
+}
+
+static OsinfoTree *osinfo_loader_tree (OsinfoLoader *loader,
+                                         xmlXPathContextPtr ctxt,
+                                         xmlNodePtr root,
+                                         const gchar *id,
+                                         GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    guint i;
+
+    gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    const gchar *const keys[] = {
+        OSINFO_TREE_PROP_URL,
+        OSINFO_TREE_PROP_KERNEL,
+        OSINFO_TREE_PROP_INITRD,
+        OSINFO_TREE_PROP_BOOT_ISO,
+        NULL
+    };
+
+    OsinfoTree *tree = osinfo_tree_new(id, arch);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(tree), keys, ctxt, root, err);
+
+    gint nnodes = osinfo_loader_nodeset("./treeinfo/*", ctxt, &nodes, err);
+    if (error_is_set(err))
+        return NULL;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        if (!nodes[i]->children ||
+            nodes[i]->children->type != XML_TEXT_NODE)
+            continue;
+
+        if (strcmp((const gchar *)nodes[i]->name,
+                   OSINFO_TREE_PROP_TREEINFO_FAMILY + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_FAMILY,
+                                    (const gchar *)nodes[i]->children->content);
+        else if (strcmp((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_VARIANT + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_VARIANT,
+                                    (const gchar *)nodes[i]->children->content);
+        else if (strcmp((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_VERSION + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_VERSION,
+                                    (const gchar *)nodes[i]->children->content);
+        else if (strcmp((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_ARCH + 9) == 0)
+            osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_TREEINFO_ARCH,
+                                    (const gchar *)nodes[i]->children->content);
+    }
+
+    g_free(nodes);
+
+    return tree;
 }
 
 static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
@@ -622,10 +689,12 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 {
     xmlNodePtr *nodes = NULL;
     guint i;
+    int nnodes;
 
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     const gchar *const keys[] = {
         OSINFO_OS_PROP_FAMILY,
+        OSINFO_OS_PROP_DISTRO,
         NULL
     };
     if (!id) {
@@ -648,7 +717,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     if (error_is_set(err))
         goto cleanup;
 
-    int nnodes = osinfo_loader_nodeset("./media", ctxt, &nodes, err);
+    nnodes = osinfo_loader_nodeset("./media", ctxt, &nodes, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -663,6 +732,25 @@ static void osinfo_loader_os(OsinfoLoader *loader,
             break;
 
         osinfo_os_add_media (os, media);
+    }
+
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./tree", ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        gchar *tree_id = g_strdup_printf ("%s:%u", id, i);
+        OsinfoTree *tree = osinfo_loader_tree(loader, ctxt, nodes[i], tree_id, err);
+        g_free (tree_id);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            break;
+
+        osinfo_os_add_tree (os, tree);
     }
 
     g_free(nodes);
@@ -716,17 +804,21 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     xmlNodePtr *devices = NULL;
     xmlNodePtr *platforms = NULL;
     xmlNodePtr *deployments = NULL;
+    int i;
+    int ndeployment;
+    int nos;
+    int ndevice;
+    int nplatform;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, "Incorrect root element");
         return;
     }
 
-    int ndevice = osinfo_loader_nodeset("./device", ctxt, &devices, err);
+    ndevice = osinfo_loader_nodeset("./device", ctxt, &devices, err);
     if (error_is_set(err))
         goto cleanup;
 
-    int i;
     for (i = 0 ; i < ndevice ; i++) {
         xmlNodePtr saved = ctxt->node;
         ctxt->node = devices[i];
@@ -736,7 +828,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int nplatform = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
+    nplatform = osinfo_loader_nodeset("./platform", ctxt, &platforms, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -749,7 +841,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int nos = osinfo_loader_nodeset("./os", ctxt, &oss, err);
+    nos = osinfo_loader_nodeset("./os", ctxt, &oss, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -762,7 +854,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
-    int ndeployment = osinfo_loader_nodeset("./deployment", ctxt, &deployments, err);
+    ndeployment = osinfo_loader_nodeset("./deployment", ctxt, &deployments, err);
     if (error_is_set(err))
         goto cleanup;
 
@@ -948,11 +1040,14 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
                 osinfo_entity_set_param(OSINFO_ENTITY(dev),
-                                        OSINFO_DEVICE_PROP_VENDOR,
+                                        OSINFO_DEVICE_PROP_VENDOR_ID,
                                         vendor_id);
                 osinfo_entity_set_param(OSINFO_ENTITY(dev),
-                                        OSINFO_DEVICE_PROP_PRODUCT,
+                                        OSINFO_DEVICE_PROP_PRODUCT_ID,
                                         device_id);
+                osinfo_entity_set_param(OSINFO_ENTITY(dev),
+                                        OSINFO_DEVICE_PROP_BUS_TYPE,
+                                        busType);
                 g_free(id);
             }
         } else {
@@ -1011,6 +1106,7 @@ osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
+                           gboolean ignoreMissing,
                            GError **err);
 
 static void
@@ -1053,7 +1149,7 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
         const gchar *name = g_file_info_get_name(child);
         GFile *ent = g_file_get_child(file, name);
 
-        osinfo_loader_process_file(loader, ent, err);
+        osinfo_loader_process_file(loader, ent, FALSE, err);
 
         g_object_unref(ent);
         g_object_unref(child);
@@ -1068,17 +1164,26 @@ osinfo_loader_process_file_dir(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file(OsinfoLoader *loader,
                            GFile *file,
+                           gboolean ignoreMissing,
                            GError **err)
 {
+    GError *error = NULL;
     GFileInfo *info = g_file_query_info(file,
                                         "standard::*",
                                         G_FILE_QUERY_INFO_NONE,
                                         NULL,
-                                        err);
+                                        &error);
     const char *name;
 
-    if (error_is_set(err))
+    if (error) {
+        if (ignoreMissing &&
+            (error->code == G_IO_ERROR_NOT_FOUND)) {
+            g_error_free(error);
+            return;
+        }
+        g_propagate_error(err, error);
         return;
+    }
 
     name = g_file_info_get_name(info);
 
@@ -1088,15 +1193,15 @@ osinfo_loader_process_file(OsinfoLoader *loader,
     switch (type) {
     case G_FILE_TYPE_REGULAR:
         if (g_str_has_suffix(name, ".xml"))
-            osinfo_loader_process_file_reg_xml(loader, file, info, err);
+            osinfo_loader_process_file_reg_xml(loader, file, info, &error);
         else if (strcmp(name, "usb.ids") == 0)
-            osinfo_loader_process_file_reg_usb(loader, file, info, err);
+            osinfo_loader_process_file_reg_usb(loader, file, info, &error);
         else if (strcmp(name, "pci.ids") == 0)
-            osinfo_loader_process_file_reg_pci(loader, file, info, err);
+            osinfo_loader_process_file_reg_pci(loader, file, info, &error);
         break;
 
     case G_FILE_TYPE_DIRECTORY:
-        osinfo_loader_process_file_dir(loader, file, info, err);
+        osinfo_loader_process_file_dir(loader, file, info, &error);
         break;
 
     default:
@@ -1104,6 +1209,9 @@ osinfo_loader_process_file(OsinfoLoader *loader,
     }
 
     g_object_unref(info);
+
+    if (error)
+        g_propagate_error(err, error);
 }
 
 /**
@@ -1139,6 +1247,7 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
     GFile *file = g_file_new_for_path(path);
     osinfo_loader_process_file(loader,
                                file,
+                               FALSE,
                                err);
     g_object_unref(file);
 }
@@ -1161,30 +1270,89 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
     GFile *file = g_file_new_for_uri(uri);
     osinfo_loader_process_file(loader,
                                file,
+                               FALSE,
                                err);
     g_object_unref(file);
 }
 
+
+void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
+{
+    GError *error = NULL;
+
+    osinfo_loader_process_system_path(loader, &error);
+    if (error)
+        goto error;
+
+    osinfo_loader_process_local_path(loader, &error);
+    if (error)
+        goto error;
+
+    osinfo_loader_process_user_path(loader, &error);
+    if (error)
+        goto error;
+
+    return;
+
+ error:
+    g_print("Fail\n");
+    g_propagate_error(err, error);
+    return;
+}
+
 /**
- * osinfo_loader_process_default_path:
+ * osinfo_loader_process_system_path:
  * @loader: the loader object
  * @err: (out): filled with error information upon failure
  *
- * Loads data from the default path.
+ * Loads data from the default paths.
  */
-void osinfo_loader_process_default_path(OsinfoLoader *loader,
-                                        GError **err)
+void osinfo_loader_process_system_path(OsinfoLoader *loader,
+                                       GError **err)
 {
     GFile *file;
+    gchar *dbdir;
     const gchar *path = getenv("OSINFO_DATA_DIR");
     if (!path)
-        path = DATA_DIR;
+        path = PKG_DATA_DIR;
 
-    file = g_file_new_for_path(path);
+    dbdir = g_strdup_printf("%s/db", path);
+
+    file = g_file_new_for_path(dbdir);
     osinfo_loader_process_file(loader,
                                file,
+                               FALSE,
                                err);
     g_object_unref(file);
+}
+
+void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
+{
+    GFile *file;
+    const gchar *dbdir = SYS_CONF_DIR "/libosinfo/db";
+
+    file = g_file_new_for_path(dbdir);
+    osinfo_loader_process_file(loader,
+                               file,
+                               TRUE,
+                               err);
+    g_object_unref(file);
+}
+
+void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
+{
+    GFile *file;
+    gchar *dbdir;
+    const gchar *configdir = g_get_user_config_dir();
+
+    dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
+    file = g_file_new_for_path(dbdir);
+    osinfo_loader_process_file(loader,
+                               file,
+                               TRUE,
+                               err);
+    g_object_unref(file);
+    g_free(dbdir);
 }
 
 /*

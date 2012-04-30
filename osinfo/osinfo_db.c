@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -22,6 +22,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 #include <gio/gio.h>
 #include <string.h>
@@ -30,9 +32,10 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
 #define OSINFO_DB_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_DB, OsinfoDbPrivate))
 
-#define match_regex(pattern, str) (((pattern) == NULL && (str) == NULL) || \
-                                   ((pattern) != NULL && (str) != NULL && \
-                                    g_regex_match_simple((pattern), (str), 0, 0)))
+#define match_regex(pattern, str)                                       \
+    (((pattern) == NULL) ||                                             \
+     (((str) != NULL) &&                                                \
+      g_regex_match_simple((pattern), (str), 0, 0)))
 
 /**
  * SECTION:osinfo_db
@@ -360,6 +363,7 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     const gchar *media_volume;
     const gchar *media_system;
     const gchar *media_publisher;
+    const gchar *media_application;
 
     g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
     g_return_val_if_fail(media != NULL, NULL);
@@ -367,6 +371,7 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
     media_volume = osinfo_media_get_volume_id(media);
     media_system = osinfo_media_get_system_id(media);
     media_publisher = osinfo_media_get_publisher_id(media);
+    media_application = osinfo_media_get_application_id(media);
 
     oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
     for (os_iter = oss; os_iter; os_iter = os_iter->next) {
@@ -382,10 +387,12 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
             const gchar *os_volume = osinfo_media_get_volume_id(os_media);
             const gchar *os_system = osinfo_media_get_system_id(os_media);
             const gchar *os_publisher = osinfo_media_get_publisher_id(os_media);
+            const gchar *os_application = osinfo_media_get_application_id(os_media);
 
             if (match_regex (os_volume, media_volume) &&
-                (match_regex (os_system, media_system) ||
-                 match_regex (os_publisher, media_publisher))) {
+                match_regex (os_application, media_application) &&
+                match_regex (os_system, media_system) &&
+                match_regex (os_publisher, media_publisher)) {
                 ret = os;
                 if (matched_media != NULL)
                     *matched_media = os_media;
@@ -395,6 +402,77 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
 
         g_list_free(medias);
         g_object_unref(media_list);
+
+        if (ret)
+            break;
+    }
+
+    g_list_free(oss);
+
+    return ret;
+}
+
+
+/**
+ * osinfo_db_guess_os_from_tree:
+ * @db: the database
+ * @tree: the installation tree
+ * @matched_tree: (out) (transfer none) (allow-none): the matched operating
+ * system tree
+ *
+ * Guess operating system given a #OsinfoTree object.
+ *
+ * Returns: (transfer none): the operating system, or NULL if guessing failed
+ */
+OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
+                                       OsinfoTree *tree,
+                                       OsinfoTree **matched_tree)
+{
+    OsinfoOs *ret = NULL;
+    GList *oss = NULL;
+    GList *os_iter;
+    const gchar *tree_family;
+    const gchar *tree_variant;
+    const gchar *tree_version;
+    const gchar *tree_arch;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(tree != NULL, NULL);
+
+    tree_family = osinfo_tree_get_treeinfo_family(tree);
+    tree_variant = osinfo_tree_get_treeinfo_variant(tree);
+    tree_version = osinfo_tree_get_treeinfo_version(tree);
+    tree_arch = osinfo_tree_get_treeinfo_arch(tree);
+
+    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
+    for (os_iter = oss; os_iter; os_iter = os_iter->next) {
+        OsinfoOs *os = OSINFO_OS(os_iter->data);
+        OsinfoTreeList *tree_list = osinfo_os_get_tree_list(os);
+        GList *trees = osinfo_list_get_elements(OSINFO_LIST(tree_list));
+        GList *tree_iter;
+
+        //trees = g_list_sort(trees, tree_family_compare);
+
+        for (tree_iter = trees; tree_iter; tree_iter = tree_iter->next) {
+            OsinfoTree *os_tree = OSINFO_TREE(tree_iter->data);
+            const gchar *os_family = osinfo_tree_get_treeinfo_family(os_tree);
+            const gchar *os_variant = osinfo_tree_get_treeinfo_variant(os_tree);
+            const gchar *os_version = osinfo_tree_get_treeinfo_version(os_tree);
+            const gchar *os_arch = osinfo_tree_get_treeinfo_arch(os_tree);
+
+            if (match_regex (os_family, tree_family) &&
+                match_regex (os_variant, tree_variant) &&
+                match_regex (os_version, tree_version) &&
+                match_regex (os_arch, tree_arch)) {
+                ret = os;
+                if (matched_tree != NULL)
+                    *matched_tree = os_tree;
+                break;
+            }
+        }
+
+        g_list_free(trees);
+        g_object_unref(tree_list);
 
         if (ret)
             break;

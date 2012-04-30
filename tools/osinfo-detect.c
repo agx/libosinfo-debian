@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Red Hat, Inc
+ * Copyright (C) 2011 Red Hat, Inc.
  *
  * osinfo-detect: Given a path to a ISO9660 image/device, detects if media is
  *                bootable and the relavent OS if media is an installer for it.
@@ -22,6 +22,8 @@
  *   Zeeshan Ali <zeenix@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 #include <string.h>
 
@@ -34,6 +36,16 @@ typedef enum {
 } OutputFormat;
 
 static OutputFormat format = OUTPUT_FORMAT_PLAIN;
+
+#define TYPE_STR_MEDIA "media"
+#define TYPE_STR_TREE "tree"
+
+typedef enum {
+    URL_TYPE_MEDIA,
+    URL_TYPE_TREE
+} OutputType;
+
+static OutputType type = URL_TYPE_MEDIA;
 
 static gboolean parse_format_str(const gchar *option_name,
                                  const gchar *value,
@@ -56,12 +68,37 @@ static gboolean parse_format_str(const gchar *option_name,
     return TRUE;
 }
 
+static gboolean parse_type_str(const gchar *option_name,
+                               const gchar *value,
+                               gpointer data,
+                               GError **error)
+{
+    if (strcmp(value, TYPE_STR_MEDIA) == 0)
+        type = URL_TYPE_MEDIA;
+    else if (strcmp(value, TYPE_STR_TREE) == 0)
+        type = URL_TYPE_TREE;
+    else {
+        g_set_error(error,
+                    G_OPTION_ERROR,
+                    G_OPTION_ERROR_FAILED,
+                    "Invalid value '%s'", value);
+
+        return FALSE;
+    }
+
+    return TRUE;
+}
+
 static GOptionEntry entries[] =
 {
     { "format", 'f', 0,
       G_OPTION_ARG_CALLBACK, parse_format_str,
       "Output format. Default: plain",
       "plain|env." },
+    { "type", 't', 0,
+      G_OPTION_ARG_CALLBACK, parse_type_str,
+      "URL type. Default: media",
+      "media|tree." },
     { NULL }
 };
 
@@ -79,7 +116,7 @@ static void print_bootable(gboolean bootable)
             g_print("Media is not bootable.\n");
 }
 
-static void print_os(OsinfoOs *os, OsinfoMedia *media)
+static void print_os_media(OsinfoOs *os, OsinfoMedia *media)
 {
     if (os == NULL)
         return;
@@ -103,12 +140,44 @@ static void print_os(OsinfoOs *os, OsinfoMedia *media)
     }
 }
 
+static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tree)
+{
+    if (os == NULL)
+        return;
+
+    if (format == OUTPUT_FORMAT_ENV) {
+        const gchar *id = osinfo_entity_get_id(OSINFO_ENTITY(os));
+        const gchar *kernel = osinfo_tree_get_kernel_path(tree);
+        const gchar *initrd = osinfo_tree_get_initrd_path(tree);
+        const gchar *bootiso = osinfo_tree_get_boot_iso_path(tree);
+
+        if (!kernel)
+            kernel = osinfo_tree_get_kernel_path(matched_tree);
+        if (!initrd)
+            initrd = osinfo_tree_get_initrd_path(matched_tree);
+        if (!bootiso)
+            bootiso = osinfo_tree_get_boot_iso_path(matched_tree);
+
+        g_print("OSINFO_INSTALLER=%s\n", id);
+        g_print("OSINFO_TREE=%s\n",
+                osinfo_entity_get_id(OSINFO_ENTITY(matched_tree)));
+        if (kernel)
+            g_print("OSINFO_TREE_KERNEL=%s\n", kernel);
+        if (initrd)
+            g_print("OSINFO_TREE_INITRD=%s\n", initrd);
+        if (bootiso)
+            g_print("OSINFO_TREE_BOOT_ISO=%s\n", bootiso);
+    } else {
+        const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+
+        g_print("Tree is an installer for OS '%s'\n", name);
+    }
+}
+
 gint main(gint argc, gchar **argv)
 {
     GOptionContext *context;
     GError *error = NULL;
-    OsinfoMedia *media = NULL;
-    OsinfoMedia *matched_media = NULL;
     OsinfoLoader *loader = NULL;
     OsinfoDb *db = NULL;
     OsinfoOs *os = NULL;
@@ -135,18 +204,6 @@ gint main(gint argc, gchar **argv)
 
     g_type_init();
 
-    media = osinfo_media_create_from_location(argv[1], NULL, &error);
-    if (error != NULL) {
-        if (error->code != OSINFO_MEDIA_ERROR_NOT_BOOTABLE) {
-            g_printerr("Error parsing media: %s\n", error->message);
-
-            ret = -3;
-            goto EXIT;
-        } else
-            print_bootable(FALSE);
-    } else
-        print_bootable(TRUE);
-
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
@@ -157,9 +214,39 @@ gint main(gint argc, gchar **argv)
     }
 
     db = osinfo_loader_get_db(loader);
-    os = osinfo_db_guess_os_from_media(db, media, &matched_media);
 
-    print_os(os, matched_media);
+    if (type == URL_TYPE_MEDIA) {
+        OsinfoMedia *media = NULL;
+        OsinfoMedia *matched_media = NULL;
+        media = osinfo_media_create_from_location(argv[1], NULL, &error);
+        if (error != NULL) {
+            if (error->code != OSINFO_MEDIA_ERROR_NOT_BOOTABLE) {
+                g_printerr("Error parsing media: %s\n", error->message);
+
+                ret = -3;
+                goto EXIT;
+            } else {
+                print_bootable(FALSE);
+            }
+        } else {
+            print_bootable(TRUE);
+        }
+        os = osinfo_db_guess_os_from_media(db, media, &matched_media);
+        print_os_media(os, matched_media);
+    } else if (type == URL_TYPE_TREE) {
+        OsinfoTree *tree = NULL;
+        OsinfoTree *matched_tree = NULL;
+        tree = osinfo_tree_create_from_location(argv[1], NULL, &error);
+        if (error != NULL) {
+            g_printerr("Error parsing tree: %s\n", error->message);
+
+            ret = -3;
+            goto EXIT;
+        }
+        os = osinfo_db_guess_os_from_tree(db, tree, &matched_tree);
+        print_os_tree(os, tree, matched_tree);
+    }
+
 
 EXIT:
     g_clear_error(&error);
@@ -168,3 +255,73 @@ EXIT:
 
     return ret;
 }
+
+/*
+=pod
+
+=head1 NAME
+
+osinfo-detect - Detect the operating system on installable media or trees
+
+=head1 SYNOPSIS
+
+osinfo-detect [OPTIONS...] PATH|URI
+
+=head1 DESCRIPTION
+
+Examine the C<PATH> or C<URI> to determine what (if any) operating
+system it is for, and whether it is installable or is a Live image.
+By default C<PATH> or C<URI> will be interpreted as pointing to
+ISO media. To request examination of an install tree instead, the
+option C<--type=tree> should be given.
+
+The output information is formatted for humans; to obtain machine
+readable output, the option C<--format=env> should be given to
+produce shell-like key/value pairs.
+
+=head1 OPTIONS
+
+=over 8
+
+=item B<--format=plain|env>
+
+Switch between human readable output (B<plain>, the default) or machine
+readable output (B<env>).
+
+=item B<--type=media|tree>
+
+Switch between looking for CD/DVD ISO media (B<media>, the default) or
+install trees (B<tree>)
+
+=back
+
+=head1 EXIT STATUS
+
+The exit status will be 0 if an operating system was detected,
+or 1 if none was found.
+
+=head1 AUTHORS
+
+Zeeshan Ali (Khattak) <zeeshanak@gnome.org>, Daniel P. Berrange <berrange@redhat.com>
+
+=head1 COPYRIGHT
+
+Copyright (C) 2011-2012 Red Hat, Inc.
+
+=head1 LICENSE
+
+C<osinfo-detect> is distributed under the termsof the GNU LGPL v2
+license. This is free software; see the source for copying conditions.
+There is NO warranty; not even for MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE
+
+=cut
+*/
+
+/*
+ * Local variables:
+ *  indent-tabs-mode: nil
+ *  c-indent-level: 4
+ *  c-basic-offset: 4
+ * End:
+ */

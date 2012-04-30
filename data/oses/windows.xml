@@ -1,10 +1,199 @@
 <libosinfo version="0.0.1">
 
-  <os id="http://microsoft.com/windows">
-    <short-id>windows</short-id>
-    <name>Microsoft Windows</name>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
+  <!--
+
+      The upgrade/derives relationship for Windows is more complex than
+      you might think, because of the merge/fork between WinME/XP/2k/2k3:
+
+
+   Win1.0 (Nov 1985)
+     |
+     | U, D
+     |
+     V
+   Win2.0 (Dec 1987)
+     |
+     | U, D
+     |
+     V
+   Win2.1 (May 1988)
+     |
+     | U, D
+     |
+     V
+   Win3.0 (May 1990)
+     |
+     | U, D
+     |
+     V
+   Win3.1 (Apr 1992)            WinNT3.1  (July 1993)
+     |                            |
+     | U, D                       | U, D
+     |                            |
+     |                            V
+     |                          WinNT3.4  (Sept 1994)
+     |                            |
+     | U, D                       | U, D
+     |                            |
+     V                            V
+   Win95 (Aug 1995)             WinNT3.51 (May 1995)
+     |                            |
+     | U, D                       | U, D
+     |                            |
+     V                            V
+   Win98 (Jun 1998)             WinNT4.0 (Aug 1996)
+     |                            |
+     | U, D                       | U, D
+     |                            |
+     V                            |
+   WinME (Sep 2000)             Win2k  (Feb 2000)
+     |                           ||
+     \======+====================/| U, D
+       U    |  D                  |
+            V                     V
+          WinXP (Aug 2001)      Win2k3  (April 2003)
+            |                     |
+            | UD                  | U, D
+            |                     |
+            V                     V
+          WinVista (Jan 2007)   Win2k3r2 (Dec 2005)
+            |                     |
+            | U, D                | U, D
+            |                     |
+            |                     V
+            |                   Win2k8  (Feb 2008)
+            |                     |
+            |                     | U, D
+            |                     |
+            |                     V
+          Win7 (Oct 2009)       Win2k8r2 (Oct 2009)
+            |                     |
+            | U,D                 | U, D
+            |                     |
+            V                     V
+          Win8 (??? 2012)       ??????
+
+  -->
+
+  <os id="http://microsoft.com/win/1.0">
+    <short-id>win1.0</short-id>
+    <name>Microsoft Windows 1.0</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win16</family>
+    <distro>win</distro>
+    <version>1.0</version>
+
+    <release-date>1985-11-20</release-date>
+    <eol-date>2001-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/win/2.0">
+    <short-id>win2.0</short-id>
+    <name>Microsoft Windows 2.0</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win16</family>
+    <distro>win</distro>
+    <version>2.0</version>
+    <upgrades id="http://microsoft.com/win/1.0"/>
+    <derives-from id="http://microsoft.com/win/1.0"/>
+
+    <release-date>1987-12-09</release-date>
+    <eol-date>2001-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/win/2.1">
+    <short-id>win2.1</short-id>
+    <name>Microsoft Windows 2.1</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win16</family>
+    <distro>win</distro>
+    <version>2.1</version>
+    <upgrades id="http://microsoft.com/win/2.0"/>
+    <derives-from id="http://microsoft.com/win/2.0"/>
+
+    <release-date>1988-05-27</release-date>
+    <eol-date>2001-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/win/3.1">
+    <short-id>win3.1</short-id>
+    <name>Microsoft Windows 3.1</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win16</family>
+    <distro>win</distro>
+    <version>3.1</version>
+    <upgrades id="http://microsoft.com/win/2.1"/>
+    <derives-from id="http://microsoft.com/win/2.1"/>
+
+    <release-date>1992-04-06</release-date>
+    <eol-date>2001-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/winnt/3.1">
+    <short-id>winnt3.1</short-id>
+    <name>Microsoft Windows NT Server 3.1</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>winnt</distro>
+    <version>3.1</version>
+    <release-date>1993-07-27</release-date>
+    <eol-date>2000-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/winnt/3.5">
+    <short-id>winnt3.5</short-id>
+    <name>Microsoft Windows NT Server 3.5</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>winnt</distro>
+    <version>3.5</version>
+    <upgrades id="http://microsoft.com/winnt/3.1"/>
+    <derives-from id="http://microsoft.com/winnt/3.1"/>
+
+    <release-date>1994-09-21</release-date>
+    <eol-date>2001-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/winnt/3.51">
+    <short-id>winnt3.51</short-id>
+    <name>Microsoft Windows NT Server 3.51</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>winnt</distro>
+    <version>3.51</version>
+    <upgrades id="http://microsoft.com/winnt/3.5"/>
+    <derives-from id="http://microsoft.com/winnt/3.5"/>
+
+    <release-date>1995-05-30</release-date>
+    <eol-date>2001-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/winnt/4.0">
+    <short-id>winnt4.0</short-id>
+    <name>Microsoft Windows NT Server 4.0</name>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>winnt</distro>
+    <version>4.0</version>
+    <upgrades id="http://microsoft.com/winnt/3.51"/>
+    <derives-from id="http://microsoft.com/winnt/3.51"/>
+
+    <release-date>1996-08-24</release-date>
+    <eol-date>2004-12-31</eol-date>
+  </os>
+
+  <os id="http://microsoft.com/win/95">
+    <short-id>win95</short-id>
+    <name>Microsoft Windows 95</name>
+    <version>4.0</version>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win9x</family>
+    <distro>win</distro>
+    <upgrades id="http://microsoft.com/win/3.1"/>
+    <derives-from id="http://microsoft.com/win/3.1"/>
+
+    <release-date>1995-08-24</release-date>
+    <eol-date>2001-12-13</eol-date>
 
     <devices>
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1b36/0100"/> <!-- QXL -->
@@ -12,15 +201,6 @@
       <device id="http://www.linux-usb.org/usb.ids/80ee/0021"/> <!-- USB tablet -->
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/8086/2415"/> <!-- AC97 -->
     </devices>
-  </os>
-
-  <os id="http://microsoft.com/win95">
-    <short-id>win95</short-id>
-    <name>Microsoft Windows 95</name>
-    <version>4.0</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
 
     <resources arch="i386">
       <minimum>
@@ -31,14 +211,18 @@
     </resources>
   </os>
 
-  <os id="http://microsoft.com/win98">
+  <os id="http://microsoft.com/win/98">
     <short-id>win98</short-id>
     <name>Microsoft Windows 98</name>
     <version>4.1</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-    <upgrades id="http://microsoft.com/win95"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win9x</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/95"/>
+    <upgrades id="http://microsoft.com/win/95"/>
+
+    <release-date>1998-06-25</release-date>
+    <eol-date>2006-07-11</eol-date>
 
     <resources arch="i386">
       <minimum>
@@ -54,14 +238,18 @@
     </resources>
   </os>
 
-  <os id="http://microsoft.com/winme">
+  <os id="http://microsoft.com/win/me">
     <short-id>winme</short-id>
     <name>Microsoft Windows Millennium Edition</name>
     <version>4.9</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-    <upgrades id="http://microsoft.com/win98"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>win9x</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/98"/>
+    <upgrades id="http://microsoft.com/win/98"/>
+
+    <release-date>2000-09-14</release-date>
+    <eol-date>2006-07-11</eol-date>
 
     <resources arch="i386">
       <minimum>
@@ -78,13 +266,31 @@
   </os>
 
 
-  <os id="http://microsoft.com/win2k">
+  <os id="http://microsoft.com/win/2k">
     <short-id>win2k</short-id>
     <name>Microsoft Windows 2000</name>
     <version>5.0</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/me"/>
+
+    <release-date>2000-02-17</release-date>
+    <eol-date>2010-07-13</eol-date>
+
+    <devices>
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1b36/0100"/> <!-- QXL -->
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1234/1111"/> <!-- VGA -->
+      <device id="http://www.linux-usb.org/usb.ids/80ee/0021"/> <!-- USB tablet -->
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/8086/2415"/> <!-- AC97 -->
+    </devices>
+
+    <media arch="i386">
+      <iso>
+        <volume-id>WIN2000</volume-id>
+      </iso>
+    </media>
+
 
     <resources arch="i386">
       <minimum>
@@ -103,18 +309,30 @@
   </os>
 
 
-  <os id="http://microsoft.com/winxp">
+  <os id="http://microsoft.com/win/xp">
     <short-id>winxp</short-id>
     <name>Microsoft Windows XP</name>
     <version>5.1</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-    <upgrades id="http://microsoft.com/win2k"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k"/>
+    <derives-from id="http://microsoft.com/win/me"/>
+    <upgrades id="http://microsoft.com/win/me"/>
+
+    <release-date>2001-10-25</release-date>
+    <eol-date>2009-04-19</eol-date>
 
     <media arch="i386">
       <iso>
-        <volume-id>GRTMP</volume-id>
+        <volume-id>(GRTMPFPP|GRTMPVOL|MX2PFPP|VX2PFPP|MRMSD2|VX2PRMFPP|WXPFPP|X1APFPP|VRMSD2|XRMSD2)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(AX2PXFPP)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
       </iso>
     </media>
@@ -133,16 +351,6 @@
         <storage>2147483648</storage>
       </recommended>
     </resources>
-  </os>
-
-  <os id="http://microsoft.com/winxp64">
-    <short-id>winxp64</short-id>
-    <name>Microsoft Windows XP (x86_64)</name>
-    <version>5.2</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-
     <resources arch="x86_64">
       <minimum>
         <cpu>733000000</cpu>
@@ -153,17 +361,34 @@
     </resources>
   </os>
 
-  <os id="http://microsoft.com/win2k3">
+  <os id="http://microsoft.com/win/2k3">
     <short-id>win2k3</short-id>
     <name>Microsoft Windows Server 2003</name>
     <version>5.2</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k"/>
+    <upgrades id="http://microsoft.com/win/2k"/>
+
+    <release-date>2003-04-24</release-date>
+    <eol-date>2015-07-14</eol-date>
 
     <media arch="i386">
       <iso>
-        <volume-id>.*CRMS.*</volume-id>
+        <volume-id>(NRMSFPP|ARMSFPP|ARMEFPP|CR0SP2)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(ARMSXFPP|ARMEXFPP|CR0SPX2)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+    <media arch="ia64">
+      <iso>
+        <volume-id>(CR0SPI2)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
       </iso>
     </media>
@@ -197,18 +422,83 @@
     </resources>
   </os>
 
-  <os id="http://microsoft.com/win2k8">
+  <os id="http://microsoft.com/win/2k3r2">
+    <short-id>win2k3r2</short-id>
+    <name>Microsoft Windows Server 2003 R2</name>
+    <version>5.2</version>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k3"/>
+    <upgrades id="http://microsoft.com/win/2k3"/>
+
+    <release-date>2005-12-06</release-date>
+    <eol-date>2015-07-14</eol-date>
+
+    <media arch="i386">
+      <iso>
+        <volume-id>(CRMEFPP|CRMSFPP|CR0SCD2|CR0ECD2|BX2SFPP|BX2EFPP|BRMECD2FRE|BRMSCD2FRE)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(CRMEXFPP|CRMSXFPP|CR0SCD2X|CR0ECD2X|BX2SXFPP|BX2EXFPP|BRMECD2XFRE|BRMSCD2XFRE)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+
+    <resources arch="i386">
+      <minimum>
+        <cpu>133000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>134217728</ram>
+        <storage>2147483648</storage>
+      </minimum>
+
+      <recommended>
+        <cpu>550000000</cpu>
+        <ram>268435456</ram>
+        <storage>4294967296</storage>
+      </recommended>
+    </resources>
+
+    <resources arch="x86_64">
+      <minimum>
+        <cpu>1500000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>536870912</ram>
+        <storage>4294967296</storage>
+      </minimum>
+
+      <recommended>
+        <storage>8589934592</storage>
+      </recommended>
+    </resources>
+  </os>
+
+  <os id="http://microsoft.com/win/2k8">
     <short-id>win2k8</short-id>
     <name>Microsoft Windows Server 2008</name>
     <version>6.0</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-    <upgrades id="http://microsoft.com/win2k3"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k3r2"/>
+    <upgrades id="http://microsoft.com/win/2k3r2"/>
 
+    <release-date>2008-02-27</release-date>
+    <eol-date>2013-07-09</eol-date>
+
+    <media arch="i686">
+      <iso>
+        <volume-id>(KRTMSVOL|KRTMSCHK|KRMWVOL|KRMSVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
     <media arch="x86_64">
       <iso>
-        <volume-id>.*GRMS.*</volume-id>
+        <volume-id>(KRTMSXVOL|KRTMSXCHK|KRMWXVOL|KRMSXVOL)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
       </iso>
     </media>
@@ -244,14 +534,74 @@
     </resources>
   </os>
 
-  <os id="http://microsoft.com/vista">
-    <short-id>vista</short-id>
+  <os id="http://microsoft.com/win/2k8r2">
+    <short-id>win2k8r2</short-id>
+    <name>Microsoft Windows Server 2008 R2</name>
+    <version>6.1</version>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k8"/>
+    <upgrades id="http://microsoft.com/win/2k8"/>
+
+    <release-date>2009-10-22</release-date>
+    <eol-date>2013-07-09</eol-date>
+
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(GRMSXVOL|GRMSXFRER|GRMSHXVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+    <media arch="ia64">
+      <iso>
+        <volume-id>(GRMSIAIVOL|SRVHPCR2)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+
+    <resources arch="x86_64">
+      <minimum>
+        <cpu>1400000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>536870912</ram>
+        <storage>10737418240</storage>
+      </minimum>
+
+      <recommended>
+        <cpu>2000000000</cpu>
+        <ram>2147483648</ram>
+        <storage>42949672960</storage>
+      </recommended>
+    </resources>
+  </os>
+
+  <os id="http://microsoft.com/win/vista">
+    <short-id>winvista</short-id>
     <name>Microsoft Windows Vista</name>
     <version>6.0</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-    <upgrades id="http://microsoft.com/winxp"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/xp"/>
+    <upgrades id="http://microsoft.com/win/xp"/>
+
+    <release-date>2006-11-30</release-date>
+    <eol-date>2012-04-10</eol-date>
+
+    <media arch="i686">
+      <iso>
+        <volume-id>(FB1EVOL|LRMCFRE|FRTMBVOL|FRMBVOL|FRMEVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(FB1EXVOL|LRMCXFRE|FRTMBXVOL|FRMBXVOL|FRMEXVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+
 
     <resources arch="all">
       <minimum>
@@ -268,24 +618,79 @@
     </resources>
   </os>
 
-  <os id="http://microsoft.com/win7">
+  <os id="http://microsoft.com/win/7">
     <short-id>win7</short-id>
     <name>Microsoft Windows 7</name>
     <version>6.1</version>
-    <vendor>Microsoft</vendor>
-    <family>Windows</family>
-    <derives-from id="http://microsoft.com/windows"/>
-    <upgrades id="http://microsoft.com/vista"/>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/vista"/>
+    <upgrades id="http://microsoft.com/win/vista"/>
+
+    <release-date>2009-10-22</release-date>
+    <eol-date>2015-01-13</eol-date>
 
     <media arch="i386">
       <iso>
-        <volume-id>.*G.*RMC.*</volume-id>
+        <volume-id>(GRMCULFRER|GSP1RMCPRFRER|GRMCENVOL|GRMCNENVOL)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
       </iso>
     </media>
     <media arch="x86_64">
       <iso>
-        <volume-id>.*G.*RMC.*X.*</volume-id>
+        <volume-id>(GRMCULXFRER|GSP1RMCPRXFRER|GRMCENXVOL|GRMCNENXVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+
+    <resources arch="i386">
+      <minimum>
+        <cpu>1000000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>1073741824</ram>
+        <storage>17179869184</storage>
+      </minimum>
+    </resources>
+
+    <resources arch="x86_64">
+      <minimum>
+        <cpu>1000000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>2147483648</ram>
+        <storage>21474836480</storage>
+      </minimum>
+    </resources>
+
+    <devices>
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/8086/2668"/> <!-- ICH6 -->
+    </devices>
+  </os>
+
+  <os id="http://microsoft.com/win/8">
+    <short-id>win8</short-id>
+    <name>Microsoft Windows 8</name>
+    <version>6.2</version>
+    <vendor>Microsoft Corporation</vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/7"/>
+    <upgrades id="http://microsoft.com/win/7"/>
+
+<!--
+    <release-date></release-date>
+    <eol-date></eol-date>
+-->
+
+    <media arch="i386">
+      <iso>
+        <volume-id>HB1_CCPA_X86FRE_EN</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <iso>
+        <volume-id>HB1_CCPA_X64FRE_EN</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
       </iso>
     </media>

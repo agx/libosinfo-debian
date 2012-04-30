@@ -1,22 +1,36 @@
-AC_INIT([libosinfo], [0.1.0], [virt-tools-list@redhat.com])
+AC_INIT([libosinfo], [0.1.1], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
-AM_INIT_AUTOMAKE([1.11.1 foreign color-tests])
+AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
 AC_PREREQ([2.61])
 AC_CONFIG_SRCDIR([osinfo/osinfo_db.c])
 AC_CONFIG_HEADERS([config.h])
 AC_PROG_LIBTOOL
 AC_PROG_CC
 
-GNOME_COMPILE_WARNINGS([maximum])
+LIBOSINFO_COMPILE_WARNINGS
 GNOME_MAINTAINER_MODE_DEFINES
 AM_MAINTAINER_MODE([enable])
+
+# Autoconf 2.61a.99 and earlier don't support linking a file only
+# in VPATH builds.  But since GNUmakefile is for maintainer use
+# only, it does not matter if we skip the link with older autoconf.
+# Automake 1.10.1 and earlier try to remove GNUmakefile in non-VPATH
+# builds, so use a shell variable to bypass this.
+GNUmakefile=GNUmakefile
+m4_if(m4_version_compare([2.61a.100],
+        m4_defn([m4_PACKAGE_VERSION])), [1], [],
+      [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
+        [GNUmakefile=$GNUmakefile])])
+
 
 # Use the silent-rules feature when possible.
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
 PKG_CHECK_MODULES([GIO], [gio-2.0])
+PKG_CHECK_MODULES([SOUP], [libsoup-2.4])
+PKG_CHECK_MODULES([SOUP_GNOME], [libsoup-gnome-2.4])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
@@ -102,10 +116,12 @@ if test "x$enable_introspection" = "xyes" ; then
                 if test "x$VAPIGEN" != "xno"; then
                         if test "x$enable_vala" == "xcheck" ; then
                                 enable_vala=yes
-                                AC_SUBST(VAPIGEN)
                         fi
+                        AC_SUBST(VAPIGEN)
                 else
-                        AC_MSG_ERROR([Cannot find the "vapigen" binary in your PATH])
+                        if test "x$enable_vala" == "xyes" ; then
+                                AC_MSG_ERROR([Cannot find the "vapigen" binary in your PATH])
+                        fi
                 fi
         fi
 fi
@@ -156,8 +172,8 @@ AC_CONFIG_FILES([
 	data/devices/Makefile
 	data/hypervisors/Makefile
 	data/oses/Makefile
+	data/schemas/Makefile
 	tools/Makefile
-	scripts/Makefile
 	test/Makefile
 	docs/Makefile
 	docs/reference/Makefile

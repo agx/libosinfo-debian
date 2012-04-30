@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 
@@ -74,7 +76,7 @@ osinfo_filter_class_init (OsinfoFilterClass *klass)
 
 /**
  * osinfo_filter_new:
- * 
+ *
  * Construct a new filter that matches all entities
  *
  * Returns: (transfer full): a filter object
@@ -168,7 +170,7 @@ void osinfo_filter_clear_constraint(OsinfoFilter *filter, const gchar *propName)
 /**
  * osinfo_filter_clear_constraints:
  * @filter: a filter object
- * 
+ *
  * Remove all filter property constraints
  */
 void osinfo_filter_clear_constraints(OsinfoFilter *filter)
@@ -196,7 +198,7 @@ GList *osinfo_filter_get_constraint_keys(OsinfoFilter *filter)
  * @filter: a filter object
  * @propName: the name of the key
  *
- * Get a list values for filter constriants with the named key 
+ * Get a list values for filter constriants with the named key
  *
  * Returns: (transfer container)(element-type utf8): List of constraint values
  */
@@ -274,7 +276,7 @@ static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity
  * osinfo_filter_matches:
  * @filter: a filter object
  * @entity: a entity to query
- * 
+ *
  * Determine of an entity matches a filter
  *
  * Returns: TRUE if entity passes the filter, FALSE otherwise

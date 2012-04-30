@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 
@@ -242,7 +244,7 @@ void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key)
 
 /**
  * osinfo_entity_get_id:
- * @entity: a OsinfoEntity 
+ * @entity: a OsinfoEntity
  *
  * Retrieves the unique key for the entity. The format of identifiers
  * is undefined, but the recommended practice is to use a URI.
@@ -269,8 +271,10 @@ const gchar *osinfo_entity_get_id(OsinfoEntity *entity)
 GList *osinfo_entity_get_param_keys(OsinfoEntity *entity)
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
+    GList *keys = g_hash_table_get_keys(entity->priv->params);
+    keys = g_list_append(keys, g_strdup("id"));
 
-    return g_hash_table_get_keys(entity->priv->params);
+    return keys;
 }
 
 
@@ -291,6 +295,9 @@ const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *ke
     g_return_val_if_fail(key != NULL, NULL);
 
     GList *values;
+
+    if (g_str_equal(key, OSINFO_ENTITY_PROP_ID))
+        return entity->priv->id;
 
     values = g_hash_table_lookup(entity->priv->params, key);
 
@@ -314,6 +321,9 @@ GList *osinfo_entity_get_param_value_list(OsinfoEntity *entity, const gchar *key
 {
     g_return_val_if_fail(OSINFO_IS_ENTITY(entity), NULL);
     g_return_val_if_fail(key != NULL, NULL);
+
+    if (g_str_equal(key, OSINFO_ENTITY_PROP_ID))
+        return g_list_append(NULL, entity->priv->id);
 
     GList *values = g_hash_table_lookup(entity->priv->params, key);
 

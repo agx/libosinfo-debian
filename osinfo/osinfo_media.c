@@ -1,7 +1,7 @@
 /*
  * libosinfo: An installation media for a (guest) OS
  *
- * Copyright (C) 2009-2011 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -23,6 +23,8 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
+#include <config.h>
+
 #include <osinfo/osinfo.h>
 #include <gio/gio.h>
 #include <stdlib.h>
@@ -31,6 +33,7 @@
 #define MAX_VOLUME 32
 #define MAX_SYSTEM 32
 #define MAX_PUBLISHER 128
+#define MAX_APPLICATION 128
 
 #define PVD_OFFSET 0x00008000
 #define BOOTABLE_TAG "EL TORITO SPECIFICATION"
@@ -43,8 +46,10 @@ struct _PrimaryVolumeDescriptor {
     gchar  volume[MAX_VOLUME];       /* Volume ID */
     guint8 ignored2[246];
     gchar  publisher[MAX_PUBLISHER]; /* Publisher ID */
-    guint8 ignored3[1602];
-} __attribute__ ((packed));
+    guint8 ignored3[128];
+    gchar  application[MAX_APPLICATION]; /* Application ID */
+    guint8 ignored4[1346];
+};
 
 /* the PrimaryVolumeDescriptor struct must exactly 2048 bytes long
  * since we expect the supplementary volume descriptor to be right
@@ -58,7 +63,7 @@ typedef struct _SupplementaryVolumeDescriptor SupplementaryVolumeDescriptor;
 struct _SupplementaryVolumeDescriptor {
     guint8 ignored[7];
     gchar  system[MAX_SYSTEM]; /* System ID */
-} __attribute__ ((packed));
+};
 
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
@@ -71,6 +76,9 @@ struct _CreateFromLocationAsyncData {
 
     PrimaryVolumeDescriptor pvd;
     SupplementaryVolumeDescriptor svd;
+
+    gsize offset;
+    gsize length;
 };
 
 static void create_from_location_async_data_free
@@ -137,6 +145,7 @@ enum {
     PROP_URL,
     PROP_VOLUME_ID,
     PROP_PUBLISHER_ID,
+    PROP_APPLICATION_ID,
     PROP_SYSTEM_ID,
     PROP_KERNEL_PATH,
     PROP_INITRD_PATH,
@@ -171,6 +180,11 @@ osinfo_media_get_property (GObject    *object,
     case PROP_PUBLISHER_ID:
         g_value_set_string (value,
                             osinfo_media_get_publisher_id (media));
+        break;
+
+    case PROP_APPLICATION_ID:
+        g_value_set_string (value,
+                            osinfo_media_get_application_id (media));
         break;
 
     case PROP_SYSTEM_ID:
@@ -246,6 +260,12 @@ osinfo_media_set_property(GObject      *object,
     case PROP_PUBLISHER_ID:
         osinfo_entity_set_param (OSINFO_ENTITY(media),
                                  OSINFO_MEDIA_PROP_PUBLISHER_ID,
+                                 g_value_get_string (value));
+        break;
+
+    case PROP_APPLICATION_ID:
+        osinfo_entity_set_param (OSINFO_ENTITY(media),
+                                 OSINFO_MEDIA_PROP_APPLICATION_ID,
                                  g_value_get_string (value));
         break;
 
@@ -364,6 +384,21 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                  G_PARAM_STATIC_NICK |
                                  G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass, PROP_PUBLISHER_ID, pspec);
+
+    /**
+     * OsinfoMedia::application-id
+     *
+     * Expected application ID (regular expression) for ISO9660 image/device.
+     */
+    pspec = g_param_spec_string ("application-id",
+                                 "ApplicationID",
+                                 "Expected ISO9660 application ID",
+                                 NULL /* default value */,
+                                 G_PARAM_READWRITE |
+                                 G_PARAM_STATIC_NAME |
+                                 G_PARAM_STATIC_NICK |
+                                 G_PARAM_STATIC_BLURB);
+    g_object_class_install_property (g_klass, PROP_APPLICATION_ID, pspec);
 
     /**
      * OsinfoMedia::system-id
@@ -538,29 +573,43 @@ static void on_svd_read (GObject *source,
                          GAsyncResult *res,
                          gpointer user_data)
 {
-    OsinfoMedia *ret = NULL;
+    OsinfoMedia *media = NULL;
     GInputStream *stream = G_INPUT_STREAM(source);
     gchar *uri;
     GError *error = NULL;
     CreateFromLocationAsyncData *data;
+    gssize ret;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
-    if (g_input_stream_read_finish(stream,
-                                   res,
-                                   &error) < sizeof(data->svd)) {
-        if (error)
-            g_prefix_error(&error,
-                           "Failed to read supplementary volume descriptor");
-        else
-            g_set_error(&error,
-                        OSINFO_MEDIA_ERROR,
-                        OSINFO_MEDIA_ERROR_NO_SVD,
-                        "Supplementary volume descriptor unavailable");
-
-
+    ret = g_input_stream_read_finish(stream,
+                                     res,
+                                     &error);
+    if (ret < 0) {
+        g_prefix_error(&error,
+                       "Failed to read supplementary volume descriptor: ");
         goto EXIT;
     }
+    if (ret == 0) {
+        g_set_error(&error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_NO_SVD,
+                    "Supplementary volume descriptor was truncated");
+        goto EXIT;
+    }
+
+    data->offset += ret;
+    if (data->offset < data->length) {
+        g_input_stream_read_async(stream,
+                                  ((gchar *)&data->svd + data->offset),
+                                  data->length - data->offset,
+                                  data->priority,
+                                  data->cancellable,
+                                  on_svd_read,
+                                  data);
+        return;
+    }
+
 
     data->svd.system[MAX_SYSTEM - 1] = 0;
 
@@ -574,31 +623,35 @@ static void on_svd_read (GObject *source,
     }
 
     uri = g_file_get_uri(data->file);
-    ret = g_object_new(OSINFO_TYPE_MEDIA,
-                       "id", uri,
-                       NULL);
-    osinfo_entity_set_param(OSINFO_ENTITY(ret),
+    media = g_object_new(OSINFO_TYPE_MEDIA,
+                         "id", uri,
+                         NULL);
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
                             OSINFO_MEDIA_PROP_URL,
                             uri);
     g_free(uri);
     if (!is_str_empty (data->pvd.volume))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_VOLUME_ID,
                                 data->pvd.volume);
     if (!is_str_empty (data->pvd.system))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_SYSTEM_ID,
                                 data->pvd.system);
     if (!is_str_empty (data->pvd.publisher))
-        osinfo_entity_set_param(OSINFO_ENTITY(ret),
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
                                 data->pvd.publisher);
+    if (!is_str_empty (data->pvd.application))
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_APPLICATION_ID,
+                                data->pvd.application);
 
 EXIT:
     if (error != NULL)
         g_simple_async_result_take_error(data->res, error);
     else
-        g_simple_async_result_set_op_res_gpointer(data->res, ret, NULL);
+        g_simple_async_result_set_op_res_gpointer(data->res, media, NULL);
     g_simple_async_result_complete (data->res);
 
     g_object_unref(stream);
@@ -612,26 +665,41 @@ static void on_pvd_read (GObject *source,
     GInputStream *stream = G_INPUT_STREAM(source);
     CreateFromLocationAsyncData *data;
     GError *error = NULL;
+    gssize ret;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
-    if (g_input_stream_read_finish(stream,
-                                   res,
-                                   &error) < sizeof(data->pvd)) {
-        if (error)
-            g_prefix_error(&error, "Failed to read primary volume descriptor");
-        else
-            g_set_error(&error,
-                        OSINFO_MEDIA_ERROR,
-                        OSINFO_MEDIA_ERROR_NO_PVD,
-                        "Primary volume descriptor unavailable");
-
+    ret = g_input_stream_read_finish(stream,
+                                     res,
+                                     &error);
+    if (ret < 0) {
+        g_prefix_error(&error, "Failed to read primary volume descriptor: ");
         goto ON_ERROR;
+    }
+    if (ret == 0) {
+        g_set_error(&error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_NO_PVD,
+                    "Primary volume descriptor was truncated");
+        goto ON_ERROR;
+    }
+
+    data->offset += ret;
+    if (data->offset < data->length) {
+        g_input_stream_read_async(stream,
+                                  ((gchar*)&data->pvd) + data->offset,
+                                  data->length - data->offset,
+                                  data->priority,
+                                  data->cancellable,
+                                  on_pvd_read,
+                                  data);
+        return;
     }
 
     data->pvd.volume[MAX_VOLUME - 1] = 0;
     data->pvd.system[MAX_SYSTEM - 1] = 0;
     data->pvd.publisher[MAX_PUBLISHER - 1] = 0;
+    data->pvd.application[MAX_APPLICATION - 1] = 0;
 
     if (is_str_empty(data->pvd.volume)) {
         g_set_error(&error,
@@ -642,9 +710,12 @@ static void on_pvd_read (GObject *source,
         goto ON_ERROR;
     }
 
+    data->offset = 0;
+    data->length = sizeof(data->svd);
+
     g_input_stream_read_async(stream,
-                              &data->svd,
-                              sizeof(data->svd),
+                              (gchar *)&data->svd,
+                              data->length,
                               data->priority,
                               data->cancellable,
                               on_svd_read,
@@ -682,9 +753,12 @@ static void on_location_skipped(GObject *source,
         return;
     }
 
+    data->offset = 0;
+    data->length = sizeof(data->pvd);
+
     g_input_stream_read_async(stream,
-                              &data->pvd,
-                              sizeof(data->pvd),
+                              (gchar *)&data->pvd,
+                              data->length,
                               data->priority,
                               data->cancellable,
                               on_pvd_read,
@@ -864,12 +938,31 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media)
 }
 
 /**
+ * osinfo_media_get_application_id:
+ * @media: a #OsinfoMedia instance
+ *
+ * If @media is an ISO9660 image/device, this function retrieves the expected
+ * application ID.
+ *
+ * Note: In practice, this will usually not be the exact copy of the application
+ * ID string on the ISO image/device but rather a regular expression that
+ * matches it.
+ *
+ * Returns: (transfer none): the application id, or NULL
+ */
+const gchar *osinfo_media_get_application_id(OsinfoMedia *media)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_APPLICATION_ID);
+}
+
+/**
  * osinfo_media_get_kernel_path:
  * @media: a #OsinfoMedia instance
  *
  * Retrieves the path to the kernel image in the install tree.
  *
- * Note: This only applies to installer medias of 'Linux' OS family.
+ * Note: This only applies to installer medias of 'linux' OS family.
  *
  * Returns: (transfer none): the path to kernel image, or NULL
  */
@@ -885,7 +978,7 @@ const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media)
  *
  * Retrieves the path to the initrd image in the install tree.
  *
- * Note: This only applies to installer medias of 'Linux' OS family.
+ * Note: This only applies to installer medias of 'linux' OS family.
  *
  * Returns: (transfer none): the path to initrd image, or NULL
  */

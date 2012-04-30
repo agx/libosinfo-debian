@@ -16,6 +16,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_db_add_device;
 	osinfo_db_add_deployment;
 	osinfo_db_guess_os_from_media;
+	osinfo_db_guess_os_from_tree;
 	osinfo_db_unique_values_for_property_in_os;
 	osinfo_db_unique_values_for_property_in_platform;
 	osinfo_db_unique_values_for_property_in_device;
@@ -25,7 +26,9 @@ LIBOSINFO_0.0.1 {
 	osinfo_device_get_type;
 	osinfo_device_new;
 	osinfo_device_get_vendor;
+	osinfo_device_get_vendor_id;
 	osinfo_device_get_product;
+	osinfo_device_get_product_id;
 	osinfo_device_get_class;
 	osinfo_device_get_bus_type;
 	osinfo_device_get_name;
@@ -56,6 +59,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_entity_get_param_value_list;
 	osinfo_entity_add_param;
 	osinfo_entity_clear_param;
+	osinfo_entity_set_param;
 	osinfo_filter_get_type;
 	osinfo_filter_new;
 	osinfo_filter_add_constraint;
@@ -92,6 +96,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_productfilter_clear_product_constraint;
 	osinfo_productfilter_clear_product_constraints;
 	osinfo_productfilter_get_product_constraint_values;
+	osinfo_productfilter_add_support_date_constraint;
 	osinfo_product_get_type;
 	osinfo_product_get_related;
 	osinfo_product_add_related;
@@ -111,8 +116,11 @@ LIBOSINFO_0.0.1 {
 	osinfo_os_get_device_links;
 	osinfo_os_add_device;
 	osinfo_os_get_family;
+	osinfo_os_get_distro;
 	osinfo_os_get_media_list;
 	osinfo_os_add_media;
+	osinfo_os_get_tree_list;
+	osinfo_os_add_tree;
         osinfo_os_get_minimum_resources;
         osinfo_os_get_recommended_resources;
         osinfo_os_add_minimum_resources;
@@ -155,6 +163,7 @@ LIBOSINFO_0.0.1 {
 	osinfo_media_get_volume_id;
 	osinfo_media_get_system_id;
 	osinfo_media_get_publisher_id;
+	osinfo_media_get_application_id;
         osinfo_media_get_kernel_path;
         osinfo_media_get_initrd_path;
 	osinfo_medialist_get_type;
@@ -200,6 +209,31 @@ LIBOSINFO_0.0.6 {
     global:
 	osinfo_os_get_devices_by_property;
 } LIBOSINFO_0.0.5;
+
+LIBOSINFO_0.1.0 {
+    global:
+	osinfo_tree_new;
+	osinfo_tree_create_from_location;
+	osinfo_tree_create_from_location_async;
+	osinfo_tree_create_from_location_finish;
+	osinfo_tree_error_quark;
+	osinfo_tree_get_architecture;
+	osinfo_tree_get_boot_iso_path;
+	osinfo_tree_get_initrd_path;
+	osinfo_tree_get_kernel_path;
+	osinfo_tree_get_treeinfo_family;
+	osinfo_tree_get_treeinfo_variant;
+	osinfo_tree_get_treeinfo_version;
+	osinfo_tree_get_treeinfo_arch;
+	osinfo_tree_get_type;
+	osinfo_tree_get_url;
+	osinfo_treelist_get_type;
+	osinfo_treelist_new;
+	osinfo_treelist_new_copy;
+	osinfo_treelist_new_filtered;
+	osinfo_treelist_new_intersection;
+	osinfo_treelist_new_union;
+} LIBOSINFO_0.0.6;
 
 /* Symbols in next release...
 

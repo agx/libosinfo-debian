@@ -1,7 +1,7 @@
 /*
  * libosinfo: An installation media for a (guest) OS
  *
- * Copyright (C) 2009-2011 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -75,6 +75,7 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_VOLUME_ID    "volume-id"
 #define OSINFO_MEDIA_PROP_SYSTEM_ID    "system-id"
 #define OSINFO_MEDIA_PROP_PUBLISHER_ID "publisher-id"
+#define OSINFO_MEDIA_PROP_APPLICATION_ID "application-id"
 #define OSINFO_MEDIA_PROP_KERNEL       "kernel"
 #define OSINFO_MEDIA_PROP_INITRD       "initrd"
 #define OSINFO_MEDIA_PROP_LIVE         "live"
@@ -118,6 +119,7 @@ const gchar *osinfo_media_get_url(OsinfoMedia *media);
 const gchar *osinfo_media_get_volume_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_system_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media);
+const gchar *osinfo_media_get_application_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media);
 const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media);
 gboolean osinfo_media_get_installer(OsinfoMedia *media);

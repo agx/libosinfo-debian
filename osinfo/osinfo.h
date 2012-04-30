@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -46,6 +46,8 @@
 #include <osinfo/osinfo_medialist.h>
 #include <osinfo/osinfo_resources.h>
 #include <osinfo/osinfo_resourceslist.h>
+#include <osinfo/osinfo_tree.h>
+#include <osinfo/osinfo_treelist.h>
 #include <osinfo/osinfo_db.h>
 #include <osinfo/osinfo_loader.h>
 

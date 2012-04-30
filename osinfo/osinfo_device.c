@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 
@@ -83,9 +85,19 @@ const gchar *osinfo_device_get_vendor(OsinfoDevice *dev)
     return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_VENDOR);
 }
 
+const gchar *osinfo_device_get_vendor_id(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_VENDOR_ID);
+}
+
 const gchar *osinfo_device_get_product(OsinfoDevice *dev)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_PRODUCT);
+}
+
+const gchar *osinfo_device_get_product_id(OsinfoDevice *dev)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(dev), OSINFO_DEVICE_PROP_PRODUCT_ID);
 }
 
 const gchar *osinfo_device_get_bus_type(OsinfoDevice *dev)

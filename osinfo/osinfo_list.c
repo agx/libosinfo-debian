@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 
@@ -118,7 +120,7 @@ osinfo_list_class_init (OsinfoListClass *klass)
 
     /**
      * OsinfoList:element-type:
-     * 
+     *
      * The specialization of the list. The list will be
      * restricted to storing #OsinfoEntity objects of
      * the specified type.
@@ -157,7 +159,7 @@ osinfo_list_init (OsinfoList *list)
  * osinfo_list_get_element_type:
  * @list: the entity list
  *
- * Retrieves the type of the subclass of #OsinfoEntity 
+ * Retrieves the type of the subclass of #OsinfoEntity
  * that may be stored in the list
  *
  * Returns: the type of entity stored

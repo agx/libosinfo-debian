@@ -1,11 +1,12 @@
 <libosinfo version="0.0.1">
 
   <os id="http://centos.org/centos/6.0">
-    <short-id>centos-6.0</short-id>
+    <short-id>centos6.0</short-id>
     <name>CentOS 6.0</name>
     <version>6.0</version>
     <vendor>CentOS</vendor>
-    <family>Linux</family>
+    <family>linux</family>
+    <distro>centos</distro>
     <clones id="http://redhat.com/rhel/6.0"/>
 
     <!-- there is no obvious difference between x86 and x86_64 isos,
@@ -25,11 +26,12 @@
   </os>
 
   <os id="http://centos.org/centos/6.1">
-    <short-id>centos-6.1</short-id>
+    <short-id>centos6.1</short-id>
     <name>CentOS 6.1</name>
     <version>6.1</version>
     <vendor>CentOS</vendor>
-    <family>Linux</family>
+    <family>linux</family>
+    <distro>centos</distro>
     <upgrades id="http://centos.org/centos/6.0"/>
     <clones id="http://redhat.com/rhel/6.1"/>
   </os>

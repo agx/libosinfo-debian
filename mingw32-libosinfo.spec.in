@@ -22,6 +22,8 @@ BuildRequires: mingw32-binutils
 
 BuildRequires: mingw32-glib2
 BuildRequires: mingw32-libxml2
+BuildRequires: mingw32-libsoup
+BuildRequires: mingw32-libsoup-gnome
 BuildRequires: pkgconfig
 
 Requires: pkgconfig
@@ -57,9 +59,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root)
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
-%{_mingw32_bindir}/osinfo-pciids-convert
-%{_mingw32_bindir}/osinfo-usbids-convert
 %{_mingw32_bindir}/osinfo-detect.exe
+%{_mingw32_bindir}/osinfo-db-validate.exe
+%{_mingw32_bindir}/osinfo-query.exe
 %{_mingw32_bindir}/libosinfo-1.0-0.dll
 %{_mingw32_libdir}/libosinfo-1.0.dll.a
 %{_mingw32_libdir}/libosinfo-1.0.la
@@ -67,14 +69,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_mingw32_includedir}/libosinfo-1.0/
 %dir %{_mingw32_includedir}/libosinfo-1.0/osinfo
 %{_mingw32_includedir}/libosinfo-1.0/osinfo/*.h
-%{_mingw32_datadir}/libosinfo/data/usb.ids
-%{_mingw32_datadir}/libosinfo/data/pci.ids
-%{_mingw32_datadir}/libosinfo/data/devices
-%{_mingw32_datadir}/libosinfo/data/oses
-%{_mingw32_datadir}/libosinfo/data/hypervisors
+%dir %{_mingw32_datadir}/libosinfo
+%dir %{_mingw32_datadir}/libosinfo/db
+%dir %{_mingw32_datadir}/libosinfo/schemas
+%{_mingw32_datadir}/libosinfo/db/usb.ids
+%{_mingw32_datadir}/libosinfo/db/pci.ids
+%{_mingw32_datadir}/libosinfo/db/devices
+%{_mingw32_datadir}/libosinfo/db/oses
+%{_mingw32_datadir}/libosinfo/db/hypervisors
+%{_mingw32_datadir}/libosinfo/schemas/libosinfo.rng
+%{_mingw32_mandir}/man1/osinfo-db-validate.1*
+%{_mingw32_mandir}/man1/osinfo-detect.1*
+%{_mingw32_mandir}/man1/osinfo-query.1*
 
 
 %changelog
 * Wed Aug 25 2010 Daniel P. Berrange <berrange@redhat.com> - 0.2.0-1
 - Initial package
-

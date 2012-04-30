@@ -1,7 +1,7 @@
 /*
  * libosinfo: Main information database
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -96,6 +96,10 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment);
 OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
                                         OsinfoMedia *media,
                                         OsinfoMedia **matched_media);
+
+OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
+                                       OsinfoTree *tree,
+                                       OsinfoTree **matched_tree);
 
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);

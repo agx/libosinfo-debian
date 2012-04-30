@@ -1,18 +1,23 @@
 
-databasedir = $(pkgdatadir)/data/oses/
+databasedir = $(pkgdatadir)/db/oses/
 database_DATA =     \
-  fedora.xml        \
-  rhel.xml          \
   centos.xml        \
-  opensuse.xml      \
-  suse.xml          \
-  mandriva.xml      \
   debian.xml        \
-  ubuntu.xml        \
-  generic-linux.xml \
-  windows.xml 	    \
+  dos.xml           \
+  fedora.xml        \
+  freebsd.xml	    \
+  mandriva.xml      \
+  mandrake.xml      \
+  netbsd.xml	    \
+  netware.xml	    \
+  openbsd.xml	    \
+  opensuse.xml      \
+  rhl.xml           \
+  rhel.xml          \
   solaris.xml	    \
-  bsd.xml	    \
-  others.xml
+  suse.xml          \
+  ubuntu.xml        \
+  windows.xml 	    \
+  $(NULL)
 
 EXTRA_DIST = $(database_DATA)

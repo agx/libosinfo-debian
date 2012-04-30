@@ -1,7 +1,7 @@
 /*
  * libosinfo: an object with a set of parameters
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -42,6 +42,8 @@ typedef struct _OsinfoEntity        OsinfoEntity;
 typedef struct _OsinfoEntityClass   OsinfoEntityClass;
 
 typedef struct _OsinfoEntityPrivate OsinfoEntityPrivate;
+
+#define OSINFO_ENTITY_PROP_ID "id"
 
 /* object */
 struct _OsinfoEntity

@@ -1,7 +1,7 @@
 /*
  * osinfo: an software product
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -44,10 +44,13 @@ typedef struct _OsinfoProductClass   OsinfoProductClass;
 
 typedef struct _OsinfoProductPrivate OsinfoProductPrivate;
 
-#define OSINFO_PRODUCT_PROP_VENDOR   "vendor"
-#define OSINFO_PRODUCT_PROP_VERSION  "version"
-#define OSINFO_PRODUCT_PROP_SHORT_ID "short-id"
-#define OSINFO_PRODUCT_PROP_NAME     "name"
+#define OSINFO_PRODUCT_PROP_VENDOR       "vendor"
+#define OSINFO_PRODUCT_PROP_VERSION      "version"
+#define OSINFO_PRODUCT_PROP_SHORT_ID     "short-id"
+#define OSINFO_PRODUCT_PROP_NAME         "name"
+#define OSINFO_PRODUCT_PROP_RELEASE_DATE "release-date"
+#define OSINFO_PRODUCT_PROP_EOL_DATE     "eol-date"
+#define OSINFO_PRODUCT_PROP_CODENAME     "codename"
 
 /* object */
 struct _OsinfoProduct
@@ -85,6 +88,13 @@ const gchar *osinfo_product_get_vendor(OsinfoProduct *prod);
 const gchar *osinfo_product_get_version(OsinfoProduct *prod);
 const gchar *osinfo_product_get_short_id(OsinfoProduct *prod);
 const gchar *osinfo_product_get_name(OsinfoProduct *prod);
+const gchar *osinfo_product_get_codename(OsinfoProduct *prod);
+
+const gchar *osinfo_product_get_release_date_string(OsinfoProduct *prod);
+const gchar *osinfo_product_get_eol_date_string(OsinfoProduct *prod);
+GDate *osinfo_product_get_release_date(OsinfoProduct *prod);
+GDate *osinfo_product_get_eol_date(OsinfoProduct *prod);
+
 
 #endif /* __OSINFO_PRODUCT_H__ */
 /*

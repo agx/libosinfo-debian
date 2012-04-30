@@ -1,7 +1,7 @@
 /*
  * libosinfo: a mechanism to filter operating systems
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -69,6 +69,8 @@ void osinfo_productfilter_clear_product_constraint(OsinfoProductFilter *productf
 void osinfo_productfilter_clear_product_constraints(OsinfoProductFilter *productfilter);
 
 GList *osinfo_productfilter_get_product_constraint_values(OsinfoProductFilter *productfilter, OsinfoProductRelationship relshp);
+
+void osinfo_productfilter_add_support_date_constraint(OsinfoProductFilter *productfilter, GDate *when);
 
 #endif /* __OSINFO_PRODUCTFILTER_H__ */
 /*

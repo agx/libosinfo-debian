@@ -1,7 +1,7 @@
 /*
  * libosinfo: an operating system
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -28,6 +28,8 @@
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_medialist.h>
 #include <osinfo/osinfo_media.h>
+#include <osinfo/osinfo_treelist.h>
+#include <osinfo/osinfo_tree.h>
 #include <osinfo/osinfo_resources.h>
 #include <osinfo/osinfo_resourceslist.h>
 
@@ -51,6 +53,7 @@ typedef struct _OsinfoOsClass   OsinfoOsClass;
 typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 
 #define OSINFO_OS_PROP_FAMILY    "family"
+#define OSINFO_OS_PROP_DISTRO    "distro"
 
 /* object */
 struct _OsinfoOs
@@ -85,8 +88,11 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
 
 OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
 const gchar *osinfo_os_get_family(OsinfoOs *os);
+const gchar *osinfo_os_get_distro(OsinfoOs *os);
 OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os);
 void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media);
+OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os);
+void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree);
 OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os);
 OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os);
 void osinfo_os_add_minimum_resources(OsinfoOs *os, OsinfoResources *resources);

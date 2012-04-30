@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2010 Red Hat, Inc
+ * Copyright (C) 2009-2012 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -21,6 +21,8 @@
  *   Arjun Roy <arroy@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
+
+#include <config.h>
 
 #include <osinfo/osinfo.h>
 
@@ -59,16 +61,16 @@ osinfo_devicelinkfilter_set_property(GObject *object,
                                      const GValue *value,
                                      GParamSpec *pspec)
 {
-    OsinfoDeviceLinkFilter *link = OSINFO_DEVICELINKFILTER (object);
+    OsinfoDeviceLinkFilter *filter = OSINFO_DEVICELINKFILTER (object);
 
     switch (property_id)
         {
         case PROP_TARGET_FILTER:
-            if (link->priv->targetFilter)
-                g_object_unref(link->priv->targetFilter);
-            link->priv->targetFilter = g_value_get_object(value);
-            if (link->priv->targetFilter)
-                g_object_ref(link->priv->targetFilter);
+            if (filter->priv->targetFilter)
+                g_object_unref(filter->priv->targetFilter);
+            filter->priv->targetFilter = g_value_get_object(value);
+            if (filter->priv->targetFilter)
+                g_object_ref(filter->priv->targetFilter);
             break;
         default:
             /* We don't have any other property... */
@@ -83,12 +85,12 @@ osinfo_devicelinkfilter_get_property(GObject *object,
                                      GValue *value,
                                      GParamSpec *pspec)
 {
-    OsinfoDeviceLinkFilter *link = OSINFO_DEVICELINKFILTER(object);
+    OsinfoDeviceLinkFilter *filter = OSINFO_DEVICELINKFILTER(object);
 
     switch (property_id)
         {
         case PROP_TARGET_FILTER:
-            g_value_set_object(value, link->priv->targetFilter);
+            g_value_set_object(value, filter->priv->targetFilter);
             break;
         default:
             /* We don't have any other property... */

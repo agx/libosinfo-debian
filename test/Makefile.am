@@ -1,4 +1,6 @@
 
+EXTRA_DIST = isodata
+
 check_PROGRAMS = \
 	test-entity \
 	test-device \
@@ -12,19 +14,27 @@ check_PROGRAMS = \
 	test-platform \
 	test-platformlist \
 	test-db \
-	test-loader
+	test-loader \
+	test-isodetect \
+	test-mediauris \
+	test-treeuris \
+        $(NULL)
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GOBJECT_LIBS) \
+	$(SOUP_LIBS) \
+	$(SOUP_GNOME_LIBS) \
 	$(CHECK_LIBS) \
 	../osinfo/libosinfo-1.0.la
 COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
+	$(SOUP_CFLAGS) \
+	$(SOUP_GNOME_CFLAGS) \
 	-I$(top_srcdir) \
-	-DSRCDIR="\"$(top_srcdir)\"" \
+	-DSRCDIR="\"$(abs_top_srcdir)\"" \
 	$(CHECK_CFLAGS)
 
 test_entity_LDADD = $(COMMON_LDADD)
@@ -79,12 +89,42 @@ test_loader_LDADD = $(COMMON_LDADD)
 test_loader_CFLAGS = $(COMMON_CFLAGS)
 test_loader_SOURCES = test-loader.c
 
-TESTS = $(check_PROGRAMS)
+test_isodetect_LDADD = $(COMMON_LDADD)
+test_isodetect_CFLAGS = $(COMMON_CFLAGS)
+test_isodetect_SOURCES = test-isodetect.c
 
-TESTS_ENVIRONMENT = \
-	LC_ALL=C \
-	G_SLICE=always-malloc G_DEBUG=gc-friendly \
+test_mediauris_LDADD = $(COMMON_LDADD)
+test_mediauris_CFLAGS = $(COMMON_CFLAGS)
+test_mediauris_SOURCES = test-mediauris.c
+
+test_treeuris_LDADD = $(COMMON_LDADD)
+test_treeuris_CFLAGS = $(COMMON_CFLAGS)
+test_treeuris_SOURCES = test-treeuris.c
+
+TEST_SCRIPT_FILES = \
+	test-xml-validate
+
+TESTS = $(check_PROGRAMS) \
+	$(TEST_SCRIPT_FILES)
+	$(NULL)
+
+EXTRA_DIST += \
+	$(TEST_SCRIPT_FILES) \
+	test-lib.sh \
+	$(NULL)
+
+TESTS_ENVIRONMENT =						\
+	abs_top_builddir=$(lv_abs_top_builddir)			\
+	abs_top_srcdir=`cd '$(top_srcdir)'; pwd`		\
+	abs_builddir=`pwd`					\
+	abs_srcdir=`cd '$(srcdir)'; pwd`			\
+	CONFIG_HEADER="`cd '$(top_builddir)'; pwd`/config.h"	\
+	PATH="$(path_add)$(PATH_SEPARATOR)$$PATH"		\
+	SHELL="$(SHELL)"					\
+	LIBVIRT_DRIVER_DIR="$(abs_top_builddir)/src/.libs"	\
+	LC_ALL=C						\
+	G_SLICE=always-malloc G_DEBUG=gc-friendly		\
 	$(VG)
 
 valgrind:
-	$(MAKE) check VG="libtool --mode=execute valgrind --quiet --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20  --suppressions=osinfo.suppression"
+	$(MAKE) check VG="libtool --mode=execute valgrind --quiet --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --suppressions=osinfo.suppression"
