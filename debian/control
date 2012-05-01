@@ -15,6 +15,7 @@ Build-Depends: autoconf,
  libgirepository1.0-dev,
  libsoup-gnome2.4-dev,
  libxml2-dev,
+ libxml2-utils,
  valac-0.14
 Standards-Version: 3.9.2
 Homepage: https://fedorahosted.org/libosinfo/
