@@ -1,3 +1,15 @@
+libosinfo (0.1.1-1) unstable; urgency=low
+
+  * New upstream version (Closes: #670846)
+  * [7c97cb9] Only invoke dh_auto_clean if a Makefile exists
+  * [79ac455] Require libsoup-gnome2.4-dev
+  * [31f8897] Require libxml2-utils for the tests
+  * [7c84d7e] Update patches
+  * [86ec570] Update symbols file
+  * [cc0d097] Bump standards version
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 02 May 2012 08:33:52 +0200
+
 libosinfo (0.1.0-3) unstable; urgency=low
 
   * Upload to unstable
