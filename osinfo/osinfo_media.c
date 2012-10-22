@@ -151,6 +151,7 @@ enum {
     PROP_INITRD_PATH,
     PROP_INSTALLER,
     PROP_LIVE,
+    PROP_INSTALLER_REBOOTS,
 };
 
 static void
@@ -212,23 +213,17 @@ osinfo_media_get_property (GObject    *object,
                              osinfo_media_get_live (media));
         break;
 
+    case PROP_INSTALLER_REBOOTS:
+        g_value_set_int (value,
+                         osinfo_media_get_installer_reboots (media));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
         break;
     }
 }
-
-static void set_param_from_boolean (OsinfoMedia *media,
-                                    const gchar *key,
-                                    gboolean value)
-{
-    if (value)
-        osinfo_entity_set_param (OSINFO_ENTITY(media), key, "true");
-    else
-        osinfo_entity_set_param (OSINFO_ENTITY(media), key, "false");
-}
-
 
 static void
 osinfo_media_set_property(GObject      *object,
@@ -288,15 +283,21 @@ osinfo_media_set_property(GObject      *object,
         break;
 
     case PROP_LIVE:
-        set_param_from_boolean (media,
-                                OSINFO_MEDIA_PROP_LIVE,
-                                g_value_get_boolean (value));
+        osinfo_entity_set_param_boolean (OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_LIVE,
+                                         g_value_get_boolean (value));
         break;
 
     case PROP_INSTALLER:
-        set_param_from_boolean (media,
-                                OSINFO_MEDIA_PROP_INSTALLER,
-                                g_value_get_boolean (value));
+        osinfo_entity_set_param_boolean (OSINFO_ENTITY(media),
+                                         OSINFO_MEDIA_PROP_INSTALLER,
+                                         g_value_get_boolean (value));
+        break;
+
+    case PROP_INSTALLER_REBOOTS:
+        osinfo_entity_set_param_int64 (OSINFO_ENTITY(media),
+                                       OSINFO_MEDIA_PROP_INSTALLER_REBOOTS,
+                                       g_value_get_int (value));
         break;
 
     default:
@@ -341,7 +342,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
-     * OsinfoMedia::url
+     * OsinfoMedia::url:
      *
      * The URL to this media.
      */
@@ -356,7 +357,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_URL, pspec);
 
     /**
-     * OsinfoMedia::volume-id
+     * OsinfoMedia::volume-id:
      *
      * Expected volume ID (regular expression) for ISO9660 image/device.
      */
@@ -371,7 +372,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_VOLUME_ID, pspec);
 
     /**
-     * OsinfoMedia::publisher-id
+     * OsinfoMedia::publisher-id:
      *
      * Expected publisher ID (regular expression) for ISO9660 image/device.
      */
@@ -386,7 +387,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_PUBLISHER_ID, pspec);
 
     /**
-     * OsinfoMedia::application-id
+     * OsinfoMedia::application-id:
      *
      * Expected application ID (regular expression) for ISO9660 image/device.
      */
@@ -401,7 +402,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_APPLICATION_ID, pspec);
 
     /**
-     * OsinfoMedia::system-id
+     * OsinfoMedia::system-id:
      *
      * Expected system ID (regular expression) for ISO9660 image/device.
      */
@@ -416,7 +417,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_SYSTEM_ID, pspec);
 
     /**
-     * OsinfoMedia::kernel-path
+     * OsinfoMedia::kernel-path:
      *
      * The path to the kernel image in the install tree.
      */
@@ -431,7 +432,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
-     * OsinfoMedia::initrd-path
+     * OsinfoMedia::initrd-path:
      *
      * The path to the initrd image in the install tree.
      */
@@ -446,7 +447,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_INITRD_PATH, pspec);
 
     /**
-     * OsinfoMedia::installer
+     * OsinfoMedia::installer:
      *
      * Whether media provides a installer for an OS.
      */
@@ -462,7 +463,7 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     g_object_class_install_property (g_klass, PROP_INSTALLER, pspec);
 
     /**
-     * OsinfoMedia::live
+     * OsinfoMedia::live:
      *
      * Whether media can boot directly an OS without any installations.
      */
@@ -476,6 +477,31 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
                                   G_PARAM_STATIC_NICK |
                                   G_PARAM_STATIC_BLURB);
     g_object_class_install_property (g_klass, PROP_LIVE, pspec);
+
+    /**
+     * OsinfoMedia::installer-reboots:
+     *
+     * If media is an installer, this property indicates the number of reboots
+     * the installer takes before installation is complete.
+     *
+     * This property is not applicable to media that has no installer. You can
+     * use #osinfo_media_get_installer (or OsinfoMedia::installer) to check
+     * that.
+     *
+     * Warning: Some media allow you to install from live sessions, in which
+     * case number of reboots *alone* is not a reliable method for tracking
+     * installation.
+     */
+    pspec = g_param_spec_int ("installer-reboots",
+                              "InstallerReboots",
+                              "Number of installer reboots",
+                              G_MININT,
+                              G_MAXINT,
+                              -1 /* default value */,
+                              G_PARAM_READWRITE |
+                              G_PARAM_CONSTRUCT | /* to set default value */
+                              G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (g_klass, PROP_INSTALLER_REBOOTS, pspec);
 }
 
 static void
@@ -988,20 +1014,6 @@ const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media)
                                          OSINFO_MEDIA_PROP_INITRD);
 }
 
-static gboolean get_param_as_bool (OsinfoMedia *media,
-                                   const char *key,
-                                   gboolean default_value)
-{
-    const gchar *value;
-
-    value = osinfo_entity_get_param_value(OSINFO_ENTITY(media), key);
-    if (value == NULL)
-        return default_value;
-
-    return (g_strcmp0 ("true", value) == 0 ||
-            g_strcmp0 ("yes", value) == 0);
-}
-
 /**
  * osinfo_media_get_installer:
  * @media: a #OsinfoMedia instance
@@ -1012,7 +1024,8 @@ static gboolean get_param_as_bool (OsinfoMedia *media,
  */
 gboolean osinfo_media_get_installer(OsinfoMedia *media)
 {
-    return get_param_as_bool (media, OSINFO_MEDIA_PROP_INSTALLER, TRUE);
+    return osinfo_entity_get_param_value_boolean_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER, TRUE);
 }
 
 /**
@@ -1025,7 +1038,34 @@ gboolean osinfo_media_get_installer(OsinfoMedia *media)
  */
 gboolean osinfo_media_get_live(OsinfoMedia *media)
 {
-    return get_param_as_bool (media, OSINFO_MEDIA_PROP_LIVE, FALSE);
+    return osinfo_entity_get_param_value_boolean_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LIVE, FALSE);
+}
+
+/**
+ * osinfo_media_get_installer_reboots:
+ * @media: a #OsinfoMedia instance
+ *
+ * If media is an installer, this method retrieves the number of reboots the
+ * installer takes before installation is complete.
+ *
+ * This function is not supposed to be called on media that has no installer.
+ * You can use #osinfo_media_get_installer (or OsinfoMedia::installer) to check
+ * that.
+ *
+ * Warning: Some media allow you to install from live sessions, in which case
+ * number of reboots *alone* is not a reliable method for tracking installation.
+ *
+ * Returns: (transfer none): the number of installer reboots or -1 if media is
+ * not an installer
+ */
+gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), -1);
+    g_return_val_if_fail(osinfo_media_get_installer (media), -1);
+
+    return (gint) osinfo_entity_get_param_value_int64_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER_REBOOTS, 1);
 }
 
 /*

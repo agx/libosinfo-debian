@@ -38,6 +38,8 @@
             <value>usb</value>
             <value>xen</value>
             <value>ps2</value>
+            <value>ide</value>
+            <value>virtio</value>
           </choice>
         </element>
         <optional>
@@ -66,13 +68,18 @@
           </element>
         </optional>
         <optional>
-          <element name='device'>
+          <element name='product'>
             <text/>
           </element>
         </optional>
         <optional>
-          <element name='device-id'>
+          <element name='product-id'>
             <ref name='hexid'/>
+          </element>
+        </optional>
+        <optional>
+          <element name='subsystem'>
+            <text/>
           </element>
         </optional>
       </interleave>
@@ -169,6 +176,11 @@
           <attribute name='id'>
             <ref name='url'/>
           </attribute>
+          <optional>
+            <element name='driver'>
+              <text/>
+            </element>
+          </optional>
         </element>
       </zeroOrMore>
     </element>
@@ -262,6 +274,11 @@
         </attribute>
       </optional>
       <optional>
+        <attribute name='installer-reboots'>
+          <ref name='num'/>
+        </attribute>
+      </optional>
+      <optional>
         <element name='url'>
           <ref name='url'/>
         </element>
@@ -344,11 +361,23 @@
     </element>
   </define>
 
+  <define name='installer'>
+    <element name='installer'>
+      <zeroOrMore>
+        <element name="script">
+          <attribute name='id'>
+            <ref name='url'/>
+          </attribute>
+        </element>
+      </zeroOrMore>
+    </element>
+  </define>
+
   <define name='os'>
     <element name='os'>
-      <ref name='product-attr'/>
-      <ref name='product-content'/>
       <interleave>
+        <ref name='product-attr'/>
+        <ref name='product-content'/>
         <ref name='product-dates'/>
         <ref name='product-rel'/>
         <optional>
@@ -363,12 +392,75 @@
         <zeroOrMore>
           <ref name='tree'/>
         </zeroOrMore>
+        <zeroOrMore>
+          <ref name='installer'/>
+        </zeroOrMore>
       </interleave>
     </element>
   </define>
 
   <define name='platform'>
     <element name='platform'>
+      <interleave>
+        <ref name='product-attr'/>
+        <ref name='product-content'/>
+        <ref name='product-dates'/>
+        <ref name='product-rel'/>
+        <optional>
+          <ref name='devices-rel'/>
+        </optional>
+      </interleave>
+    </element>
+  </define>
+
+  <define name='deployment'>
+    <element name='deployment'>
+      <attribute name='id'>
+        <ref name='url'/>
+      </attribute>
+      <interleave>
+        <element name='os'>
+          <attribute name='id'>
+            <ref name='url'/>
+          </attribute>
+        </element>
+        <element name='platform'>
+          <attribute name='id'>
+            <ref name='url'/>
+          </attribute>
+        </element>
+        <ref name='devices-rel'/>
+      </interleave>
+    </element>
+  </define>
+
+  <define name='install-script'>
+    <element name='install-script'>
+      <attribute name='id'>
+        <ref name='url'/>
+      </attribute>
+      <element name='profile'>
+        <text/>
+      </element>
+      <element name='config'>
+        <attribute name="name"/>
+        <attribute name="policy">
+          <ref name='policies'/>
+        </attribute>
+      </element>
+      <element name='product-key-format'>
+        <text/>
+      </element>
+      <element name='template'>
+        <attribute name="filename"/>
+        <choice>
+          <group>
+            <attribute name="uri"/>
+            <empty/>
+          </group>
+          <ref name="customElement"/>
+        </choice>
+      </element>
       <ref name='product-attr'/>
       <ref name='product-content'/>
       <interleave>
@@ -381,9 +473,18 @@
     </element>
   </define>
 
-  <define name='deployment'>
-    <element name='deployment'>
-      <empty/>
+  <define name="customElement">
+    <element>
+      <anyName/>
+      <zeroOrMore>
+        <choice>
+          <attribute>
+            <anyName/>
+          </attribute>
+          <text/>
+          <ref name="customElement"/>
+        </choice>
+      </zeroOrMore>
     </element>
   </define>
 
@@ -414,6 +515,12 @@
   <define name='url'>
     <data type="string">
       <param name="pattern">\w+://.*</param>
+    </data>
+  </define>
+
+  <define name='policies'>
+    <data type="string">
+      <param name="pattern">required|optional</param>
     </data>
   </define>
 </grammar>

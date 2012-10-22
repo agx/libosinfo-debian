@@ -6,7 +6,7 @@
 
 %define with_gir 0
 
-%if 0%{fedora} >= 15
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %define with_gir 1
 %endif
 
@@ -22,10 +22,10 @@ URL: https://fedorahosted.org/libosinfo/
 BuildRequires: glib2-devel
 BuildRequires: check-devel
 BuildRequires: libxml2-devel >= 2.6.0
+BuildRequires: libxslt-devel >= 1.0.0
 BuildRequires: vala
 BuildRequires: vala-tools
 BuildRequires: libsoup-devel
-BuildRequires: libsoup-gnome-devel
 %if %{with_gir}
 BuildRequires: gobject-introspection-devel
 %endif
@@ -99,6 +99,7 @@ rm -fr %{buildroot}
 %{_bindir}/osinfo-detect
 %{_bindir}/osinfo-db-validate
 %{_bindir}/osinfo-query
+%{_bindir}/osinfo-install-script
 %dir %{_datadir}/libosinfo/
 %dir %{_datadir}/libosinfo/db/
 %dir %{_datadir}/libosinfo/schemas/
@@ -107,10 +108,12 @@ rm -fr %{buildroot}
 %{_datadir}/libosinfo/db/devices
 %{_datadir}/libosinfo/db/oses
 %{_datadir}/libosinfo/db/hypervisors
+%{_datadir}/libosinfo/db/install-scripts
 %{_datadir}/libosinfo/schemas/libosinfo.rng
 %{_mandir}/man1/osinfo-db-validate.1*
 %{_mandir}/man1/osinfo-detect.1*
 %{_mandir}/man1/osinfo-query.1*
+%{_mandir}/man1/osinfo-install-script.1*
 %{_libdir}/%{name}-1.0.so.*
 /lib/udev/rules.d/95-osinfo.rules
 %if %{with_gir}

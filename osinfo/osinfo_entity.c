@@ -196,6 +196,20 @@ void osinfo_entity_set_param(OsinfoEntity *entity, const gchar *key, const gchar
 }
 
 
+void osinfo_entity_set_param_boolean(OsinfoEntity *entity, const gchar *key, gboolean value)
+{
+    osinfo_entity_set_param(entity, key, value ? "true" : "false");
+}
+
+void osinfo_entity_set_param_int64(OsinfoEntity *entity, const gchar *key, gint64 value)
+{
+    gchar *str;
+
+    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
+    osinfo_entity_set_param(entity, key, str);
+    g_free(str);
+}
+
 /**
  * osinfo_entity_add_param:
  * @entity: OsinfoEntity containing the parameters
@@ -306,6 +320,57 @@ const gchar *osinfo_entity_get_param_value(OsinfoEntity *entity, const gchar *ke
     return NULL;
 }
 
+static gboolean str_to_bool(const char *str)
+{
+    return (g_strcmp0("true", str) == 0 || g_strcmp0("yes", str) == 0);
+}
+
+gboolean osinfo_entity_get_param_value_boolean(OsinfoEntity *entity, const gchar *key)
+{
+    const gchar *value = osinfo_entity_get_param_value(entity, key);
+
+    return value && str_to_bool(value);
+}
+
+gboolean osinfo_entity_get_param_value_boolean_with_default(OsinfoEntity *entity,
+                                                            const char *key,
+                                                            gboolean default_value)
+{
+    const gchar *value;
+
+    value = osinfo_entity_get_param_value(entity, key);
+    if (value == NULL)
+        return default_value;
+    else
+        return str_to_bool(value);
+}
+
+gint64 osinfo_entity_get_param_value_int64(OsinfoEntity *entity,
+                                           const gchar *key)
+{
+    const gchar *str;
+
+    str = osinfo_entity_get_param_value(entity, key);
+
+    if (str == NULL)
+        return -1;
+
+    return (gint64) g_ascii_strtod(str, NULL);
+}
+
+gint64 osinfo_entity_get_param_value_int64_with_default(OsinfoEntity *entity,
+                                                        const gchar *key,
+                                                        gint64 default_value)
+{
+    gint64 value;
+
+    value = osinfo_entity_get_param_value_int64(entity, key);
+
+    if (value < 0)
+        return default_value;
+
+    return value;
+}
 
 /**
  * osinfo_entity_get_param_value_list:

@@ -235,7 +235,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.06(.\d)? i386</volume-id>
+        <volume-id>Ubuntu-Server 6.06(.\d)? i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -244,7 +244,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.06(.\d)? amd64</volume-id>
+        <volume-id>Ubuntu-Server 6.06(.\d)? amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -253,7 +253,7 @@
     <media arch="ppc">
       <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-server-powerpc.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.06(.\d)? ppc</volume-id>
+        <volume-id>Ubuntu-Server 6.06(.\d)? ppc</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -262,7 +262,7 @@
     <media arch="hppa">
       <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-server-hppa.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.06(.\d)? hppa</volume-id>
+        <volume-id>Ubuntu-Server 6.06(.\d)? hppa</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -271,7 +271,7 @@
     <media arch="ia64">
       <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-server-ia64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.06(.\d)? ia64</volume-id>
+        <volume-id>Ubuntu-Server 6.06(.\d)? ia64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -280,7 +280,7 @@
     <media arch="sparc">
       <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-server-sparc.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.06(.\d)? sparc</volume-id>
+        <volume-id>Ubuntu-Server 6.06(.\d)? sparc</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -343,6 +343,25 @@
       <initrd>casper/initrd.img</initrd>
     </media>
 
+    <media arch="hppa" live="true">
+      <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-alternate-hppa.iso</url>
+      <iso>
+        <volume-id>Ubuntu 6.06(.\d)? hppa</volume-id>
+        <system-id>LINUX</system-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="ia64">
+      <url>http://old-releases.ubuntu.com/releases/dapper/ubuntu-6.06-alternate-ia64.iso</url>
+      <iso>
+        <volume-id>Ubuntu 6.06(.\d)? ia64</volume-id>
+        <system-id>LINUX</system-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+
   </os>
 
   <os id="http://ubuntu.com/ubuntu/6.10">
@@ -363,7 +382,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/edgy/ubuntu-6.10-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.10 i386</volume-id>
+        <volume-id>Ubuntu-Server 6.10 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -372,7 +391,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/edgy/ubuntu-6.10-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.10 amd64</volume-id>
+        <volume-id>Ubuntu-Server 6.10 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -381,7 +400,7 @@
     <media arch="ppc">
       <url>http://old-releases.ubuntu.com/releases/edgy/ubuntu-6.10-server-powerpc.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.10 ppc</volume-id>
+        <volume-id>Ubuntu-Server 6.10 ppc</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -390,7 +409,7 @@
     <media arch="sparc">
       <url>http://old-releases.ubuntu.com/releases/edgy/ubuntu-6.10-server-sparc.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 6.10 sparc</volume-id>
+        <volume-id>Ubuntu-Server 6.10 sparc</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -444,7 +463,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/feisty/ubuntu-7.04-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 7.04 i386</volume-id>
+        <volume-id>Ubuntu-Server 7.04 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -453,7 +472,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/feisty/ubuntu-7.04-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 7.04 amd64</volume-id>
+        <volume-id>Ubuntu-Server 7.04 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -462,7 +481,7 @@
     <media arch="sparc">
       <url>http://old-releases.ubuntu.com/releases/feisty/ubuntu-7.04-server-sparc.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 7.04 sparc</volume-id>
+        <volume-id>Ubuntu-Server 7.04 sparc</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -507,7 +526,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/gutsy/ubuntu-7.10-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 7.10 i386</volume-id>
+        <volume-id>Ubuntu-Server 7.10 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -516,7 +535,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/gutsy/ubuntu-7.10-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 7.10 amd64</volume-id>
+        <volume-id>Ubuntu-Server 7.10 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -525,7 +544,7 @@
     <media arch="sparc">
       <url>http://old-releases.ubuntu.com/releases/gutsy/ubuntu-7.10-server-sparc.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 7.10 sparc</volume-id>
+        <volume-id>Ubuntu-Server 7.10 sparc</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -573,7 +592,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/hardy/ubuntu-8.04-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 8.04(.\d)? i386</volume-id>
+        <volume-id>Ubuntu-Server 8.04(.\d)? i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -582,7 +601,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/hardy/ubuntu-8.04-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 8.04(.\d)? amd64</volume-id>
+        <volume-id>Ubuntu-Server 8.04(.\d)? amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -646,7 +665,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/intrepid/ubuntu-8.10-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 8.10 i386</volume-id>
+        <volume-id>Ubuntu-Server 8.10 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -655,7 +674,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/intrepid/ubuntu-8.10-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 8.10 amd64</volume-id>
+        <volume-id>Ubuntu-Server 8.10 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -704,7 +723,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/jaunty/ubuntu-9.04-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 9.04(.\d)? i386</volume-id>
+        <volume-id>Ubuntu-Server 9.04(.\d)? i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -713,7 +732,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/jaunty/ubuntu-9.04-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 9.04(.\d)? amd64</volume-id>
+        <volume-id>Ubuntu-Server 9.04(.\d)? amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -758,7 +777,7 @@
     <media arch="i386">
       <url>http://old-releases.ubuntu.com/releases/karmic/ubuntu-9.10-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 9.10 i386</volume-id>
+        <volume-id>Ubuntu-Server 9.10 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -767,7 +786,7 @@
     <media arch="x86_64">
       <url>http://old-releases.ubuntu.com/releases/karmic/ubuntu-9.10-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 9.10 amd64</volume-id>
+        <volume-id>Ubuntu-Server 9.10 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -824,7 +843,7 @@
     <media arch="i386" live="true">
       <url>http://old-releases.ubuntu.com/releases/lucid/ubuntu-10.04-desktop-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu 10.04 i386</volume-id>
+        <volume-id>Ubuntu 10.04(.\d)? LTS i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -833,7 +852,7 @@
     <media arch="x86_64" live="true">
       <url>http://old-releases.ubuntu.com/releases/lucid/ubuntu-10.04-desktop-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu 10.04 amd64</volume-id>
+        <volume-id>Ubuntu 10.04(.\d)? LTS amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -872,7 +891,7 @@
     <media arch="i386">
       <url>http://releases.ubuntu.com/releases/maverick/ubuntu-10.10-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 10.10 i386</volume-id>
+        <volume-id>Ubuntu-Server 10.10 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -881,7 +900,7 @@
     <media arch="x86_64">
       <url>http://releases.ubuntu.com/releases/maverick/ubuntu-10.10-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 10.10 amd64</volume-id>
+        <volume-id>Ubuntu-Server 10.10 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -939,7 +958,7 @@
     <media arch="i386">
       <url>http://releases.ubuntu.com/releases/natty/ubuntu-11.04-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 11.04 i386</volume-id>
+        <volume-id>Ubuntu-Server 11.04 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -948,7 +967,7 @@
     <media arch="x86_64">
       <url>http://releases.ubuntu.com/releases/natty/ubuntu-11.04-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 11.04 amd64</volume-id>
+        <volume-id>Ubuntu-Server 11.04 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -1006,7 +1025,7 @@
     <media arch="i386">
       <url>http://releases.ubuntu.com/releases/oneiric/ubuntu-11.10-server-i386.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 11.10 i386</volume-id>
+        <volume-id>Ubuntu-Server 11.10 i386</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -1015,7 +1034,7 @@
     <media arch="x86_64">
       <url>http://releases.ubuntu.com/releases/oneiric/ubuntu-11.10-server-amd64.iso</url>
       <iso>
-        <volume-id>Ubuntu(-Server)? 11.10 amd64</volume-id>
+        <volume-id>Ubuntu-Server 11.10 amd64</volume-id>
         <system-id>LINUX</system-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
@@ -1036,6 +1055,128 @@
       <iso>
         <volume-id>Ubuntu 11.10 amd64</volume-id>
         <system-id>LINUX</system-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+  </os>
+
+  <os id="http://ubuntu.com/ubuntu/12.04">
+    <short-id>ubuntu12.04</short-id>
+    <short-id>ubuntuprecise</short-id>
+    <name>Ubuntu Precise Pangolin LTS</name>
+    <version>12.04</version>
+    <vendor>Canonical Ltd</vendor>
+    <family>linux</family>
+    <distro>ubuntu</distro>
+    <codename>Precise Pangolin</codename>
+    <upgrades id="http://ubuntu.com/ubuntu/11.10"/>
+    <derives-from id="http://ubuntu.com/ubuntu/11.10"/>
+
+    <release-date>2012-04-26</release-date>
+
+    <resources arch="all">
+      <minimum>
+        <cpu>1000000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>67108864</ram>
+        <storage>5368709120</storage>
+      </minimum>
+      <recommended>
+        <cpu>1000000000</cpu>
+        <ram>536870912</ram>
+        <storage>5368709120</storage>
+      </recommended>
+    </resources>
+    <media arch="i386">
+      <url>http://releases.ubuntu.com/releases/precise/ubuntu-12.04-server-i386.iso</url>
+      <iso>
+        <volume-id>Ubuntu-Server 12.04(.\d)? LTS i386</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="x86_64">
+      <url>http://releases.ubuntu.com/releases/precise/ubuntu-12.04-server-amd64.iso</url>
+      <iso>
+        <volume-id>Ubuntu-Server 12.04(.\d)? LTS amd64</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="i386" live="true">
+      <url>http://releases.ubuntu.com/releases/precise/ubuntu-12.04-desktop-i386.iso</url>
+      <iso>
+        <volume-id>Ubuntu 12.04(.\d)? LTS i386</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="x86_64" live="true">
+      <url>http://releases.ubuntu.com/releases/precise/ubuntu-12.04-desktop-amd64.iso</url>
+      <iso>
+        <volume-id>Ubuntu 12.04(.\d)? LTS amd64</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+  </os>
+
+  <os id="http://ubuntu.com/ubuntu/12.10">
+    <short-id>ubuntu12.10</short-id>
+    <short-id>ubuntuquantal</short-id>
+    <name>Ubuntu Quantal Quetzal</name>
+    <version>12.10</version>
+    <vendor>Canonical Ltd</vendor>
+    <family>linux</family>
+    <distro>ubuntu</distro>
+    <codename>Quantal Quetzal</codename>
+    <upgrades id="http://ubuntu.com/ubuntu/12.04"/>
+    <derives-from id="http://ubuntu.com/ubuntu/12.04"/>
+
+    <release-date>2012-10-18</release-date>
+
+    <resources arch="all">
+      <minimum>
+        <cpu>1000000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>67108864</ram>
+        <storage>5368709120</storage>
+      </minimum>
+      <recommended>
+        <cpu>1000000000</cpu>
+        <ram>536870912</ram>
+        <storage>5368709120</storage>
+      </recommended>
+    </resources>
+    <media arch="i386">
+      <url>http://releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-i386.iso</url>
+      <iso>
+        <volume-id>Ubuntu-Server 12.10 i386</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="x86_64">
+      <url>http://releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-amd64.iso</url>
+      <iso>
+        <volume-id>Ubuntu-Server 12.10 amd64</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="i386" live="true">
+      <url>http://releases.ubuntu.com/releases/quantal/ubuntu-12.10-desktop-i386.iso</url>
+      <iso>
+        <volume-id>Ubuntu 12.10 i386</volume-id>
+      </iso>
+      <kernel>casper/vmlinuz</kernel>
+      <initrd>casper/initrd.img</initrd>
+    </media>
+    <media arch="x86_64" live="true">
+      <url>http://releases.ubuntu.com/releases/quantal/ubuntu-12.10-desktop-amd64.iso</url>
+      <iso>
+        <volume-id>Ubuntu 12.10 amd64</volume-id>
       </iso>
       <kernel>casper/vmlinuz</kernel>
       <initrd>casper/initrd.img</initrd>

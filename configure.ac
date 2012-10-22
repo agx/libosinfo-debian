@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [0.1.1], [virt-tools-list@redhat.com])
+AC_INIT([libosinfo], [0.2.1], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -32,6 +32,7 @@ PKG_CHECK_MODULES([GIO], [gio-2.0])
 PKG_CHECK_MODULES([SOUP], [libsoup-2.4])
 PKG_CHECK_MODULES([SOUP_GNOME], [libsoup-gnome-2.4])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
+PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])
 
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
 
@@ -165,13 +166,14 @@ AC_SUBST(COVERAGE_LDFLAGS)
 AC_CONFIG_FILES([
 	Makefile
 	libosinfo.spec
-	mingw32-libosinfo.spec
+	mingw-libosinfo.spec
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
 	data/Makefile
 	data/devices/Makefile
 	data/hypervisors/Makefile
 	data/oses/Makefile
+	data/install-scripts/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile

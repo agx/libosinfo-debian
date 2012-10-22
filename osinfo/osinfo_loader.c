@@ -172,6 +172,45 @@ osinfo_loader_string(const char *xpath,
     return ret;
 }
 
+static gchar *
+osinfo_loader_doc(const char *xpath,
+                  xmlXPathContextPtr ctxt,
+                  GError **err)
+{
+    xmlXPathObjectPtr obj;
+    xmlNodePtr relnode;
+    gchar *ret;
+    xmlBufferPtr buf;
+
+    g_return_val_if_fail(ctxt != NULL, NULL);
+    g_return_val_if_fail(xpath != NULL, NULL);
+
+    relnode = ctxt->node;
+    obj = xmlXPathEval(BAD_CAST xpath, ctxt);
+    ctxt->node = relnode;
+    if ((obj == NULL) || (obj->type != XPATH_NODESET)) {
+        xmlXPathFreeObject(obj);
+        return NULL;
+    }
+
+    if (!(buf = xmlBufferCreate())) {
+        xmlXPathFreeObject(obj);
+        g_set_error(err, 0, 0, "%s",
+                    "Cannot allocate buffer");
+        return NULL;
+    }
+    if (xmlNodeDump(buf, NULL, obj->nodesetval->nodeTab[0], 0, 1) < 0) {
+        xmlXPathFreeObject(obj);
+        g_set_error(err, 0, 0, "%s",
+                    "Cannot format stylesheet");
+    }
+    ret = g_strdup((char *)buf->content);
+
+    xmlBufferFree(buf);
+    xmlXPathFreeObject(obj);
+    return ret;
+}
+
 static void osinfo_loader_entity(OsinfoLoader *loader,
                                  OsinfoEntity *entity,
                                  const gchar *const *keys,
@@ -255,6 +294,18 @@ static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
     return platform;
 }
 
+static OsinfoInstallScript *osinfo_loader_get_install_script(OsinfoLoader *loader,
+                                                             const gchar *id)
+{
+    OsinfoInstallScript *script = osinfo_db_get_install_script(loader->priv->db, id);
+    if (!script) {
+        script = osinfo_install_script_new(id);
+        osinfo_db_add_install_script(loader->priv->db, script);
+        g_object_unref(script);
+    }
+    return script;
+}
+
 static void osinfo_loader_device(OsinfoLoader *loader,
                                  xmlXPathContextPtr ctxt,
                                  xmlNodePtr root,
@@ -266,6 +317,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
         OSINFO_DEVICE_PROP_VENDOR_ID,
         OSINFO_DEVICE_PROP_PRODUCT,
         OSINFO_DEVICE_PROP_PRODUCT_ID,
+        OSINFO_DEVICE_PROP_SUBSYSTEM,
         OSINFO_DEVICE_PROP_BUS_TYPE,
         OSINFO_DEVICE_PROP_CLASS,
         OSINFO_DEVICE_PROP_NAME,
@@ -373,6 +425,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
         OSINFO_PRODUCT_PROP_NAME,
         OSINFO_PRODUCT_PROP_VENDOR,
         OSINFO_PRODUCT_PROP_VERSION,
+        OSINFO_PRODUCT_PROP_LOGO,
         OSINFO_PRODUCT_PROP_SHORT_ID,
         OSINFO_PRODUCT_PROP_RELEASE_DATE,
         OSINFO_PRODUCT_PROP_EOL_DATE,
@@ -383,7 +436,6 @@ static void osinfo_loader_product(OsinfoLoader *loader,
     osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);
     if (error_is_set(err))
         return;
-
 
     osinfo_loader_product_relshp(loader, product,
                                  OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM,
@@ -489,6 +541,105 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     osinfo_db_add_deployment(loader->priv->db, deployment);
 }
 
+static void osinfo_loader_install_config_param(OsinfoLoader *loader,
+                                               OsinfoEntity *entity,
+                                               const gchar *xpath,
+                                               xmlXPathContextPtr ctxt,
+                                               xmlNodePtr root,
+                                               GError **err)
+{
+    xmlNodePtr *nodes = NULL;
+    int nnodes = osinfo_loader_nodeset(xpath, ctxt, &nodes, err);
+    int i;
+    if (error_is_set(err))
+        return;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        gchar *name = (gchar *)xmlGetProp(nodes[i], BAD_CAST "name");
+        gchar *policy = (gchar *)xmlGetProp(nodes[i], BAD_CAST "policy");
+        OsinfoInstallConfigParam *param =
+            osinfo_install_config_param_new(name, policy);
+        osinfo_install_script_add_config_param(OSINFO_INSTALL_SCRIPT(entity),
+                                               param);
+
+        g_free(name);
+        g_free(policy);
+    };
+
+    g_free(nodes);
+}
+
+
+
+static void osinfo_loader_install_script(OsinfoLoader *loader,
+                                         xmlXPathContextPtr ctxt,
+                                         xmlNodePtr root,
+                                         GError **err)
+{
+    gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
+    const gchar *const keys[] = {
+        OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
+        OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT,
+        NULL
+    };
+    gchar *value = NULL;
+
+    if (!id) {
+        OSINFO_ERROR(err, "Missing install script id property");
+        return;
+    }
+
+    OsinfoInstallScript *installScript = osinfo_loader_get_install_script(loader,
+                                                                          id);
+    g_free(id);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(installScript), keys, ctxt, root, err);
+    if (error_is_set(err))
+        goto error;
+
+    value = osinfo_loader_doc("./template/*[1]", ctxt, err);
+    if (error_is_set(err))
+        goto error;
+    if (value)
+        osinfo_entity_set_param(OSINFO_ENTITY(installScript),
+                                OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_DATA,
+                                value);
+    g_free(value);
+
+    value = osinfo_loader_string("./template/@uri", ctxt, err);
+    if (error_is_set(err))
+        goto error;
+    if (value)
+        osinfo_entity_set_param(OSINFO_ENTITY(installScript),
+                                OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_URI,
+                                value);
+    g_free(value);
+
+    value = osinfo_loader_string("string(./template/@filename)", ctxt, err);
+    if (error_is_set(err))
+        goto error;
+    if (value)
+        osinfo_entity_set_param(OSINFO_ENTITY(installScript),
+                                OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME,
+                                value);
+    g_free(value);
+
+    osinfo_loader_install_config_param(loader,
+                                       OSINFO_ENTITY(installScript),
+                                       "./config/*",
+                                       ctxt,
+                                       root,
+                                       err);
+
+    osinfo_db_add_install_script(loader->priv->db, installScript);
+
+    return;
+
+ error:
+    g_free(value);
+    g_object_unref(installScript);
+}
+
 static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
                                          xmlXPathContextPtr ctxt,
                                          xmlNodePtr root,
@@ -501,6 +652,8 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
     gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
     xmlChar *live = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_LIVE);
     xmlChar *installer = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER);
+    xmlChar *installer_reboots =
+            xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_REBOOTS);
     const gchar *const keys[] = {
         OSINFO_MEDIA_PROP_URL,
         OSINFO_MEDIA_PROP_KERNEL,
@@ -523,6 +676,13 @@ static OsinfoMedia *osinfo_loader_media (OsinfoLoader *loader,
                                 OSINFO_MEDIA_PROP_INSTALLER,
                                 (gchar *)installer);
         xmlFree(installer);
+    }
+
+    if (installer_reboots) {
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_INSTALLER_REBOOTS,
+                                (gchar *)installer_reboots);
+        xmlFree(installer_reboots);
     }
 
     gint nnodes = osinfo_loader_nodeset("./iso/*", ctxt, &nodes, err);
@@ -776,6 +936,27 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 
     g_free(nodes);
 
+
+    nnodes = osinfo_loader_nodeset("./installer/script", ctxt, &nodes, err);
+    if (error_is_set(err))
+        return;
+
+    for (i = 0 ; i < nnodes ; i++) {
+        gchar *scriptid = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
+        if (!scriptid) {
+            OSINFO_ERROR(err, "Missing OS install script property");
+            g_free(nodes);
+            goto cleanup;
+        }
+        OsinfoInstallScript *script;
+        script = osinfo_loader_get_install_script(loader, scriptid);
+        g_free(scriptid);
+
+        osinfo_os_add_install_script(os, script);
+    }
+
+    g_free(nodes);
+
 cleanup:
     g_free(id);
 }
@@ -804,11 +985,13 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     xmlNodePtr *devices = NULL;
     xmlNodePtr *platforms = NULL;
     xmlNodePtr *deployments = NULL;
+    xmlNodePtr *installScripts = NULL;
     int i;
     int ndeployment;
     int nos;
     int ndevice;
     int nplatform;
+    int ninstallScript;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
         OSINFO_ERROR(err, "Incorrect root element");
@@ -867,8 +1050,22 @@ static void osinfo_loader_root(OsinfoLoader *loader,
             goto cleanup;
     }
 
+    ninstallScript = osinfo_loader_nodeset("./install-script", ctxt, &installScripts, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0 ; i < ninstallScript ; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = installScripts[i];
+        osinfo_loader_install_script(loader, ctxt, installScripts[i], err);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            goto cleanup;
+    }
+
 
  cleanup:
+    g_free(installScripts);
     g_free(deployments);
     g_free(platforms);
     g_free(oss);
@@ -1295,7 +1492,6 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
     return;
 
  error:
-    g_print("Fail\n");
     g_propagate_error(err, error);
     return;
 }
