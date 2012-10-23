@@ -1,3 +1,12 @@
+libosinfo (0.2.1-1) experimental; urgency=low
+
+  * New Upstream version 0.2.1 (Closes: #691117)
+  * [286339e] Update patches
+  * [d71540b] Add libxslt-dev dependency
+  * [158e678] Update symbols
+
+ -- Guido Günther <agx@sigxcpu.org>  Tue, 23 Oct 2012 13:44:41 +0200
+
 libosinfo (0.1.1-1) unstable; urgency=low
 
   * New upstream version (Closes: #670846)
