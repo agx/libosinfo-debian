@@ -17,7 +17,7 @@ Build-Depends: autoconf,
  libxml2-dev,
  libxml2-utils,
  libxslt-dev,
- valac-0.14
+ valac (>= 0.20)
 Standards-Version: 3.9.3
 Homepage: https://fedorahosted.org/libosinfo/
 Vcs-Git: git://git.debian.org/git/pkg-libvirt/libosinfo.git
