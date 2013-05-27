@@ -1,3 +1,12 @@
+libosinfo (0.2.7-1) unstable; urgency=low
+
+  * Upload to unstable
+  * [e3c2f67] Update symbols file
+  * [f73730d] Drop ln-destdir.patch applied upstream
+  * [f11a0a8] Use vala >= 0.20 (Closes: #709720)
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 27 May 2013 17:46:05 +0200
+
 libosinfo (0.2.6-0.1) experimental; urgency=low
 
   * Non-maintainer upload with maintainer approval.
