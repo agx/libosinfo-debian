@@ -1,3 +1,17 @@
+libosinfo (0.2.6-0.1) experimental; urgency=low
+
+  * Non-maintainer upload with maintainer approval.
+  * Imported Upstream version 0.2.6
+  * Drop patch for pci/usb-ids-path and use configure arguments instead
+  * Don't run ./autogen.sh before configure, not shipped anymore.
+  * Drop creation of pci.ids and usb.ids symlinks
+  * Add ln-destdir.patch to create *.ids symlinks in correct place
+  * Add dh-autoreconf to rebuild Makefiles after patching
+  * Update libosinfo-1.0-0.symbols
+  * Change valac-0.14 build-dependency to valac (Closes: #675658)
+
+ -- Andreas Henriksson <andreas@fatal.se>  Wed, 27 Mar 2013 10:49:15 +0100
+
 libosinfo (0.2.1-1) experimental; urgency=low
 
   * New Upstream version 0.2.1 (Closes: #691117)

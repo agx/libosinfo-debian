@@ -21,6 +21,8 @@ export DH_OPTIONS
 override_dh_auto_configure:
 	./autogen.sh
 	dh_auto_configure -- --prefix=/usr \
+		--with-usb-ids-path=/usr/share/misc/usb.ids \
+		--with-pci-ids-path=/usr/share/misc/pci.ids \
 		--enable-introspection \
 		--enable-vala \
 		--enable-udev
