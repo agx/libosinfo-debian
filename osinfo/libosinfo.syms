@@ -267,6 +267,8 @@ LIBOSINFO_0.2.0 {
 	osinfo_install_config_set_hostname;
 	osinfo_install_config_param_get_type;
 	osinfo_install_config_param_new;
+	osinfo_install_config_param_get_name;
+	osinfo_install_config_param_get_policy;
 	osinfo_install_script_set_output_prefix;
 	osinfo_install_script_get_type;
 	osinfo_install_script_new;
@@ -290,9 +292,6 @@ LIBOSINFO_0.2.0 {
 	osinfo_install_scriptlist_new_intersection;
 	osinfo_install_scriptlist_new_copy;
 	osinfo_install_scriptlist_get_type;
-	osinfo_install_config_param_new;
-	osinfo_install_config_param_get_name;
-	osinfo_install_config_param_get_policy;
 	osinfo_db_get_install_script;
 	osinfo_db_add_install_script;
 	osinfo_db_get_install_script_list;
@@ -314,6 +313,111 @@ LIBOSINFO_0.2.1 {
 	osinfo_install_script_get_config_param;
 	osinfo_media_get_installer_reboots;
 } LIBOSINFO_0.2.0;
+
+LIBOSINFO_0.2.2 {
+    global:
+	osinfo_avatar_format_get_type;
+	osinfo_avatar_format_get_mime_types;
+	osinfo_avatar_format_get_width;
+	osinfo_avatar_format_get_height;
+	osinfo_avatar_format_get_alpha;
+
+	osinfo_device_driver_get_type;
+	osinfo_device_driver_get_architecture;
+	osinfo_device_driver_get_devices;
+	osinfo_device_driver_get_location;
+	osinfo_device_driver_get_files;
+	osinfo_device_driver_get_pre_installable;
+
+	osinfo_device_driverlist_get_type;
+	osinfo_device_driverlist_new;
+
+	osinfo_install_config_param_policy_get_type;
+	osinfo_media_error_get_type;
+	osinfo_product_relationship_get_type;
+	osinfo_path_format_get_type;
+
+	osinfo_entity_get_param_value_enum;
+	osinfo_entity_set_param_enum;
+
+	osinfo_install_config_get_avatar_disk;
+	osinfo_install_config_set_avatar_disk;
+	osinfo_install_config_get_avatar_location;
+	osinfo_install_config_set_avatar_location;
+	osinfo_install_config_set_pre_install_drivers_disk;
+	osinfo_install_config_get_pre_install_drivers_disk;
+	osinfo_install_config_set_pre_install_drivers_location;
+	osinfo_install_config_get_pre_install_drivers_location;
+	osinfo_install_config_set_post_install_drivers_disk;
+	osinfo_install_config_get_post_install_drivers_disk;
+	osinfo_install_config_set_post_install_drivers_location;
+	osinfo_install_config_get_post_install_drivers_location;
+	osinfo_install_config_get_script_disk;
+	osinfo_install_config_set_script_disk;
+	osinfo_install_config_get_target_disk;
+	osinfo_install_config_set_target_disk;
+
+	osinfo_install_script_get_avatar_format;
+	osinfo_install_script_get_can_pre_install_drivers;
+	osinfo_install_script_get_can_post_install_drivers;
+	osinfo_install_script_get_path_format;
+	osinfo_install_script_get_product_key_format;
+
+	osinfo_list_new_copy;
+	osinfo_list_new_filtered;
+	osinfo_list_new_intersection;
+	osinfo_list_new_union;
+
+	osinfo_os_get_device_drivers;
+	osinfo_os_add_device_driver;
+} LIBOSINFO_0.2.1;
+
+LIBOSINFO_0.2.3 {
+    global:
+	osinfo_datamap_get_type;
+	osinfo_datamap_new;
+	osinfo_datamap_insert;
+	osinfo_datamap_lookup;
+	osinfo_datamap_reverse_lookup;
+
+	osinfo_datamaplist_get_type;
+	osinfo_datamaplist_new;
+
+	osinfo_db_add_datamap;
+	osinfo_db_get_datamap;
+	osinfo_db_get_datamap_list;
+	osinfo_db_identify_media;
+
+	osinfo_install_config_paramlist_get_type;
+	osinfo_install_config_paramlist_new;
+
+	osinfo_install_script_generate_output_finish;
+	osinfo_install_script_get_config_params;
+
+	osinfo_media_get_languages;
+	osinfo_media_get_os;
+
+} LIBOSINFO_0.2.2;
+
+LIBOSINFO_0.2.6 {
+    global:
+	osinfo_device_driver_get_signed;
+	osinfo_device_driver_set_signed;
+
+	osinfo_device_driver_signing_req_get_type;
+
+	osinfo_install_config_get_driver_signing;
+	osinfo_install_config_set_driver_signing;
+
+	osinfo_install_script_get_pre_install_drivers_signing_req;
+	osinfo_install_script_get_post_install_drivers_signing_req;
+} LIBOSINFO_0.2.3;
+
+LIBOSINFO_0.2.7 {
+	osinfo_install_script_generate_command_line;
+
+	osinfo_platform_get_all_devices;
+} LIBOSINFO_0.2.6;
 
 /* Symbols in next release...
 

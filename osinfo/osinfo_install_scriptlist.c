@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoInstallScriptList, osinfo_install_scriptlist, OSINFO_TYPE_LIST);
 
@@ -64,9 +65,7 @@ osinfo_install_scriptlist_class_init (OsinfoInstallScriptListClass *klass)
 static void
 osinfo_install_scriptlist_init (OsinfoInstallScriptList *list)
 {
-    OsinfoInstallScriptListPrivate *priv;
-    list->priv = priv = OSINFO_INSTALL_SCRIPTLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_INSTALL_SCRIPTLIST_GET_PRIVATE(list);
 }
 
 /**
@@ -91,6 +90,7 @@ OsinfoInstallScriptList *osinfo_install_scriptlist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the install_script list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_copy(OsinfoInstallScriptList *source)
 {
@@ -109,6 +109,7 @@ OsinfoInstallScriptList *osinfo_install_scriptlist_new_copy(OsinfoInstallScriptL
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the install_script list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_filtered(OsinfoInstallScriptList *source,
                                                                 OsinfoFilter *filter)
@@ -129,6 +130,7 @@ OsinfoInstallScriptList *osinfo_install_scriptlist_new_filtered(OsinfoInstallScr
  * install_scripts that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two install_script lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_intersection(OsinfoInstallScriptList *sourceOne,
                                                                     OsinfoInstallScriptList *sourceTwo)
@@ -149,6 +151,7 @@ OsinfoInstallScriptList *osinfo_install_scriptlist_new_intersection(OsinfoInstal
  * install_scripts that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two install_script lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_union(OsinfoInstallScriptList *sourceOne,
                                                              OsinfoInstallScriptList *sourceTwo)

@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoDeviceLinkList
 /* class */
 struct _OsinfoDeviceLinkListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */
@@ -67,9 +68,13 @@ struct _OsinfoDeviceLinkListClass
 GType osinfo_devicelinklist_get_type(void);
 
 OsinfoDeviceLinkList *osinfo_devicelinklist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_copy(OsinfoDeviceLinkList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_filtered(OsinfoDeviceLinkList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_intersection(OsinfoDeviceLinkList *sourceOne, OsinfoDeviceLinkList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoDeviceLinkList *osinfo_devicelinklist_new_union(OsinfoDeviceLinkList *sourceOne, OsinfoDeviceLinkList *sourceTwo);
 
 OsinfoDeviceList *osinfo_devicelinklist_get_devices(OsinfoDeviceLinkList *list, OsinfoFilter *filter);

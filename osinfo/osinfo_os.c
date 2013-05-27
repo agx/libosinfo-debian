@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,9 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_media_private.h"
+#include "osinfo/osinfo_product_private.h"
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
 
@@ -53,6 +56,8 @@ struct _OsinfoOsPrivate
     OsinfoResourcesList *recommended;
 
     OsinfoInstallScriptList *scripts;
+
+    OsinfoDeviceDriverList *device_drivers;
 };
 
 struct _OsinfoOsDeviceLink {
@@ -113,6 +118,8 @@ osinfo_os_finalize (GObject *object)
 
     g_object_unref(os->priv->scripts);
 
+    g_object_unref(os->priv->device_drivers);
+
     /* Chain up to the parent class */
     G_OBJECT_CLASS (osinfo_os_parent_class)->finalize (object);
 }
@@ -137,12 +144,10 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      */
     pspec = g_param_spec_string ("family",
                                  "Family",
-                                 "Generic Family",
+                                 _("Generic Family"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_FAMILY,
                                      pspec);
@@ -155,12 +160,10 @@ osinfo_os_class_init (OsinfoOsClass *klass)
      */
     pspec = g_param_spec_string ("distro",
                                  "Distro",
-                                 "Generic Distro",
+                                 _("Generic Distro"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_DISTRO,
                                      pspec);
@@ -169,8 +172,7 @@ osinfo_os_class_init (OsinfoOsClass *klass)
 static void
 osinfo_os_init (OsinfoOs *os)
 {
-    OsinfoOsPrivate *priv;
-    os->priv = priv = OSINFO_OS_GET_PRIVATE(os);
+    os->priv = OSINFO_OS_GET_PRIVATE(os);
 
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new ();
@@ -178,6 +180,7 @@ osinfo_os_init (OsinfoOs *os)
     os->priv->minimum = osinfo_resourceslist_new ();
     os->priv->recommended = osinfo_resourceslist_new ();
     os->priv->scripts = osinfo_install_scriptlist_new ();
+    os->priv->device_drivers = osinfo_device_driverlist_new ();
 }
 
 /**
@@ -227,49 +230,54 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
     return newList;
 }
 
+struct GetAllDevicesData {
+    OsinfoFilter *filter;
+    OsinfoDeviceList *devices;
+};
+
+static void get_all_devices_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoDeviceList *devices;
+    OsinfoList *tmp_list;
+    struct GetAllDevicesData *foreach_data = (struct GetAllDevicesData *)user_data;
+
+    g_return_if_fail(OSINFO_IS_OS(product));
+
+    devices = osinfo_os_get_devices(OSINFO_OS(product),
+                                    foreach_data->filter);
+    tmp_list = osinfo_list_new_union(OSINFO_LIST(foreach_data->devices),
+                                     OSINFO_LIST(devices));
+    g_object_unref(foreach_data->devices);
+    g_object_unref(devices);
+    foreach_data->devices = OSINFO_DEVICELIST(tmp_list);
+}
+
+
 /**
  * osinfo_os_get_all_devices:
  * @os: an operating system
  * @filter: (allow-none)(transfer none): an optional device property filter
  *
  * Get all devices matching a given filter but unlike osinfo_os_get_devices
- * this function also retreives devices from all derived and cloned operating
+ * this function also retrieves devices from all derived and cloned operating
  * systems.
  *
  * Returns: (transfer full): A list of devices
  */
 OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
 {
-    OsinfoProductList *derived, *cloned, *related_list;
-    OsinfoDeviceList *devices;
-    guint i;
+    struct GetAllDevicesData foreach_data = {
+        .filter = filter,
+        .devices = osinfo_devicelist_new()
+    };
 
-    devices = osinfo_os_get_devices(os, filter);
+    osinfo_product_foreach_related(OSINFO_PRODUCT(os),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_CLONES,
+                                   get_all_devices_cb,
+                                   &foreach_data);
 
-    derived = osinfo_product_get_related
-                (OSINFO_PRODUCT(os), OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
-    cloned = osinfo_product_get_related(OSINFO_PRODUCT(os),
-                                        OSINFO_PRODUCT_RELATIONSHIP_CLONES);
-    related_list = osinfo_productlist_new_union(derived, cloned);
-    g_object_unref(derived);
-    g_object_unref(cloned);
-
-    for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(related_list)); i++) {
-        OsinfoEntity *related;
-        OsinfoDeviceList *related_devices;
-
-        related = osinfo_list_get_nth(OSINFO_LIST(related_list), i);
-        related_devices = osinfo_os_get_all_devices(OSINFO_OS(related), filter);
-        if (osinfo_list_get_length(OSINFO_LIST(related_devices)) > 0) {
-            OsinfoDeviceList *tmp_list = devices;
-            devices = osinfo_devicelist_new_union(devices, related_devices);
-            g_object_unref(tmp_list);
-        }
-    }
-
-    g_object_unref (related_list);
-
-    return devices;
+    return foreach_data.devices;
 }
 
 /**
@@ -363,7 +371,7 @@ OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev)
 
 /**
  * osinfo_os_get_family:
- * @os: a OsinfoOs
+ * @os: an #OsinfoOs
  *
  * Retrieves the generic family the OS @os belongs to, based upon its kernel,
  * for example linux, winnt, solaris, freebsd etc.
@@ -379,7 +387,7 @@ const gchar *osinfo_os_get_family(OsinfoOs *os)
 
 /**
  * osinfo_os_get_distro:
- * @os: a OsinfoOs
+ * @os: an #OsinfoOs
  *
  * Retrieves the generic family the OS @os belongs to, for example fedora,
  * ubuntu, windows, solaris, freebsd etc.
@@ -425,6 +433,7 @@ void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media)
     g_return_if_fail(OSINFO_IS_MEDIA(media));
 
     osinfo_list_add(OSINFO_LIST(os->priv->medias), OSINFO_ENTITY(media));
+    osinfo_media_set_os(media, os);
 }
 
 /**
@@ -532,7 +541,13 @@ void osinfo_os_add_recommended_resources(OsinfoOs *os,
                     OSINFO_ENTITY(resources));
 }
 
-
+/**
+ * osinfo_os_find_install_script:
+ * @os:      an operating system
+ * @profile: the install script profile
+ *
+ * Returns: (transfer full): A new #OsinfoInstallScript for the @os @profile
+ */
 OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
@@ -553,14 +568,18 @@ OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *pr
 
 /**
  * osinfo_os_get_install_script_list:
+ * @os: an operating system
  *
  * Returns: (transfer full): a list of the install scripts for the specified os
  */
 OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os)
 {
-    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_install_scriptlist_new_copy(os->priv->scripts);
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(os->priv->scripts));
+
+    return OSINFO_INSTALL_SCRIPTLIST(new_list);
 }
 
 
@@ -569,6 +588,30 @@ void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script)
     g_return_if_fail(OSINFO_IS_OS(os));
 
     osinfo_list_add(OSINFO_LIST(os->priv->scripts), OSINFO_ENTITY(script));
+}
+
+/**
+ * osinfo_os_get_device_drivers:
+ * @os: an operating system
+ *
+ * Gets list of all available device drivers for OS @os.
+ *
+ * Returns: (transfer none): A list of device drivers
+ */
+OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    return os->priv->device_drivers;
+}
+
+void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_DEVICE_DRIVER(driver));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->device_drivers),
+                    OSINFO_ENTITY(driver));
 }
 
 /*

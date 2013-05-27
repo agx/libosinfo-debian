@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoPlatformList
 /* class */
 struct _OsinfoPlatformListClass
 {
+    /*< private >*/
     OsinfoProductListClass parent_class;
 
     /* class members */
@@ -67,9 +68,13 @@ struct _OsinfoPlatformListClass
 GType osinfo_platformlist_get_type(void);
 
 OsinfoPlatformList *osinfo_platformlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoPlatformList *osinfo_platformlist_new_union(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo);
 
 #endif /* __OSINFO_PLATFORMLIST_H__ */

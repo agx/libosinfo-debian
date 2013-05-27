@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoTreeList, osinfo_treelist, OSINFO_TYPE_LIST);
 
@@ -64,9 +65,7 @@ osinfo_treelist_class_init (OsinfoTreeListClass *klass)
 static void
 osinfo_treelist_init (OsinfoTreeList *list)
 {
-    OsinfoTreeListPrivate *priv;
-    list->priv = priv = OSINFO_TREELIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_TREELIST_GET_PRIVATE(list);
 }
 
 /**
@@ -91,6 +90,7 @@ OsinfoTreeList *osinfo_treelist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the tree list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_copy(OsinfoTreeList *source)
 {
@@ -109,6 +109,7 @@ OsinfoTreeList *osinfo_treelist_new_copy(OsinfoTreeList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the tree list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source,
                                                OsinfoFilter *filter)
@@ -129,6 +130,7 @@ OsinfoTreeList *osinfo_treelist_new_filtered(OsinfoTreeList *source,
  * trees that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two tree lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne,
                                                    OsinfoTreeList *sourceTwo)
@@ -149,6 +151,7 @@ OsinfoTreeList *osinfo_treelist_new_intersection(OsinfoTreeList *sourceOne,
  * trees that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two tree lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoTreeList *osinfo_treelist_new_union(OsinfoTreeList *sourceOne,
                                           OsinfoTreeList *sourceTwo)

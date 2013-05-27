@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoResources, osinfo_resources, OSINFO_TYPE_ENTITY);
 
@@ -160,95 +161,85 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoResourcesPrivate));
 
     /**
-     * OsinfoResources::architecture:
+     * OsinfoResources:architecture:
      *
      * The target hardware architecture to which these resources applies.
      */
     pspec = g_param_spec_string ("architecture",
                                  "ARCHITECTURE",
-                                 "CPU Architecture",
+                                 _("CPU Architecture"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_CONSTRUCT_ONLY |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_ARCHITECTURE,
                                      pspec);
 
     /**
-     * OsinfoResources::cpu:
+     * OsinfoResources:cpu:
      *
      * The CPU frequency in hertz (Hz).
      */
     pspec = g_param_spec_int64 ("cpu",
                                 "CPU",
-                                "CPU frequency in hertz (Hz)",
+                                _("CPU frequency in hertz (Hz)"),
                                 -1,
                                 G_MAXINT,
                                 -1,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_CPU,
                                      pspec);
 
     /**
-     * OsinfoResources::n-cpus:
+     * OsinfoResources:n-cpus:
      *
      * The number of CPUs.
      */
     pspec = g_param_spec_int ("n-cpus",
                               "N-CPUs",
-                              "Number of CPUs",
+                              _("Number of CPUs"),
                               -1,
                               G_MAXINT,
                               -1,
                               G_PARAM_READWRITE |
-                              G_PARAM_STATIC_NAME |
-                              G_PARAM_STATIC_NICK |
-                              G_PARAM_STATIC_BLURB);
+                              G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_N_CPUS,
                                      pspec);
 
     /**
-     * OsinfoResources::ram:
+     * OsinfoResources:ram:
      *
      * The amount of Random Access Memory (RAM) in bytes.
      */
     pspec = g_param_spec_int64 ("ram",
                                 "RAM",
-                                "Amount of Random Access Memory (RAM) in bytes",
+                                _("Amount of Random Access Memory (RAM) in bytes"),
                                 -1,
                                 G_MAXINT64,
                                 -1,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_RAM,
                                      pspec);
 
     /**
-     * OsinfoResources::storage:
+     * OsinfoResources:storage:
      *
      * The amount of storage space in bytes.
      */
     pspec = g_param_spec_int64 ("storage",
                                 "Storage",
-                                "Amount of storage space in bytes",
+                                _("Amount of storage space in bytes"),
                                 -1,
                                 G_MAXINT64,
                                 -1,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_STORAGE,
                                      pspec);
@@ -257,8 +248,7 @@ osinfo_resources_class_init (OsinfoResourcesClass *klass)
 static void
 osinfo_resources_init (OsinfoResources *resources)
 {
-    OsinfoResourcesPrivate *priv;
-    resources->priv = priv = OSINFO_RESOURCES_GET_PRIVATE(resources);
+    resources->priv = OSINFO_RESOURCES_GET_PRIVATE(resources);
 }
 
 OsinfoResources *osinfo_resources_new(const gchar *id,
@@ -276,7 +266,7 @@ OsinfoResources *osinfo_resources_new(const gchar *id,
 
 /**
  * osinfo_resources_get_architecture:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the target hardware architecture to which @resources applies. Some
  * operating systems specify the same requirements and recommendations for all
@@ -293,7 +283,7 @@ const gchar *osinfo_resources_get_architecture(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_n_cpus:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the number of CPUs.
  *
@@ -307,7 +297,7 @@ gint osinfo_resources_get_n_cpus(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_cpu:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the CPU frequency in hertz (Hz). Divide the value by #OSINFO_MEGAHERTZ if
  * you need this value in megahertz (MHz).
@@ -322,7 +312,7 @@ gint64 osinfo_resources_get_cpu(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_ram:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the amount of Random Access Memory (RAM) in bytes. Divide the value
  * by #OSINFO_MEBIBYTES if you need this value in mebibytes.
@@ -337,7 +327,7 @@ gint64 osinfo_resources_get_ram(OsinfoResources *resources)
 
 /**
  * osinfo_resources_get_storage:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  *
  * Retrieves the amount of storage space in bytes. Divide the value by
  * #OSINFO_GIBIBYTES if you need this value in gibibytes.
@@ -352,7 +342,7 @@ gint64 osinfo_resources_get_storage(OsinfoResources *resources)
 
 /**
  * osinfo_resources_set_n_cpus:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @n_cpus: the number of CPUs
  *
  * Sets the number of CPUs.
@@ -366,7 +356,7 @@ void osinfo_resources_set_n_cpus(OsinfoResources *resources, gint n_cpus)
 
 /**
  * osinfo_resources_set_cpu:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @cpu: the CPU frequency in hertz (Hz)
  *
  * Sets the CPU frequency.
@@ -380,7 +370,7 @@ void osinfo_resources_set_cpu(OsinfoResources *resources, gint64 cpu)
 
 /**
  * osinfo_resources_set_ram:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @ram: the amount of ram in bytes
  *
  * Sets the amount of RAM in bytes.
@@ -394,7 +384,7 @@ void osinfo_resources_set_ram(OsinfoResources *resources, gint64 ram)
 
 /**
  * osinfo_resources_set_storage:
- * @resources: a #OsinfoResources instance
+ * @resources: an #OsinfoResources instance
  * @storage: the amount of storage in bytes
  *
  * Sets the amount of storage space.

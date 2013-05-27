@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Daniel P. Berrange <berrange@redhat.com>
@@ -24,6 +24,7 @@
 #include <glib-object.h>
 #include <gio/gio.h>
 #include <osinfo/osinfo_install_config_param.h>
+#include <osinfo/osinfo_avatar_format.h>
 
 #ifndef __OSINFO_INSTALL_SCRIPT_H__
 #define __OSINFO_INSTALL_SCRIPT_H__
@@ -51,8 +52,11 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_PROFILE            "profile"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT "product-key-format"
 #define OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME  "expected-filename"
-#define OSINFO_INSTALL_SCRIPT_PROP_CONFIG_REQUIRED    "required"
-#define OSINFO_INSTALL_SCRIPT_PROP_CONFIG_OPTIONAL    "optional"
+#define OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT        "path-format"
+#define OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS "can-pre-install-drivers"
+#define OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS "can-post-install-drivers"
+#define OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ "pre-install-drivers-signing-req"
+#define OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ "post-install-drivers-signing-req"
 
 /* object */
 struct _OsinfoInstallScript
@@ -68,10 +72,46 @@ struct _OsinfoInstallScript
 /* class */
 struct _OsinfoInstallScriptClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */
 };
+
+/**
+ * OsinfoPathFormat:
+ * @OSINFO_PATH_FORMAT_UNIX: Unix/Linux path format, e.g /home/foo/bar.txt
+ * @OSINFO_PATH_FORMAT_DOS: DOS/Windows path format, e.g \My Documents\bar.txt
+ */
+typedef enum {
+    OSINFO_PATH_FORMAT_UNIX,
+    OSINFO_PATH_FORMAT_DOS
+} OsinfoPathFormat;
+
+/**
+ * OsinfoDeviceDriverSigningReq:
+ *
+ * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE: Script do not require device drivers
+ * to be signed.
+ *
+ * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT: Script must only be given signed
+ * device drivers. Some scripts will allow overriding this requirement through
+ * #osinfo_install_config_set_driver_signing function. You can query if a
+ * script supports this by checking if
+ * #OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING configuration parameter is used
+ * by the script in question (or other scripts in the same profile).
+ *
+ * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN: A warning will be issued by OS
+ * installer if device drivers are not signed and most probably require user
+ * input (and thus breaking unattended installation). See
+ * #OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT on how this warning can be disabled
+ * for some scripts.
+ */
+typedef enum {
+    OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE,
+    OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT,
+    OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN
+} OsinfoDeviceDriverSigningReq;
 
 GType osinfo_install_script_get_type(void);
 
@@ -96,6 +136,8 @@ const gchar *osinfo_install_script_get_output_prefix(OsinfoInstallScript *script
 const gchar *osinfo_install_script_get_output_filename(OsinfoInstallScript *script);
 
 const gchar *osinfo_install_script_get_expected_filename(OsinfoInstallScript *script);
+
+OsinfoAvatarFormat *osinfo_install_script_get_avatar_format(OsinfoInstallScript *script);
 
 void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                           OsinfoOs *os,
@@ -133,6 +175,10 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
                                              GCancellable *cancellable,
                                              GError **error);
 
+gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
+                                                   OsinfoOs *os,
+                                                   OsinfoInstallConfig *config);
+
 gboolean osinfo_install_script_has_config_param(const OsinfoInstallScript *script, const OsinfoInstallConfigParam *config_param);
 
 gboolean osinfo_install_script_has_config_param_name(const OsinfoInstallScript *script, const gchar *name);
@@ -142,6 +188,14 @@ OsinfoInstallConfigParam *osinfo_install_script_get_config_param(const OsinfoIns
 void osinfo_install_script_add_config_param(OsinfoInstallScript *script, OsinfoInstallConfigParam *param);
 
 GList *osinfo_install_script_get_config_param_list(const OsinfoInstallScript *script);
+OsinfoInstallConfigParamList *osinfo_install_script_get_config_params(const OsinfoInstallScript *script);
+OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script);
+
+gboolean osinfo_install_script_get_can_pre_install_drivers(OsinfoInstallScript *script);
+gboolean osinfo_install_script_get_can_post_install_drivers(OsinfoInstallScript *script);
+
+int osinfo_install_script_get_pre_install_drivers_signing_req(OsinfoInstallScript *script);
+int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScript *script);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*

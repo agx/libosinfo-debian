@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoMediaList, osinfo_medialist, OSINFO_TYPE_LIST);
 
@@ -64,9 +65,7 @@ osinfo_medialist_class_init (OsinfoMediaListClass *klass)
 static void
 osinfo_medialist_init (OsinfoMediaList *list)
 {
-    OsinfoMediaListPrivate *priv;
-    list->priv = priv = OSINFO_MEDIALIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_MEDIALIST_GET_PRIVATE(list);
 }
 
 /**
@@ -91,6 +90,7 @@ OsinfoMediaList *osinfo_medialist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the media list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_copy(OsinfoMediaList *source)
 {
@@ -109,6 +109,7 @@ OsinfoMediaList *osinfo_medialist_new_copy(OsinfoMediaList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the media list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_filtered(OsinfoMediaList *source,
                                                OsinfoFilter *filter)
@@ -129,6 +130,7 @@ OsinfoMediaList *osinfo_medialist_new_filtered(OsinfoMediaList *source,
  * medias that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two media lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_intersection(OsinfoMediaList *sourceOne,
                                                    OsinfoMediaList *sourceTwo)
@@ -149,6 +151,7 @@ OsinfoMediaList *osinfo_medialist_new_intersection(OsinfoMediaList *sourceOne,
  * medias that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two media lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoMediaList *osinfo_medialist_new_union(OsinfoMediaList *sourceOne,
                                             OsinfoMediaList *sourceTwo)

@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Daniel P. Berrange <berrange@redhat.com>
@@ -24,6 +24,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoInstallConfig, osinfo_install_config, OSINFO_TYPE_ENTITY);
 
@@ -66,21 +67,20 @@ static const gchar valid[] = {
 static void
 osinfo_install_config_init (OsinfoInstallConfig *config)
 {
-    OsinfoInstallConfigPrivate *priv;
     gchar pass[9];
     gsize i;
 
-    config->priv = priv = OSINFO_INSTALL_CONFIG_GET_PRIVATE(config);
+    config->priv = OSINFO_INSTALL_CONFIG_GET_PRIVATE(config);
 
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD,
-                            "us");
+                            "en_US");
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE,
                             "America/New_York");
     osinfo_entity_set_param(OSINFO_ENTITY(config),
                             OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE,
-                            "en_US.UTF-8");
+                            "en_US");
 
     for (i = 0 ; i < sizeof(pass)-1 ; i++) {
         gint val = g_random_int_range(0, sizeof(valid));
@@ -96,10 +96,16 @@ osinfo_install_config_init (OsinfoInstallConfig *config)
 
 /**
  * osinfo_install_config_new:
+ * @id: the unique identifier
  *
- * Construct a new install configuration that is initially empty.
+ * Construct a new install configuration with default values for
+ * language, keyboard, timezone and admin password. The default values
+ * are to use an 'en_US' language and keyboard, and an 'America/New_York'
+ * timezone. The admin password is set to a random 8 character password.
  *
- * Returns: (transfer full): an empty install configuration
+ * Returns: (transfer full): an install configuration with default
+ * values
+ *
  */
 OsinfoInstallConfig *osinfo_install_config_new(const gchar *id)
 {
@@ -123,7 +129,16 @@ const gchar *osinfo_install_config_get_hardware_arch(OsinfoInstallConfig *config
                                          OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH);
 }
 
-
+/**
+ * osinfo_install_config_set_l10n_keyboard:
+ * @config: the install config
+ * @keyboard: the keyboard
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD parameter.
+ *
+ * The expected format of this string is the same as
+ * #osinfo_install_config_set_l10n_language function's 'language' parameter.
+ */
 void osinfo_install_config_set_l10n_keyboard(OsinfoInstallConfig *config,
                                              const gchar *keyboard)
 {
@@ -139,7 +154,21 @@ const gchar *osinfo_install_config_get_l10n_keyboard(OsinfoInstallConfig *config
                                          OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD);
 }
 
-
+/**
+ * osinfo_install_config_set_l10n_language:
+ * @config: the install config
+ * @language: the language
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE parameter.
+ *
+ * The expected format of this string is the gettext locale names standard:
+ *
+ * https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/Locale-Names.html
+ *
+ * Encoding and variant are (at least for now) not supported. For example,
+ * 'pt_BR' is accepted is accepted as the language codes for Brazilian Portuguese
+ * but 'pt_BR.utf8' is not.
+ */
 void osinfo_install_config_set_l10n_language(OsinfoInstallConfig *config,
                                              const gchar *language)
 {
@@ -328,6 +357,322 @@ const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config)
                                          OSINFO_INSTALL_CONFIG_PROP_HOSTNAME);
 }
 
+/**
+ * osinfo_install_config_set_target_disk:
+ * @config: the install config
+ * @disk: the target disk
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK parameter.
+ *
+ * Note that the format of this string is dependent on the installer script
+ * @config is going to be used with. You can use
+ * #osinfo_install_script_get_path_format() to find out which format
+ * does the script expects this string to be in. In case of
+ * #OSINFO_PATH_FORMAT_UNIX unix device node names are expected, e.g "/dev/fd0".
+ * In case of #OSINFO_PATH_FORMAT_DOS drive letters are expected, e.g "A".
+ */
+void osinfo_install_config_set_target_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_target_disk:
+ * @config: the install config
+ *
+ * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK parameter,
+ *          or NULL.
+ */
+const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK);
+}
+
+/**
+ * osinfo_install_config_set_script_disk:
+ * @config: the install config
+ * @disk: the disk
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK parameter.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ */
+void osinfo_install_config_set_script_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_script_disk:
+ * @config: the install config
+ *
+ * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK parameter,
+ *          or NULL.
+ */
+const gchar *osinfo_install_config_get_script_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK);
+}
+
+/**
+ * osinfo_install_config_set_avatar_location:
+ * @config: the install config
+ * @location: new location
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION parameter.
+ *
+ * Note that the format of this string is dependent on the installer script
+ * @config is going to be used with. You can use
+ * #osinfo_install_script_get_path_format() to find out which format
+ * does the script expects this string to be in.
+ *
+ * Also note that in case of #OSINFO_PATH_FORMAT_DOS, the drive/disk letter
+ * and the leading ':' must not be included in the path.
+ */
+void osinfo_install_config_set_avatar_location(OsinfoInstallConfig *config,
+                                               const gchar *location)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION,
+                            location);
+}
+
+/**
+ * osinfo_install_config_get_avatar_location:
+ * @config: the install config
+ *
+ * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION parameter,
+ *          or NULL.
+ */
+const gchar *osinfo_install_config_get_avatar_location(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION);
+}
+
+/**
+ * osinfo_install_config_set_avatar_disk:
+ * @config: the install config
+ * @disk: the avatar disk
+ *
+ * Sets the #OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK parameter.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ */
+void osinfo_install_config_set_avatar_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_avatar_disk:
+ * @config: the install config
+ *
+ * Returns: The value of #OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK parameter,
+ *          or NULL.
+ */
+const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value(OSINFO_ENTITY(config),
+                                         OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK);
+}
+
+/**
+ * osinfo_install_config_set_pre_install_drivers_disk:
+ * @config: the install config
+ * @disk: the disk
+ *
+ * Specify the disk on which drivers to be installed at the very beginning of
+ * installation, are available. This is usually needed for devices for which the
+ * OS in question does not have out of the box support for and devices are
+ * required/prefered to be available during actual installation.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ *
+ * NOTE: Not every install script supports pre-installation of drivers. Use
+ * #osinfo_install_script_get_can_pre_install_drivers() to find out if an
+ * installer script supports it.
+ *
+ * NOTE: Microsoft Windows XP requires pre-installation driver files to be
+ * present in the script disk under the toplevel directory.
+ */
+void osinfo_install_config_set_pre_install_drivers_disk(OsinfoInstallConfig *config,
+                                                        const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_pre_install_drivers_disk:
+ * @config: the install config
+ *
+ * Returns: The disk on which pre-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_pre_install_drivers_disk().
+ */
+const gchar *osinfo_install_config_get_pre_install_drivers_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK);
+}
+
+/**
+ * osinfo_install_config_set_pre_install_drivers_location:
+ * @config: the install config
+ * @location: the location
+ *
+ * Specify the location on which drivers to be installed at the very beginning of
+ * installation, are available. Please read documentation on
+ * #osinfo_install_config_set_pre_install_drivers_disk() for more information
+ * about pre-installation of drivers.
+ *
+ * Please read documentation on #osinfo_install_config_set_avatar_location() for
+ * explanation on the format of @location string.
+ */
+void osinfo_install_config_set_pre_install_drivers_location(OsinfoInstallConfig *config,
+                                                            const gchar *location)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION,
+                            location);
+}
+
+/**
+ * osinfo_install_config_get_pre_install_drivers_location:
+ * @config: the install config
+ *
+ * Returns: The location on which pre-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_pre_install_drivers_location().
+ */
+const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION);
+}
+
+/**
+ * osinfo_install_config_set_post_install_drivers_disk:
+ * @config: the install config
+ * @disk: the target disk
+ *
+ * Specify the disk on which drivers to be installed at the end of installation,
+ * are available.
+ *
+ * Please read documentation on #osinfo_install_config_set_target_disk() for
+ * explanation on the format of @disk string.
+ *
+ * NOTE: Not every install script supports post-installation of drivers. Use
+ * #osinfo_install_script_get_can_post_install_drivers() to find out if an
+ * install script supports it.
+ */
+void osinfo_install_config_set_post_install_drivers_disk(OsinfoInstallConfig *config,
+                                                         const gchar *disk)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK,
+                            disk);
+}
+
+/**
+ * osinfo_install_config_get_post_install_drivers_disk:
+ * @config: the install config
+ *
+ * Returns: The disk on which post-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_post_install_drivers_disk().
+ */
+const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK);
+}
+
+/**
+ * osinfo_install_config_set_post_install_drivers_location:
+ * @config: the install config
+ * @location: the location of avatar
+ *
+ * Specify the disk on which drivers to be installed at the end of installation,
+ * are available.
+ *
+ * Please read documentation on #osinfo_install_config_set_avatar_location() for
+ * explanation on the format of @location string.
+ *
+ * NOTE: Not every install script supports post-installation of drivers. Use
+ * #osinfo_install_script_get_can_post_install_drivers() to find out if an
+ * install script supports it.
+ */
+void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig *config,
+                                                             const gchar *location)
+{
+    osinfo_entity_set_param(OSINFO_ENTITY(config),
+                            OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION,
+                            location);
+}
+
+/**
+ * osinfo_install_config_get_post_install_drivers_location:
+ * @config: the install config
+ *
+ * Returns: The disk on which post-installation drivers are located, or NULL if
+ * its not set using #osinfo_install_config_set_post_install_drivers_location().
+ */
+const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION);
+}
+
+/**
+ * osinfo_install_config_set_driver_signing:
+ * @config: the install config
+ * @signing: boolean value
+ *
+ * If a script requires drivers to be signed, this function can be used to
+ * disable that security feature. WARNING: Disabling driver signing may very
+ * well mean disabling it permanently.
+ */
+void osinfo_install_config_set_driver_signing(OsinfoInstallConfig *config,
+                                              gboolean signing)
+{
+    osinfo_entity_set_param_boolean(OSINFO_ENTITY(config),
+                                    OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING,
+                                    signing);
+}
+
+/**
+ * osinfo_install_config_get_driver_signing:
+ * @config: the install config
+ *
+ * Returns: %TRUE if driver signing is currently enabled, %FALSE otherwise, see
+ * #osinfo_install_config_set_driver_signing() for more details about driver
+ * signing.
+ */
+gboolean osinfo_install_config_get_driver_signing(OsinfoInstallConfig *config)
+{
+    return osinfo_entity_get_param_value_boolean_with_default
+            (OSINFO_ENTITY(config),
+             OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING,
+             TRUE);
+}
 
 /*
  * Local variables:

@@ -1,3 +1,146 @@
+0.2.7 - May 13, 2013
+====================
+
+Changes since 0.2.6:
+
+- Add/improve/fix data on:
+  - CentOS 6.*
+  - Fedora 19
+  - GNOME 3.8
+  - openSUSE 12.3
+  - RHEL 6.4
+  - Ubuntu 13.04
+- Add testcases for media detection:
+  - Debian 7.0.*
+  - Fedora 17, 18 and 19
+  - Ubuntu 12.10 and 13.04
+- Installer script fixes/improvements:
+  - Setup user avatar for Windows 7.
+  - Fix against old RHEL and Fedora.
+  - Specify installation method for Fedora (required by Fedora 19).
+- New API:
+  - osinfo_platform_get_all_devices()
+  - osinfo_install_script_generate_command_line()
+- build:
+  - Take DESTDIR into account when creating symlinks.
+  - Fix issues with installing in a tree where libosinfo was already installed.
+  - Fix a race-condition regarding usb.ids/pci.ids setup.
+  - Disable static libraries by default.
+- Some portability improments/fixes.
+- Fixes `make syntax-check`.
+- More docs and fixes to existing docs.
+
+0.2.6 - March 18, 2013
+======================
+
+Changes since 0.2.5:
+
+- New API to:
+  - query signed status of device drivers.
+  - query device driver signing requirement of installer scripts.
+  - enable/disable installer script driver signing checks.
+- Use system-installed pci.ids/usb.ids files, if available.
+- Don't ignore vendor/device names from pci.ids/usb.ids files.
+- Corrections to RPM spec.
+
+0.2.5 - March 04, 2013
+======================
+
+Changes since 0.2.4:
+
+- Make use of post-installation drivers in Windows 7 install scripts. This
+  implies apps can now easily setup virtio+QXL device drivers and spice-vdagent
+  as part of Windows 7 unattended installation.
+- Windows 7 install script now requires product key, mainly because product key
+  is the only way to choose product when dealing with installer media with
+  multiple products on it.
+- Actually add install scripts for Windows 8. This was supposed to be merged in
+  release 0.2.3.
+- Formalize architecture names in DB to align with libvirt. The main change is
+  that i386, i486, i586, all merge to just i686, since in practice these
+  differences haven't mattered for at least 15 years now.
+- Fixes to mingw RPM spec from Fedora.
+- Add a Windows 7 volume ID to DB.
+
+0.2.4 - Feb 19, 2013
+====================
+
+Changes since 0.2.3:
+
+- Fix crash in osinfo-detect against non-bootable media.
+- osinfo-install-script now displays names of generated files.
+- Add an all-in-one virtio and QXL device driver setup binary to Windows XP
+  and 7. Same binary also installs spice-vdagent for us.
+- Make use of post-installation drivers in Windows XP installer scripts.
+- Log post-install commands of Windows XP to target disk.
+- Add/improve/fix data on:
+  - QEMU/QEMU-KVM hypervisor
+  - GNOME
+  - openSUSE
+- RPM spec file changes:
+  - Include datamaps and locale files.
+  - Pointto libosinfo official website.
+  - Disable udev rule on Fedora >= 19. Changes in udev > 197 and
+    libblkid > 2.22.2 have made this rule obsolete.
+- Adapt to glib 2.36.
+- Fix some build warnings.
+- Some other fixes and improvements.
+
+0.2.3 - Jan 14, 2013
+====================
+
+Changes since 0.2.2:
+
+- Add datamaps for translating OS-neutral values to OS-specific ones, e.g some
+  installer configuration parameters like keyboard, language and timezone etc.
+- New API to detect media that makes it possible to also query languages
+  supported by the media.
+- Add install scripts for:
+  - RHEL 6.x.
+  - Microsoft Windows 8
+- Fix install script for Fedora 18.
+- Drop support for encoding in l10n install script configuration parameters.
+- Fix test build issues.
+- Fixes and improvements to documentation.
+- Fix potential issues spotted by Coverity.
+- Fix build for translations.
+- osinfo-install-script tool now has options to list available configuration
+  parameters and profiles.
+- Add/improve data on:
+  - RHEL
+  - Debian
+  - openSUSE
+  - Microsoft Windows 7
+  - Ubuntu
+  - MacOS X
+- Added translations:
+  - Ukrainian
+  - Polish
+- Many other fixes and improvements.
+
+0.2.2 - Dec 10, 2012
+====================
+
+Changes since 0.2.1:
+
+- Loads of improvements and fixes to installer APIs and scripts. Now they are in
+  such a good shape that next release of Boxes will make full use of them.
+- Add API for information on downloadable device drivers. As a starting point,
+  information on virtio storage drivers for Windows XP and 7 is provided.
+- Add/improve data on:
+  - RHEL
+  - Windows 7
+  - Windows 8
+  - Windows XP
+- Enable translations for many (potential) user-visible strings. No
+  translations submitted yet. :(
+- Correct default value for OsinfoMedia::installer-reboots.
+- Register enum types with gobject type system.
+- Add enum param getter/setter helpers.
+- OsinfoList is now instantiable and all its subclasses has been deprecated.
+  Newer code should use OsinfoList directly.
+- Various other fixes and improvements.
+
 0.2.1 - Oct 12, 2012
 ====================
 

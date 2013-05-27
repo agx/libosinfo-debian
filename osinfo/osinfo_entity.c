@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoEntity, osinfo_entity, G_TYPE_OBJECT);
 
@@ -132,13 +133,11 @@ osinfo_entity_class_init (OsinfoEntityClass *klass)
      */
     pspec = g_param_spec_string ("id",
                                  "ID",
-                                 "Unique identifier",
+                                 _("Unique identifier"),
                                  NULL /* default value */,
-                                 G_PARAM_CONSTRUCT_ONLY |
+                                 G_PARAM_CONSTRUCT |
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass,
                                      PROP_ID,
                                      pspec);
@@ -162,9 +161,7 @@ static void osinfo_entity_param_values_free(gpointer values)
 static void
 osinfo_entity_init (OsinfoEntity *entity)
 {
-    OsinfoEntityPrivate *priv;
-    entity->priv = priv = OSINFO_ENTITY_GET_PRIVATE(entity);
-
+    entity->priv = OSINFO_ENTITY_GET_PRIVATE(entity);
     entity->priv->params = g_hash_table_new_full(g_str_hash,
                                                g_str_equal,
                                                g_free,
@@ -174,7 +171,7 @@ osinfo_entity_init (OsinfoEntity *entity)
 
 /**
  * osinfo_entity_set_param:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  * @value: the data to associated with that key
  *
@@ -205,14 +202,29 @@ void osinfo_entity_set_param_int64(OsinfoEntity *entity, const gchar *key, gint6
 {
     gchar *str;
 
-    str = g_strdup_printf("%"G_GUINT64_FORMAT, value);
+    str = g_strdup_printf("%"G_GINT64_FORMAT, value);
     osinfo_entity_set_param(entity, key, str);
     g_free(str);
 }
 
+void osinfo_entity_set_param_enum(OsinfoEntity *entity, const gchar *key, gint value, GType enum_type)
+{
+    GEnumClass *enum_class;
+    GEnumValue *enum_value;
+
+    g_return_if_fail(G_TYPE_IS_ENUM (enum_type));
+
+    enum_class = g_type_class_ref(enum_type);
+    enum_value = g_enum_get_value(enum_class, value);
+    g_type_class_unref(enum_class);
+    g_return_if_fail(enum_value != NULL);
+
+    osinfo_entity_set_param(entity, key, enum_value->value_nick);
+}
+
 /**
  * osinfo_entity_add_param:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  * @value: the data to associated with that key
  *
@@ -246,7 +258,7 @@ void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar
 
 /**
  * osinfo_entity_clear_param:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  *
  * Remove all values associated with a key
@@ -258,7 +270,7 @@ void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key)
 
 /**
  * osinfo_entity_get_id:
- * @entity: a OsinfoEntity
+ * @entity: an #OsinfoEntity
  *
  * Retrieves the unique key for the entity. The format of identifiers
  * is undefined, but the recommended practice is to use a URI.
@@ -275,7 +287,7 @@ const gchar *osinfo_entity_get_id(OsinfoEntity *entity)
 
 /**
  * osinfo_entity_get_param_keys:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  *
  * Retrieve all the known parameter keys associated with
  * the entity
@@ -294,7 +306,7 @@ GList *osinfo_entity_get_param_keys(OsinfoEntity *entity)
 
 /**
  * osinfo_entity_get_param_value:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  *
  * Retrieve the parameter value associated with a named key. If
@@ -348,33 +360,51 @@ gboolean osinfo_entity_get_param_value_boolean_with_default(OsinfoEntity *entity
 gint64 osinfo_entity_get_param_value_int64(OsinfoEntity *entity,
                                            const gchar *key)
 {
-    const gchar *str;
-
-    str = osinfo_entity_get_param_value(entity, key);
-
-    if (str == NULL)
-        return -1;
-
-    return (gint64) g_ascii_strtod(str, NULL);
+    return osinfo_entity_get_param_value_int64_with_default(entity, key, -1);
 }
 
 gint64 osinfo_entity_get_param_value_int64_with_default(OsinfoEntity *entity,
                                                         const gchar *key,
                                                         gint64 default_value)
 {
-    gint64 value;
+    const gchar *str;
 
-    value = osinfo_entity_get_param_value_int64(entity, key);
+    str = osinfo_entity_get_param_value(entity, key);
 
-    if (value < 0)
+    if (str == NULL)
         return default_value;
 
-    return value;
+    return g_ascii_strtoll(str, NULL, 0);
+}
+
+gint osinfo_entity_get_param_value_enum(OsinfoEntity *entity,
+                                        const char *key,
+                                        GType enum_type,
+                                        gint default_value)
+{
+    const gchar *nick;
+    GEnumClass *enum_class;
+    GEnumValue *enum_value;
+
+    g_return_val_if_fail(G_TYPE_IS_ENUM(enum_type), default_value);
+
+    nick = osinfo_entity_get_param_value(entity, key);
+    if (nick == NULL)
+        return default_value;
+
+    enum_class = g_type_class_ref(enum_type);
+    enum_value = g_enum_get_value_by_nick(enum_class, nick);
+    g_type_class_unref(enum_class);
+
+    if (enum_value != NULL)
+        return enum_value->value;
+
+    g_return_val_if_reached(default_value);
 }
 
 /**
  * osinfo_entity_get_param_value_list:
- * @entity: OsinfoEntity containing the parameters
+ * @entity: an #OsinfoEntity containing the parameters
  * @key: the name of the key
  *
  * Retrieve all the parameter values associated with a named

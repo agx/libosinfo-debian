@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoProductFilter, osinfo_productfilter, OSINFO_TYPE_FILTER);
 
@@ -109,10 +110,7 @@ osinfo_productfilter_product_constraints_free(gpointer relshps)
 static void
 osinfo_productfilter_init (OsinfoProductFilter *productfilter)
 {
-    OsinfoProductFilterPrivate *priv;
-    priv = OSINFO_PRODUCTFILTER_GET_PRIVATE(productfilter);
-    productfilter->priv = priv;
-
+    productfilter->priv = OSINFO_PRODUCTFILTER_GET_PRIVATE(productfilter);
     productfilter->priv->productConstraints =
         g_hash_table_new_full(g_direct_hash,
                               g_direct_equal,

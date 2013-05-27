@@ -2,12 +2,17 @@
   <!-- JEOS PROFILE -->
   <install-script id='http://microsoft.com/windows/sif/jeos'>
     <profile>jeos</profile>
+    <path-format>dos</path-format>
+    <product-key-format>$$$$$-$$$$$-$$$$$-$$$$$-$$$$$</product-key-format>
+    <expected-filename>winnt.sif</expected-filename>
+    <can-pre-install-drivers>true</can-pre-install-drivers>
     <config>
       <param name="admin-password" policy="optional"/>
       <param name="reg-product-key" policy="required"/>
       <param name="user-realname" policy="required"/>
+      <param name="driver-signing" policy="optional"/>
     </config>
-    <template filename="winnt.sif">
+    <template>
       <xsl:stylesheet
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         version="1.0">
@@ -26,6 +31,9 @@
     OemSkipEula=Yes
     OemPreinstall=No
     TargetPath=\WINDOWS
+<xsl:if test="config/driver-signing = 'false'">
+    DriverSigningPolicy=Ignore
+</xsl:if>
     Repartition=Yes
     WaitForReboot=No
     UnattendSwitch=Yes
@@ -64,18 +72,35 @@
   <!-- DESKTOP PROFILE -->
   <install-script id='http://microsoft.com/windows/sif/desktop'>
     <profile>desktop</profile>
+    <path-format>dos</path-format>
+    <product-key-format>$$$$$-$$$$$-$$$$$-$$$$$-$$$$$</product-key-format>
+    <expected-filename>winnt.sif</expected-filename>
+    <can-pre-install-drivers>true</can-pre-install-drivers>
     <config>
       <param name="admin-password" policy="optional"/>
       <param name="reg-product-key" policy="required"/>
       <param name="user-realname" policy="required"/>
       <param name="hostname" policy="required"/>
+      <param name="script-disk" policy="optional"/>
+      <param name="driver-signing" policy="optional"/>
     </config>
-    <template filename="winnt.sif">
+    <template>
       <xsl:stylesheet
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         version="1.0">
 
         <xsl:output method="text"/>
+
+        <xsl:template name="script-disk">
+          <xsl:choose>
+            <xsl:when test="config/script-disk != ''">
+              <xsl:value-of select="config/script-disk"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>A</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:template>
 
         <xsl:template name="password">
          <xsl:choose>
@@ -122,6 +147,9 @@
     TargetPath=\WINNT
   </xsl:otherwise>
 </xsl:choose>
+<xsl:if test="config/driver-signing = 'false'">
+    DriverSigningPolicy=Ignore
+</xsl:if>
     Repartition=Yes
     WaitForReboot="No"
     UnattendSwitch="Yes"
@@ -174,7 +202,7 @@
 
 <xsl:if test="os/version &gt; 5.0">
 [SetupParams]
-    UserExecute = "a:\windows.cmd"
+    UserExecute = "<xsl:call-template name="script-disk"/>:\windows.cmd >c:\windows\osinfo.log 2>&amp;1"
 
 [WindowsFirewall]
     Profiles = WindowsFirewall.TurnOffFirewall

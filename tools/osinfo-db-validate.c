@@ -26,6 +26,8 @@
 #include <glib.h>
 #include <gio/gio.h>
 #include <libxml/relaxng.h>
+#include <locale.h>
+#include <glib/gi18n.h>
 
 #define SCHEMA PKGDATADIR "/schemas/libosinfo.rng"
 
@@ -33,7 +35,7 @@ static gboolean verbose = FALSE;
 
 static const GOptionEntry entries[] = {
     { "verbose", 'v', 0, G_OPTION_ARG_NONE, (void*)&verbose,
-      "Verbose progress information", NULL, },
+      N_("Verbose progress information"), NULL, },
     { NULL, 0, 0, 0, NULL, NULL, NULL }
 };
 
@@ -50,7 +52,7 @@ static void validate_structured_error_nop(void *userData G_GNUC_UNUSED,
     if (error->file)
         g_printerr("%s:%d %s", error->file, error->line, error->message);
     else
-        g_printerr("Schema validity error %s", error->message);
+        g_printerr(_("Schema validity error %s"), error->message);
 }
 
 static xmlDocPtr parse_file(GFile *file, GError **error)
@@ -66,7 +68,7 @@ static xmlDocPtr parse_file(GFile *file, GError **error)
 
     if (!(pctxt = xmlNewParserCtxt())) {
         g_set_error(error, 0, 0, "%s",
-                    "Unable to create libxml parser");
+                    _("Unable to create libxml parser"));
         goto cleanup;
     }
 
@@ -74,7 +76,7 @@ static xmlDocPtr parse_file(GFile *file, GError **error)
                                XML_PARSE_NOENT | XML_PARSE_NONET |
                                XML_PARSE_NOWARNING))) {
         g_set_error(error, 0, 0,
-                    "Unable to parse XML document %s",
+                    _("Unable to parse XML document '%s'"),
                     uri);
         goto cleanup;
     }
@@ -106,7 +108,7 @@ static gboolean validate_file_regular(xmlRelaxNGValidCtxtPtr rngValid,
 
     if (xmlRelaxNGValidateDoc(rngValid, doc) != 0) {
         g_set_error(error, 0, 0,
-                    "Unable to validate doc %s",
+                    _("Unable to validate XML document '%s'"),
                     uri);
         goto cleanup;
     }
@@ -156,7 +158,7 @@ static gboolean validate_file(xmlRelaxNGValidCtxtPtr rngValid, GFile *file, GFil
     gchar *uri = g_file_get_uri(file);
 
     if (verbose)
-        g_print("Process %s\n", uri);
+        g_print(_("Processing '%s'...\n"), uri);
 
     if (!info) {
         if (!(thisinfo = g_file_query_info(file, "standard::*",
@@ -179,6 +181,7 @@ static gboolean validate_file(xmlRelaxNGValidCtxtPtr rngValid, GFile *file, GFil
         goto cleanup;
     }
 
+    g_print(_("Processed '%s'.\n"), uri);
     ret = TRUE;
 
  cleanup:
@@ -203,7 +206,7 @@ static gboolean validate_files(gint argc, gchar **argv, GError **error)
     rngParser = xmlRelaxNGNewParserCtxt(SCHEMA);
     if (!rngParser) {
         g_set_error(error, 0, 0,
-                    "Unable to create RNG parser for %s",
+                    _("Unable to create RNG parser for %s"),
                     SCHEMA);
         goto cleanup;
     }
@@ -211,7 +214,7 @@ static gboolean validate_files(gint argc, gchar **argv, GError **error)
     rng = xmlRelaxNGParse(rngParser);
     if (!rng) {
         g_set_error(error, 0, 0,
-                    "Unable to parse RNG %s",
+                    _("Unable to parse RNG %s"),
                     SCHEMA);
         goto cleanup;
     }
@@ -219,7 +222,7 @@ static gboolean validate_files(gint argc, gchar **argv, GError **error)
     rngValid = xmlRelaxNGNewValidCtxt(rng);
     if (!rngValid) {
         g_set_error(error, 0, 0,
-                    "Unable to create RNG validation context %s",
+                    _("Unable to create RNG validation context %s"),
                     SCHEMA);
         goto cleanup;
     }
@@ -248,14 +251,22 @@ gint main(gint argc, gchar **argv)
     GError *error = NULL;
     gint ret = EXIT_FAILURE;
 
+    setlocale(LC_ALL, "");
+    textdomain (GETTEXT_PACKAGE);
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+
+#if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
+#endif
 
-    context = g_option_context_new("- Validate XML documents ");
+    context = g_option_context_new(_("- Validate XML documents "));
 
-    g_option_context_add_main_entries(context, entries, NULL);
+    g_option_context_add_main_entries(context, entries, GETTEXT_PACKAGE);
 
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
-        g_printerr("Error while parsing options: %s\n", error->message);
+        g_printerr(_("Error while parsing commandline options: %s\n"),
+                   error->message);
         g_printerr("%s\n", g_option_context_get_help(context, FALSE, NULL));
         goto error;
     }

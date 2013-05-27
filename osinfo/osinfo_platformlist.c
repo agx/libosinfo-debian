@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoPlatformList, osinfo_platformlist, OSINFO_TYPE_PRODUCTLIST);
 
@@ -64,9 +65,7 @@ osinfo_platformlist_class_init (OsinfoPlatformListClass *klass)
 static void
 osinfo_platformlist_init (OsinfoPlatformList *list)
 {
-    OsinfoPlatformListPrivate *priv;
-    list->priv = priv = OSINFO_PLATFORMLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_PLATFORMLIST_GET_PRIVATE(list);
 }
 
 
@@ -92,6 +91,7 @@ OsinfoPlatformList *osinfo_platformlist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the platform list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source)
 {
@@ -110,6 +110,7 @@ OsinfoPlatformList *osinfo_platformlist_new_copy(OsinfoPlatformList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the platform list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source, OsinfoFilter *filter)
 {
@@ -129,6 +130,7 @@ OsinfoPlatformList *osinfo_platformlist_new_filtered(OsinfoPlatformList *source,
  * platforms that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two platform lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo)
 {
@@ -148,6 +150,7 @@ OsinfoPlatformList *osinfo_platformlist_new_intersection(OsinfoPlatformList *sou
  * platforms that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two platform lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoPlatformList *osinfo_platformlist_new_union(OsinfoPlatformList *sourceOne, OsinfoPlatformList *sourceTwo)
 {

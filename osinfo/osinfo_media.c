@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -26,9 +26,11 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_media_private.h"
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 #define MAX_VOLUME 32
 #define MAX_SYSTEM 32
@@ -135,7 +137,7 @@ G_DEFINE_TYPE (OsinfoMedia, osinfo_media, OSINFO_TYPE_ENTITY);
 
 struct _OsinfoMediaPrivate
 {
-    gboolean unused;
+    GWeakRef os;
 };
 
 enum {
@@ -152,6 +154,8 @@ enum {
     PROP_INSTALLER,
     PROP_LIVE,
     PROP_INSTALLER_REBOOTS,
+    PROP_OS,
+    PROP_LANGUAGES,
 };
 
 static void
@@ -216,6 +220,14 @@ osinfo_media_get_property (GObject    *object,
     case PROP_INSTALLER_REBOOTS:
         g_value_set_int (value,
                          osinfo_media_get_installer_reboots (media));
+        break;
+
+    case PROP_OS:
+        g_value_take_object (value, osinfo_media_get_os (media));
+        break;
+
+    case PROP_LANGUAGES:
+        g_value_set_pointer (value, osinfo_media_get_languages (media));
         break;
 
     default:
@@ -300,6 +312,14 @@ osinfo_media_set_property(GObject      *object,
                                        g_value_get_int (value));
         break;
 
+    case PROP_OS:
+        osinfo_media_set_os(media, g_value_get_object(value));
+        break;
+
+    case PROP_LANGUAGES:
+        osinfo_media_set_languages(media, g_value_get_pointer(value));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
@@ -314,6 +334,16 @@ osinfo_media_finalize (GObject *object)
     G_OBJECT_CLASS (osinfo_media_parent_class)->finalize (object);
 }
 
+static void osinfo_media_dispose(GObject *obj)
+{
+    OsinfoMedia *media = OSINFO_MEDIA(obj);
+
+    g_weak_ref_clear(&media->priv->os);
+
+    G_OBJECT_CLASS(osinfo_media_parent_class)->dispose(obj);
+}
+
+
 /* Init functions */
 static void
 osinfo_media_class_init (OsinfoMediaClass *klass)
@@ -321,165 +351,144 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
     GObjectClass *g_klass = G_OBJECT_CLASS (klass);
     GParamSpec *pspec;
 
+    g_klass->dispose = osinfo_media_dispose;
     g_klass->finalize = osinfo_media_finalize;
     g_klass->get_property = osinfo_media_get_property;
     g_klass->set_property = osinfo_media_set_property;
     g_type_class_add_private (klass, sizeof (OsinfoMediaPrivate));
 
     /**
-     * OsinfoMedia::architecture:
+     * OsinfoMedia:architecture:
      *
      * The target hardware architecture of this media.
      */
     pspec = g_param_spec_string ("architecture",
                                  "ARCHITECTURE",
-                                 "CPU Architecture",
+                                 _("CPU Architecture"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
-     * OsinfoMedia::url:
+     * OsinfoMedia:url:
      *
      * The URL to this media.
      */
     pspec = g_param_spec_string ("url",
                                  "URL",
-                                 "The URL to this media",
+                                 _("The URL to this media"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_URL, pspec);
 
     /**
-     * OsinfoMedia::volume-id:
+     * OsinfoMedia:volume-id:
      *
      * Expected volume ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string ("volume-id",
                                  "VolumeID",
-                                 "Expected ISO9660 volume ID",
+                                 _("The expected ISO9660 volume ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_VOLUME_ID, pspec);
 
     /**
-     * OsinfoMedia::publisher-id:
+     * OsinfoMedia:publisher-id:
      *
      * Expected publisher ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string ("publisher-id",
                                  "PublisherID",
-                                 "Expected ISO9660 publisher ID",
+                                 _("The expected ISO9660 publisher ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_PUBLISHER_ID, pspec);
 
     /**
-     * OsinfoMedia::application-id:
+     * OsinfoMedia:application-id:
      *
      * Expected application ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string ("application-id",
                                  "ApplicationID",
-                                 "Expected ISO9660 application ID",
+                                 _("The expected ISO9660 application ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_APPLICATION_ID, pspec);
 
     /**
-     * OsinfoMedia::system-id:
+     * OsinfoMedia:system-id:
      *
      * Expected system ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string ("system-id",
                                  "SystemID",
-                                 "Expected ISO9660 system ID",
+                                 _("The expected ISO9660 system ID"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_SYSTEM_ID, pspec);
 
     /**
-     * OsinfoMedia::kernel-path:
+     * OsinfoMedia:kernel-path:
      *
      * The path to the kernel image in the install tree.
      */
     pspec = g_param_spec_string ("kernel-path",
                                  "KernelPath",
-                                 "The path to the kernel image",
+                                 _("The path to the kernel image"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
-     * OsinfoMedia::initrd-path:
+     * OsinfoMedia:initrd-path:
      *
      * The path to the initrd image in the install tree.
      */
     pspec = g_param_spec_string ("initrd-path",
                                  "InitrdPath",
-                                 "The path to the inirtd image",
+                                 _("The path to the initrd image"),
                                  NULL /* default value */,
                                  G_PARAM_READWRITE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INITRD_PATH, pspec);
 
     /**
-     * OsinfoMedia::installer:
+     * OsinfoMedia:installer:
      *
-     * Whether media provides a installer for an OS.
+     * Whether media provides an installer for an OS.
      */
     pspec = g_param_spec_boolean ("installer",
                                   "Installer",
-                                  "Media provides a installer",
+                                  _("Media provides an installer"),
                                   TRUE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_CONSTRUCT | /* to set default value */
-                                  G_PARAM_STATIC_NAME |
-                                  G_PARAM_STATIC_NICK |
-                                  G_PARAM_STATIC_BLURB);
+                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INSTALLER, pspec);
 
     /**
-     * OsinfoMedia::live:
+     * OsinfoMedia:live:
      *
      * Whether media can boot directly an OS without any installations.
      */
     pspec = g_param_spec_boolean ("live",
                                   "Live",
-                                  "Media can boot directly w/o installation",
+                                  _("Media can boot directly w/o installation"),
                                   FALSE /* default value */,
                                   G_PARAM_READWRITE |
-                                  G_PARAM_CONSTRUCT | /* to set default value */
-                                  G_PARAM_STATIC_NAME |
-                                  G_PARAM_STATIC_NICK |
-                                  G_PARAM_STATIC_BLURB);
+                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_LIVE, pspec);
 
     /**
-     * OsinfoMedia::installer-reboots:
+     * OsinfoMedia:installer-reboots:
      *
      * If media is an installer, this property indicates the number of reboots
      * the installer takes before installation is complete.
@@ -494,21 +503,57 @@ osinfo_media_class_init (OsinfoMediaClass *klass)
      */
     pspec = g_param_spec_int ("installer-reboots",
                               "InstallerReboots",
-                              "Number of installer reboots",
+                              _("Number of installer reboots"),
                               G_MININT,
                               G_MAXINT,
-                              -1 /* default value */,
+                              1 /* default value */,
                               G_PARAM_READWRITE |
-                              G_PARAM_CONSTRUCT | /* to set default value */
                               G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_INSTALLER_REBOOTS, pspec);
+
+    /**
+     * OsinfoMedia:os:
+     *
+     * Os information for the current media. For media stored in an
+     * #OsinfoDB, it will be filled when the database is loaded, otherwise
+     * the property will be filled after a successful call to
+     * osinfo_db_identify_media().
+     */
+    pspec = g_param_spec_object ("os",
+                                  "Os",
+                                  _("Information about the operating system on this media"),
+                                  OSINFO_TYPE_OS,
+                                  G_PARAM_READWRITE |
+                                  G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (g_klass, PROP_OS, pspec);
+
+    /**
+     * OsinfoMedia:languages:
+     *
+     * If media is an installer, this property indicates the languages that
+     * can be used during automatic installations.
+     *
+     * On media that are not installers, this property will indicate the
+     * languages that the user interface can be displayed in.
+     * Use #osinfo_media_get_installer (or OsinfoMedia::installer) to know
+     * if the media is an installer or not.
+     *
+     * Type: GLib.List(utf8)
+     * Transfer: container
+     */
+    pspec = g_param_spec_pointer ("languages",
+                                  "Languages",
+                                  _("Supported languages"),
+                                  G_PARAM_READABLE |
+                                  G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property (g_klass, PROP_LANGUAGES, pspec);
 }
 
 static void
 osinfo_media_init (OsinfoMedia *media)
 {
-    OsinfoMediaPrivate *priv;
-    media->priv = priv = OSINFO_MEDIA_GET_PRIVATE(media);
+    media->priv = OSINFO_MEDIA_GET_PRIVATE(media);
+    g_weak_ref_init(&media->priv->os, NULL);
 }
 
 OsinfoMedia *osinfo_media_new(const gchar *id,
@@ -613,14 +658,14 @@ static void on_svd_read (GObject *source,
                                      &error);
     if (ret < 0) {
         g_prefix_error(&error,
-                       "Failed to read supplementary volume descriptor: ");
+                       _("Failed to read supplementary volume descriptor: "));
         goto EXIT;
     }
     if (ret == 0) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NO_SVD,
-                    "Supplementary volume descriptor was truncated");
+                    _("Supplementary volume descriptor was truncated"));
         goto EXIT;
     }
 
@@ -643,7 +688,7 @@ static void on_svd_read (GObject *source,
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
-                    "Install media is not bootable");
+                    _("Install media is not bootable"));
 
         goto EXIT;
     }
@@ -699,14 +744,14 @@ static void on_pvd_read (GObject *source,
                                      res,
                                      &error);
     if (ret < 0) {
-        g_prefix_error(&error, "Failed to read primary volume descriptor: ");
+        g_prefix_error(&error, _("Failed to read primary volume descriptor: "));
         goto ON_ERROR;
     }
     if (ret == 0) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NO_PVD,
-                    "Primary volume descriptor was truncated");
+                    _("Primary volume descriptor was truncated"));
         goto ON_ERROR;
     }
 
@@ -731,7 +776,7 @@ static void on_pvd_read (GObject *source,
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA,
-                    "Insufficient metadata on installation media");
+                    _("Insufficient metadata on installation media"));
 
         goto ON_ERROR;
     }
@@ -766,12 +811,12 @@ static void on_location_skipped(GObject *source,
 
     if (g_input_stream_skip_finish(stream, res, &error) < PVD_OFFSET) {
         if (error)
-            g_prefix_error(&error, "Failed to skip %d bytes", PVD_OFFSET);
+            g_prefix_error(&error, _("Failed to skip %d bytes"), PVD_OFFSET);
         else
             g_set_error(&error,
                          OSINFO_MEDIA_ERROR,
                          OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
-                         "No volume descriptors");
+                         _("No volume descriptors"));
         g_simple_async_result_take_error(data->res, error);
         g_simple_async_result_complete (data->res);
         create_from_location_async_data_free(data);
@@ -803,7 +848,7 @@ static void on_location_read(GObject *source,
 
     stream = g_file_read_finish(G_FILE(source), res, &error);
     if (error != NULL) {
-        g_prefix_error(&error, "Failed to open file");
+        g_prefix_error(&error, _("Failed to open file"));
         g_simple_async_result_take_error(data->res, error);
         g_simple_async_result_complete (data->res);
         create_from_location_async_data_free(data);
@@ -880,7 +925,7 @@ OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
 
 /**
  * osinfo_media_get_architecture:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Retrieves the target hardware architecture of the OS @media provides.
  *
@@ -894,7 +939,7 @@ const gchar *osinfo_media_get_architecture(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_url:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * The URL to the @media
  *
@@ -908,7 +953,7 @@ const gchar *osinfo_media_get_url(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_volume_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * volume ID.
@@ -927,7 +972,7 @@ const gchar *osinfo_media_get_volume_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_system_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * system ID.
@@ -946,7 +991,7 @@ const gchar *osinfo_media_get_system_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_publisher_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * publisher ID.
@@ -965,7 +1010,7 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_application_id:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If @media is an ISO9660 image/device, this function retrieves the expected
  * application ID.
@@ -984,7 +1029,7 @@ const gchar *osinfo_media_get_application_id(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_kernel_path:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Retrieves the path to the kernel image in the install tree.
  *
@@ -1000,7 +1045,7 @@ const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_initrd_path:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Retrieves the path to the initrd image in the install tree.
  *
@@ -1016,9 +1061,9 @@ const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_installer:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
- * Whether @media provides a installer for an OS.
+ * Whether @media provides an installer for an OS.
  *
  * Returns: #TRUE if media is installer, #FALSE otherwise
  */
@@ -1030,7 +1075,7 @@ gboolean osinfo_media_get_installer(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_live:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * Whether @media can boot directly an OS without any installations.
  *
@@ -1044,7 +1089,7 @@ gboolean osinfo_media_get_live(OsinfoMedia *media)
 
 /**
  * osinfo_media_get_installer_reboots:
- * @media: a #OsinfoMedia instance
+ * @media: an #OsinfoMedia instance
  *
  * If media is an installer, this method retrieves the number of reboots the
  * installer takes before installation is complete.
@@ -1068,6 +1113,71 @@ gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
             (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER_REBOOTS, 1);
 }
 
+/**
+ * osinfo_media_get_os:
+ * @media: an #OsinfoMedia instance
+ *
+ * Returns: (transfer full): the operating system, or NULL
+ */
+OsinfoOs *osinfo_media_get_os(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+
+    return g_weak_ref_get(&media->priv->os);
+}
+
+void osinfo_media_set_os(OsinfoMedia *media, OsinfoOs *os)
+{
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+
+    g_object_ref(os);
+    g_weak_ref_set(&media->priv->os, os);
+    g_object_unref(os);
+}
+
+/**
+ * osinfo_media_get_languages:
+ * @media: an #OsinfoMedia instance
+ *
+ * If media is an installer, this property indicates the languages that
+ * can be used during automatic installations.
+ *
+ * On media that are not installers, this property will indicate the
+ * languages that the user interface can be displayed in.
+ * Use #osinfo_media_get_installer (or OsinfoMedia::installer) to know
+ * if the media is an installer or not.
+ *
+ * Returns: (transfer container) (element-type utf8): a #GList
+ * containing the list of the UI languages this media supports. The list
+ * must be freed with g_list_free() when no longer needed. If the
+ * supported languages are unknown, NULL will be returned.
+ */
+GList *osinfo_media_get_languages(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+    return osinfo_entity_get_param_value_list(OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LANG);
+}
+
+/**
+ * osinfo_media_set_languages:
+ * @media: an #OsinfoMedia instance
+ * @languages: (element-type utf8): a #GList containing the list of the UI
+ * languages this media supports.
+ *
+ * Sets the #OSINFO_MEDIA_PROP_LANG parameter
+ */
+void osinfo_media_set_languages(OsinfoMedia *media, GList *languages)
+{
+    GList *it;
+
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+
+    osinfo_entity_clear_param(OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_LANG);
+    for (it = languages; it != NULL; it = it->next)
+        osinfo_entity_add_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_LANG,
+                                it->data);
+}
 /*
  * Local variables:
  *  indent-tabs-mode: nil

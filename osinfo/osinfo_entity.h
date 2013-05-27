@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoEntity
 /* class */
 struct _OsinfoEntityClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */
@@ -74,6 +75,10 @@ gboolean osinfo_entity_get_param_value_boolean(OsinfoEntity *entity, const gchar
 gboolean osinfo_entity_get_param_value_boolean_with_default(OsinfoEntity *entity,
                                                             const char *key,
                                                             gboolean default_value);
+gint osinfo_entity_get_param_value_enum(OsinfoEntity *entity,
+                                        const char *key,
+                                        GType enum_type,
+                                        gint default_value);
 gint64 osinfo_entity_get_param_value_int64(OsinfoEntity *entity, const gchar *key);
 gint64 osinfo_entity_get_param_value_int64_with_default(OsinfoEntity *entity,
                                                         const gchar *key,
@@ -82,6 +87,7 @@ GList *osinfo_entity_get_param_value_list(OsinfoEntity *entity, const gchar *key
 void osinfo_entity_set_param(OsinfoEntity *entity, const gchar *key, const gchar *value);
 void osinfo_entity_set_param_boolean(OsinfoEntity *entity, const gchar *key, gboolean value);
 void osinfo_entity_set_param_int64(OsinfoEntity *entity, const gchar *key, gint64 value);
+void osinfo_entity_set_param_enum(OsinfoEntity *entity, const gchar *key, gint value, GType enum_type);
 void osinfo_entity_add_param(OsinfoEntity *entity, const gchar *key, const gchar *value);
 void osinfo_entity_clear_param(OsinfoEntity *entity, const gchar *key);
 

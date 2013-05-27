@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -67,6 +67,7 @@ struct _OsinfoResourcesList
 /* class */
 struct _OsinfoResourcesListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */
@@ -75,13 +76,17 @@ struct _OsinfoResourcesListClass
 GType osinfo_resourceslist_get_type(void);
 
 OsinfoResourcesList *osinfo_resourceslist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoResourcesList *osinfo_resourceslist_new_copy(OsinfoResourcesList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoResourcesList *osinfo_resourceslist_new_filtered
                                 (OsinfoResourcesList *source,
                                  OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoResourcesList *osinfo_resourceslist_new_intersection
                                 (OsinfoResourcesList *sourceOne,
                                  OsinfoResourcesList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoResourcesList *osinfo_resourceslist_new_union
                                 (OsinfoResourcesList *sourceOne,
                                  OsinfoResourcesList *sourceTwo);

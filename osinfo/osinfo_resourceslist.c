@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoResourcesList, osinfo_resourceslist, OSINFO_TYPE_LIST);
 
@@ -66,8 +67,7 @@ osinfo_resourceslist_class_init (OsinfoResourcesListClass *klass)
 static void
 osinfo_resourceslist_init (OsinfoResourcesList *list)
 {
-    OsinfoResourcesListPrivate *priv;
-    list->priv = priv = OSINFO_RESOURCESLIST_GET_PRIVATE(list);
+    list->priv = OSINFO_RESOURCESLIST_GET_PRIVATE(list);
 
 }
 
@@ -93,6 +93,7 @@ OsinfoResourcesList *osinfo_resourceslist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the resources list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_copy(OsinfoResourcesList *source)
 {
@@ -111,6 +112,7 @@ OsinfoResourcesList *osinfo_resourceslist_new_copy(OsinfoResourcesList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the resources list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_filtered
                                 (OsinfoResourcesList *source,
@@ -132,6 +134,7 @@ OsinfoResourcesList *osinfo_resourceslist_new_filtered
  * resources instances that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two resources lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_intersection
                                 (OsinfoResourcesList *sourceOne,
@@ -153,6 +156,7 @@ OsinfoResourcesList *osinfo_resourceslist_new_intersection
  * resources instances that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two resources lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoResourcesList *osinfo_resourceslist_new_union
                                 (OsinfoResourcesList *sourceOne,

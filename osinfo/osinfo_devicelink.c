@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeviceLink, osinfo_devicelink, OSINFO_TYPE_ENTITY);
 
@@ -125,13 +126,11 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
      */
     pspec = g_param_spec_object("target",
                                 "Target",
-                                "Target device",
+                                _("Target device"),
                                 OSINFO_TYPE_DEVICE,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_TARGET,
                                     pspec);
@@ -144,8 +143,7 @@ osinfo_devicelink_class_init (OsinfoDeviceLinkClass *klass)
 static void
 osinfo_devicelink_init (OsinfoDeviceLink *devlink)
 {
-    OsinfoDeviceLinkPrivate *priv;
-    devlink->priv = priv = OSINFO_DEVICELINK_GET_PRIVATE(devlink);
+    devlink->priv = OSINFO_DEVICELINK_GET_PRIVATE(devlink);
 }
 
 
@@ -153,7 +151,7 @@ osinfo_devicelink_init (OsinfoDeviceLink *devlink)
  * osinfo_devicelink_new:
  * @target: the target device
  *
- * Construct a new link to a #OsinfoDevice. The unique ID
+ * Construct a new link for an #OsinfoDevice. The unique ID
  * of the link is set to match the ID of the target device.
  *
  * Returns: (transfer full): the new device link

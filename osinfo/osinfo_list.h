@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -24,6 +24,8 @@
 
 #ifndef __OSINFO_LIST_H__
 #define __OSINFO_LIST_H__
+
+#include <osinfo/osinfo_filter.h>
 
 /*
  * Type macros.
@@ -55,6 +57,7 @@ struct _OsinfoList
 /* class */
 struct _OsinfoListClass
 {
+    /*< private >*/
     GObjectClass parent_class;
 
     /* class members */
@@ -74,6 +77,11 @@ void osinfo_list_add_filtered(OsinfoList *list, OsinfoList *source, OsinfoFilter
 void osinfo_list_add_intersection(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *sourceTwo);
 void osinfo_list_add_union(OsinfoList *list, OsinfoList *sourceOne, OsinfoList *sourceTwo);
 void osinfo_list_add_all(OsinfoList *list, OsinfoList *source);
+
+OsinfoList *osinfo_list_new_copy(OsinfoList *source);
+OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter);
+OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne, OsinfoList *sourceTwo);
+OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne, OsinfoList *sourceTwo);
 
 #endif /* __OSINFO_LIST_H__ */
 /*

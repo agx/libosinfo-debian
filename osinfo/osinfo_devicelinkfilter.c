@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeviceLinkFilter, osinfo_devicelinkfilter, OSINFO_TYPE_FILTER);
 
@@ -130,13 +131,11 @@ osinfo_devicelinkfilter_class_init (OsinfoDeviceLinkFilterClass *klass)
      */
     pspec = g_param_spec_object("target-filter",
                                 "Target Filter",
-                                "Device link target filter",
+                                _("Device link target filter"),
                                 OSINFO_TYPE_FILTER,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_TARGET_FILTER,
                                     pspec);
@@ -167,9 +166,7 @@ OsinfoDeviceLinkFilter *osinfo_devicelinkfilter_new(OsinfoFilter *filter)
 static void
 osinfo_devicelinkfilter_init (OsinfoDeviceLinkFilter *devicelinkfilter)
 {
-    OsinfoDeviceLinkFilterPrivate *priv;
-    priv = OSINFO_DEVICELINKFILTER_GET_PRIVATE(devicelinkfilter);
-    devicelinkfilter->priv = priv;
+    devicelinkfilter->priv = OSINFO_DEVICELINKFILTER_GET_PRIVATE(devicelinkfilter);
 }
 
 

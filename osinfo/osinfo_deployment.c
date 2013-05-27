@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeployment, osinfo_deployment, OSINFO_TYPE_ENTITY);
 
@@ -150,13 +151,11 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
      */
     pspec = g_param_spec_object("os",
                                 "Os",
-                                "Operating system",
+                                _("Operating system"),
                                 OSINFO_TYPE_OS,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_OS,
                                     pspec);
@@ -167,13 +166,11 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
      */
     pspec = g_param_spec_object("platform",
                                 "Platform",
-                                "Virtualization platform",
+                                _("Virtualization platform"),
                                 OSINFO_TYPE_PLATFORM,
                                 G_PARAM_CONSTRUCT_ONLY |
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_PLATFORM,
                                     pspec);
@@ -185,9 +182,7 @@ osinfo_deployment_class_init (OsinfoDeploymentClass *klass)
 static void
 osinfo_deployment_init (OsinfoDeployment *deployment)
 {
-    OsinfoDeploymentPrivate *priv;
-    deployment->priv = priv = OSINFO_DEPLOYMENT_GET_PRIVATE(deployment);
-
+    deployment->priv = OSINFO_DEPLOYMENT_GET_PRIVATE(deployment);
     deployment->priv->deviceLinks = NULL;
 }
 

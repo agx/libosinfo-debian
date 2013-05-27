@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoFilter, osinfo_filter, G_TYPE_OBJECT);
 
@@ -104,9 +105,7 @@ osinfo_filter_prop_constraints_free(gpointer props)
 static void
 osinfo_filter_init (OsinfoFilter *filter)
 {
-    OsinfoFilterPrivate *priv;
-    priv = OSINFO_FILTER_GET_PRIVATE(filter);
-    filter->priv = priv;
+    filter->priv = OSINFO_FILTER_GET_PRIVATE(filter);
 
     filter->priv->propertyConstraints =
         g_hash_table_new_full(g_str_hash,
@@ -275,7 +274,7 @@ static gboolean osinfo_filter_matches_default(OsinfoFilter *filter, OsinfoEntity
 /**
  * osinfo_filter_matches:
  * @filter: a filter object
- * @entity: a entity to query
+ * @entity: an entity to query
  *
  * Determine of an entity matches a filter
  *

@@ -1,21 +1,39 @@
 <libosinfo version="0.0.1">
   <install-script id='http://microsoft.com/windows/unattend/jeos'>
     <profile>jeos</profile>
+    <path-format>dos</path-format>
+    <product-key-format>$$$$$-$$$$$-$$$$$-$$$$$-$$$$$</product-key-format>
+   <expected-filename>autounattend.xml</expected-filename>
+   <can-pre-install-drivers>true</can-pre-install-drivers>
     <config>
       <param name="admin-password" policy="optional"/>
       <param name="hardware-arch" policy="optional"/>
-      <param name="l10n-language" policy="optional"/>
+      <param name="l10n-language" policy="optional" value-map="http://microsoft.com/win/8/l10n-language-reverse"/>
       <param name="user-login" policy="optional"/>
       <param name="user-password" policy="optional"/>
       <param name="user-realname" policy="optional"/>
       <param name="reg-product-key" policy="required"/>
+      <param name="target-disk" policy="optional"/>
+      <param name="pre-install-drivers-disk" policy="optional"/>
+      <param name="pre-install-drivers-location" policy="optional"/>
     </config>
-    <template filename="autounattend.xml">
+    <template>
       <xsl:stylesheet
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         version="1.0">
 
         <xsl:output method="xml" indent="yes"/>
+
+        <xsl:template name="target-disk">
+          <xsl:choose>
+            <xsl:when test="config/target-disk != ''">
+              <xsl:value-of select="config/target-disk"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>C</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:template>
 
 	<xsl:template name="arch">
 	  <xsl:choose>
@@ -28,9 +46,41 @@
 	  </xsl:choose>
 	</xsl:template>
 
+        <xsl:template name="pre-install-drivers-disk">
+          <xsl:choose>
+            <xsl:when test="config/pre-install-drivers-disk != ''">
+              <xsl:value-of select="config/pre-install-drivers-disk"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>A</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:template>
+
+        <xsl:template name="pre-install-drivers-location">
+          <xsl:choose>
+            <xsl:when test="config/pre-install-drivers-location != ''">
+              <xsl:value-of select="config/pre-install-drivers-location"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>\</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:template>
+
 	<xsl:template match="/install-script-config">
 	  <unattend xmlns="urn:schemas-microsoft-com:unattend">
 	    <settings pass="windowsPE">
+              <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <xsl:attribute name="processorArchitecture">
+                  <xsl:call-template name="arch"/>
+                </xsl:attribute>
+                <DriverPaths>
+                  <PathAndCredentials wcm:keyValue="1" wcm:action="add">
+                    <Path><xsl:call-template name="pre-install-drivers-disk"/>:<xsl:call-template name="pre-install-drivers-location"/></Path>
+                  </PathAndCredentials>
+                </DriverPaths>
+              </component>
 	      <component name="Microsoft-Windows-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 		<xsl:attribute name="processorArchitecture">
 		  <xsl:call-template name="arch"/>
@@ -52,8 +102,8 @@
 			<Active>true</Active>
 			<Extend>true</Extend>
 			<Format>NTFS</Format>
-			<Label>C drive</Label>
-			<Letter>C</Letter>
+                        <Label><xsl:call-template name="target-disk"/> drive</Label>
+                        <Letter><xsl:call-template name="target-disk"/></Letter>
 			<Order>1</Order>
 			<PartitionID>1</PartitionID>
 		      </ModifyPartition>
@@ -62,12 +112,6 @@
 		</DiskConfiguration>
 		<ImageInstall>
 		  <OSImage>
-		    <InstallFrom>
-		      <MetaData wcm:action="add">
-			<Key>/IMAGE/INDEX</Key>
-			<Value>1</Value>
-		      </MetaData>
-		    </InstallFrom>
 		    <InstallTo>
 		      <DiskID>0</DiskID>
 		      <PartitionID>1</PartitionID>
@@ -77,6 +121,9 @@
 		</ImageInstall>
 		<UserData>
 		  <AcceptEula>true</AcceptEula>
+                    <ProductKey>
+                      <Key><xsl:value-of select="config/reg-product-key"/></Key>
+                    </ProductKey>
 		</UserData>
 	      </component>
 	      <component name="Microsoft-Windows-International-Core-WinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -166,28 +213,59 @@
   <!-- DESKTOP PROFILE -->
   <install-script id='http://microsoft.com/windows/unattend/desktop'>
    <profile>desktop</profile>
+   <path-format>dos</path-format>
+   <product-key-format>$$$$$-$$$$$-$$$$$-$$$$$-$$$$$</product-key-format>
+   <expected-filename>autounattend.xml</expected-filename>
+   <can-pre-install-drivers>true</can-pre-install-drivers>
    <config>
     <param name="admin-password" policy="optional"/>
     <param name="hardware-arch" policy="required"/>
-    <param name="l10n-language" policy="optional"/>
+    <param name="l10n-language" policy="optional" value-map="http://microsoft.com/win/8/l10n-language-reverse"/>
     <param name="user-login" policy="optional"/>
     <param name="user-password" policy="optional"/>
     <param name="user-realname" policy="optional"/>
     <param name="hostname" policy="required"/>
+    <param name="reg-product-key" policy="required"/>
+    <param name="target-disk" policy="optional"/>
+    <param name="pre-install-drivers-disk" policy="optional"/>
+    <param name="pre-install-drivers-location" policy="optional"/>
+    <param name="script-disk" policy="optional"/>
    </config>
-    <template filename="autounattend.xml">
+    <template>
      <xsl:stylesheet
       xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
       version="1.0">
 
       <xsl:output method="xml" indent="yes"/>
 
+      <xsl:template name="target-disk">
+        <xsl:choose>
+          <xsl:when test="config/target-disk != ''">
+            <xsl:value-of select="config/target-disk"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>C</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:template>
+
+      <xsl:template name="script-disk">
+        <xsl:choose>
+          <xsl:when test="config/script-disk != ''">
+            <xsl:value-of select="config/script-disk"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:text>A</xsl:text>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:template>
+
       <xsl:template name="arch">
        <xsl:choose>
-        <xsl:when test="config/hardware-arch = x86_64">
+        <xsl:when test="config/hardware-arch = 'x86_64'">
          <xsl:text>amd64</xsl:text>
         </xsl:when>
-        <xsl:when test="config/hardware-arch = i386">
+        <xsl:when test="config/hardware-arch = 'i386'">
          <xsl:text>x86</xsl:text>
         </xsl:when>
         <xsl:otherwise>
@@ -196,9 +274,41 @@
        </xsl:choose>
      </xsl:template>
 
+     <xsl:template name="pre-install-drivers-disk">
+       <xsl:choose>
+         <xsl:when test="config/pre-install-drivers-disk != ''">
+           <xsl:value-of select="config/pre-install-drivers-disk"/>
+         </xsl:when>
+         <xsl:otherwise>
+           <xsl:text>A</xsl:text>
+         </xsl:otherwise>
+       </xsl:choose>
+     </xsl:template>
+
+     <xsl:template name="pre-install-drivers-location">
+       <xsl:choose>
+         <xsl:when test="config/pre-install-drivers-location != ''">
+           <xsl:value-of select="config/pre-install-drivers-location"/>
+         </xsl:when>
+         <xsl:otherwise>
+           <xsl:text>\</xsl:text>
+         </xsl:otherwise>
+       </xsl:choose>
+     </xsl:template>
+
      <xsl:template match="/install-script-config">
       <unattend xmlns="urn:schemas-microsoft-com:unattend">
        <settings pass="windowsPE">
+         <component name="Microsoft-Windows-PnpCustomizationsWinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+           <xsl:attribute name="processorArchitecture">
+             <xsl:call-template name="arch"/>
+           </xsl:attribute>
+           <DriverPaths>
+             <PathAndCredentials wcm:keyValue="1" wcm:action="add">
+               <Path><xsl:call-template name="pre-install-drivers-disk"/>:<xsl:call-template name="pre-install-drivers-location"/></Path>
+             </PathAndCredentials>
+           </DriverPaths>
+        </component>
         <component name="Microsoft-Windows-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <xsl:attribute name="processorArchitecture">
           <xsl:call-template name="arch"/>
@@ -220,8 +330,8 @@
              <Active>true</Active>
              <Extend>true</Extend>
              <Format>NTFS</Format>
-             <Label>C drive</Label>
-             <Letter>C</Letter>
+             <Label><xsl:call-template name="target-disk"/> drive</Label>
+             <Letter><xsl:call-template name="target-disk"/></Letter>
              <Order>1</Order>
              <PartitionID>1</PartitionID>
             </ModifyPartition>
@@ -230,12 +340,6 @@
          </DiskConfiguration>
          <ImageInstall>
           <OSImage>
-           <InstallFrom>
-            <MetaData wcm:action="add">
-             <Key>/IMAGE/INDEX</Key>
-             <Value>1</Value>
-            </MetaData>
-           </InstallFrom>
            <InstallTo>
             <DiskID>0</DiskID>
             <PartitionID>1</PartitionID>
@@ -245,6 +349,9 @@
          </ImageInstall>
          <UserData>
           <AcceptEula>true</AcceptEula>
+           <ProductKey>
+            <Key><xsl:value-of select="config/reg-product-key"/></Key>
+           </ProductKey>
          </UserData>
         </component>
         <component name="Microsoft-Windows-International-Core-WinPE" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -266,6 +373,18 @@
            <xsl:call-template name="arch"/>
           </xsl:attribute>
           <ComputerName><xsl:value-of select="config/hostname"/></ComputerName>
+         </component>
+         <component name="Microsoft-Windows-Deployment" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <xsl:attribute name="processorArchitecture">
+           <xsl:call-template name="arch"/>
+          </xsl:attribute>
+          <RunSynchronous  wcm:action="add">
+           <RunSynchronousCommand>
+            <Order>1</Order>
+            <Path>cmd /C A:\windows.cmd  >c:\windows\osinfo.log 2>&amp;1</Path>
+            <Description>Post installation setup</Description>
+           </RunSynchronousCommand>
+          </RunSynchronous>
          </component>
         </settings>
        </xsl:if>
@@ -323,6 +442,15 @@
            </SynchronousCommand>
           </FirstLogonCommands>
          </xsl:if>
+        </component>
+       </settings>
+       <settings pass="specialize">
+        <component name="Microsoft-Windows-Shell-Setup" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+         <xsl:attribute name="processorArchitecture">
+          <xsl:call-template name="arch"/>
+         </xsl:attribute>
+
+         <ProductKey><xsl:value-of select="config/reg-product-key"/></ProductKey>
         </component>
        </settings>
       </unattend>

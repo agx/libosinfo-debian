@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,8 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo/osinfo_product_private.h"
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoPlatform, osinfo_platform, OSINFO_TYPE_PRODUCT);
 
@@ -80,9 +82,7 @@ osinfo_platform_class_init (OsinfoPlatformClass *klass)
 static void
 osinfo_platform_init (OsinfoPlatform *platform)
 {
-    OsinfoPlatformPrivate *priv;
-    platform->priv = priv = OSINFO_PLATFORM_GET_PRIVATE(platform);
-
+    platform->priv = OSINFO_PLATFORM_GET_PRIVATE(platform);
     platform->priv->deviceLinks = NULL;
 }
 
@@ -102,6 +102,56 @@ OsinfoPlatform *osinfo_platform_new(const gchar *id)
                         NULL);
 }
 
+struct GetAllDevicesData {
+    OsinfoFilter *filter;
+    OsinfoDeviceList *devices;
+};
+
+static void get_all_devices_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoDeviceList *devices;
+    OsinfoList *tmp_list;
+    struct GetAllDevicesData *foreach_data = (struct GetAllDevicesData *)user_data;
+
+    g_return_if_fail(OSINFO_IS_PLATFORM(product));
+
+    devices = osinfo_platform_get_devices(OSINFO_PLATFORM(product),
+                                          foreach_data->filter);
+    tmp_list = osinfo_list_new_union(OSINFO_LIST(foreach_data->devices),
+                                     OSINFO_LIST(devices));
+    g_object_unref(foreach_data->devices);
+    g_object_unref(devices);
+    foreach_data->devices = OSINFO_DEVICELIST(tmp_list);
+}
+
+
+/**
+ * osinfo_platform_get_all_devices:
+ * @platform: a platform
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all platforms matching a given filter but unlike
+ * osinfo_platform_get_devices this function also retrieves devices from
+ * all derived and upgraded platforms.
+ *
+ * Returns: (transfer full): A list of devices
+ */
+OsinfoDeviceList *osinfo_platform_get_all_devices(OsinfoPlatform *platform,
+                                                  OsinfoFilter *filter)
+{
+    struct GetAllDevicesData foreach_data = {
+        .filter = filter,
+        .devices = osinfo_devicelist_new()
+    };
+
+    osinfo_product_foreach_related(OSINFO_PRODUCT(platform),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_UPGRADES |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM,
+                                   get_all_devices_cb,
+                                   &foreach_data);
+
+    return foreach_data.devices;
+}
 
 /**
  * osinfo_platform_get_devices:

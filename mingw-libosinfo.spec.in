@@ -11,6 +11,8 @@ URL: https://fedorahosted.org/libosinfo/
 
 BuildArch: noarch
 
+BuildRequires: intltool
+
 BuildRequires: mingw32-filesystem >= 95
 BuildRequires: mingw64-filesystem >= 95
 BuildRequires: mingw32-gcc
@@ -22,10 +24,14 @@ BuildRequires: mingw32-glib2
 BuildRequires: mingw64-glib2
 BuildRequires: mingw32-libxml2
 BuildRequires: mingw64-libxml2
+BuildRequires: mingw32-libxslt
+BuildRequires: mingw64-libxslt
 BuildRequires: mingw32-libsoup
 BuildRequires: mingw64-libsoup
 
 BuildRequires: pkgconfig
+
+BuildRequires: /usr/bin/pod2man
 
 %description
 libosinfo is a library that allows virtualization provisioning tools to
@@ -72,6 +78,13 @@ combination.
 rm -f $RPM_BUILD_ROOT%{mingw32_libdir}/libosinfo-1.0.a
 rm -f $RPM_BUILD_ROOT%{mingw64_libdir}/libosinfo-1.0.a
 
+# Libtool files don't need to be bundled
+find $RPM_BUILD_ROOT -name "*.la" -delete
+
+# Manpages don't need to be bundled
+rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/man
+rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/man
+
 rm -rf $RPM_BUILD_ROOT%{mingw32_datadir}/gtk-doc
 rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 
@@ -83,7 +96,6 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw32_bindir}/osinfo-query.exe
 %{mingw32_bindir}/libosinfo-1.0-0.dll
 %{mingw32_libdir}/libosinfo-1.0.dll.a
-%{mingw32_libdir}/libosinfo-1.0.la
 %{mingw32_libdir}/pkgconfig/libosinfo-1.0.pc
 %dir %{mingw32_includedir}/libosinfo-1.0/
 %dir %{mingw32_includedir}/libosinfo-1.0/osinfo
@@ -93,15 +105,13 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw32_datadir}/libosinfo/schemas
 %{mingw32_datadir}/libosinfo/db/usb.ids
 %{mingw32_datadir}/libosinfo/db/pci.ids
+%{mingw32_datadir}/libosinfo/db/datamaps
 %{mingw32_datadir}/libosinfo/db/devices
 %{mingw32_datadir}/libosinfo/db/oses
 %{mingw32_datadir}/libosinfo/db/hypervisors
 %{mingw32_datadir}/libosinfo/db/install-scripts
 %{mingw32_datadir}/libosinfo/schemas/libosinfo.rng
-%{mingw32_mandir}/man1/osinfo-db-validate.1*
-%{mingw32_mandir}/man1/osinfo-detect.1*
-%{mingw32_mandir}/man1/osinfo-install-script.1*
-%{mingw32_mandir}/man1/osinfo-query.1*
+%{mingw32_libdir}/locale/*/LC_MESSAGES/libosinfo.mo
 
 %files -n mingw64-libosinfo
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
@@ -111,7 +121,6 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %{mingw64_bindir}/osinfo-query.exe
 %{mingw64_bindir}/libosinfo-1.0-0.dll
 %{mingw64_libdir}/libosinfo-1.0.dll.a
-%{mingw64_libdir}/libosinfo-1.0.la
 %{mingw64_libdir}/pkgconfig/libosinfo-1.0.pc
 %dir %{mingw64_includedir}/libosinfo-1.0/
 %dir %{mingw64_includedir}/libosinfo-1.0/osinfo
@@ -121,14 +130,12 @@ rm -rf $RPM_BUILD_ROOT%{mingw64_datadir}/gtk-doc
 %dir %{mingw64_datadir}/libosinfo/schemas
 %{mingw64_datadir}/libosinfo/db/usb.ids
 %{mingw64_datadir}/libosinfo/db/pci.ids
+%{mingw64_datadir}/libosinfo/db/datamaps
 %{mingw64_datadir}/libosinfo/db/devices
 %{mingw64_datadir}/libosinfo/db/oses
 %{mingw64_datadir}/libosinfo/db/hypervisors
 %{mingw64_datadir}/libosinfo/db/install-scripts
 %{mingw64_datadir}/libosinfo/schemas/libosinfo.rng
-%{mingw64_mandir}/man1/osinfo-db-validate.1*
-%{mingw64_mandir}/man1/osinfo-detect.1*
-%{mingw64_mandir}/man1/osinfo-install-script.1*
-%{mingw64_mandir}/man1/osinfo-query.1*
+%{mingw64_libdir}/locale/*/LC_MESSAGES/libosinfo.mo
 
 %changelog

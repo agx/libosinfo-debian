@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -60,6 +60,7 @@ struct _OsinfoPlatform
 /* class */
 struct _OsinfoPlatformClass
 {
+    /*< private >*/
     OsinfoProductClass parent_class;
 
     /* class members */
@@ -70,6 +71,7 @@ GType osinfo_platform_get_type(void);
 OsinfoPlatform *osinfo_platform_new(const gchar *id);
 
 OsinfoDeviceList *osinfo_platform_get_devices(OsinfoPlatform *platform, OsinfoFilter *filter);
+OsinfoDeviceList *osinfo_platform_get_all_devices(OsinfoPlatform *platform, OsinfoFilter *filter);
 OsinfoDeviceLinkList *osinfo_platform_get_device_links(OsinfoPlatform *platform, OsinfoFilter *filter);
 
 OsinfoDeviceLink *osinfo_platform_add_device(OsinfoPlatform *platform, OsinfoDevice *dev);

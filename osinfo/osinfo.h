@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,17 +25,26 @@
 #ifndef __OSINFO_H__
 #define __OSINFO_H__
 
+#include <glib-object.h>
+
+#include <osinfo/osinfo_datamap.h>
+#include <osinfo/osinfo_datamaplist.h>
+#include <osinfo/osinfo_enum_types.h>
 #include <osinfo/osinfo_entity.h>
 #include <osinfo/osinfo_filter.h>
 #include <osinfo/osinfo_list.h>
 #include <osinfo/osinfo_device.h>
+#include <osinfo/osinfo_device_driver.h>
+#include <osinfo/osinfo_device_driverlist.h>
 #include <osinfo/osinfo_devicelink.h>
 #include <osinfo/osinfo_devicelist.h>
 #include <osinfo/osinfo_devicelinklist.h>
 #include <osinfo/osinfo_devicelinkfilter.h>
 #include <osinfo/osinfo_install_config.h>
 #include <osinfo/osinfo_install_config_param.h>
+#include <osinfo/osinfo_install_config_paramlist.h>
 #include <osinfo/osinfo_install_script.h>
+#include <osinfo/osinfo_avatar_format.h>
 #include <osinfo/osinfo_install_scriptlist.h>
 #include <osinfo/osinfo_productlist.h>
 #include <osinfo/osinfo_product.h>

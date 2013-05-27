@@ -1,16 +1,27 @@
-AC_INIT([libosinfo], [0.2.1], [virt-tools-list@redhat.com])
+AC_INIT([libosinfo], [0.2.7], [virt-tools-list@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
 AC_PREREQ([2.61])
 AC_CONFIG_SRCDIR([osinfo/osinfo_db.c])
 AC_CONFIG_HEADERS([config.h])
-AC_PROG_LIBTOOL
 AC_PROG_CC
+AC_PROG_LN_S
+
+LT_INIT([shared disable-static win32-dll])
 
 LIBOSINFO_COMPILE_WARNINGS
 GNOME_MAINTAINER_MODE_DEFINES
 AM_MAINTAINER_MODE([enable])
+
+# i18 support
+IT_PROG_INTLTOOL(0.40.0)
+
+GETTEXT_PACKAGE=AC_PACKAGE_NAME
+AC_SUBST(GETTEXT_PACKAGE)
+AC_DEFINE_UNQUOTED([GETTEXT_PACKAGE],["$GETTEXT_PACKAGE"],[The name of the gettext domain])
+AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT_VERSION([0.17])
 
 # Autoconf 2.61a.99 and earlier don't support linking a file only
 # in VPATH builds.  But since GNUmakefile is for maintainer use
@@ -162,6 +173,29 @@ fi
 AC_SUBST(COVERAGE_CFLAGS)
 AC_SUBST(COVERAGE_LDFLAGS)
 
+# Path to the usb.ids file -- to know if we use one shipped with another
+# package, or an internal file
+AC_ARG_WITH(usb-ids-path,
+              [AC_HELP_STRING([--with-usb-ids-path],
+                              [Specify the path to usb.ids @<:@default=(internal)@:>@])],,
+                              [with_usb_ids_path="\${usb_databasedir}/usb.ids"])
+
+AM_CONDITIONAL(USE_INTERNAL_USB_IDS, test "x$with_usb_ids_path" = "x\${usb_databasedir}/usb.ids")
+AC_SUBST([USB_IDS], ["$with_usb_ids_path"])
+
+# Path to the pci.ids file -- to know if we use one shipped with another
+# package, or an internal file
+AC_ARG_WITH(pci-ids-path,
+              [AC_HELP_STRING([--with-pci-ids-path],
+                              [Specify the path to pci.ids @<:@default=(internal)@:>@])],,
+                              [with_pci_ids_path="\${pci_databasedir}/pci.ids"])
+
+AM_CONDITIONAL(USE_INTERNAL_PCI_IDS, test "x$with_pci_ids_path" = "x\${pci_databasedir}/pci.ids")
+AC_SUBST([PCI_IDS], ["$with_pci_ids_path"])
+
+# Setup GLIB_MKENUMS to use glib-mkenums even if GLib is uninstalled.
+GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
+AC_SUBST(GLIB_MKENUMS)
 
 AC_CONFIG_FILES([
 	Makefile
@@ -170,15 +204,17 @@ AC_CONFIG_FILES([
 	osinfo/Makefile
 	osinfo/libosinfo-1.0.pc
 	data/Makefile
+	data/datamaps/Makefile
 	data/devices/Makefile
 	data/hypervisors/Makefile
-	data/oses/Makefile
 	data/install-scripts/Makefile
+	data/oses/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile
 	docs/Makefile
 	docs/reference/Makefile
 	examples/Makefile
+	po/Makefile.in
 ])
 AC_OUTPUT

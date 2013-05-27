@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoInstallScriptList
 /* class */
 struct _OsinfoInstallScriptListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */
@@ -67,9 +68,13 @@ struct _OsinfoInstallScriptListClass
 GType osinfo_install_scriptlist_get_type(void);
 
 OsinfoInstallScriptList *osinfo_install_scriptlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_copy(OsinfoInstallScriptList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_filtered(OsinfoInstallScriptList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_intersection(OsinfoInstallScriptList *sourceOne, OsinfoInstallScriptList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoInstallScriptList *osinfo_install_scriptlist_new_union(OsinfoInstallScriptList *sourceOne, OsinfoInstallScriptList *sourceTwo);
 
 #endif /* __OSINFO_INSTALL_SCRIPTLIST_H__ */

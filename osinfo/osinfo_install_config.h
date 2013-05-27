@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Daniel P. Berrange <berrange@redhat.com>
@@ -54,8 +54,20 @@
 #define OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD   "reg-password"
 #define OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY "reg-product-key"
 
-#define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME "hostname"
+#define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME    "hostname"
+#define OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK "target-disk"
+#define OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK "script-disk"
 
+#define OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION "avatar-location"
+#define OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK     "avatar-disk"
+
+#define OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK "pre-install-drivers-disk"
+#define OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION "pre-install-drivers-location"
+
+#define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK "post-install-drivers-disk"
+#define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION "post-install-drivers-location"
+
+#define OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING "driver-signing"
 
 typedef struct _OsinfoInstallConfig        OsinfoInstallConfig;
 typedef struct _OsinfoInstallConfigClass   OsinfoInstallConfigClass;
@@ -75,6 +87,7 @@ struct _OsinfoInstallConfig
 /* class */
 struct _OsinfoInstallConfigClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */
@@ -152,6 +165,39 @@ void osinfo_install_config_set_hostname(OsinfoInstallConfig *config,
                                         const gchar *hostname);
 const gchar *osinfo_install_config_get_hostname(OsinfoInstallConfig *config);
 
+void osinfo_install_config_set_target_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk);
+const gchar *osinfo_install_config_get_target_disk(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_script_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk);
+const gchar *osinfo_install_config_get_script_disk(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_avatar_location(OsinfoInstallConfig *config,
+                                               const gchar *location);
+const gchar *osinfo_install_config_get_avatar_location(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_avatar_disk(OsinfoInstallConfig *config,
+                                           const gchar *disk);
+const gchar *osinfo_install_config_get_avatar_disk(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_pre_install_drivers_disk(OsinfoInstallConfig *config,
+                                                        const gchar *disk);
+const gchar *osinfo_install_config_get_pre_install_drivers_disk(OsinfoInstallConfig *config);
+void osinfo_install_config_set_pre_install_drivers_location(OsinfoInstallConfig *config,
+                                                            const gchar *location);
+const gchar *osinfo_install_config_get_pre_install_drivers_location(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_post_install_drivers_disk(OsinfoInstallConfig *config,
+                                                         const gchar *disk);
+const gchar *osinfo_install_config_get_post_install_drivers_disk(OsinfoInstallConfig *config);
+void osinfo_install_config_set_post_install_drivers_location(OsinfoInstallConfig *config,
+                                                             const gchar *location);
+const gchar *osinfo_install_config_get_post_install_drivers_location(OsinfoInstallConfig *config);
+
+void osinfo_install_config_set_driver_signing(OsinfoInstallConfig *config,
+                                              gboolean signing);
+gboolean osinfo_install_config_get_driver_signing(OsinfoInstallConfig *config);
 
 #endif /* __OSINFO_INSTALL_CONFIG_H__ */
 /*

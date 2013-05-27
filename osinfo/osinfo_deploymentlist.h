@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoDeploymentList
 /* class */
 struct _OsinfoDeploymentListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */
@@ -67,9 +68,13 @@ struct _OsinfoDeploymentListClass
 GType osinfo_deploymentlist_get_type(void);
 
 OsinfoDeploymentList *osinfo_deploymentlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoDeploymentList *osinfo_deploymentlist_new_copy(OsinfoDeploymentList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoDeploymentList *osinfo_deploymentlist_new_filtered(OsinfoDeploymentList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoDeploymentList *osinfo_deploymentlist_new_intersection(OsinfoDeploymentList *sourceOne, OsinfoDeploymentList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoDeploymentList *osinfo_deploymentlist_new_union(OsinfoDeploymentList *sourceOne, OsinfoDeploymentList *sourceTwo);
 
 #endif /* __OSINFO_DEPLOYMENTLIST_H__ */

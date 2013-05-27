@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -72,6 +72,7 @@ struct _OsinfoOs
 /* class */
 struct _OsinfoOsClass
 {
+    /*< private >*/
     OsinfoProductClass parent_class;
 
     /* class members */
@@ -104,6 +105,9 @@ void osinfo_os_add_recommended_resources(OsinfoOs *os, OsinfoResources *resource
 OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile);
 OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os);
 void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script);
+
+OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os);
+void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver);
 
 #endif /* __OSINFO_OS_H__ */
 /*

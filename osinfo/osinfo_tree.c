@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -29,6 +29,7 @@
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
@@ -267,138 +268,120 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     g_type_class_add_private(klass, sizeof(OsinfoTreePrivate));
 
     /**
-     * OsinfoTree::architecture:
+     * OsinfoTree:architecture:
      *
      * The target hardware architecture of this tree.
      */
     pspec = g_param_spec_string("architecture",
                                 "ARCHITECTURE",
-                                "CPU Architecture",
+                                _("CPU Architecture"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_ARCHITECTURE, pspec);
 
     /**
-     * OsinfoTree::url:
+     * OsinfoTree:url:
      *
      * The URL to this tree.
      */
     pspec = g_param_spec_string("url",
                                 "URL",
-                                "The URL to this tree",
+                                _("The URL to this tree"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_URL, pspec);
 
     /**
-     * OsinfoTree::volume-id:
+     * OsinfoTree:volume-id:
      *
      * Expected volume ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string("volume-id",
                                 "VolumeID",
-                                "Expected ISO9660 volume ID",
+                                _("The expected ISO9660 volume ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
 
     /**
-     * OsinfoTree::publisher-id:
+     * OsinfoTree:publisher-id:
      *
      * Expected publisher ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string("publisher-id",
                                 "PublisherID",
-                                "Expected ISO9660 publisher ID",
+                                _("The expected ISO9660 publisher ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_VARIANT, pspec);
 
     /**
-     * OsinfoTree::application-id:
+     * OsinfoTree:application-id:
      *
      * Expected application ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string("application-id",
                                 "ApplicationID",
-                                "Expected ISO9660 application ID",
+                                _("The expected ISO9660 application ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_VERSION, pspec);
 
     /**
-     * OsinfoTree::system-id:
+     * OsinfoTree:system-id:
      *
      * Expected system ID (regular expression) for ISO9660 image/device.
      */
     pspec = g_param_spec_string("system-id",
                                 "SystemID",
-                                "Expected ISO9660 system ID",
+                                _("The expected ISO9660 system ID"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_TREEINFO_ARCH, pspec);
 
     /**
-     * OsinfoTree::kernel-path:
+     * OsinfoTree:kernel-path:
      *
      * The path to the kernel image in the install tree.
      */
     pspec = g_param_spec_string("kernel-path",
                                 "KernelPath",
-                                "The path to the kernel image",
+                                _("The path to the kernel image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_KERNEL_PATH, pspec);
 
     /**
-     * OsinfoTree::initrd-path:
+     * OsinfoTree:initrd-path:
      *
      * The path to the initrd image in the install tree.
      */
     pspec = g_param_spec_string("initrd-path",
                                 "InitrdPath",
-                                "The path to the inirtd image",
+                                _("The path to the inirtd image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_INITRD_PATH, pspec);
 
     /**
-     * OsinfoTree::boot-iso-path:
+     * OsinfoTree:boot-iso-path:
      *
      * The path to the boot ISO in the install tree
      */
     pspec = g_param_spec_string("boot-iso-path",
                                 "BootISOPath",
-                                "The path to the bootable ISO image",
+                                _("The path to the bootable ISO image"),
                                 NULL /* default value */,
                                 G_PARAM_READWRITE |
-                                G_PARAM_STATIC_NAME |
-                                G_PARAM_STATIC_NICK |
-                                G_PARAM_STATIC_BLURB);
+                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_BOOT_ISO_PATH, pspec);
 
 }
@@ -406,8 +389,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
 static void
 osinfo_tree_init(OsinfoTree *tree)
 {
-    OsinfoTreePrivate *priv;
-    tree->priv = priv = OSINFO_TREE_GET_PRIVATE(tree);
+    tree->priv = OSINFO_TREE_GET_PRIVATE(tree);
 }
 
 OsinfoTree *osinfo_tree_new(const gchar *id,
@@ -621,7 +603,7 @@ static void on_location_read(GObject *source,
                                      &length,
                                      NULL,
                                      &error)) {
-        g_prefix_error(&error, "Failed to load .treeinfo file: ");
+        g_prefix_error(&error, _("Failed to load .treeinfo file: "));
         g_simple_async_result_take_error(data->res, error);
         g_simple_async_result_complete(data->res);
         create_from_location_async_data_free(data);
@@ -632,7 +614,7 @@ static void on_location_read(GObject *source,
                              content,
                              length,
                              &error))) {
-        g_prefix_error(&error, "Failed to process keyinfo file: ");
+        g_prefix_error(&error, _("Failed to process keyinfo file: "));
         g_simple_async_result_take_error(data->res, error);
         goto cleanup;
     }
@@ -715,7 +697,7 @@ OsinfoTree *osinfo_tree_create_from_location_finish(GAsyncResult *res,
 
 /**
  * osinfo_tree_get_architecture:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the target hardware architecture of the OS @tree provides.
  *
@@ -729,7 +711,7 @@ const gchar *osinfo_tree_get_architecture(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_url:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * The URL to the @tree
  *
@@ -743,7 +725,7 @@ const gchar *osinfo_tree_get_url(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_family:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * volume ID.
@@ -762,7 +744,7 @@ const gchar *osinfo_tree_get_treeinfo_family(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_arch:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * system ID.
@@ -781,7 +763,7 @@ const gchar *osinfo_tree_get_treeinfo_arch(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_variant:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * publisher ID.
@@ -800,7 +782,7 @@ const gchar *osinfo_tree_get_treeinfo_variant(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_treeinfo_version:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * If @tree is an ISO9660 image/device, this function retrieves the expected
  * application ID.
@@ -819,7 +801,7 @@ const gchar *osinfo_tree_get_treeinfo_version(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_boot_iso_path:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the path to the boot_iso image in the install tree.
  *
@@ -833,7 +815,7 @@ const gchar *osinfo_tree_get_boot_iso_path(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_kernel_path:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the path to the kernel image in the install tree.
  *
@@ -849,7 +831,7 @@ const gchar *osinfo_tree_get_kernel_path(OsinfoTree *tree)
 
 /**
  * osinfo_tree_get_initrd_path:
- * @tree: a #OsinfoTree instance
+ * @tree: an #OsinfoTree instance
  *
  * Retrieves the path to the initrd image in the install tree.
  *

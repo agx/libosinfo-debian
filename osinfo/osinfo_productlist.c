@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoProductList, osinfo_productlist, OSINFO_TYPE_LIST);
 
@@ -64,9 +65,7 @@ osinfo_productlist_class_init (OsinfoProductListClass *klass)
 static void
 osinfo_productlist_init (OsinfoProductList *list)
 {
-    OsinfoProductListPrivate *priv;
-    list->priv = priv = OSINFO_PRODUCTLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_PRODUCTLIST_GET_PRIVATE(list);
 }
 
 
@@ -93,6 +92,7 @@ OsinfoProductList *osinfo_productlist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the os list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoProductList *osinfo_productlist_new_copy(OsinfoProductList *source)
 {
@@ -111,6 +111,7 @@ OsinfoProductList *osinfo_productlist_new_copy(OsinfoProductList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the os list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoProductList *osinfo_productlist_new_filtered(OsinfoProductList *source, OsinfoFilter *filter)
 {
@@ -130,6 +131,7 @@ OsinfoProductList *osinfo_productlist_new_filtered(OsinfoProductList *source, Os
  * oss that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two os lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoProductList *osinfo_productlist_new_intersection(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo)
 {
@@ -149,6 +151,7 @@ OsinfoProductList *osinfo_productlist_new_intersection(OsinfoProductList *source
  * oss that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two os lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoProductList *osinfo_productlist_new_union(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo)
 {

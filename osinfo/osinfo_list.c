@@ -14,17 +14,19 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
+ *   Christophe Fergeau <cfergeau@redhat.com>
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoList, osinfo_list, G_TYPE_OBJECT);
 
@@ -127,13 +129,11 @@ osinfo_list_class_init (OsinfoListClass *klass)
      */
     pspec = g_param_spec_gtype("element-type",
                                "Element type",
-                               "List element type",
+                               _("List element type"),
                                OSINFO_TYPE_ENTITY,
                                G_PARAM_CONSTRUCT_ONLY |
                                G_PARAM_READWRITE |
-                               G_PARAM_STATIC_NAME |
-                               G_PARAM_STATIC_BLURB |
-                               G_PARAM_STATIC_NICK);
+                               G_PARAM_STATIC_STRINGS);
 
     g_object_class_install_property(g_klass,
                                     PROP_ELEMENT_TYPE,
@@ -145,9 +145,7 @@ osinfo_list_class_init (OsinfoListClass *klass)
 static void
 osinfo_list_init (OsinfoList *list)
 {
-    OsinfoListPrivate *priv;
-    list->priv = priv = OSINFO_LIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_LIST_GET_PRIVATE(list);
     list->priv->array = g_ptr_array_new_with_free_func(NULL);
     list->priv->entities = g_hash_table_new_full(g_str_hash,
                                                  g_str_equal,
@@ -379,6 +377,111 @@ void osinfo_list_add_all(OsinfoList *list, OsinfoList *source)
         OsinfoEntity *entity = osinfo_list_get_nth(source, i);
         osinfo_list_add(list, entity);
     }
+}
+
+/*
+ * Creates a list of the same type as sourceOne and sourceTwo after
+ * checking they are the same type. The created list elements are
+ * of the same type as the elements of sourceOne and sourceTwo
+ */
+static OsinfoList *osinfo_list_new_same(OsinfoList *sourceOne,
+                                        OsinfoList *sourceTwo)
+{
+    GType typeOne = G_OBJECT_TYPE(sourceOne);
+
+    if (sourceTwo != NULL) {
+        GType typeTwo = G_OBJECT_TYPE(sourceTwo);
+
+        g_return_val_if_fail(typeOne == typeTwo, NULL);
+        g_return_val_if_fail(OSINFO_IS_LIST(sourceTwo), NULL);
+    }
+
+    g_return_val_if_fail(OSINFO_IS_LIST(sourceOne), NULL);
+
+    return g_object_new(typeOne,
+                        "element-type",
+                        sourceOne->priv->elementType,
+                        NULL);
+}
+
+/**
+ * osinfo_list_new_copy:
+ * @source: the list to copy
+ *
+ * Construct a new list that is filled with elements from @source
+ *
+ * Returns: (transfer full): a copy of the list
+ */
+OsinfoList *osinfo_list_new_copy(OsinfoList *source)
+{
+    OsinfoList *newList = osinfo_list_new_same(source, NULL);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_all(OSINFO_LIST(newList),
+                        OSINFO_LIST(source));
+    return newList;
+}
+
+/**
+ * osinfo_list_new_filtered:
+ * @source: the list to copy
+ * @filter: the filter to apply
+ *
+ * Construct a new list that is filled with elements from @source that
+ * match @filter
+ *
+ * Returns: (transfer full): a filtered copy of the list
+ */
+OsinfoList *osinfo_list_new_filtered(OsinfoList *source, OsinfoFilter *filter)
+{
+    OsinfoList *newList = osinfo_list_new_same(source, NULL);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_filtered(OSINFO_LIST(newList),
+                             OSINFO_LIST(source),
+                             filter);
+    return newList;
+}
+
+/**
+ * osinfo_list_new_intersection:
+ * @sourceOne: the first list to copy
+ * @sourceTwo: the second list to copy
+ *
+ * Construct a new list that is filled with only the elements
+ * that are present in both @sourceOne and @sourceTwo.
+ *
+ * Returns: (transfer full): an intersection of the two lists
+ */
+OsinfoList *osinfo_list_new_intersection(OsinfoList *sourceOne,
+                                         OsinfoList *sourceTwo)
+{
+    OsinfoList *newList = osinfo_list_new_same(sourceOne, sourceTwo);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_intersection(OSINFO_LIST(newList),
+                                 OSINFO_LIST(sourceOne),
+                                 OSINFO_LIST(sourceTwo));
+    return newList;
+}
+
+/**
+ * osinfo_list_new_union:
+ * @sourceOne: the first list to copy
+ * @sourceTwo: the second list to copy
+ *
+ * Construct a new list that is filled with all the that are present in
+ * either @sourceOne and @sourceTwo. @sourceOne and @sourceTwo must be of
+ * the same type.
+ *
+ * Returns: (transfer full): a union of the two lists
+ */
+OsinfoList *osinfo_list_new_union(OsinfoList *sourceOne,
+                                  OsinfoList *sourceTwo)
+{
+    OsinfoList *newList = osinfo_list_new_same(sourceOne, sourceTwo);
+    g_return_val_if_fail(newList != NULL, NULL);
+    osinfo_list_add_union(OSINFO_LIST(newList),
+                          OSINFO_LIST(sourceOne),
+                          OSINFO_LIST(sourceTwo));
+    return newList;
 }
 
 

@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -81,6 +81,9 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_LIVE           "live"
 #define OSINFO_MEDIA_PROP_INSTALLER      "installer"
 #define OSINFO_MEDIA_PROP_INSTALLER_REBOOTS "installer-reboots"
+#define OSINFO_MEDIA_PROP_LANG           "l10n-language"
+#define OSINFO_MEDIA_PROP_LANG_REGEX     "l10n-language-regex"
+#define OSINFO_MEDIA_PROP_LANG_MAP       "l10n-language-map"
 
 /* object */
 struct _OsinfoMedia
@@ -96,6 +99,7 @@ struct _OsinfoMedia
 /* class */
 struct _OsinfoMediaClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */
@@ -123,6 +127,8 @@ const gchar *osinfo_media_get_publisher_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_application_id(OsinfoMedia *media);
 const gchar *osinfo_media_get_kernel_path(OsinfoMedia *media);
 const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media);
+OsinfoOs *osinfo_media_get_os(OsinfoMedia *media);
+GList *osinfo_media_get_languages(OsinfoMedia *media);
 gboolean osinfo_media_get_installer(OsinfoMedia *media);
 gboolean osinfo_media_get_live(OsinfoMedia *media);
 gint osinfo_media_get_installer_reboots(OsinfoMedia *media);

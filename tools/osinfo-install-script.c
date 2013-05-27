@@ -25,10 +25,16 @@
 
 #include <osinfo/osinfo.h>
 #include <string.h>
+#include <locale.h>
+#include <glib/gi18n.h>
 
-static const gchar *profile;
+static const gchar *profile = "jeos";
 static const gchar *output_dir;
 static const gchar *prefix;
+
+static gboolean list_config = FALSE;
+static gboolean list_profile = FALSE;
+static gboolean quiet = FALSE;
 
 static OsinfoInstallConfig *config;
 
@@ -43,7 +49,7 @@ static gboolean handle_config(const gchar *option_name G_GNUC_UNUSED,
 
     if (!(val = strchr(value, '='))) {
         g_set_error(error, 0, 0,
-                    "Expected configuration key=value");
+                    _("Expected configuration key=value"));
         return FALSE;
     }
     len = val - value;
@@ -61,14 +67,20 @@ static gboolean handle_config(const gchar *option_name G_GNUC_UNUSED,
 static GOptionEntry entries[] =
 {
     { "profile", 'p', 0, G_OPTION_ARG_STRING, (void*)&profile,
-      "Install script profile", NULL, },
+      N_("Install script profile"), NULL, },
     { "output-dir", 'd', 0, G_OPTION_ARG_STRING, (void*)&output_dir,
-      "Install script output directory", NULL, },
+      N_("Install script output directory"), NULL, },
     { "prefix", 'P', 0, G_OPTION_ARG_STRING, (void*)&prefix,
-      "The output filename prefix", NULL, },
+      N_("The output filename prefix"), NULL, },
     { "config", 'c', 0, G_OPTION_ARG_CALLBACK,
       handle_config,
-      "Set configuration parameter", "key=value" },
+      N_("Set configuration parameter"), "key=value" },
+    { "list-config", '\0', 0, G_OPTION_ARG_NONE, (void*)&list_config,
+      N_("List configuration parameters"), NULL },
+    { "list-profiles", '\0', 0, G_OPTION_ARG_NONE, (void*)&list_profile,
+      N_("List install script profiles"), NULL },
+    { "quiet", 'q', 0, G_OPTION_ARG_NONE, (void*)&quiet,
+      N_("Do not display output filenames"), NULL },
     { NULL }
 };
 
@@ -92,8 +104,8 @@ static OsinfoOs *find_os(OsinfoDb *db,
                                  OSINFO_PRODUCT_PROP_SHORT_ID,
                                  idoruri);
 
-    filteredList = osinfo_oslist_new_filtered(oslist,
-                                              filter);
+    filteredList = OSINFO_OSLIST(osinfo_list_new_filtered(OSINFO_LIST(oslist),
+                                                          filter));
 
     if (osinfo_list_get_length(OSINFO_LIST(filteredList)) > 0)
         os = OSINFO_OS(osinfo_list_get_nth(OSINFO_LIST(filteredList), 0));
@@ -106,41 +118,40 @@ static OsinfoOs *find_os(OsinfoDb *db,
 }
 
 
-static gboolean generate_script(OsinfoOs *os)
+static gboolean list_script_config(OsinfoOs *os)
 {
     OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
     OsinfoInstallScriptList *profile_scripts;
     OsinfoFilter *filter;
     GList *l, *tmp;
     gboolean ret = FALSE;
-    GError *error = NULL;
 
     filter = osinfo_filter_new();
     osinfo_filter_add_constraint(filter,
                                  OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
                                  profile ? profile :
                                  OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
-    profile_scripts = osinfo_install_scriptlist_new_filtered(scripts,
-                                                            filter);
+    profile_scripts = OSINFO_INSTALL_SCRIPTLIST(osinfo_list_new_filtered(OSINFO_LIST(scripts),
+                                                                         filter));
     l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
+    if (!l) {
+        g_printerr(_("No install script for profile '%s' and OS '%s'"),
+                   profile, osinfo_product_get_name(OSINFO_PRODUCT(os)));
+        goto cleanup;
+    }
+
     for (tmp = l; tmp != NULL; tmp = tmp->next) {
         OsinfoInstallScript *script = tmp->data;
-        GFile *dir = g_file_new_for_commandline_arg(output_dir ?
-                                                    output_dir : ".");
+        GList *params = osinfo_install_script_get_config_param_list(script);
+        GList *tmp2;
 
-        if (prefix)
-            osinfo_install_script_set_output_prefix(script, prefix);
+        for (tmp2 = params ; tmp2 != NULL ; tmp2 = tmp2->next) {
+            OsinfoInstallConfigParam *param = OSINFO_INSTALL_CONFIG_PARAM(tmp2->data);
 
-        osinfo_install_script_generate_output(script,
-                                              os,
-                                              config,
-                                              dir,
-                                              NULL,
-                                              &error);
-        if (error != NULL) {
-            g_printerr("Unable to generate install script: %s\n",
-                    error->message ? error->message : "unknown");
-            goto cleanup;
+            g_print("%s: %s\n",
+                    osinfo_install_config_param_get_name(param),
+                    osinfo_install_config_param_is_required(param) ?
+                    _("required") : _("optional"));
         }
     }
     ret = TRUE;
@@ -154,6 +165,89 @@ static gboolean generate_script(OsinfoOs *os)
 }
 
 
+static gboolean list_script_profile(OsinfoOs *os)
+{
+    OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
+    GList *l, *tmp;
+    gboolean ret = FALSE;
+
+    l = osinfo_list_get_elements(OSINFO_LIST(scripts));
+
+    for (tmp = l; tmp != NULL; tmp = tmp->next) {
+        OsinfoInstallScript *script = tmp->data;
+
+        g_print("%s: %s\n",
+                osinfo_install_script_get_profile(script),
+                osinfo_install_script_get_expected_filename(script));
+    }
+    ret = TRUE;
+
+    g_list_free(l);
+    g_object_unref(scripts);
+    return ret;
+}
+
+
+static gboolean generate_script(OsinfoOs *os)
+{
+    OsinfoInstallScriptList *scripts = osinfo_os_get_install_script_list(os);
+    OsinfoInstallScriptList *profile_scripts;
+    OsinfoFilter *filter;
+    GFile *dir = NULL;
+    GList *l, *tmp;
+    gboolean ret = FALSE;
+    GError *error = NULL;
+
+    filter = osinfo_filter_new();
+    osinfo_filter_add_constraint(filter,
+                                 OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
+                                 profile ? profile :
+                                 OSINFO_INSTALL_SCRIPT_PROFILE_JEOS);
+    profile_scripts = OSINFO_INSTALL_SCRIPTLIST(osinfo_list_new_filtered(OSINFO_LIST(scripts),
+                                                                         filter));
+    l = osinfo_list_get_elements(OSINFO_LIST(profile_scripts));
+
+    if (!l) {
+        g_printerr(_("No install script for profile '%s' and OS '%s'"),
+                   profile, osinfo_product_get_name(OSINFO_PRODUCT(os)));
+        goto cleanup;
+    }
+
+    dir = g_file_new_for_commandline_arg(output_dir ? output_dir : ".");
+
+    for (tmp = l; tmp != NULL; tmp = tmp->next) {
+        OsinfoInstallScript *script = tmp->data;
+
+        if (prefix)
+            osinfo_install_script_set_output_prefix(script, prefix);
+
+        osinfo_install_script_generate_output(script,
+                                              os,
+                                              config,
+                                              dir,
+                                              NULL,
+                                              &error);
+        if (error != NULL) {
+            g_printerr(_("Unable to generate install script: %s\n"),
+                       error->message ? error->message : "unknown");
+            goto cleanup;
+        }
+        if (!quiet)
+           g_print ("%s\n", osinfo_install_script_get_output_filename(script));
+    }
+    ret = TRUE;
+
+ cleanup:
+    g_list_free(l);
+    g_object_unref(scripts);
+    g_object_unref(filter);
+    g_object_unref(profile_scripts);
+    if (dir)
+        g_object_unref(dir);
+    return ret;
+}
+
+
 gint main(gint argc, gchar **argv)
 {
     GOptionContext *context;
@@ -163,15 +257,21 @@ gint main(gint argc, gchar **argv)
     OsinfoOs *os = NULL;
     gint ret = 0;
 
+    setlocale(LC_ALL, "");
+    textdomain (GETTEXT_PACKAGE);
+    bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
+    bind_textdomain_codeset (GETTEXT_PACKAGE, "UTF-8");
+
+#if !GLIB_CHECK_VERSION(2,35,1)
     g_type_init();
+#endif
 
     config = osinfo_install_config_new("http://libosinfo.fedorahosted.org/config");
 
-    context = g_option_context_new("- Generate an OS install script");
-    /* FIXME: We don't have a gettext package to pass to this function. */
-    g_option_context_add_main_entries(context, entries, NULL);
+    context = g_option_context_new(_("- Generate an OS install script"));
+    g_option_context_add_main_entries(context, entries, GETTEXT_PACKAGE);
     if (!g_option_context_parse(context, &argc, &argv, &error)) {
-        g_printerr("Error while parsing options: %s\n", error->message);
+        g_printerr(_("Error while parsing options: %s\n"), error->message);
         g_printerr("%s\n", g_option_context_get_help(context, FALSE, NULL));
 
         ret = -1;
@@ -185,10 +285,18 @@ gint main(gint argc, gchar **argv)
         goto EXIT;
     }
 
+    if (list_profile && list_config) {
+        g_printerr("%s",
+                   _("Only one of --list-propfile and --list-config can be requested"));
+        ret = -2;
+        goto EXIT;
+    }
+
+
     loader = osinfo_loader_new();
     osinfo_loader_process_default_path(loader, &error);
     if (error != NULL) {
-        g_printerr("Error loading OS data: %s\n", error->message);
+        g_printerr(_("Error loading OS data: %s\n"), error->message);
 
         ret = -3;
         goto EXIT;
@@ -197,14 +305,26 @@ gint main(gint argc, gchar **argv)
     db = osinfo_loader_get_db(loader);
     os = find_os(db, argv[1]);
     if (!os) {
-        g_printerr("Error finding OS: %s\n", argv[1]);
+        g_printerr(_("Error finding OS: %s\n"), argv[1]);
         ret = -4;
         goto EXIT;
     }
 
-    if (!generate_script(os)) {
-        ret = -5;
-        goto EXIT;
+    if (list_config) {
+        if (!list_script_config(os)) {
+            ret = -5;
+            goto EXIT;
+        }
+    } else if (list_profile) {
+        if (!list_script_profile(os)) {
+            ret = -5;
+            goto EXIT;
+        }
+    } else {
+        if (!generate_script(os)) {
+            ret = -5;
+            goto EXIT;
+        }
     }
 
 EXIT:
@@ -319,7 +439,7 @@ The following usage generates a Fedora 16 kickstart script
          --profile jeos \
          --config l10n-timezone=GMT \
          --config l10n-keyboard=uk \
-         --config l10n-language=en_GB.UTF-8 \
+         --config l10n-language=en_GB \
          --config admin-password=123456 \
          --config user-login=berrange \
          --config user-password=123456 \

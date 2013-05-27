@@ -2,6 +2,7 @@
  * libosinfo: OS installation configuration parameter
  *
  * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2012 Fabiano Fidêncio
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -14,8 +15,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Fabiano Fidêncio <fabiano@fidencio.org>
@@ -36,10 +37,21 @@
 #define OSINFO_IS_INSTALL_CONFIG_PARAM_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_INSTALL_CONFIG_PARAM))
 #define OSINFO_INSTALL_CONFIG_PARAM_GET_CLASS(obj)  (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_INSTALL_CONFIG_PARAM, OsinfoInstallConfigParamClass))
 
+#define OSINFO_INSTALL_CONFIG_PARAM_PROP_DATAMAP "value-map"
+#define OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME    "name"
+#define OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY  "policy"
+
 typedef struct _OsinfoInstallConfigParam        OsinfoInstallConfigParam;
 typedef struct _OsinfoInstallConfigParamClass   OsinfoInstallConfigParamClass;
 typedef struct _OsinfoInstallConfigParamPrivate OsinfoInstallConfigParamPrivate;
-
+/**
+ * OsinfoInstallConfigParamPolicy:
+ * @OSINFO_INSTALL_CONFIG_PARAM_POLICY_NONE: no policy defined
+ * @OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED: config parameter is required
+ * @OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL: config parameter may be omitted
+ *
+ * Policy for configuration parameter presence
+ */
 typedef enum {
     OSINFO_INSTALL_CONFIG_PARAM_POLICY_NONE,
     OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED,
@@ -59,6 +71,7 @@ struct _OsinfoInstallConfigParam
 /* class */
 struct _OsinfoInstallConfigParamClass
 {
+    /*< private >*/
     OsinfoEntityClass parent_class;
 
     /* class members */
@@ -66,7 +79,7 @@ struct _OsinfoInstallConfigParamClass
 
 GType osinfo_install_config_param_get_type(void);
 
-OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name, const gchar *policy);
+OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name);
 
 const gchar *osinfo_install_config_param_get_name(const OsinfoInstallConfigParam *config_param);
 
@@ -75,6 +88,9 @@ OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(const Osin
 gboolean osinfo_install_config_param_is_required(const OsinfoInstallConfigParam *config_param);
 
 gboolean osinfo_install_config_param_is_optional(const OsinfoInstallConfigParam *config_param);
+
+void osinfo_install_config_param_set_value_map(OsinfoInstallConfigParam *config_param, OsinfoDatamap *datamap);
+OsinfoDatamap *osinfo_install_config_param_get_value_map(const OsinfoInstallConfigParam *config_param);
 
 
 #endif /* __OSINFO_INSTALL_CONFIG_PARAM_H__ */

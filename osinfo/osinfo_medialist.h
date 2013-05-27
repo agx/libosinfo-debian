@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoMediaList
 /* class */
 struct _OsinfoMediaListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */
@@ -67,9 +68,13 @@ struct _OsinfoMediaListClass
 GType osinfo_medialist_get_type(void);
 
 OsinfoMediaList *osinfo_medialist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoMediaList *osinfo_medialist_new_copy(OsinfoMediaList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoMediaList *osinfo_medialist_new_filtered(OsinfoMediaList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoMediaList *osinfo_medialist_new_intersection(OsinfoMediaList *sourceOne, OsinfoMediaList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoMediaList *osinfo_medialist_new_union(OsinfoMediaList *sourceOne, OsinfoMediaList *sourceTwo);
 
 #endif /* __OSINFO_MEDIALIST_H__ */

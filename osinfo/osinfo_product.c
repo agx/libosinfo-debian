@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Bproductton, MA 02111-1307  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -28,6 +28,9 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
+
+#include "osinfo/osinfo_product_private.h"
 
 G_DEFINE_ABSTRACT_TYPE (OsinfoProduct, osinfo_product, OSINFO_TYPE_ENTITY);
 
@@ -131,6 +134,8 @@ osinfo_product_get_property (GObject    *object,
     case PROP_CODENAME:
         g_value_set_string (value,
                             osinfo_product_get_codename (product));
+        break;
+
     case PROP_LOGO:
         g_value_set_string (value,
                             osinfo_product_get_logo (product));
@@ -155,102 +160,88 @@ osinfo_product_class_init (OsinfoProductClass *klass)
     g_type_class_add_private (klass, sizeof (OsinfoProductPrivate));
 
     /**
-     * OsinfoProduct::name:
+     * OsinfoProduct:name:
      *
      * The name of this product.
      */
     pspec = g_param_spec_string ("name",
                                  "Name",
-                                 "Name",
+                                 _("Name"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_NAME, pspec);
 
     /**
-     * OsinfoProduct::short-id:
+     * OsinfoProduct:short-id:
      *
      * The short ID of this product.
      */
     pspec = g_param_spec_string ("short-id",
                                  "ShortID",
-                                 "Short ID",
+                                 _("Short ID"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_SHORT_ID, pspec);
 
     /**
-     * OsinfoProduct::vendor:
+     * OsinfoProduct:vendor:
      *
      * The Vendor of this product.
      */
     pspec = g_param_spec_string ("vendor",
                                  "Vendor",
-                                 "Vendor",
+                                 _("Vendor"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_VENDOR, pspec);
 
     /**
-     * OsinfoProduct::version:
+     * OsinfoProduct:version:
      *
      * The version of the product.
      */
     pspec = g_param_spec_string ("version",
                                  "Version",
-                                 "Version",
+                                 _("Version"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_VERSION, pspec);
 
     /**
-     * OsinfoProduct::codename:
+     * OsinfoProduct:codename:
      *
      * The codename of this product.
      */
     pspec = g_param_spec_string ("codename",
                                  "Codename",
-                                 "Codename",
+                                 _("Codename"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_NAME, pspec);
 
     /**
-     * OsinfoProduct::logo:
+     * OsinfoProduct:logo:
      *
      * The URI of the logo of the product.
      */
     pspec = g_param_spec_string ("logo",
                                  "Logo",
-                                 "URI of the logo",
+                                 _("URI of the logo"),
                                  NULL /* default value */,
                                  G_PARAM_READABLE |
-                                 G_PARAM_STATIC_NAME |
-                                 G_PARAM_STATIC_NICK |
-                                 G_PARAM_STATIC_BLURB);
+                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property (g_klass, PROP_LOGO, pspec);
 }
 
 static void
 osinfo_product_init (OsinfoProduct *product)
 {
-    OsinfoProductPrivate *priv;
-    product->priv = priv = OSINFO_PRODUCT_GET_PRIVATE(product);
-
+    product->priv = OSINFO_PRODUCT_GET_PRIVATE(product);
     product->priv->productLinks = NULL;
 }
 
@@ -376,6 +367,76 @@ GDate *osinfo_product_get_eol_date(OsinfoProduct *prod)
 const gchar *osinfo_product_get_logo(OsinfoProduct *prod)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(prod), OSINFO_PRODUCT_PROP_LOGO);
+}
+
+static OsinfoList *osinfo_list_append(OsinfoList *appendee,
+                                      OsinfoList *appended)
+{
+    OsinfoList *result;
+    result = osinfo_list_new_union(appendee, appended);
+    g_object_unref(G_OBJECT(appendee));
+
+    return result;
+}
+
+/**
+ * osinfo_product_foreach_related:
+ * @product: a product
+ * @flags: bitwise-or of #OsinfoProductForeachFlag
+ * @foreach_func: the function to call for each related product
+ * @user_data: user data to pass to foreach_func()
+ *
+ * Call @foreach_func for @product and for each #OsinfoProduct related
+ * to @product. The meaning of 'related' is defined by the @flag parameter,
+ * and can be products @product derives from or products which @product
+ * upgrades or clones, or a combination of these, or none.
+ */
+void osinfo_product_foreach_related(OsinfoProduct *product,
+                                    unsigned int flags,
+                                    OsinfoProductForeach foreach_func,
+                                    gpointer user_data)
+{
+    OsinfoList *related_list;
+    OsinfoProductList *tmp_related;
+    guint i;
+
+    foreach_func(product, user_data);
+
+    related_list = OSINFO_LIST(osinfo_productlist_new());
+    if (flags & OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM) {
+        tmp_related = osinfo_product_get_related
+                      (product, OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM);
+        related_list = osinfo_list_append(related_list,
+                                          OSINFO_LIST(tmp_related));
+        g_object_unref(G_OBJECT(tmp_related));
+    }
+
+    if (flags & OSINFO_PRODUCT_FOREACH_FLAG_UPGRADES) {
+        tmp_related = osinfo_product_get_related
+                      (product, OSINFO_PRODUCT_RELATIONSHIP_UPGRADES);
+        related_list = osinfo_list_append(related_list,
+                                          OSINFO_LIST(tmp_related));
+        g_object_unref(G_OBJECT(tmp_related));
+    }
+
+    if (flags & OSINFO_PRODUCT_FOREACH_FLAG_CLONES) {
+        tmp_related = osinfo_product_get_related
+                      (product, OSINFO_PRODUCT_RELATIONSHIP_CLONES);
+        related_list = osinfo_list_append(related_list,
+                                          OSINFO_LIST(tmp_related));
+        g_object_unref(G_OBJECT(tmp_related));
+    }
+
+    for (i = 0; i < osinfo_list_get_length(related_list); i++) {
+        OsinfoEntity *related;
+
+        related = osinfo_list_get_nth(related_list, i);
+        osinfo_product_foreach_related(OSINFO_PRODUCT(related),
+                                       flags,
+                                       foreach_func,
+                                       user_data);
+    }
+    g_object_unref (related_list);
 }
 
 /*

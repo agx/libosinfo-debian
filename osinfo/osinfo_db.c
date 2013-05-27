@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,8 +25,10 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_media_private.h"
 #include <gio/gio.h>
 #include <string.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
 
@@ -36,6 +38,86 @@ G_DEFINE_TYPE (OsinfoDb, osinfo_db, G_TYPE_OBJECT);
     (((pattern) == NULL) ||                                             \
      (((str) != NULL) &&                                                \
       g_regex_match_simple((pattern), (str), 0, 0)))
+
+static gchar *get_raw_lang(const char *volume_id, const gchar *regex_str)
+{
+    GRegex *regex;
+    GMatchInfo *match;
+    gboolean matched;
+    gchar *raw_lang = NULL;
+
+    regex = g_regex_new(regex_str, G_REGEX_ANCHORED,
+                        G_REGEX_MATCH_ANCHORED, NULL);
+    if (regex == NULL)
+        return NULL;
+
+    matched = g_regex_match(regex, volume_id, G_REGEX_MATCH_ANCHORED, &match);
+    if (!matched || !g_match_info_matches(match))
+        goto end;
+    raw_lang = g_match_info_fetch(match, 1);
+    if (raw_lang == NULL)
+        goto end;
+
+end:
+    g_match_info_unref(match);
+    g_regex_unref(regex);
+
+    return raw_lang;
+}
+
+static const char *language_code_from_raw(OsinfoDatamap *lang_map,
+                                          const char *raw_lang)
+{
+    const char *lang;
+
+    if (lang_map == NULL)
+        return raw_lang;
+
+    lang = osinfo_datamap_lookup(lang_map, raw_lang);
+    if (lang == NULL)
+        return raw_lang;
+
+    return lang;
+}
+
+static GList *match_languages(OsinfoDb *db, OsinfoMedia *media,
+                              OsinfoMedia *db_media)
+{
+    const gchar *volume_id;
+    const gchar *regex;
+    const gchar *lang_map_id;
+    OsinfoDatamap *lang_map;
+    gchar *raw_lang;
+    GList *languages;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+    g_return_val_if_fail(OSINFO_IS_MEDIA(db_media), NULL);
+
+    regex = osinfo_entity_get_param_value(OSINFO_ENTITY(db_media),
+                                          OSINFO_MEDIA_PROP_LANG_REGEX);
+    if (regex == NULL)
+        return NULL;
+
+    volume_id = osinfo_media_get_volume_id(media);
+    if (volume_id == NULL)
+        return NULL;
+
+    lang_map_id = osinfo_entity_get_param_value(OSINFO_ENTITY(db_media),
+                                                OSINFO_MEDIA_PROP_LANG_MAP);
+    if (lang_map_id != NULL) {
+        lang_map = osinfo_db_get_datamap(db, lang_map_id);
+    } else {
+        lang_map = NULL;
+    }
+
+    raw_lang = get_raw_lang(volume_id, regex);
+
+    languages = g_list_append(NULL,
+                              (gpointer)language_code_from_raw(lang_map, raw_lang));
+    g_free(raw_lang);
+
+    return languages;
+}
 
 /**
  * SECTION:osinfo_db
@@ -52,6 +134,7 @@ struct _OsinfoDbPrivate
     OsinfoPlatformList *platforms;
     OsinfoOsList *oses;
     OsinfoDeploymentList *deployments;
+    OsinfoDatamapList *datamaps;
     OsinfoInstallScriptList *scripts;
 };
 
@@ -66,6 +149,7 @@ osinfo_db_finalize (GObject *object)
     g_object_unref(db->priv->platforms);
     g_object_unref(db->priv->oses);
     g_object_unref(db->priv->deployments);
+    g_object_unref(db->priv->datamaps);
     g_object_unref(db->priv->scripts);
 
     /* Chain up to the parent class */
@@ -88,13 +172,12 @@ osinfo_db_class_init (OsinfoDbClass *klass)
 static void
 osinfo_db_init (OsinfoDb *db)
 {
-    OsinfoDbPrivate *priv;
-    db->priv = priv = OSINFO_DB_GET_PRIVATE(db);
-
+    db->priv = OSINFO_DB_GET_PRIVATE(db);
     db->priv->devices = osinfo_devicelist_new();
     db->priv->platforms = osinfo_platformlist_new();
     db->priv->oses = osinfo_oslist_new();
     db->priv->deployments = osinfo_deploymentlist_new();
+    db->priv->datamaps = osinfo_datamaplist_new();
     db->priv->scripts = osinfo_install_scriptlist_new();
 }
 
@@ -172,6 +255,22 @@ OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id)
 }
 
 /**
+ * osinfo_db_get_datamap:
+ * @db: the database
+ * @id: the unique operating system identifier
+ *
+ * Returns: (transfer none): the install datamap, or NULL if none is found
+ */
+OsinfoDatamap *osinfo_db_get_datamap(OsinfoDb *db, const gchar *id)
+{
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(id != NULL, NULL);
+
+    return OSINFO_DATAMAP(osinfo_list_find_by_id(OSINFO_LIST(db->priv->datamaps), id));
+}
+
+
+/**
  * osinfo_db_get_install_script:
  * @db: the database
  * @id: the unique operating system identifier
@@ -237,9 +336,12 @@ OsinfoDeployment *osinfo_db_find_deployment(OsinfoDb *db,
  */
 OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_oslist_new_copy(db->priv->oses);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->oses));
+
+    return OSINFO_OSLIST(new_list);
 }
 
 /**
@@ -250,9 +352,12 @@ OsinfoOsList *osinfo_db_get_os_list(OsinfoDb *db)
  */
 OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_platformlist_new_copy(db->priv->platforms);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->platforms));
+
+    return OSINFO_PLATFORMLIST(new_list);
 }
 
 /**
@@ -263,9 +368,12 @@ OsinfoPlatformList *osinfo_db_get_platform_list(OsinfoDb *db)
  */
 OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_devicelist_new_copy(db->priv->devices);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->devices));
+
+    return OSINFO_DEVICELIST(new_list);
 }
 
 
@@ -277,9 +385,29 @@ OsinfoDeviceList *osinfo_db_get_device_list(OsinfoDb *db)
  */
 OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_deploymentlist_new_copy(db->priv->deployments);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->deployments));
+
+    return OSINFO_DEPLOYMENTLIST(new_list);
+}
+
+
+/**
+ * osinfo_db_get_datamap_list:
+ * @db: the database
+ *
+ * Returns: (transfer full): the list of install datamaps
+ */
+OsinfoDatamapList *osinfo_db_get_datamap_list(OsinfoDb *db)
+{
+    OsinfoList *new_list;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->datamaps));
+
+    return OSINFO_DATAMAPLIST(new_list);
 }
 
 
@@ -291,9 +419,12 @@ OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
  */
 OsinfoInstallScriptList *osinfo_db_get_install_script_list(OsinfoDb *db)
 {
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    OsinfoList *new_list;
 
-    return osinfo_install_scriptlist_new_copy(db->priv->scripts);
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(db->priv->scripts));
+
+    return OSINFO_INSTALL_SCRIPTLIST(new_list);
 }
 
 
@@ -358,9 +489,24 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
 
 
 /**
+ * osinfo_db_add_datamap:
+ * @db: the database
+ * @datamap: (transfer none): an install datamap
+ *
+ */
+void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap)
+{
+    g_return_if_fail(OSINFO_IS_DB(db));
+    g_return_if_fail(OSINFO_IS_DATAMAP(datamap));
+
+    osinfo_list_add(OSINFO_LIST(db->priv->datamaps), OSINFO_ENTITY(datamap));
+}
+
+
+/**
  * osinfo_db_add_install_script:
  * @db: the database
- * @script: (transfer none): a install script
+ * @script: (transfer none): an install script
  *
  */
 void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script)
@@ -390,20 +536,10 @@ static gint media_volume_compare (gconstpointer a, gconstpointer b)
         return 1;
 }
 
-/**
- * osinfo_db_guess_os_from_media:
- * @db: the database
- * @media: the installation media
- * @matched_media: (out) (transfer none) (allow-none): the matched operating
- * system media
- *
- * Guess operating system given a #OsinfoMedia object.
- *
- * Returns: (transfer none): the operating system, or NULL if guessing failed
- */
-OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
-                                        OsinfoMedia *media,
-                                        OsinfoMedia **matched_media)
+static OsinfoOs *
+osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
+                                       OsinfoMedia *media,
+                                       OsinfoMedia **matched_media)
 {
     OsinfoOs *ret = NULL;
     GList *oss = NULL;
@@ -459,6 +595,107 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
 
     return ret;
 }
+/**
+ * osinfo_db_guess_os_from_media:
+ * @db: the database
+ * @media: the installation media
+ * @matched_media: (out) (transfer none) (allow-none): the matched operating
+ * system media
+ *
+ * Guess operating system given an #OsinfoMedia object.
+ *
+ * Returns: (transfer none): the operating system, or NULL if guessing failed
+ * Deprecated: 0.2.3: Use osinfo_db_identify_media() instead.
+ */
+OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
+                                        OsinfoMedia *media,
+                                        OsinfoMedia **matched_media)
+{
+    return osinfo_db_guess_os_from_media_internal(db, media, matched_media);
+}
+
+static void fill_media (OsinfoDb *db, OsinfoMedia *media,
+                        OsinfoMedia *matched_media,
+                        OsinfoOs *os)
+{
+    GList *languages;
+    gboolean is_installer;
+    gboolean is_live;
+    gint reboots;
+    const gchar *id;
+    const gchar *kernel_path;
+    const gchar *initrd_path;
+    const gchar *arch;
+    const gchar *url;
+
+    languages = match_languages(db, media, matched_media);
+    if (languages != NULL)
+        osinfo_media_set_languages(media, languages);
+    g_list_free(languages);
+
+    id = osinfo_entity_get_id(OSINFO_ENTITY(matched_media));
+    g_object_set(G_OBJECT(media), "id", id, NULL);
+
+    arch = osinfo_media_get_architecture(matched_media);
+    if (arch != NULL)
+        g_object_set(G_OBJECT(media), "architecture", arch, NULL);
+    url = osinfo_media_get_url(matched_media);
+    if (url != NULL)
+        g_object_set(G_OBJECT(media), "url", url, NULL);
+
+    kernel_path = osinfo_media_get_kernel_path(matched_media);
+    if (kernel_path != NULL)
+        g_object_set(G_OBJECT(media), "kernel_path", kernel_path, NULL);
+
+    initrd_path = osinfo_media_get_initrd_path(matched_media);
+    if (initrd_path != NULL)
+        g_object_set(G_OBJECT(media), "initrd_path", initrd_path, NULL);
+    is_installer = osinfo_media_get_installer(matched_media);
+    is_live = osinfo_media_get_live(matched_media);
+    g_object_set(G_OBJECT(media),
+                 "installer", is_installer,
+                 "live", is_live,
+                 NULL);
+    if (is_installer) {
+        reboots = osinfo_media_get_installer_reboots(matched_media);
+        g_object_set(G_OBJECT(media), "installer-reboots", reboots, NULL);
+    }
+    if (os != NULL)
+        osinfo_media_set_os(media, os);
+}
+
+/**
+ * osinfo_db_identify_media:
+ * @db: an #OsinfoDb database
+ * @media: the installation media
+ * data
+ *
+ * Try to match a newly created @media with a media description from @db.
+ * If found, @media will be filled with the corresponding information
+ * stored in @db. In particular, after a call to osinfo_db_identify_media(), if
+ * the media could be identified, its OsinfoEntify::id and OsinfoMedia::os
+ * properties will be set.
+ *
+ * Returns: TRUE if @media was found in @db, FALSE otherwise
+ */
+gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
+{
+    OsinfoMedia *matched_media;
+    OsinfoOs *matched_os;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), FALSE);
+    g_return_val_if_fail(OSINFO_IS_DB(db), FALSE);
+
+    matched_os = osinfo_db_guess_os_from_media_internal(db, media,
+                                                        &matched_media);
+    if (matched_os == NULL) {
+        return FALSE;
+    }
+
+    fill_media(db, media, matched_media, matched_os);
+
+    return TRUE;
+}
 
 
 /**
@@ -468,7 +705,7 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
  * @matched_tree: (out) (transfer none) (allow-none): the matched operating
  * system tree
  *
- * Guess operating system given a #OsinfoTree object.
+ * Guess operating system given an #OsinfoTree object.
  *
  * Returns: (transfer none): the operating system, or NULL if guessing failed
  */

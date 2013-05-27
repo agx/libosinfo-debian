@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoDeviceList, osinfo_devicelist, OSINFO_TYPE_LIST);
 
@@ -64,9 +65,7 @@ osinfo_devicelist_class_init (OsinfoDeviceListClass *klass)
 static void
 osinfo_devicelist_init (OsinfoDeviceList *list)
 {
-    OsinfoDeviceListPrivate *priv;
-    list->priv = priv = OSINFO_DEVICELIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_DEVICELIST_GET_PRIVATE(list);
 }
 
 
@@ -93,6 +92,7 @@ OsinfoDeviceList *osinfo_devicelist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the device list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoDeviceList *osinfo_devicelist_new_copy(OsinfoDeviceList *source)
 {
@@ -112,6 +112,7 @@ OsinfoDeviceList *osinfo_devicelist_new_copy(OsinfoDeviceList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the device list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, OsinfoFilter *filter)
 {
@@ -131,6 +132,7 @@ OsinfoDeviceList *osinfo_devicelist_new_filtered(OsinfoDeviceList *source, Osinf
  * devices that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two device lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo)
 {
@@ -150,6 +152,7 @@ OsinfoDeviceList *osinfo_devicelist_new_intersection(OsinfoDeviceList *sourceOne
  * devices that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two device lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoDeviceList *osinfo_devicelist_new_union(OsinfoDeviceList *sourceOne, OsinfoDeviceList *sourceTwo)
 {

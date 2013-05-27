@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -59,6 +59,7 @@ struct _OsinfoProductList
 /* class */
 struct _OsinfoProductListClass
 {
+    /*< private >*/
     OsinfoListClass parent_class;
 
     /* class members */
@@ -67,9 +68,13 @@ struct _OsinfoProductListClass
 GType osinfo_productlist_get_type(void);
 
 OsinfoProductList *osinfo_productlist_new(void);
+G_DEPRECATED_FOR(osinfo_list_new_copy)
 OsinfoProductList *osinfo_productlist_new_copy(OsinfoProductList *source);
+G_DEPRECATED_FOR(osinfo_list_new_filtered)
 OsinfoProductList *osinfo_productlist_new_filtered(OsinfoProductList *source, OsinfoFilter *filter);
+G_DEPRECATED_FOR(osinfo_list_new_intersection)
 OsinfoProductList *osinfo_productlist_new_intersection(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo);
+G_DEPRECATED_FOR(osinfo_list_new_union)
 OsinfoProductList *osinfo_productlist_new_union(OsinfoProductList *sourceOne, OsinfoProductList *sourceTwo);
 
 #endif /* __OSINFO_PRODUCTLIST_H__ */

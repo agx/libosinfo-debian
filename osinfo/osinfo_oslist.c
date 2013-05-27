@@ -14,8 +14,8 @@
  * Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ * License along with this library. If not, see
+ * <http://www.gnu.org/licenses/>.
  *
  * Authors:
  *   Arjun Roy <arroy@redhat.com>
@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE (OsinfoOsList, osinfo_oslist, OSINFO_TYPE_PRODUCTLIST);
 
@@ -64,9 +65,7 @@ osinfo_oslist_class_init (OsinfoOsListClass *klass)
 static void
 osinfo_oslist_init (OsinfoOsList *list)
 {
-    OsinfoOsListPrivate *priv;
-    list->priv = priv = OSINFO_OSLIST_GET_PRIVATE(list);
-
+    list->priv = OSINFO_OSLIST_GET_PRIVATE(list);
 }
 
 
@@ -93,6 +92,7 @@ OsinfoOsList *osinfo_oslist_new(void)
  * from @source
  *
  * Returns: (transfer full): a copy of the os list
+ * Deprecated: 0.2.2: Use osinfo_list_new_copy() instead.
  */
 OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
 {
@@ -111,6 +111,7 @@ OsinfoOsList *osinfo_oslist_new_copy(OsinfoOsList *source)
  * from @source that match @filter
  *
  * Returns: (transfer full): a filtered copy of the os list
+ * Deprecated: 0.2.2: Use osinfo_list_new_filtered() instead.
  */
 OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *filter)
 {
@@ -130,6 +131,7 @@ OsinfoOsList *osinfo_oslist_new_filtered(OsinfoOsList *source, OsinfoFilter *fil
  * oss that are present in both @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): an intersection of the two os lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_intersection() instead.
  */
 OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo)
 {
@@ -149,6 +151,7 @@ OsinfoOsList *osinfo_oslist_new_intersection(OsinfoOsList *sourceOne, OsinfoOsLi
  * oss that are present in either @sourceOne and @sourceTwo.
  *
  * Returns: (transfer full): a union of the two os lists
+ * Deprecated: 0.2.2: Use osinfo_list_new_union() instead.
  */
 OsinfoOsList *osinfo_oslist_new_union(OsinfoOsList *sourceOne, OsinfoOsList *sourceTwo)
 {
