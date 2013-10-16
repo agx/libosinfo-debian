@@ -504,6 +504,32 @@
     <derives-from id="http://freebsd.org/freebsd/8.1"/>
   </os>
 
+  <os id="http://freebsd.org/freebsd/8.3">
+    <short-id>freebsd8.3</short-id>
+    <_name>FreeBSD 8.3</_name>
+    <version>8.3</version>
+    <_vendor>FreeBSD Project</_vendor>
+    <family>freebsd</family>
+    <distro>freebsd</distro>
+    <upgrades id="http://freebsd.org/freebsd/8.2"/>
+    <derives-from id="http://freebsd.org/freebsd/8.2"/>
+
+    <release-date>2012-04-18</release-date>
+  </os>
+
+  <os id="http://freebsd.org/freebsd/8.4">
+    <short-id>freebsd8.4</short-id>
+    <_name>FreeBSD 8.4</_name>
+    <version>8.4</version>
+    <_vendor>FreeBSD Project</_vendor>
+    <family>freebsd</family>
+    <distro>freebsd</distro>
+    <upgrades id="http://freebsd.org/freebsd/8.3"/>
+    <derives-from id="http://freebsd.org/freebsd/8.3"/>
+
+    <release-date>2013-06-07</release-date>
+  </os>
+
   <os id="http://freebsd.org/freebsd/9.0">
     <short-id>freebsd9.0</short-id>
     <_name>FreeBSD 9.0</_name>
@@ -515,6 +541,19 @@
     <derives-from id="http://freebsd.org/freebsd/8.2"/>
 
     <release-date>2012-01-12</release-date>
+  </os>
+
+  <os id="http://freebsd.org/freebsd/9.1">
+    <short-id>freebsd9.1</short-id>
+    <_name>FreeBSD 9.1</_name>
+    <version>9.1</version>
+    <_vendor>FreeBSD Project</_vendor>
+    <family>freebsd</family>
+    <distro>freebsd</distro>
+    <upgrades id="http://freebsd.org/freebsd/9.0"/>
+    <derives-from id="http://freebsd.org/freebsd/9.0"/>
+
+    <release-date>2012-12-30</release-date>
   </os>
 
 
