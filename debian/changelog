@@ -1,3 +1,15 @@
+libosinfo (0.2.8-1) unstable; urgency=low
+
+  * New upstream version (Closes: #724553)
+  * [35ef4ea] Update symbols
+  * [ef528e9] Depend on pciutils and usbutils
+    instead of hwdata now that the hwdata uses {pci,usb}utils data instead
+    of providing its own. (Closes: #721407)
+  * [a9ccd54] Name debian packaging branch debian/sid as proposed in the gbp
+    manual.
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 16 Oct 2013 13:15:10 +0200
+
 libosinfo (0.2.7-1) unstable; urgency=low
 
   * Upload to unstable
