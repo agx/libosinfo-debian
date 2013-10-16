@@ -25,7 +25,7 @@ Vcs-Browser: http://git.debian.org/?p=pkg-libvirt/libosinfo.git
 
 Package: libosinfo-1.0-0
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, hwdata
+Depends: ${shlibs:Depends}, ${misc:Depends}, pciutils, usbutils
 Description: Library for managing information about operating systems and hypervisors
  libosinfo is a GObject based library API for managing information about
  operating systems, hypervisors and the (virtual) hardware devices they
