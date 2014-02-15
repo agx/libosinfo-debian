@@ -1,3 +1,10 @@
+libosinfo (0.2.9-1) unstable; urgency=medium
+
+  * New upstream version (Closes: #738861)
+  * [a37c81c] Update symbols
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 15 Feb 2014 12:32:27 +0100
+
 libosinfo (0.2.8-1) unstable; urgency=low
 
   * New upstream version (Closes: #724553)
