@@ -383,7 +383,7 @@
     </installer>
 
     <!-- virtio block device driver -->
-    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools/preinst/winxp/x86" pre-installable="true" signed="false">
+    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/winxp/x86" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
@@ -392,7 +392,7 @@
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/>
     </driver>
 
-    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools/preinst/winxp/amd64" pre-installable="true" signed="false">
+    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/winxp/amd64" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
@@ -736,16 +736,100 @@
     <release-date>2009-10-22</release-date>
     <eol-date>2015-01-13</eol-date>
 
+    <variant id="starter">
+      <_name>Microsoft Windows 7 Starter</_name>
+    </variant>
+    <variant id="home-basic">
+      <_name>Microsoft Windows 7 Home Basic</_name>
+    </variant>
+    <variant id="home-premium">
+      <_name>Microsoft Windows 7 Home Premium</_name>
+    </variant>
+    <variant id="professional">
+      <_name>Microsoft Windows 7 Professional</_name>
+    </variant>
+    <variant id="enterprise">
+      <_name>Microsoft Windows 7 Enterprise</_name>
+    </variant>
+    <variant id="ultimate">
+      <_name>Microsoft Windows 7 Ultimate</_name>
+    </variant>
+
+    <!-- Home Premium -->
+    <media arch="x86_64" installer-reboots="2">
+      <variant id="home-premium"/>
+      <iso>
+        <volume-id>(GSP1RMCNHPXFRER)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <!-- Professional -->
+    <media arch="i686" installer-reboots="2">
+      <variant id="professional"/>
+      <iso>
+        <volume-id>(GSP1RMCNPRFRER|GSP1RMCPRFRER|GSP1RMCPRVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64" installer-reboots="2">
+      <variant id="professional"/>
+      <iso>
+        <volume-id>(GSP1RMCPRXFRER|GSP1RMCPRXVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <!-- Enterprise -->
+    <media arch="i686" installer-reboots="2">
+      <variant id="enterprise"/>
+      <iso>
+        <volume-id>(GRMCENVOL|GRMCNENVOL|GSP1RMCNENVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64" installer-reboots="2">
+      <variant id="enterprise"/>
+      <iso>
+        <volume-id>(GSP1RMCENXVOL|GRMCENXVOL|GRMCNENXVOL)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <!-- Ultimate -->
+    <media arch="i686" installer-reboots="2">
+      <variant id="ultimate"/>
+      <iso>
+        <volume-id>(GRMCULFRER|GSP1RMCNULFRER|GSP1RMCULFRER)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64" installer-reboots="2">
+      <variant id="ultimate"/>
+      <iso>
+        <volume-id>(GRMCULXFRER|GSP1RMCNULXFRER)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <!-- Variant unknown -->
     <media arch="i686" installer-reboots="2">
       <iso>
-        <volume-id>(GRMCULFRER|GSP1RMCNPRFRER|GSP1RMCNULFRER|GSP1RMCULFRER|GSP1RMCPRFRER|GRMCENVOL|GRMCNENVOL|GRMCPRFRER|GSP1RMCPRVOL|GSP1RMCNENVOL)_</volume-id>
+        <volume-id>(GRMCPRFRER)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
     </media>
     <media arch="x86_64" installer-reboots="2">
       <iso>
-        <volume-id>(GRMCULXFRER|GSP1RMCPRXFRER|GSP1RMCNHPXFRER|GRMCHPXFRER|GRMCXCHK|GSP1RMCENXVOL|GRMCENXVOL|GRMCNENXVOL|GRMCPRXFRER|GSP1RMCPRXVOL)_</volume-id>
+        <volume-id>(GRMCHPXFRER|GRMCXCHK|GRMCPRXFRER)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -780,14 +864,14 @@
     </installer>
 
     <!-- virtio block device driver -->
-    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools/preinst/win7/x86" pre-installable="true" signed="false">
+    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/win7/x86" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/>
     </driver>
 
-    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools/preinst/win7/amd64" pre-installable="true" signed="false">
+    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/win7/amd64" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
@@ -845,6 +929,64 @@
     <media arch="x86_64">
       <iso>
         <volume-id>(HB1_CCPA_X64FRE|HRM_CCSA_X64FRE|HRM_CCSA_X64CHK|HRM_CCSNA_X64FRE|HRM_CCSNA_X64CHK|HRM_CENNA_X64FREV|HRM_CENNA_X64CHKV|HRM_CENA_X64FREV|HRM_CENA_X64CHKV|HRM_CPRA_X64FREV|HRM_CPRNA_X64FREV)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <resources arch="i686">
+      <minimum>
+        <cpu>1000000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>1073741824</ram>
+        <storage>17179869184</storage>
+      </minimum>
+    </resources>
+
+    <resources arch="x86_64">
+      <minimum>
+        <cpu>1000000000</cpu>
+        <n-cpus>1</n-cpus>
+        <ram>2147483648</ram>
+        <storage>21474836480</storage>
+      </minimum>
+    </resources>
+
+    <devices>
+      <device id="http://pciids.sourceforge.net/v2.2/pci.ids/8086/2668"/> <!-- ICH6 -->
+    </devices>
+
+    <installer>
+      <script id='http://microsoft.com/windows/unattend/jeos'/>
+      <script id='http://microsoft.com/windows/unattend/desktop'/>
+    </installer>
+  </os>
+
+  <os id="http://microsoft.com/win/8.1">
+    <short-id>win8.1</short-id>
+    <_name>Microsoft Windows 8.1</_name>
+    <version>6.3</version>
+    <_vendor>Microsoft Corporation</_vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/8"/>
+    <upgrades id="http://microsoft.com/win/8"/>
+
+<!--
+    <release-date></release-date>
+    <eol-date></eol-date>
+-->
+
+    <media arch="i686">
+      <iso>
+        <volume-id>(IRM_CENNA_X86FREV|IRM_CENA_X86FREV|IRM_CCSNA_X86FRE|IRM_CPRNA_X86FREV|IRM_CPRA_X86FREV|IRM_CCSA_X86FRE)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(IRM_CENNA_X64FREV|IRM_CENA_X64FREV|IRM_CCSNA_X64FRE|IRM_CPRNA_X64FREV|IRM_CPRA_X64FREV|IRM_CCSA_X64FRE)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
       </iso>

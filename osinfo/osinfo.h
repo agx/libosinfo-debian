@@ -63,6 +63,8 @@
 #include <osinfo/osinfo_treelist.h>
 #include <osinfo/osinfo_db.h>
 #include <osinfo/osinfo_loader.h>
+#include <osinfo/osinfo_os_variant.h>
+#include <osinfo/osinfo_os_variantlist.h>
 
 #endif
 /*

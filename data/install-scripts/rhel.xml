@@ -51,6 +51,7 @@
         <xsl:template match="/install-script-config">
 # Install script for <xsl:value-of select="os/short-id"/> profile <xsl:value-of select="script/profile"/>
 install
+cdrom
 text
 <!-- FIXME: RHEL requires keyboard layout to be a console layout so to do this right, we'll need
             mapping from language to console layout. -->
@@ -152,6 +153,7 @@ reboot
         <xsl:template match="/install-script-config">
 # Install script for <xsl:value-of select="os/short-id"/> profile <xsl:value-of select="script/profile"/>
 install
+cdrom
 keyboard us
 lang <xsl:value-of select="config/l10n-language"/>
 network --onboot yes --device eth0 --bootproto dhcp --noipv6 --hostname=<xsl:value-of select="config/hostname"/>
@@ -176,13 +178,19 @@ reboot
 %packages
 @core
 @x11
+<xsl:choose>
+  <xsl:when test="os/version &lt; 7">
 @basic-desktop
 @general-desktop
 @desktop-platform
-@internet-applications
+  </xsl:when>
+  <xsl:otherwise>
+@gnome-desktop
+@multimedia
+  </xsl:otherwise>
+</xsl:choose>
 @internet-browser
 @input-methods
-@office-suite
 
 %end
 

@@ -215,6 +215,16 @@
     </interleave>
   </define>
 
+  <define name='variant'>
+    <element name='variant'>
+      <attribute name='id'>
+      </attribute>
+      <element name='name'>
+        <text/>
+      </element>
+    </element>
+  </define>
+
   <define name='devices-rel'>
     <element name='devices'>
       <zeroOrMore>
@@ -326,6 +336,12 @@
         <attribute name='installer-reboots'>
           <ref name='num'/>
         </attribute>
+      </optional>
+      <optional>
+        <element name='variant'>
+          <attribute name='id'>
+          </attribute>
+        </element>
       </optional>
       <optional>
         <element name='url'>
@@ -481,6 +497,12 @@
         <optional>
           <ref name='devices-rel'/>
         </optional>
+        <optional>
+          <ref name='release-status'/>
+        </optional>
+        <zeroOrMore>
+          <ref name='variant'/>
+        </zeroOrMore>
         <zeroOrMore>
           <ref name='resources'/>
         </zeroOrMore>
@@ -704,9 +726,12 @@
   </define>
 
   <define name='bool'>
-    <data type='string'>
-      <param name='pattern'>true|false</param>
-    </data>
+    <choice>
+      <data type='string'>
+        <param name='pattern'>true|false</param>
+      </data>
+      <empty/>
+    </choice>
   </define>
 
   <define name='num'>
@@ -736,5 +761,13 @@
     <data type="string">
       <param name="pattern">strict|warn|none</param>
     </data>
+  </define>
+
+  <define name='release-status'>
+    <element name='release-status'>
+      <data type="string">
+        <param name="pattern">snapshot|prerelease|released</param>
+      </data>
+    </element>
   </define>
 </grammar>

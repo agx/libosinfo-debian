@@ -1,6 +1,7 @@
 data/oses/netware.xml.in
 data/oses/solaris.xml.in
 data/oses/dos.xml.in
+data/oses/mageia.xml.in
 data/oses/mandrake.xml.in
 data/oses/mandriva.xml.in
 data/oses/suse.xml.in
@@ -40,6 +41,7 @@ osinfo/osinfo_os.c
 osinfo/osinfo_product.c
 osinfo/osinfo_resources.c
 osinfo/osinfo_tree.c
+osinfo/osinfo_os_variant.c
 tools/osinfo-db-validate.c
 tools/osinfo-detect.c
 tools/osinfo-install-script.c
