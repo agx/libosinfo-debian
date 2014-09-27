@@ -690,14 +690,14 @@
 
     <media arch="i686">
       <iso>
-        <volume-id>(FB1EVOL|LRMCFRE|FRTMBVOL|FRMBVOL|FRMEVOL)_</volume-id>
+        <volume-id>(FB1EVOL|LRMCFRE|FRTMBVOL|FRMBVOL|FRMEVOL|FRMCFRE)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
     </media>
     <media arch="x86_64">
       <iso>
-        <volume-id>(FB1EXVOL|LRMCXFRE|FRTMBXVOL|FRMBXVOL|FRMEXVOL)_</volume-id>
+        <volume-id>(FB1EXVOL|LRMCXFRE|FRTMBXVOL|FRMBXVOL|FRMEXVOL|FRMCXFRE)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -755,6 +755,16 @@
       <_name>Microsoft Windows 7 Ultimate</_name>
     </variant>
 
+    <!-- Starter -->
+    <media arch="i686" installer-reboots="2">
+      <variant id="starter"/>
+      <iso>
+        <volume-id>(GSP1RMCSTFREO)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
     <!-- Home Premium -->
     <media arch="x86_64" installer-reboots="2">
       <variant id="home-premium"/>
@@ -769,7 +779,7 @@
     <media arch="i686" installer-reboots="2">
       <variant id="professional"/>
       <iso>
-        <volume-id>(GSP1RMCNPRFRER|GSP1RMCPRFRER|GSP1RMCPRVOL)_</volume-id>
+        <volume-id>(GSP1RMCN?PRFRER|GSP1RMCPRVOL)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -777,7 +787,7 @@
     <media arch="x86_64" installer-reboots="2">
       <variant id="professional"/>
       <iso>
-        <volume-id>(GSP1RMCPRXFRER|GSP1RMCPRXVOL)_</volume-id>
+        <volume-id>(GSP1RMCN?PRXFRER|GSP1RMCPRXVOL)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -795,7 +805,7 @@
     <media arch="x86_64" installer-reboots="2">
       <variant id="enterprise"/>
       <iso>
-        <volume-id>(GSP1RMCENXVOL|GRMCENXVOL|GRMCNENXVOL)_</volume-id>
+        <volume-id>(GSP1RMCENXVOL|GRMCENXVOL|GRMCNENXVOL|GSP1RMCNENXVOL)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -805,7 +815,7 @@
     <media arch="i686" installer-reboots="2">
       <variant id="ultimate"/>
       <iso>
-        <volume-id>(GRMCULFRER|GSP1RMCNULFRER|GSP1RMCULFRER)_</volume-id>
+        <volume-id>(GRMCULFRER|GSP1RMCNULFRER|GSP1RMCULFRER|GRMCNULFRER)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -813,7 +823,7 @@
     <media arch="x86_64" installer-reboots="2">
       <variant id="ultimate"/>
       <iso>
-        <volume-id>(GRMCULXFRER|GSP1RMCNULXFRER)_</volume-id>
+        <volume-id>(GRMCULXFRER|GSP1RMCNULXFRER|GSP1RMCULXFRER|GRMCNULXFRER)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -986,7 +996,7 @@
     </media>
     <media arch="x86_64">
       <iso>
-        <volume-id>(IRM_CENNA_X64FREV|IRM_CENA_X64FREV|IRM_CCSNA_X64FRE|IRM_CPRNA_X64FREV|IRM_CPRA_X64FREV|IRM_CCSA_X64FRE)_</volume-id>
+        <volume-id>(IRM_CENNA_X64FREV|IRM_CENA_X64FREV|IR1_CENA_X64FREV|IRM_CCSNA_X64FRE|IRM_CPRNA_X64FREV|IRM_CPRA_X64FREV|IRM_CCSA_X64FRE)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
       </iso>
@@ -1013,11 +1023,40 @@
     <devices>
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/8086/2668"/> <!-- ICH6 -->
     </devices>
+  </os>
 
-    <installer>
-      <script id='http://microsoft.com/windows/unattend/jeos'/>
-      <script id='http://microsoft.com/windows/unattend/desktop'/>
-    </installer>
+  <os id="http://microsoft.com/win/2k12">
+    <short-id>win2k12</short-id>
+    <_name>Microsoft Windows Server 2012</_name>
+    <version>6.3</version>
+    <_vendor>Microsoft Corporation</_vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k8r2"/>
+    <upgrades id="http://microsoft.com/win/2k8r2"/>
+
+    <release-date>2012-09-04</release-date>
+  </os>
+
+  <os id="http://microsoft.com/win/2k12r2">
+    <short-id>win2k12r2</short-id>
+    <_name>Microsoft Windows Server 2012 R2</_name>
+    <version>6.3</version>
+    <_vendor>Microsoft Corporation</_vendor>
+    <family>winnt</family>
+    <distro>win</distro>
+    <derives-from id="http://microsoft.com/win/2k12"/>
+    <upgrades id="http://microsoft.com/win/2k12"/>
+
+    <release-date>2013-10-18</release-date>
+
+    <media arch="x86_64">
+      <iso>
+        <volume-id>(IRM_SSS_X64FRE)_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
   </os>
 
 </libosinfo>

@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -32,9 +32,9 @@
 #include <glib/gi18n-lib.h>
 #include "osinfo_install_script_private.h"
 
-G_DEFINE_TYPE (OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
+G_DEFINE_TYPE(OsinfoInstallScript, osinfo_install_script, OSINFO_TYPE_ENTITY);
 
-#define OSINFO_INSTALL_SCRIPT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), OSINFO_TYPE_INSTALL_SCRIPT, OsinfoInstallScriptPrivate))
+#define OSINFO_INSTALL_SCRIPT_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE((obj), OSINFO_TYPE_INSTALL_SCRIPT, OsinfoInstallScriptPrivate))
 
 /**
  * SECTION:osinfo_install_script
@@ -107,7 +107,7 @@ osinfo_install_script_set_property(GObject    *object,
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
@@ -153,16 +153,16 @@ osinfo_install_script_get_property(GObject    *object,
 
     default:
         /* We don't have any other property... */
-        G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+        G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
         break;
     }
 }
 
 
 static void
-osinfo_install_script_finalize (GObject *object)
+osinfo_install_script_finalize(GObject *object)
 {
-    OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT (object);
+    OsinfoInstallScript *script = OSINFO_INSTALL_SCRIPT(object);
     g_free(script->priv->output_prefix);
     g_free(script->priv->output_filename);
 
@@ -173,14 +173,14 @@ osinfo_install_script_finalize (GObject *object)
         g_object_unref(script->priv->avatar);
 
     /* Chain up to the parent class */
-    G_OBJECT_CLASS (osinfo_install_script_parent_class)->finalize (object);
+    G_OBJECT_CLASS(osinfo_install_script_parent_class)->finalize(object);
 }
 
 /* Init functions */
 static void
-osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
+osinfo_install_script_class_init(OsinfoInstallScriptClass *klass)
 {
-    GObjectClass *g_klass = G_OBJECT_CLASS (klass);
+    GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
     g_klass->get_property = osinfo_install_script_get_property;
@@ -254,7 +254,7 @@ osinfo_install_script_class_init (OsinfoInstallScriptClass *klass)
                                     PROP_AVATAR_FORMAT,
                                     pspec);
 
-    g_type_class_add_private (klass, sizeof (OsinfoInstallScriptPrivate));
+    g_type_class_add_private(klass, sizeof(OsinfoInstallScriptPrivate));
 }
 
 void osinfo_install_script_add_config_param(OsinfoInstallScript *script, OsinfoInstallConfigParam *param)
@@ -335,7 +335,7 @@ osinfo_install_script_get_config_param(const OsinfoInstallScript *script,
 }
 
 static void
-osinfo_install_script_init (OsinfoInstallScript *list)
+osinfo_install_script_init(OsinfoInstallScript *list)
 {
     list->priv = OSINFO_INSTALL_SCRIPT_GET_PRIVATE(list);
     list->priv->config_params = osinfo_install_config_paramlist_new();
@@ -670,8 +670,8 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
         goto error;
     }
 
-    if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)"id",
-                               (const xmlChar*)osinfo_entity_get_id(entity)))) {
+    if (!(data = xmlNewDocRawNode(NULL, NULL, (const xmlChar*)"id",
+                                  (const xmlChar*)osinfo_entity_get_id(entity)))) {
         xmlErrorPtr err = xmlGetLastError();
         g_set_error(error, 0, 0, _("Unable to create XML node 'id': '%s'"),
                     err ? err->message : "");
@@ -698,8 +698,8 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
 
         tmp2 = values;
         while (tmp2) {
-            if (!(data = xmlNewDocNode(NULL, NULL, (const xmlChar*)tmp1->data,
-                                       (const xmlChar*)tmp2->data))) {
+            if (!(data = xmlNewDocRawNode(NULL, NULL, (const xmlChar*)tmp1->data,
+                                          (const xmlChar*)tmp2->data))) {
                 xmlErrorPtr err = xmlGetLastError();
                 g_set_error(error, 0, 0, _("Unable to create XML node '%s': '%s'"),
                             (const gchar *)tmp1->data, err ? err->message : "");
@@ -1077,14 +1077,14 @@ static void osinfo_install_script_generate_output_write_file(GObject *src,
     OsinfoInstallScriptGenerateOutputData *data = user_data;
 
     if (data->stream == NULL)
-        data->stream = g_file_replace_finish(G_FILE (src), res, &data->error);
+        data->stream = g_file_replace_finish(G_FILE(src), res, &data->error);
     else
         data->output_pos += g_output_stream_write_finish(G_OUTPUT_STREAM(data->stream),
                                                                          res,
                                                                          &data->error);
 
     if (data->output_pos < data->output_len) {
-        g_output_stream_write_async(G_OUTPUT_STREAM (data->stream),
+        g_output_stream_write_async(G_OUTPUT_STREAM(data->stream),
                                     data->output + data->output_pos,
                                     data->output_len - data->output_pos,
                                     G_PRIORITY_DEFAULT,
@@ -1093,7 +1093,7 @@ static void osinfo_install_script_generate_output_write_file(GObject *src,
                                     data);
 
     } else {
-        g_output_stream_close_async(G_OUTPUT_STREAM (data->stream),
+        g_output_stream_close_async(G_OUTPUT_STREAM(data->stream),
                                     G_PRIORITY_DEFAULT,
                                     data->cancellable,
                                     osinfo_install_script_generate_output_close_file,
@@ -1307,6 +1307,40 @@ int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScri
          OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ,
          OSINFO_TYPE_DEVICE_DRIVER_SIGNING_REQ,
          OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE);
+}
+
+/**
+ * osinfo_install_script_get_injection_methods:
+ * @script: the install script
+ *
+ * Retrieve the supported method to inject the script in to the installation process.
+ *
+ * Returns: (type OsinfoInstallScriptInjectionMethod): bitwise-or of
+ * supported methods for install script injection.
+ */
+unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_int64_with_default
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD,
+         OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK);
+}
+
+/**
+ * osinfo_install_script_get_needs_internet:
+ * @script: the install script
+ *
+ * Some install scripts cannot ensure that they work without an internet connection.
+ *
+ * Returns: TRUE if script needs an internet connection, FALSE otherwise
+ * internet connection.
+ */
+gboolean osinfo_install_script_get_needs_internet(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_boolean_with_default
+        (OSINFO_ENTITY(script),
+         OSINFO_INSTALL_SCRIPT_PROP_NEEDS_INTERNET,
+         FALSE);
 }
 
 

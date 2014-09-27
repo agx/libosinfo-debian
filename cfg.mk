@@ -29,28 +29,11 @@ local-checks-to-skip =			\
   sc_error_exit_success			\
   sc_file_system			\
   sc_immutable_NEWS			\
-  sc_makefile_path_separator_check	\
-  sc_obsolete_symbols			\
   sc_prohibit_always_true_header_tests  \
-  sc_prohibit_S_IS_definition		\
-  sc_prohibit_atoi_atof			\
-  sc_prohibit_hash_without_use		\
-  sc_prohibit_jm_in_m4			\
-  sc_prohibit_quote_without_use		\
-  sc_prohibit_quotearg_without_use	\
-  sc_prohibit_stat_st_blocks		\
-  sc_root_tests				\
-  sc_space_tab				\
-  sc_sun_os_names			\
-  sc_system_h_headers			\
-  sc_texinfo_acronym			\
-  sc_tight_scope			\
   sc_two_space_separator_in_usage	\
   sc_error_message_uppercase		\
   sc_program_name			\
-  sc_require_test_exit_idiom		\
-  sc_makefile_check			\
-  sc_useless_cpp_parens
+  sc_makefile_check
 
 # Files that should never cause syntax check failures.
 VC_LIST_ALWAYS_EXCLUDE_REGEX = \
@@ -110,6 +93,12 @@ sc_copyright_format:
 	halt='spell Red Hat as two words'				\
 	  $(_sc_search_regexp)
 
+sc_bracket_spacing_check:
+	$(AM_V_GEN)files=`$(VC_LIST) | grep '\.c$$'`; \
+	$(PERL) $(top_srcdir)/build-aux/bracket-spacing.pl $$files || \
+	  { echo '$(ME): incorrect whitespace' 1>&2; \
+	    exit 1; }
+
 # We don't use this feature of maint.mk.
 prev_version_file = /dev/null
 
@@ -125,3 +114,7 @@ exclude_file_name_regexp--sc_require_config_h_first = python/libvirt-glib.c
 exclude_file_name_regexp--sc_trailing_blank = ^test/isodata/.*|docs/object-model.fig
 
 exclude_file_name_regexp--sc_bindtextdomain = ^tools/.*.c|test/.*.c
+
+exclude_file_name_regexp--sc_space_tab = ^test/isodata/.*
+
+exclude_file_name_regexp--sc_prohibit_atoi_atof = ^test/.*\.c

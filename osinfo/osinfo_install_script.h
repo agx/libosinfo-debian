@@ -1,7 +1,7 @@
 /*
  * libosinfo: OS installation script
  *
- * Copyright (C) 2009-2012 Red Hat, Inc.
+ * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -55,8 +55,10 @@ typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
 #define OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT        "path-format"
 #define OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS "can-pre-install-drivers"
 #define OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS "can-post-install-drivers"
+#define OSINFO_INSTALL_SCRIPT_PROP_NEEDS_INTERNET     "needs-internet"
 #define OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ "pre-install-drivers-signing-req"
 #define OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ "post-install-drivers-signing-req"
+#define OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD "injection-method"
 
 /* object */
 struct _OsinfoInstallScript
@@ -112,6 +114,28 @@ typedef enum {
     OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT,
     OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN
 } OsinfoDeviceDriverSigningReq;
+
+/**
+ * OsinfoInstallScriptInjectionMethod:
+ *
+ * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_CDROM: Support injection of the
+ * installation script trough a CD-ROM.
+ * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK: Support injection of the
+ * installation script trough a disk.
+ * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_FLOPPY: Support injection of the
+ * installation script trough a floppy disk.
+ * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD: Support injection of the
+ * installation script trough the initrd.
+ * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB: Support injection of the
+ * installation script from the web.
+ */
+typedef enum {
+    OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_CDROM  = 1 << 0,
+    OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK   = 1 << 1,
+    OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_FLOPPY = 1 << 2,
+    OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD = 1 << 3,
+    OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB    = 1 << 4,
+} OsinfoInstallScriptInjectionMethod;
 
 GType osinfo_install_script_get_type(void);
 
@@ -194,6 +218,10 @@ gboolean osinfo_install_script_get_can_post_install_drivers(OsinfoInstallScript 
 
 int osinfo_install_script_get_pre_install_drivers_signing_req(OsinfoInstallScript *script);
 int osinfo_install_script_get_post_install_drivers_signing_req(OsinfoInstallScript *script);
+
+unsigned int osinfo_install_script_get_injection_methods(OsinfoInstallScript *script);
+
+gboolean osinfo_install_script_get_needs_internet(OsinfoInstallScript *script);
 
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
 /*

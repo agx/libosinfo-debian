@@ -597,6 +597,11 @@
           </element>
         </optional>
         <optional>
+          <element name='needs-internet'>
+            <ref name='bool'/>
+          </element>
+        </optional>
+        <optional>
           <element name='can-pre-install-drivers'>
             <ref name='bool'/>
           </element>
@@ -616,6 +621,9 @@
             <ref name='driver-signing-reqs'/>
           </element>
         </optional>
+        <zeroOrMore>
+          <ref name='injection-method'/>
+        </zeroOrMore>
         <element name='template'>
           <choice>
             <group>
@@ -767,6 +775,14 @@
     <element name='release-status'>
       <data type="string">
         <param name="pattern">snapshot|prerelease|released</param>
+      </data>
+    </element>
+  </define>
+
+  <define name='injection-method'>
+    <element name='injection-method'>
+      <data type="string">
+        <param name="pattern">cdrom|disk|floppy|initrd|web</param>
       </data>
     </element>
   </define>
