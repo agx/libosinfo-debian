@@ -1,3 +1,13 @@
+libosinfo (0.2.11-1) unstable; urgency=medium
+
+  * New upstream version (Closes: #762987)
+  * [3c63e75] Bump symbol versions
+  * [c19118a] Bump standards version to 3.9.5
+  * [b79ec78] Add README.source
+  * [aa11c42] Use dpkg-buildflags to get the proper hardening flags
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 27 Sep 2014 12:47:45 +0200
+
 libosinfo (0.2.9-1) unstable; urgency=medium
 
   * New upstream version (Closes: #738861)
