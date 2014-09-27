@@ -1,0 +1,12 @@
+libosinfo for Debian
+---------------------
+New upstream versions are packged by merging upstream's git tag into
+the corresponding Debian branch. I.e. if you want to package a new
+version 0.2.11 for sid use:
+
+    git remote add upstream git://git.fedorahosted.org/libosinfo.git
+    git fetch upstream
+    git checkout debian/sid
+    git merge v0.2.11
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 27 Sep 2014 12:32:05 +0200
