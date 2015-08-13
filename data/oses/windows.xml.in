@@ -383,7 +383,7 @@
     </installer>
 
     <!-- virtio block device driver -->
-    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/winxp/x86" pre-installable="true" signed="false">
+    <driver arch="i686" location="https://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/winxp/x86" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
@@ -392,7 +392,7 @@
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/>
     </driver>
 
-    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/winxp/amd64" pre-installable="true" signed="false">
+    <driver arch="x86_64" location="https://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/winxp/amd64" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
@@ -402,7 +402,7 @@
     </driver>
 
     <!-- All virtio and QXL device drivers, and spice-vdagent -->
-    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
+    <driver arch="i686" location="https://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
       <file>spice-guest-tools-0.65.exe</file>
       <file>spice-guest-tools-0.65.cmd</file>
       <file>redhat09.cer</file>
@@ -414,7 +414,7 @@
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1b36/0100"/>
     </driver>
 
-    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
+    <driver arch="x86_64" location="https://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
       <file>spice-guest-tools-0.65.exe</file>
       <file>spice-guest-tools-0.65.cmd</file>
       <file>redhat09.cer</file>
@@ -690,15 +690,15 @@
 
     <media arch="i686">
       <iso>
-        <volume-id>(FB1EVOL|LRMCFRE|FRTMBVOL|FRMBVOL|FRMEVOL|FRMCFRE)_</volume-id>
+        <volume-id>(FB1EVOL|LRMCFRE|FRTMBVOL|FRTMEVOL|FRMBVOL|FRMEVOL|FRMCFRE)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
     </media>
     <media arch="x86_64">
       <iso>
-        <volume-id>(FB1EXVOL|LRMCXFRE|FRTMBXVOL|FRMBXVOL|FRMEXVOL|FRMCXFRE)_</volume-id>
-        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <volume-id>(FB1EXVOL|LRMCXFRE|FRTMBXVOL|FRMEXVOL|FRTMEXVOL|FRMBXVOL|FRMCXFRE)_</volume-id>
+       <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
     </media>
@@ -779,7 +779,7 @@
     <media arch="i686" installer-reboots="2">
       <variant id="professional"/>
       <iso>
-        <volume-id>(GSP1RMCN?PRFRER|GSP1RMCPRVOL)_</volume-id>
+        <volume-id>(GSP1RMCN?PRFRER|GSP1RMCPRVOL|GRMCPRFREO)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/7/l10n-language">[[:upper:][:digit:]]*_([[:upper:]]*)</l10n-language>
       </iso>
@@ -874,14 +874,14 @@
     </installer>
 
     <!-- virtio block device driver -->
-    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/win7/x86" pre-installable="true" signed="false">
+    <driver arch="i686" location="https://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/win7/x86" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1af4/1001"/>
     </driver>
 
-    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/win7/amd64" pre-installable="true" signed="false">
+    <driver arch="x86_64" location="https://zeenix.fedorapeople.org/drivers/win-tools-1/preinst/win7/amd64" pre-installable="true" signed="false">
       <file>viostor.cat</file>
       <file>viostor.inf</file>
       <file>viostor.sys</file>
@@ -889,7 +889,7 @@
     </driver>
 
     <!-- All virtio and QXL device drivers, and spice-vdagent -->
-    <driver arch="i686" location="http://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
+    <driver arch="i686" location="https://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
       <file>spice-guest-tools-0.65.exe</file>
       <file>spice-guest-tools-0.65.cmd</file>
       <file>redhat09.cer</file>
@@ -901,7 +901,7 @@
       <device id="http://pciids.sourceforge.net/v2.2/pci.ids/1b36/0100"/>
     </driver>
 
-    <driver arch="x86_64" location="http://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
+    <driver arch="x86_64" location="https://zeenix.fedorapeople.org/drivers/win-tools/postinst" signed="false">
       <file>spice-guest-tools-0.65.exe</file>
       <file>spice-guest-tools-0.65.cmd</file>
       <file>redhat09.cer</file>
@@ -989,14 +989,14 @@
 
     <media arch="i686">
       <iso>
-        <volume-id>(IRM_CENNA_X86FREV|IRM_CENA_X86FREV|IRM_CCSNA_X86FRE|IRM_CPRNA_X86FREV|IRM_CPRA_X86FREV|IRM_CCSA_X86FRE)_</volume-id>
+        <volume-id>(IRM_CENNA_X86FREV|IRM_CENA_X86FREV|IR1_CENA_X86FREV|IRM_CCSNA_X86FRE|IRM_CPRNA_X86FREV|IRM_CPRA_X86FREV|IRM_CCSA_X86FRE|IR3_CCSNA_X86FRE|IR3_CENA_X86FREV)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
       </iso>
     </media>
     <media arch="x86_64">
       <iso>
-        <volume-id>(IRM_CENNA_X64FREV|IRM_CENA_X64FREV|IR1_CENA_X64FREV|IRM_CCSNA_X64FRE|IRM_CPRNA_X64FREV|IRM_CPRA_X64FREV|IRM_CCSA_X64FRE)_</volume-id>
+        <volume-id>(IRM_CENNA_X64FREV|IRM_CENA_X64FREV|IR1_CENA_X64FREV|IRM_CCSNA_X64FRE|IRM_CPRNA_X64FREV|IRM_CPRA_X64FREV|IRM_CCSA_X64FRE|IR3_CCSNA_X64FRE)_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
       </iso>

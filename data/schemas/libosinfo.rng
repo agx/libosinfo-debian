@@ -310,6 +310,11 @@
             <text/>
           </element>
         </optional>
+        <optional>
+          <element name='volume-size'>
+            <ref name='num'/>
+          </element>
+        </optional>
         <zeroOrMore>
           <ref name='media-lang'/>
         </zeroOrMore>
@@ -337,21 +342,21 @@
           <ref name='num'/>
         </attribute>
       </optional>
-      <optional>
-        <element name='variant'>
-          <attribute name='id'>
-          </attribute>
-        </element>
-      </optional>
-      <optional>
-        <element name='url'>
-          <ref name='url'/>
-        </element>
-      </optional>
-      <optional>
-        <ref name='iso'/>
-      </optional>
       <interleave>
+        <optional>
+          <element name='variant'>
+            <attribute name='id'>
+            </attribute>
+          </element>
+        </optional>
+        <optional>
+          <element name='url'>
+            <ref name='url'/>
+          </element>
+        </optional>
+        <optional>
+          <ref name='iso'/>
+        </optional>
         <optional>
           <element name='initrd'>
             <text/>
@@ -414,15 +419,21 @@
       <attribute name='arch'>
         <ref name='archnames'/>
       </attribute>
-      <optional>
-        <element name='url'>
-          <ref name='url'/>
-        </element>
-      </optional>
-      <optional>
-        <ref name='treeinfo'/>
-      </optional>
       <interleave>
+        <optional>
+          <element name='variant'>
+            <attribute name='id'>
+            </attribute>
+          </element>
+        </optional>
+        <optional>
+          <element name='url'>
+            <ref name='url'/>
+          </element>
+        </optional>
+        <optional>
+          <ref name='treeinfo'/>
+        </optional>
         <optional>
           <element name='initrd'>
             <text/>
@@ -689,6 +700,7 @@
   </define>
   <define name='archnames'>
     <choice>
+      <value>aarch64</value>
       <value>alpha</value>
       <value>armv7l</value>
       <value>cris</value>
@@ -707,6 +719,7 @@
       <value>parisc64</value>
       <value>ppc</value>
       <value>ppc64</value>
+      <value>ppc64le</value>
       <value>ppcemb</value>
       <value>s390</value>
       <value>s390x</value>
