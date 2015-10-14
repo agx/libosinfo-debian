@@ -533,6 +533,7 @@ OsinfoAvatarFormat *osinfo_install_script_get_avatar_format(OsinfoInstallScript 
 struct _OsinfoInstallScriptGenerateData {
     GSimpleAsyncResult *res;
     OsinfoOs *os;
+    OsinfoMedia *media;
     OsinfoInstallConfig *config;
     OsinfoInstallScript *script;
 };
@@ -541,6 +542,8 @@ struct _OsinfoInstallScriptGenerateData {
 static void osinfo_install_script_generate_data_free(OsinfoInstallScriptGenerateData *data)
 {
     g_object_unref(data->os);
+    if (data->media != NULL)
+        g_object_unref(data->media);
     g_object_unref(data->config);
     g_object_unref(data->script);
     g_object_unref(data->res);
@@ -731,6 +734,7 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
 
 static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *script,
                                                            OsinfoOs *os,
+                                                           OsinfoMedia *media,
                                                            OsinfoInstallConfig *config,
                                                            const gchar *node_name,
                                                            GError **error)
@@ -765,6 +769,19 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
         xmlErrorPtr err = xmlGetLastError();
         g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
         goto error;
+    }
+
+    if (media != NULL) {
+        if (!(node = osinfo_install_script_generate_entity_xml(script,
+                                                               OSINFO_ENTITY(media),
+                                                               "media",
+                                                               error)))
+            goto error;
+        if (!(xmlAddChild(root, node))) {
+            xmlErrorPtr err = xmlGetLastError();
+            g_set_error(error, 0, 0, _("Unable to set 'media' node: '%s'"), err ? err->message : "");
+            goto error;
+        }
     }
 
     if (!(node = osinfo_install_script_generate_entity_xml(script,
@@ -819,6 +836,7 @@ static gchar *osinfo_install_script_apply_xslt(xsltStylesheetPtr ss,
 
 static gboolean osinfo_install_script_apply_template(OsinfoInstallScript *script,
                                                      OsinfoOs *os,
+                                                     OsinfoMedia *media,
                                                      const gchar *templateUri,
                                                      const gchar *template,
                                                      const gchar *node_name,
@@ -828,7 +846,7 @@ static gboolean osinfo_install_script_apply_template(OsinfoInstallScript *script
 {
     gboolean ret = FALSE;
     xsltStylesheetPtr templateXsl = osinfo_install_script_load_template(templateUri, template, error);
-    xmlDocPtr configXml = osinfo_install_script_generate_config_xml(script, os, config, node_name, error);
+    xmlDocPtr configXml = osinfo_install_script_generate_config_xml(script, os, media, config, node_name, error);
 
     if (!templateXsl || !configXml)
         goto cleanup;
@@ -871,6 +889,7 @@ static void osinfo_install_script_template_loaded(GObject *src,
 
     if (!osinfo_install_script_apply_template(data->script,
                                               data->os,
+                                              data->media,
                                               uri,
                                               input,
                                               "install-script-config",
@@ -892,30 +911,40 @@ static void osinfo_install_script_template_loaded(GObject *src,
 }
 
 
-void osinfo_install_script_generate_async(OsinfoInstallScript *script,
-                                          OsinfoOs *os,
-                                          OsinfoInstallConfig *config,
-                                          GCancellable *cancellable,
-                                          GAsyncReadyCallback callback,
-                                          gpointer user_data)
+static void osinfo_install_script_generate_async_common(OsinfoInstallScript *script,
+                                                        OsinfoOs *os,
+                                                        OsinfoMedia *media,
+                                                        OsinfoInstallConfig *config,
+                                                        GCancellable *cancellable,
+                                                        GAsyncReadyCallback callback,
+                                                        gpointer user_data)
 {
-    OsinfoInstallScriptGenerateData *data = g_new0(OsinfoInstallScriptGenerateData, 1);
-    const gchar *templateData = osinfo_install_script_get_template_data(script);
-    const gchar *templateUri = osinfo_install_script_get_template_uri(script);
+    OsinfoInstallScriptGenerateData *data;
+    const gchar *templateData;
+    const gchar *templateUri;
+
+    g_return_if_fail(os != NULL);
+
+    data = g_new0(OsinfoInstallScriptGenerateData, 1);
+    templateData = osinfo_install_script_get_template_data(script);
+    templateUri = osinfo_install_script_get_template_uri(script);
 
     data->os = g_object_ref(os);
+    if (media != NULL)
+        data->media = g_object_ref(media);
     data->config = g_object_ref(config);
     data->script = g_object_ref(script);
     data->res = g_simple_async_result_new(G_OBJECT(script),
                                           callback,
                                           user_data,
-                                          osinfo_install_script_generate_async);
+                                          osinfo_install_script_generate_async_common);
 
     if (templateData) {
         GError *error = NULL;
         gchar *output;
         if (!osinfo_install_script_apply_template(script,
                                                   os,
+                                                  media,
                                                   "<data>",
                                                   templateData,
                                                   "install-script-config",
@@ -940,6 +969,38 @@ void osinfo_install_script_generate_async(OsinfoInstallScript *script,
                                    osinfo_install_script_template_loaded,
                                    data);
     }
+}
+
+/**
+ * osinfo_install_script_generate_async:
+ * @script:     the install script
+ * @os:         the os
+ * @config:     the install script config
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_install_script_generate(). From the callback,
+ * call #osinfo_install_script_generate_finish() to conclude this call and get
+ * the generated script.
+ *
+ * If you are generating the script for a specific media, it is recommended that
+ * you use #osinfo_install_script_generate_for_media_async() instead.
+ */
+void osinfo_install_script_generate_async(OsinfoInstallScript *script,
+                                          OsinfoOs *os,
+                                          OsinfoInstallConfig *config,
+                                          GCancellable *cancellable,
+                                          GAsyncReadyCallback callback,
+                                          gpointer user_data)
+{
+    osinfo_install_script_generate_async_common(script,
+                                                os,
+                                                NULL,
+                                                config,
+                                                cancellable,
+                                                callback,
+                                                user_data);
 }
 
 static gpointer osinfo_install_script_generate_finish_common(OsinfoInstallScript *script,
@@ -974,6 +1035,25 @@ gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
 }
 
 /**
+ * osinfo_install_script_generate_for_media_finish:
+ * @script: the install script
+ * @res:    a #GAsyncResult
+ * @error:  The location where to store any error, or NULL
+ *
+ * Returns: (transfer full): the generated script, or NULL on error
+ *
+ * Since: 0.2.12
+ */
+gchar *osinfo_install_script_generate_for_media_finish(OsinfoInstallScript *script,
+                                                       GAsyncResult *res,
+                                                       GError **error)
+{
+    return osinfo_install_script_generate_finish_common(script,
+                                                        res,
+                                                        error);
+}
+
+/**
  * osinfo_install_script_generate_output_finish:
  * @script: the install script
  * @res:    a #GAsyncResult
@@ -984,6 +1064,25 @@ gchar *osinfo_install_script_generate_finish(OsinfoInstallScript *script,
 GFile *osinfo_install_script_generate_output_finish(OsinfoInstallScript *script,
                                                     GAsyncResult *res,
                                                     GError **error)
+{
+    return osinfo_install_script_generate_finish_common(script,
+                                                        res,
+                                                        error);
+}
+
+/**
+ * osinfo_install_script_generate_output_for_media_finish:
+ * @script: the install script
+ * @res:    a #GAsyncResult
+ * @error:  the location where to store any error, or NULL
+ *
+ * Returns: (transfer full): a file containing the script, or NULL on error.
+ *
+ * Since: 0.2.12
+ */
+GFile *osinfo_install_script_generate_output_for_media_finish(OsinfoInstallScript *script,
+                                                              GAsyncResult *res,
+                                                              GError **error)
 {
     return osinfo_install_script_generate_finish_common(script,
                                                         res,
@@ -1007,6 +1106,19 @@ static void osinfo_install_script_generate_output_done(GObject *src,
         osinfo_install_script_generate_output_finish(OSINFO_INSTALL_SCRIPT(src),
                                                      res,
                                                      &data->error);
+    g_main_loop_quit(data->loop);
+}
+
+static void osinfo_install_script_generate_output_for_media_done(GObject *src,
+                                                                 GAsyncResult *res,
+                                                                 gpointer user_data)
+{
+    OsinfoInstallScriptGenerateSyncData *data = user_data;
+
+    data->file =
+        osinfo_install_script_generate_output_for_media_finish(OSINFO_INSTALL_SCRIPT(src),
+                                                               res,
+                                                               &data->error);
     g_main_loop_quit(data->loop);
 }
 
@@ -1040,6 +1152,21 @@ static void osinfo_install_script_generate_done(GObject *src,
     g_main_loop_quit(data->loop);
 }
 
+/**
+ * osinfo_install_script_generate:
+ * @script:     the install script
+ * @os:         the os
+ * @config:     the install script config
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * Creates an install script.
+ *
+ * Returns: (transfer full): the script as string.
+ *
+ * If you are generating the script for a specific media, it is recommended
+ * that you use #osinfo_install_script_generate_for_media() instead.
+ */
 gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
                                       OsinfoOs *os,
                                       OsinfoInstallConfig *config,
@@ -1058,6 +1185,100 @@ gchar *osinfo_install_script_generate(OsinfoInstallScript *script,
                                          cancellable,
                                          osinfo_install_script_generate_done,
                                          &data);
+
+    if (g_main_loop_is_running(loop))
+        g_main_loop_run(loop);
+
+    if (data.error)
+        g_propagate_error(error, data.error);
+
+    g_main_loop_unref(loop);
+
+    return data.output;
+}
+
+/**
+ * osinfo_install_script_generate_for_media_async:
+ * @script:     the install script
+ * @media:      the media
+ * @config:     the install script config
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_install_script_generate_for_media(). From the
+ * callback, call #osinfo_install_script_generate_for_media_finish() to
+ * conclude this call and get the generated script.
+ *
+ * Since: 0.2.12
+ */
+void osinfo_install_script_generate_for_media_async(OsinfoInstallScript *script,
+                                                    OsinfoMedia *media,
+                                                    OsinfoInstallConfig *config,
+                                                    GCancellable *cancellable,
+                                                    GAsyncReadyCallback callback,
+                                                    gpointer user_data) {
+    OsinfoOs *os;
+
+    g_return_if_fail(media != NULL);
+
+    os = osinfo_media_get_os(media);
+
+    osinfo_install_script_generate_async_common(script,
+                                                os,
+                                                media,
+                                                config,
+                                                cancellable,
+                                                callback,
+                                                user_data);
+}
+
+static void osinfo_install_script_generate_for_media_done(GObject *src,
+                                                          GAsyncResult *res,
+                                                          gpointer user_data)
+{
+    OsinfoInstallScriptGenerateSyncData *data = user_data;
+
+    data->output =
+        osinfo_install_script_generate_for_media_finish(OSINFO_INSTALL_SCRIPT(src),
+                                                        res,
+                                                        &data->error);
+    g_main_loop_quit(data->loop);
+}
+
+/**
+ * osinfo_install_script_generate_for_media:
+ * @script:     the install script
+ * @media:      the media
+ * @config:     the install script config
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * Creates an install script. The media @media must have been identified
+ * successfully using #osinfo_db_identify_media() before calling this function.
+ *
+ * Returns: (transfer full): the script as string.
+ *
+ * Since: 0.2.12
+ */
+gchar *osinfo_install_script_generate_for_media(OsinfoInstallScript *script,
+                                                OsinfoMedia *media,
+                                                OsinfoInstallConfig *config,
+                                                GCancellable *cancellable,
+                                                GError **error)
+{
+    GMainLoop *loop = g_main_loop_new(g_main_context_get_thread_default(),
+                                      TRUE);
+    OsinfoInstallScriptGenerateSyncData data = {
+        loop, NULL, NULL, NULL
+    };
+
+    osinfo_install_script_generate_for_media_async(script,
+                                                   media,
+                                                   config,
+                                                   cancellable,
+                                                   osinfo_install_script_generate_for_media_done,
+                                                   &data);
 
     if (g_main_loop_is_running(loop))
         g_main_loop_run(loop);
@@ -1101,13 +1322,14 @@ static void osinfo_install_script_generate_output_write_file(GObject *src,
     }
 }
 
-void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
-                                                 OsinfoOs *os,
-                                                 OsinfoInstallConfig *config,
-                                                 GFile *output_dir,
-                                                 GCancellable *cancellable,
-                                                 GAsyncReadyCallback callback,
-                                                 gpointer user_data)
+static void osinfo_install_script_generate_output_async_common(OsinfoInstallScript *script,
+                                                               OsinfoOs *os,
+                                                               OsinfoMedia *media,
+                                                               OsinfoInstallConfig *config,
+                                                               GFile *output_dir,
+                                                               GCancellable *cancellable,
+                                                               GAsyncReadyCallback callback,
+                                                               gpointer user_data)
 {
     const gchar *filename;
     const gchar *prefix;
@@ -1119,15 +1341,23 @@ void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
     data->res = g_simple_async_result_new(G_OBJECT(script),
                                           callback,
                                           user_data,
-                                          osinfo_install_script_generate_output_async);
+                                          osinfo_install_script_generate_output_async_common);
 
     data->cancellable = cancellable;
     data->error = data_sync->error;
-    data->output = osinfo_install_script_generate(script,
-                                                  os,
-                                                  config,
-                                                  cancellable,
-                                                  &data->error);
+    if (media != NULL) {
+        data->output = osinfo_install_script_generate_for_media(script,
+                                                                media,
+                                                                config,
+                                                                cancellable,
+                                                                &data->error);
+    } else {
+        data->output = osinfo_install_script_generate(script,
+                                                      os,
+                                                      config,
+                                                      cancellable,
+                                                      &data->error);
+    }
     data->output_pos = 0;
     data->output_len = strlen(data->output);
 
@@ -1155,25 +1385,48 @@ void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
 }
 
 /**
- * osinfo_install_script_generate_output:
+ * osinfo_install_script_generate_output_async:
  * @script:     the install script
- * @os:         the os entity
+ * @os:         the os
  * @config:     the install script config
- * @output_dir: the directory where file containing the output script
+ * @output_dir: the directory where the file containing the output script
  *              will be written
  * @cancellable: (allow-none): a #GCancellable, or %NULL
- * @error: The location where to store any error, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
  *
- * Creates an install script written in a file
+ * Asynchronous variant of #osinfo_install_script_generate_output(). From the
+ * callback, call #osinfo_install_script_generate_output_finish() to conclude
+ * this call and get the generated script.
  *
- * Returns: (transfer full): a file containing the script
+ * If you are generating the script for a specific media, it is recommended that
+ * you use #osinfo_install_script_generate_output_for_media_async() instead.
  */
-GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
-                                             OsinfoOs *os,
-                                             OsinfoInstallConfig *config,
-                                             GFile *output_dir,
-                                             GCancellable *cancellable,
-                                             GError **error)
+void osinfo_install_script_generate_output_async(OsinfoInstallScript *script,
+                                                 OsinfoOs *os,
+                                                 OsinfoInstallConfig *config,
+                                                 GFile *output_dir,
+                                                 GCancellable *cancellable,
+                                                 GAsyncReadyCallback callback,
+                                                 gpointer user_data)
+{
+    osinfo_install_script_generate_output_async_common(script,
+                                                       os,
+                                                       NULL,
+                                                       config,
+                                                       output_dir,
+                                                       cancellable,
+                                                       callback,
+                                                       user_data);
+}
+
+static GFile *osinfo_install_script_generate_output_common(OsinfoInstallScript *script,
+                                                           OsinfoOs *os,
+                                                           OsinfoMedia *media,
+                                                           OsinfoInstallConfig *config,
+                                                           GFile *output_dir,
+                                                           GCancellable *cancellable,
+                                                           GError **error)
 {
     GMainLoop *loop = g_main_loop_new(g_main_context_get_thread_default(),
                                       TRUE);
@@ -1181,13 +1434,25 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
         loop, NULL, NULL, NULL
     };
 
-    osinfo_install_script_generate_output_async(script,
-                                                os,
-                                                config,
-                                                output_dir,
-                                                cancellable,
-                                                osinfo_install_script_generate_output_done,
-                                                &data);
+    if (media != NULL) {
+        osinfo_install_script_generate_output_for_media_async
+            (script,
+             media,
+             config,
+             output_dir,
+             cancellable,
+             osinfo_install_script_generate_output_for_media_done,
+             &data);
+    } else {
+        osinfo_install_script_generate_output_async
+            (script,
+             os,
+             config,
+             output_dir,
+             cancellable,
+             osinfo_install_script_generate_output_done,
+             &data);
+    }
 
     if (g_main_loop_is_running(loop))
         g_main_loop_run(loop);
@@ -1198,6 +1463,107 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
     g_main_loop_unref(loop);
 
     return data.file;
+}
+
+/**
+ * osinfo_install_script_generate_output:
+ * @script:     the install script
+ * @os:         the os entity
+ * @config:     the install script config
+ * @output_dir: the directory where the file containing the output script
+ *              will be written
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * Creates an install script that is written to the returned file.
+ *
+ * Returns: (transfer full): a file containing the script
+ *
+ * If you are generating the script for a specific media, it is recommended
+ * that you use #osinfo_install_script_generate_output_for_media() instead.
+ */
+GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
+                                             OsinfoOs *os,
+                                             OsinfoInstallConfig *config,
+                                             GFile *output_dir,
+                                             GCancellable *cancellable,
+                                             GError **error)
+{
+    return osinfo_install_script_generate_output_common(script,
+                                                        os,
+                                                        NULL,
+                                                        config,
+                                                        output_dir,
+                                                        cancellable,
+                                                        error);
+}
+
+/**
+ * osinfo_install_script_generate_output_for_media_async:
+ * @script:     the install script
+ * @media:      the media
+ * @config:     the install script config
+ * @output_dir: the directory where the file containing the output script
+ *              will be written
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_install_script_generate_output_for_media().
+ * From the callback, call
+ * #osinfo_install_script_generate_output_for_media_finish() to conclude this
+ * call and get the generated file.
+ *
+ * Since: 0.2.12
+ */
+void osinfo_install_script_generate_output_for_media_async(OsinfoInstallScript *script,
+                                                           OsinfoMedia *media,
+                                                           OsinfoInstallConfig *config,
+                                                           GFile *output_dir,
+                                                           GCancellable *cancellable,
+                                                           GAsyncReadyCallback callback,
+                                                           gpointer user_data)
+{
+    osinfo_install_script_generate_output_async_common(script,
+                                                       NULL,
+                                                       media,
+                                                       config,
+                                                       output_dir,
+                                                       cancellable,
+                                                       callback,
+                                                       user_data);
+}
+
+/**
+ * osinfo_install_script_generate_output_for_media:
+ * @script:     the install script
+ * @media:      the media
+ * @config:     the install script config
+ * @output_dir: the directory where the file containing the output script
+ *              will be written
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ *
+ * Creates an install script that is written to the returned file.
+ *
+ * Returns: (transfer full): a file containing the script.
+ *
+ * Since: 0.2.12
+ */
+GFile *osinfo_install_script_generate_output_for_media(OsinfoInstallScript *script,
+                                                       OsinfoMedia *media,
+                                                       OsinfoInstallConfig *config,
+                                                       GFile *output_dir,
+                                                       GCancellable *cancellable,
+                                                       GError **error)
+{
+    return osinfo_install_script_generate_output_common(script,
+                                                        NULL,
+                                                        media,
+                                                        config,
+                                                        output_dir,
+                                                        cancellable,
+                                                        error);
 }
 
 /**
@@ -1212,6 +1578,10 @@ GFile *osinfo_install_script_generate_output(OsinfoInstallScript *script,
  * (http://wiki.qemu.org/download/qemu-doc.html#direct_005flinux_005fboot)
  * the OS in order to pass the needed commandline to it.
  *
+ * If you are generating the command line for a specific media, it is
+ * recommended that you use
+ * #osinfo_install_script_generate_command_line_for_media() instead.
+ *
  * Returns: (transfer full): The generated command line string, NULL otherwise.
  */
 gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
@@ -1225,6 +1595,7 @@ gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
         GError *error = NULL;
         if (!osinfo_install_script_apply_template(script,
                                                   os,
+                                                  NULL,
                                                   "<data>",
                                                   templateData,
                                                   "command-line",
@@ -1238,6 +1609,53 @@ gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
     return output;
 }
 
+/**
+ * osinfo_install_script_generate_command_line_for_media:
+ * @script: the install script
+ * @media:  the media
+ * @config: the install script config
+ *
+ * Some install scripts need to pass a command line to the kernel, Such install
+ * scripts belong to OSs that provide paths to the kernel and initrd files that
+ * can be used to directly boot
+ * (http://wiki.qemu.org/download/qemu-doc.html#direct_005flinux_005fboot)
+ * the OS in order to pass the needed commandline to it.
+ *
+ * The media @media must have been identified successfully using
+ * #osinfo_db_identify_media() before calling this function.
+ *
+ * Returns: (transfer full): The generated command line string, NULL otherwise.
+ */
+gchar *osinfo_install_script_generate_command_line_for_media(OsinfoInstallScript *script,
+                                                             OsinfoMedia *media,
+                                                             OsinfoInstallConfig *config)
+{
+    const gchar *templateData = osinfo_install_script_get_template_data(script);
+    gchar *output = NULL;
+    OsinfoOs *os;
+
+    g_return_val_if_fail(media != NULL, NULL);
+
+    os = osinfo_media_get_os(media);
+    g_return_val_if_fail(os != NULL, NULL);
+
+    if (templateData) {
+        GError *error = NULL;
+        if (!osinfo_install_script_apply_template(script,
+                                                  os,
+                                                  media,
+                                                  "<data>",
+                                                  templateData,
+                                                  "command-line",
+                                                  &output,
+                                                  config,
+                                                  &error)) {
+            g_prefix_error(&error, "%s", _("Failed to apply script template: "));
+        }
+    }
+
+    return output;
+}
 
 OsinfoPathFormat osinfo_install_script_get_path_format(OsinfoInstallScript *script)
 {
