@@ -5,6 +5,7 @@ Maintainer: Guido Günther <agx@sigxcpu.org>
 Build-Depends: autoconf,
  automake,
  autotools-dev,
+ libtool-bin,
  check,
  debhelper (>= 8.0.0),
  gobject-introspection,
