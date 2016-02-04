@@ -1,7 +1,7 @@
 /*
  * libosinfo:
  *
- * Copyright (C) 2009-2012, 2014 Red Hat, Inc.
+ * Copyright (C) 2009-2015 Red Hat, Inc.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,6 +30,7 @@
 #include <gio/gio.h>
 
 #include <string.h>
+#include <ctype.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
 #include <libxml/xpath.h>
@@ -37,6 +38,13 @@
 #include "ignore-value.h"
 #include "osinfo_install_script_private.h"
 #include "osinfo_device_driver_private.h"
+
+#ifndef USB_IDS
+#define USB_IDS PKG_DATA_DIR "/usb.ids"
+#endif
+#ifndef PCI_IDS
+#define PCI_IDS PKG_DATA_DIR "/pci.ids"
+#endif
 
 G_DEFINE_TYPE(OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
 
@@ -56,6 +64,7 @@ struct _OsinfoLoaderPrivate
 {
     OsinfoDb *db;
     GHashTable *xpath_cache;
+    GHashTable *entity_refs;
 };
 
 struct _OsinfoEntityKey
@@ -65,6 +74,13 @@ struct _OsinfoEntityKey
 };
 typedef struct _OsinfoEntityKey OsinfoEntityKey;
 
+typedef struct OsinfoLoaderEntityFiles OsinfoLoaderEntityFiles;
+
+struct OsinfoLoaderEntityFiles {
+    GFile *master;
+    GList *extensions;
+};
+
 static void
 osinfo_loader_finalize(GObject *object)
 {
@@ -72,6 +88,8 @@ osinfo_loader_finalize(GObject *object)
 
     g_object_unref(loader->priv->db);
     g_hash_table_destroy(loader->priv->xpath_cache);
+
+    g_hash_table_destroy(loader->priv->entity_refs);
 
     /* Chain up to the parent class */
     G_OBJECT_CLASS(osinfo_loader_parent_class)->finalize(object);
@@ -106,6 +124,10 @@ osinfo_loader_init(OsinfoLoader *loader)
                                                       g_str_equal,
                                                       g_free,
                                                       xpath_cache_value_free);
+    loader->priv->entity_refs = g_hash_table_new_full(g_str_hash,
+                                                      g_str_equal,
+                                                      g_free,
+                                                      NULL);
 }
 
 /** PUBLIC METHODS */
@@ -342,6 +364,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
                             break;
                         }
                     }
+                    xmlFree(lang);
                 }
             }
         }
@@ -408,13 +431,14 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
 }
 
 static OsinfoDatamap *osinfo_loader_get_datamap(OsinfoLoader *loader,
-                                                 const gchar *id)
+                                                const gchar *id)
 {
     OsinfoDatamap *datamap = osinfo_db_get_datamap(loader->priv->db, id);
     if (!datamap) {
         datamap = osinfo_datamap_new(id);
         osinfo_db_add_datamap(loader->priv->db, datamap);
         g_object_unref(datamap);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), datamap);
     }
     return datamap;
 }
@@ -427,6 +451,7 @@ static OsinfoDevice *osinfo_loader_get_device(OsinfoLoader *loader,
         dev = osinfo_device_new(id);
         osinfo_db_add_device(loader->priv->db, dev);
         g_object_unref(dev);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), dev);
     }
     return dev;
 }
@@ -439,6 +464,7 @@ static OsinfoOs *osinfo_loader_get_os(OsinfoLoader *loader,
         os = osinfo_os_new(id);
         osinfo_db_add_os(loader->priv->db, os);
         g_object_unref(os);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), os);
     }
     return os;
 }
@@ -451,6 +477,7 @@ static OsinfoPlatform *osinfo_loader_get_platform(OsinfoLoader *loader,
         platform = osinfo_platform_new(id);
         osinfo_db_add_platform(loader->priv->db, platform);
         g_object_unref(platform);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), platform);
     }
     return platform;
 }
@@ -463,11 +490,70 @@ static OsinfoInstallScript *osinfo_loader_get_install_script(OsinfoLoader *loade
         script = osinfo_install_script_new(id);
         osinfo_db_add_install_script(loader->priv->db, script);
         g_object_unref(script);
+        g_hash_table_insert(loader->priv->entity_refs, g_strdup(id), script);
     }
     return script;
 }
 
+
+static gboolean osinfo_loader_check_id(const gchar *relpath,
+                                       const gchar *type,
+                                       const gchar *id)
+{
+    gchar *name;
+    gchar *suffix;
+    gboolean sep = FALSE;
+    gchar *reldir;
+    gboolean extension;
+    gsize i;
+
+    if (!relpath)
+        return TRUE;
+
+    if (g_str_has_prefix(id, "http://")) {
+        suffix = g_strdup(id + strlen("http://"));
+    } else {
+        suffix = g_strdup(id);
+    }
+    for (i = 0; suffix[i]; i++) {
+        if (suffix[i] == '/' && !sep) {
+            sep = TRUE;
+        } else if (!isalnum(suffix[i]) &&
+                   suffix[i] != '-' &&
+                   suffix[i] != '.' &&
+                   suffix[i] != '_') {
+                suffix[i] = '-';
+        }
+    }
+    reldir = g_path_get_dirname(relpath);
+    if (g_str_has_suffix(reldir, ".d")) {
+        name = g_strdup_printf("%s/%s.d", type, suffix);
+        extension = TRUE;
+    } else {
+        name = g_strdup_printf("%s/%s.xml", type, suffix);
+        extension = FALSE;
+    }
+    g_free(suffix);
+
+    if (!g_str_equal(extension ? reldir : relpath, name)) {
+        g_warning("Entity %s should be in file %s not %s",
+                  id, name, extension ? reldir : relpath);
+        g_free(reldir);
+        g_free(name);
+        return TRUE; /* In future switch to FALSE to refuse
+                      * to load non-compliant named files.
+                      * Need a period of grace for backcompat
+                      * first though... Switch ETA Jan 2017
+                      */
+    }
+    g_free(reldir);
+    g_free(name);
+    return TRUE;
+}
+
+
 static void osinfo_loader_device(OsinfoLoader *loader,
+                                 const gchar *relpath,
                                  xmlXPathContextPtr ctxt,
                                  xmlNodePtr root,
                                  GError **err)
@@ -488,8 +574,13 @@ static void osinfo_loader_device(OsinfoLoader *loader,
         OSINFO_ERROR(err, _("Missing device id property"));
         return;
     }
+    if (!osinfo_loader_check_id(relpath, "device", id)) {
+        xmlFree(id);
+        return;
+    }
 
     OsinfoDevice *device = osinfo_loader_get_device(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(device), keys, ctxt, root, err);
@@ -631,6 +722,7 @@ static void osinfo_loader_product(OsinfoLoader *loader,
 }
 
 static void osinfo_loader_platform(OsinfoLoader *loader,
+                                   const gchar *relpath,
                                    xmlXPathContextPtr ctxt,
                                    xmlNodePtr root,
                                    GError **err)
@@ -640,8 +732,13 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
         OSINFO_ERROR(err, _("Missing platform id property"));
         return;
     }
+    if (!osinfo_loader_check_id(relpath, "platform", id)) {
+        xmlFree(id);
+        return;
+    }
 
     OsinfoPlatform *platform = osinfo_loader_get_platform(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(platform), NULL, ctxt, root, err);
@@ -659,6 +756,7 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
 }
 
 static void osinfo_loader_deployment(OsinfoLoader *loader,
+                                     const gchar *relpath,
                                      xmlXPathContextPtr ctxt,
                                      xmlNodePtr root,
                                      GError **err)
@@ -666,6 +764,10 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     if (!id) {
         OSINFO_ERROR(err, _("Missing deployment id property"));
+        return;
+    }
+    if (!osinfo_loader_check_id(relpath, "deployment", id)) {
+        xmlFree(id);
         return;
     }
 
@@ -708,6 +810,7 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
 }
 
 static void osinfo_loader_datamap(OsinfoLoader *loader,
+                                  const gchar *relpath,
                                   xmlXPathContextPtr ctxt,
                                   xmlNodePtr root,
                                   GError **err)
@@ -722,8 +825,13 @@ static void osinfo_loader_datamap(OsinfoLoader *loader,
         OSINFO_ERROR(err, _("Missing os id property"));
         return;
     }
+    if (!osinfo_loader_check_id(relpath, "datamap", id)) {
+        xmlFree(id);
+        return;
+    }
 
     OsinfoDatamap *map = osinfo_loader_get_datamap(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
 
     nnodes = osinfo_loader_nodeset("./entry", loader, ctxt, &nodes, err);
     if (error_is_set(err))
@@ -780,6 +888,7 @@ static void osinfo_loader_install_config_params(OsinfoLoader *loader,
         xmlFree(mapid);
         xmlFree(name);
         xmlFree(policy);
+        g_object_unref(param);
     };
 
     g_free(nodes);
@@ -812,6 +921,7 @@ static OsinfoAvatarFormat *osinfo_loader_avatar_format(OsinfoLoader *loader,
 }
 
 static void osinfo_loader_install_script(OsinfoLoader *loader,
+                                         const gchar *relpath,
                                          xmlXPathContextPtr ctxt,
                                          xmlNodePtr root,
                                          GError **err)
@@ -840,8 +950,13 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
         return;
     }
 
+    if (!osinfo_loader_check_id(relpath, "install-script", id)) {
+        xmlFree(id);
+        return;
+    }
     OsinfoInstallScript *installScript = osinfo_loader_get_install_script(loader,
                                                                           id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
     xmlFree(id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(installScript), keys, ctxt, root, err);
@@ -889,6 +1004,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
             goto error;
 
         osinfo_install_script_set_avatar_format(installScript, avatar_format);
+        g_object_unref(avatar_format);
     }
     g_free(nodes);
 
@@ -1265,6 +1381,7 @@ static OsinfoDeviceDriver *osinfo_loader_driver(OsinfoLoader *loader,
 
 
 static void osinfo_loader_os(OsinfoLoader *loader,
+                             const gchar *relpath,
                              xmlXPathContextPtr ctxt,
                              xmlNodePtr root,
                              GError **err)
@@ -1285,8 +1402,13 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         OSINFO_ERROR(err, _("Missing os id property"));
         return;
     }
+    if (!osinfo_loader_check_id(relpath, "os", id)) {
+        xmlFree(id);
+        return;
+    }
 
     OsinfoOs *os = osinfo_loader_get_os(loader, id);
+    g_hash_table_remove(loader->priv->entity_refs, id);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(os), keys, ctxt, root, err);
     if (error_is_set(err))
@@ -1432,6 +1554,7 @@ cleanup:
 }
 
 static void osinfo_loader_root(OsinfoLoader *loader,
+                               const gchar *relpath,
                                xmlXPathContextPtr ctxt,
                                xmlNodePtr root,
                                GError **err)
@@ -1467,22 +1590,22 @@ static void osinfo_loader_root(OsinfoLoader *loader,
         ctxt->node = it;
 
         if (xmlStrEqual(it->name, BAD_CAST "device"))
-            osinfo_loader_device(loader, ctxt, it, err);
+            osinfo_loader_device(loader, relpath, ctxt, it, err);
 
         else if (xmlStrEqual(it->name, BAD_CAST "platform"))
-            osinfo_loader_platform(loader, ctxt, it, err);
+            osinfo_loader_platform(loader, relpath, ctxt, it, err);
 
         else if (xmlStrEqual(it->name, BAD_CAST "os"))
-            osinfo_loader_os(loader, ctxt, it, err);
+            osinfo_loader_os(loader, relpath, ctxt, it, err);
 
         else if (xmlStrEqual(it->name, BAD_CAST "deployment"))
-            osinfo_loader_deployment(loader, ctxt, it, err);
+            osinfo_loader_deployment(loader, relpath, ctxt, it, err);
 
         else if (xmlStrEqual(it->name, BAD_CAST "install-script"))
-            osinfo_loader_install_script(loader, ctxt, it, err);
+            osinfo_loader_install_script(loader, relpath, ctxt, it, err);
 
         else if (xmlStrEqual(it->name, BAD_CAST "datamap"))
-            osinfo_loader_datamap(loader, ctxt, it, err);
+            osinfo_loader_datamap(loader, relpath, ctxt, it, err);
 
         ctxt->node = saved;
 
@@ -1509,6 +1632,7 @@ catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
 }
 
 static void osinfo_loader_process_xml(OsinfoLoader *loader,
+                                      const gchar *relpath,
                                       const gchar *xmlStr,
                                       const gchar *src,
                                       GError **err)
@@ -1553,7 +1677,7 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
 
     ctxt->node = root;
 
-    osinfo_loader_root(loader, ctxt, root, err);
+    osinfo_loader_root(loader, relpath, ctxt, root, err);
 
  cleanup:
     xmlXPathFreeContext(ctxt);
@@ -1564,7 +1688,7 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
+                                   GHashTable *allentries,
                                    gboolean withSubsys,
                                    const char *baseURI,
                                    const char *busType,
@@ -1625,7 +1749,9 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
             goto done;                          \
         }
 #define WANT_REST(var)                          \
-        (var) = tmp+offset
+        (var) = tmp+offset;                     \
+        while (*(var) == ' ')                   \
+            (var)++
 
         if (GOT_TAB()) {
             offset++;
@@ -1645,10 +1771,20 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
                 WANT_REST(device);
                 SAVE_BUF(device_buf);
 
-                gchar *id = g_strdup_printf("%s/%s/%s",
-                                            baseURI, vendor_id, device_id);
+                gchar *id = g_strdup_printf("%s/%s/%s/%s",
+                                            baseURI, busType, vendor_id, device_id);
+                gchar *key = g_strdup_printf("/device/%s/%s-%s-%s",
+                                              baseURI + 7, busType, vendor_id, device_id);
+                OsinfoLoaderEntityFiles *files = g_hash_table_lookup(allentries, key);
+                g_free(key);
+                if (files && files->master) {
+                    /* Native database has a matching entry that completely
+                     * replaces the external record */
+                    continue;
+                }
 
                 OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
+                g_hash_table_remove(loader->priv->entity_refs, id);
                 OsinfoEntity *entity = OSINFO_ENTITY(dev);
                 osinfo_entity_set_param(entity,
                                         OSINFO_DEVICE_PROP_VENDOR_ID,
@@ -1689,14 +1825,14 @@ osinfo_loader_process_file_reg_ids(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
+                                   GHashTable *allentries,
                                    GError **err)
 {
     osinfo_loader_process_file_reg_ids(loader,
                                        file,
-                                       info,
+                                       allentries,
                                        FALSE,
-                                       "http://www.linux-usb.org/usb.ids",
+                                       "http://usb.org",
                                        "usb",
                                        err);
 }
@@ -1704,128 +1840,358 @@ osinfo_loader_process_file_reg_usb(OsinfoLoader *loader,
 static void
 osinfo_loader_process_file_reg_pci(OsinfoLoader *loader,
                                    GFile *file,
-                                   GFileInfo *info,
+                                   GHashTable *allentries,
                                    GError **err)
 {
     osinfo_loader_process_file_reg_ids(loader,
                                        file,
-                                       info,
+                                       allentries,
                                        TRUE,
-                                       "http://pciids.sourceforge.net/v2.2/pci.ids",
+                                       "http://pcisig.com",
                                        "pci",
                                        err);
 }
 
 static void
-osinfo_loader_process_file(OsinfoLoader *loader,
-                           GFile *file,
-                           gboolean ignoreMissing,
-                           GError **err);
-
-static void
 osinfo_loader_process_file_reg_xml(OsinfoLoader *loader,
+                                   GFile *base,
                                    GFile *file,
-                                   GFileInfo *info,
                                    GError **err)
 {
     gchar *xml = NULL;
     gsize xmlLen;
+    gchar *relpath = NULL;
+
     g_file_load_contents(file, NULL, &xml, &xmlLen, NULL, err);
     if (error_is_set(err))
         return;
 
+    if (base) {
+        relpath = g_file_get_relative_path(base, file);
+        if (relpath == NULL) {
+            relpath = g_file_get_path(file);
+            g_warning("File %s does not have expected prefix", relpath);
+        }
+    }
     gchar *uri = g_file_get_uri(file);
     osinfo_loader_process_xml(loader,
+                              relpath,
                               xml,
                               uri,
                               err);
     g_free(uri);
     g_free(xml);
+    g_free(relpath);
 }
 
-static void
-osinfo_loader_process_file_dir(OsinfoLoader *loader,
-                               GFile *file,
-                               GFileInfo *info,
-                               GError **err)
+
+static void osinfo_loader_entity_files_free(OsinfoLoaderEntityFiles *files)
 {
-    GFileEnumerator *ents = g_file_enumerate_children(file,
-                                                      "standard::*",
-                                                      G_FILE_QUERY_INFO_NONE,
-                                                      NULL,
-                                                      err);
-    if (error_is_set(err))
+    if (!files)
         return;
+    g_list_foreach(files->extensions, (GFunc)g_object_unref, NULL);
+    g_list_free(files->extensions);
+    if (files->master)
+        g_object_unref(files->master);
+    g_free(files);
+}
 
-    GFileInfo *child;
-    while ((child = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
-        const gchar *name = g_file_info_get_name(child);
-        GFile *ent = g_file_get_child(file, name);
 
-        osinfo_loader_process_file(loader, ent, FALSE, err);
+static void osinfo_loader_entity_files_add_path(GHashTable *entries,
+                                                GFile *base,
+                                                GFile *ent)
+{
+    /*
+     * We have paths which are either:
+     *
+     *   $DB_ROOT/os/fedoraproject.org/fedora-19.xml
+     *   $DB_ROOT/os/fedoraproject.org/fedora-19.d/fragment.xml
+     *
+     * And need to extract the prefix
+     *
+     *   os/fedoraproject.org/fedora-19
+     *
+     * We assume that no domain names end with '.d'
+     */
+    gchar *path = g_file_get_path(ent);
+    const gchar *relpath = path;
+    gchar *dirname;
+    gchar *key = NULL;
+    gboolean extension = FALSE;
+    OsinfoLoaderEntityFiles *entry;
+    gchar *basepath = NULL;
 
-        g_object_unref(ent);
-        g_object_unref(child);
+    if (base) {
+        basepath = g_file_get_path(base);
 
-        if (error_is_set(err))
-            break;
+        g_object_set_data(G_OBJECT(ent), "base", base);
+
+        if (g_str_has_prefix(path, basepath))
+            relpath += strlen(basepath);
     }
 
-    g_object_unref(ents);
+    dirname = g_path_get_dirname(relpath);
+
+    if (g_str_has_suffix(dirname, ".d")) {
+        key = g_strndup(dirname, strlen(dirname) - 2);
+        extension = TRUE;
+    } else if (g_str_has_suffix(relpath, ".xml")) {
+        key = g_strndup(relpath, strlen(relpath) - 4);
+    } else {
+        /* This should not be reached, since we already
+         * filtered to only have files in .xml
+         */
+        goto error;
+    }
+
+    entry = g_hash_table_lookup(entries, key);
+    if (!entry) {
+        entry = g_new0(OsinfoLoaderEntityFiles, 1);
+        g_hash_table_insert(entries, g_strdup(key), entry);
+    }
+    g_object_ref(ent);
+    if (extension) {
+        entry->extensions = g_list_append(entry->extensions, ent);
+    } else {
+        if (entry->master) {
+            g_warning("Unexpected duplicate master file %s", path);
+        }
+        entry->master = ent;
+    }
+
+ error:
+    g_free(key);
+    g_free(dirname);
+    g_free(path);
+    g_free(basepath);
 }
 
-static void
-osinfo_loader_process_file(OsinfoLoader *loader,
-                           GFile *file,
-                           gboolean ignoreMissing,
-                           GError **err)
+
+static void osinfo_loader_find_files(OsinfoLoader *loader,
+                                     GFile *base,
+                                     GFile *file,
+                                     GHashTable *entries,
+                                     gboolean skipMissing,
+                                     GError **err)
 {
     GError *error = NULL;
-    GFileInfo *info = g_file_query_info(file,
-                                        "standard::*",
-                                        G_FILE_QUERY_INFO_NONE,
-                                        NULL,
-                                        &error);
-    const char *name;
+    GFileInfo *info;
+    GFileType type;
 
+    info = g_file_query_info(file, "standard::*", G_FILE_QUERY_INFO_NONE, NULL, &error);
     if (error) {
-        if (ignoreMissing &&
-            (error->code == G_IO_ERROR_NOT_FOUND)) {
+        if (error->code == G_IO_ERROR_NOT_FOUND && skipMissing) {
             g_error_free(error);
             return;
         }
         g_propagate_error(err, error);
         return;
     }
+    type = g_file_info_get_attribute_uint32(info,
+                                            G_FILE_ATTRIBUTE_STANDARD_TYPE);
+    g_object_unref(info);
+    if (type == G_FILE_TYPE_REGULAR) {
+        char *path = g_file_get_path(file);
+        g_warning("Using a file (%s) as a database location is deprecated, use a directory instead",
+                  path);
+        g_free(path);
+        osinfo_loader_entity_files_add_path(entries, NULL, file);
+    } else if (type == G_FILE_TYPE_DIRECTORY) {
+        GFileEnumerator *ents;
+        ents = g_file_enumerate_children(file,
+                                         "standard::*",
+                                         G_FILE_QUERY_INFO_NONE,
+                                         NULL,
+                                         &error);
+        if (error) {
+            if (error->code == G_IO_ERROR_NOT_FOUND) {
+                g_error_free(error);
+                return;
+            }
+            g_propagate_error(err, error);
+            return;
+        }
 
-    name = g_file_info_get_name(info);
+        while ((info = g_file_enumerator_next_file(ents, NULL, err)) != NULL) {
+            const gchar *name = g_file_info_get_name(info);
+            GFile *ent = g_file_get_child(file, name);
+            type = g_file_info_get_attribute_uint32(info,
+                                                    G_FILE_ATTRIBUTE_STANDARD_TYPE);
+            if (type == G_FILE_TYPE_REGULAR) {
+                if (g_str_has_suffix(name, ".xml"))
+                    osinfo_loader_entity_files_add_path(entries, base, ent);
+            } else if (type == G_FILE_TYPE_DIRECTORY) {
+                osinfo_loader_find_files(loader, base, ent, entries, FALSE, &error);
+            }
+            g_object_unref(ent);
+            g_object_unref(info);
 
-    GFileType type = g_file_info_get_attribute_uint32(info,
-                                                      G_FILE_ATTRIBUTE_STANDARD_TYPE);
+            if (error) {
+                g_propagate_error(err, error);
+                break;
+            }
+        }
+        g_object_unref(ents);
+    } else {
+        OSINFO_ERROR(&error, "Unexpected file type");
+        g_propagate_error(err, error);
+    }
+}
 
-    switch (type) {
-    case G_FILE_TYPE_REGULAR:
-        if (g_str_has_suffix(name, ".xml"))
-            osinfo_loader_process_file_reg_xml(loader, file, info, &error);
-        else if (strcmp(name, "usb.ids") == 0)
-            osinfo_loader_process_file_reg_usb(loader, file, info, &error);
-        else if (strcmp(name, "pci.ids") == 0)
-            osinfo_loader_process_file_reg_pci(loader, file, info, &error);
-        break;
 
-    case G_FILE_TYPE_DIRECTORY:
-        osinfo_loader_process_file_dir(loader, file, info, &error);
-        break;
+typedef enum {
+    OSINFO_DATA_FORMAT_NATIVE,
+    OSINFO_DATA_FORMAT_PCI_IDS,
+    OSINFO_DATA_FORMAT_USB_IDS,
+} OsinfoLoaderDataFormat;
 
-    default:
-        break;
+static void osinfo_loader_process_list(OsinfoLoader *loader,
+                                       GFile **dirs,
+                                       gboolean skipMissing,
+                                       GError **err)
+{
+    GError *lerr = NULL;
+    GFile **tmp;
+    GHashTable *allentries = g_hash_table_new_full(g_str_hash,
+                                                   g_str_equal,
+                                                   g_free,
+                                                   (GDestroyNotify)osinfo_loader_entity_files_free);
+    GHashTableIter iter;
+    gpointer key, value;
+
+    /* Phase 1: gather the files in each native format location */
+    tmp = dirs;
+    while (tmp && *tmp) {
+        OsinfoLoaderDataFormat fmt = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(*tmp), "data-format"));
+
+        if (fmt != OSINFO_DATA_FORMAT_NATIVE) {
+            tmp++;
+            continue;
+        }
+
+        GHashTable *entries = g_hash_table_new_full(g_str_hash,
+                                                    g_str_equal,
+                                                    g_free,
+                                                    (GDestroyNotify)osinfo_loader_entity_files_free);
+
+        osinfo_loader_find_files(loader, *tmp, *tmp, entries, skipMissing, &lerr);
+        if (lerr) {
+            g_propagate_error(err, lerr);
+            g_hash_table_unref(entries);
+            goto cleanup;
+        }
+
+        /* 'entries' contains a list of files from this location, which
+         * we need to merge with any previously gathered files.
+         *
+         * If 'allentries' already contains an entry with the matching key
+         *
+         *  => If 'entries' has the master file present, this completely
+         *     replaces the data in 'allentries.'
+         *  => Else we just augment the extensions in 'allentries'
+         */
+        g_hash_table_iter_init(&iter, entries);
+        while (g_hash_table_iter_next(&iter, &key, &value)) {
+            const gchar *path = key;
+            OsinfoLoaderEntityFiles *newfiles = value;
+            OsinfoLoaderEntityFiles *oldfiles;
+
+            oldfiles = g_hash_table_lookup(allentries, key);
+            if (!oldfiles || newfiles->master) {
+                /* Completely new, or replacing master */
+                oldfiles = g_new0(OsinfoLoaderEntityFiles, 1);
+                oldfiles->master = newfiles->master;
+                newfiles->master = NULL;
+                oldfiles->extensions = newfiles->extensions;
+                newfiles->extensions = NULL;
+                g_hash_table_insert(allentries, g_strdup(path), oldfiles);
+            } else {
+                /* Just augmenting the extensions */
+                oldfiles->extensions = g_list_concat(oldfiles->extensions,
+                                                     newfiles->extensions);
+                newfiles->extensions = NULL;
+            }
+        }
+
+        g_hash_table_unref(entries);
+
+        tmp++;
     }
 
-    g_object_unref(info);
+    if (lerr)
+        goto cleanup;
 
-    if (error)
-        g_propagate_error(err, error);
+    /* Phase 2: load data from non-native locations, filtering based
+     * on overrides from native locations */
+    tmp = dirs;
+    while (tmp && *tmp) {
+        OsinfoLoaderDataFormat fmt = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(*tmp), "data-format"));
+
+        switch (fmt) {
+        case OSINFO_DATA_FORMAT_NATIVE:
+            /* nada */
+            break;
+
+        case OSINFO_DATA_FORMAT_PCI_IDS:
+            osinfo_loader_process_file_reg_pci(loader, *tmp, allentries, &lerr);
+            break;
+
+        case OSINFO_DATA_FORMAT_USB_IDS:
+            osinfo_loader_process_file_reg_usb(loader, *tmp, allentries, &lerr);
+            break;
+        }
+
+        if (lerr) {
+            break;
+        }
+
+        tmp++;
+    }
+
+    if (lerr)
+        goto cleanup;
+
+    /* Phase 3: load combined set of files from native locations */
+    g_hash_table_iter_init(&iter, allentries);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        OsinfoLoaderEntityFiles *files = value;
+        GList *tmpl;
+        if (files->master) {
+            osinfo_loader_process_file_reg_xml(loader,
+                                               g_object_get_data(G_OBJECT(files->master), "base"),
+                                               files->master, &lerr);
+            if (lerr) {
+                g_propagate_error(err, lerr);
+                break;
+            }
+        }
+
+        tmpl = files->extensions;
+        while (tmpl) {
+            GFile *file = tmpl->data;
+            osinfo_loader_process_file_reg_xml(loader,
+                                               g_object_get_data(G_OBJECT(file), "base"),
+                                               file,
+                                               &lerr);
+            if (lerr) {
+                g_propagate_error(err, lerr);
+                break;
+            }
+
+            tmpl = tmpl->next;
+        }
+    }
+
+    g_hash_table_iter_init(&iter, loader->priv->entity_refs);
+    while (g_hash_table_iter_next(&iter, &key, &value)) {
+        g_warning("Entity %s referenced but not defined", (const char *)key);
+    }
+
+ cleanup:
+    g_hash_table_unref(allentries);
+    g_hash_table_remove_all(loader->priv->entity_refs);
 }
+
 
 /**
  * osinfo_loader_get_db:
@@ -1857,12 +2223,14 @@ void osinfo_loader_process_path(OsinfoLoader *loader,
                                 const gchar *path,
                                 GError **err)
 {
-    GFile *file = g_file_new_for_path(path);
-    osinfo_loader_process_file(loader,
-                               file,
-                               FALSE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        g_file_new_for_path(path),
+        NULL,
+    };
+    g_object_set_data(G_OBJECT(dirs[0]), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
+    osinfo_loader_process_list(loader, dirs, FALSE, err);
+    g_object_unref(dirs[0]);
 }
 
 /**
@@ -1880,36 +2248,91 @@ void osinfo_loader_process_uri(OsinfoLoader *loader,
                                const gchar *uri,
                                GError **err)
 {
-    GFile *file = g_file_new_for_uri(uri);
-    osinfo_loader_process_file(loader,
-                               file,
-                               FALSE,
-                               err);
-    g_object_unref(file);
+    GFile *dirs[] = {
+        g_file_new_for_uri(uri),
+        NULL,
+    };
+    g_object_set_data(G_OBJECT(dirs[0]), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
+    osinfo_loader_process_list(loader, dirs, FALSE, err);
+    g_object_unref(dirs[0]);
 }
 
 
+static GFile *osinfo_loader_get_pci_path(void)
+{
+    GFile *ids = g_file_new_for_path(PCI_IDS);
+    g_object_set_data(G_OBJECT(ids), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_PCI_IDS));
+    return ids;
+}
+
+
+static GFile *osinfo_loader_get_usb_path(void)
+{
+    GFile *ids = g_file_new_for_path(USB_IDS);
+    g_object_set_data(G_OBJECT(ids), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_USB_IDS));
+    return ids;
+}
+
+
+static GFile *osinfo_loader_get_system_path(void)
+{
+    GFile *file;
+    gchar *dbdir;
+    const gchar *path = g_getenv("OSINFO_DATA_DIR");
+    if (!path)
+        path = PKG_DATA_DIR;
+
+    dbdir = g_strdup_printf("%s/db", path);
+    file = g_file_new_for_path(dbdir);
+    g_object_set_data(G_OBJECT(file), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
+    g_free(dbdir);
+    return file;
+}
+
+static GFile *osinfo_loader_get_local_path(void)
+{
+    GFile *file;
+    file = g_file_new_for_path(SYS_CONF_DIR "/libosinfo/db");
+    g_object_set_data(G_OBJECT(file), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
+    return file;
+}
+
+static GFile *osinfo_loader_get_user_path(void)
+{
+    GFile *file;
+    gchar *dbdir;
+    const gchar *configdir = g_get_user_config_dir();
+
+    dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
+    file = g_file_new_for_path(dbdir);
+    g_object_set_data(G_OBJECT(file), "data-format",
+                      GINT_TO_POINTER(OSINFO_DATA_FORMAT_NATIVE));
+    g_free(dbdir);
+    return file;
+}
+
 void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 {
-    GError *error = NULL;
+    GFile *dirs[] = {
+        osinfo_loader_get_pci_path(),
+        osinfo_loader_get_usb_path(),
+        osinfo_loader_get_system_path(),
+        osinfo_loader_get_local_path(),
+        osinfo_loader_get_user_path(),
+        NULL,
+    };
 
-    osinfo_loader_process_system_path(loader, &error);
-    if (error)
-        goto error;
-
-    osinfo_loader_process_local_path(loader, &error);
-    if (error)
-        goto error;
-
-    osinfo_loader_process_user_path(loader, &error);
-    if (error)
-        goto error;
-
-    return;
-
- error:
-    g_propagate_error(err, error);
-    return;
+    osinfo_loader_process_list(loader, dirs, TRUE, err);
+    g_object_unref(dirs[0]);
+    g_object_unref(dirs[1]);
+    g_object_unref(dirs[2]);
+    g_object_unref(dirs[3]);
+    g_object_unref(dirs[4]);
 }
 
 /**
@@ -1922,49 +2345,39 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
 void osinfo_loader_process_system_path(OsinfoLoader *loader,
                                        GError **err)
 {
-    GFile *file;
-    gchar *dbdir;
-    const gchar *path = g_getenv("OSINFO_DATA_DIR");
-    if (!path)
-        path = PKG_DATA_DIR;
+    GFile *dirs[] = {
+        osinfo_loader_get_pci_path(),
+        osinfo_loader_get_usb_path(),
+        osinfo_loader_get_system_path(),
+        NULL,
+    };
 
-    dbdir = g_strdup_printf("%s/db", path);
-    file = g_file_new_for_path(dbdir);
-    osinfo_loader_process_file(loader,
-                               file,
-                               FALSE,
-                               err);
-    g_object_unref(file);
-    g_free(dbdir);
+    osinfo_loader_process_list(loader, dirs, FALSE, err);
+    g_object_unref(dirs[0]);
+    g_object_unref(dirs[1]);
+    g_object_unref(dirs[2]);
 }
 
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
 {
-    GFile *file;
-    const gchar *dbdir = SYS_CONF_DIR "/libosinfo/db";
+    GFile *dirs[] = {
+        osinfo_loader_get_local_path(),
+        NULL,
+    };
 
-    file = g_file_new_for_path(dbdir);
-    osinfo_loader_process_file(loader,
-                               file,
-                               TRUE,
-                               err);
-    g_object_unref(file);
+    osinfo_loader_process_list(loader, dirs, TRUE, err);
+    g_object_unref(dirs[0]);
 }
 
 void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
 {
-    GFile *file;
-    gchar *dbdir;
-    const gchar *configdir = g_get_user_config_dir();
+    GFile *dirs[] = {
+        osinfo_loader_get_user_path(),
+        NULL,
+    };
 
-    dbdir = g_strdup_printf("%s/libosinfo/db", configdir);
-    file = g_file_new_for_path(dbdir);
-    osinfo_loader_process_file(loader,
-                               file,
-                               TRUE,
-                               err);
-    g_object_unref(file);
-    g_free(dbdir);
+    osinfo_loader_process_list(loader, dirs, TRUE, err);
+    g_object_unref(dirs[0]);
 }
 
 /*

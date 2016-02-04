@@ -58,17 +58,17 @@
             <text/>
           </element>
         </oneOrMore>
-        <element name='bus-type'>
-          <choice>
-            <value>isa</value>
-            <value>pci</value>
-            <value>usb</value>
-            <value>xen</value>
-            <value>ps2</value>
-            <value>ide</value>
-            <value>virtio</value>
-          </choice>
-        </element>
+        <optional>
+          <element name='bus-type'>
+            <choice>
+              <value>isa</value>
+              <value>pci</value>
+              <value>usb</value>
+              <value>xen</value>
+              <value>ps2</value>
+            </choice>
+          </element>
+        </optional>
         <optional>
           <element name='class'>
             <choice>
@@ -106,7 +106,10 @@
         </optional>
         <optional>
           <element name='product-id'>
-            <ref name='hexid'/>
+            <choice>
+              <ref name='hexid'/>
+              <ref name='alpha'/>
+            </choice>
           </element>
         </optional>
         <optional>
@@ -219,9 +222,16 @@
     <element name='variant'>
       <attribute name='id'>
       </attribute>
-      <element name='name'>
-        <text/>
-      </element>
+      <oneOrMore>
+        <element name='name'>
+          <optional>
+            <attribute name='xml:lang'>
+              <text/>
+            </attribute>
+          </optional>
+          <text/>
+        </element>
+      </oneOrMore>
     </element>
   </define>
 
@@ -743,6 +753,12 @@
   <define name='hexid'>
     <data type="string">
       <param name="pattern">[0-9a-fA-F]+</param>
+    </data>
+  </define>
+
+  <define name='alpha'>
+    <data type="string">
+      <param name="pattern">[a-zA-Z]+</param>
     </data>
   </define>
 

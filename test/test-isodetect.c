@@ -93,7 +93,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     GDataInputStream *dis = NULL;
     gchar *line;
     const gchar *arch;
-    gint64 vol_size = -1, blk_size;
+    gint64 vol_size = -1, blk_size = -1;
 
     if (!(fis = g_file_read(file, NULL, error)))
         goto error;
@@ -133,30 +133,34 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     info->media = osinfo_media_new(name, arch);
 
     while ((line = g_data_input_stream_read_line(dis, NULL, NULL, error)) != NULL) {
-        if (g_str_has_prefix(line, "Volume id:")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_VOLUME_ID,
-                                    line + 11);
-        } else if (g_str_has_prefix(line, "Publisher id:")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_PUBLISHER_ID,
-                                    line + 14);
-        } else if (g_str_has_prefix(line, "System id:")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_SYSTEM_ID,
-                                    line + 11);
-        } else if (g_str_has_prefix(line, "Application id:")) {
-            osinfo_entity_set_param(OSINFO_ENTITY(info->media),
-                                    OSINFO_MEDIA_PROP_APPLICATION_ID,
-                                    line + 16);
-        } else if (g_str_has_prefix(line, "Logical block size is:")) {
-            blk_size = (gint64) atoll(line + 23);
-        } else if (g_str_has_prefix(line, "Volume size is:")) {
-            vol_size = atoll(line + 16);
+        const gchar *key = NULL;
+        char *value = NULL;
+
+        if (g_str_has_prefix(line, "Volume id: ")) {
+            key = OSINFO_MEDIA_PROP_VOLUME_ID;
+            value = line + strlen("Volume id: ");
+        } else if (g_str_has_prefix(line, "Publisher id: ")) {
+            key = OSINFO_MEDIA_PROP_PUBLISHER_ID;
+            value = line + strlen("Volume id: ");
+        } else if (g_str_has_prefix(line, "System id: ")) {
+            key = OSINFO_MEDIA_PROP_SYSTEM_ID;
+            value = line + strlen("Volume id: ");
+        } else if (g_str_has_prefix(line, "Application id: ")) {
+            key = OSINFO_MEDIA_PROP_APPLICATION_ID;
+            value = line + strlen("Volume id: ");
+        } else if (g_str_has_prefix(line, "Logical block size is: ")) {
+            blk_size = (gint64) atoll(line + strlen("Logical block size is: "));
+        } else if (g_str_has_prefix(line, "Volume size is: ")) {
+            vol_size = atoll(line + strlen("Volume size is: "));
         }
+
+        if (key != NULL && value != NULL && value[0] != '\0')
+            osinfo_entity_set_param(OSINFO_ENTITY(info->media), key, value);
+
+        g_free(line);
     }
 
-    if (vol_size > 0)
+    if (vol_size > 0 && blk_size > 0)
         osinfo_entity_set_param_int64(OSINFO_ENTITY(info->media),
                                       OSINFO_MEDIA_PROP_VOLUME_SIZE,
                                       vol_size * blk_size);
@@ -169,6 +173,9 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
  cleanup:
     if (fis)
         g_object_unref(fis);
+
+    if (dis)
+        g_object_unref(dis);
 
     return info;
 
@@ -192,12 +199,15 @@ static GList *load_distro(GFile *dir, const gchar *shortid, GError **error) {
         return NULL;
 
     while ((childinfo = g_file_enumerator_next_file(children, NULL, error)) != NULL) {
-        if (g_file_info_get_file_type(childinfo) !=
-            G_FILE_TYPE_REGULAR)
+        if (g_file_info_get_file_type(childinfo) != G_FILE_TYPE_REGULAR) {
+            g_object_unref(childinfo);
             continue;
+        }
 
-        if (!g_str_has_suffix(g_file_info_get_name(childinfo), ".txt"))
+        if (!g_str_has_suffix(g_file_info_get_name(childinfo), ".txt")) {
+            g_object_unref(childinfo);
             continue;
+        }
 
         GFile *child = g_file_get_child(dir, g_file_info_get_name(childinfo));
         struct ISOInfo *iso = load_iso(child,
@@ -205,6 +215,7 @@ static GList *load_distro(GFile *dir, const gchar *shortid, GError **error) {
                                        g_file_info_get_name(childinfo),
                                        error);
         g_object_unref(child);
+        g_object_unref(childinfo);
 
         if (!iso)
             goto error;
@@ -242,14 +253,16 @@ static GList *load_distros(GFile *dir, GError **error)
         return NULL;
 
     while ((childinfo = g_file_enumerator_next_file(children, NULL, error)) != NULL) {
-        if (g_file_info_get_file_type(childinfo) !=
-            G_FILE_TYPE_DIRECTORY)
+        if (g_file_info_get_file_type(childinfo) != G_FILE_TYPE_DIRECTORY) {
+            g_object_unref(childinfo);
             continue;
+        }
 
         GFile *child = g_file_get_child(dir, g_file_info_get_name(childinfo));
         GList *isos = load_distro(child, g_file_info_get_name(childinfo), error);
 
         g_object_unref(child);
+        g_object_unref(childinfo);
 
         if (!isos && *error)
             goto error;
@@ -303,6 +316,7 @@ static void test_langs(struct ISOInfo *info)
                     it->data, info->filename);
         g_hash_table_remove(info->langs, it->data);
     }
+    g_list_free(langs);
     fail_unless(g_hash_table_size(info->langs) == 0,
                 "some languages were not identified on ISO %s",
                 info->filename);
@@ -319,7 +333,7 @@ static void test_one(const gchar *vendor)
     fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
     fail_unless(OSINFO_IS_DB(db), "Db is not a DB");
 
-    osinfo_loader_process_path(loader, SRCDIR "/data", &error);
+    osinfo_loader_process_path(loader, BUILDDIR "/data", &error);
     fail_unless(error == NULL, error ? error->message : "none");
 
     isos = load_isos(vendor, &error);
@@ -379,6 +393,12 @@ END_TEST
 START_TEST(test_windows)
 {
     test_one("windows");
+}
+END_TEST
+
+START_TEST(test_freebsd)
+{
+    test_one("freebsd");
 }
 END_TEST
 
@@ -442,6 +462,7 @@ list_suite(void)
     tcase_add_test(tc, test_ubuntu);
     tcase_add_test(tc, test_debian);
     tcase_add_test(tc, test_windows);
+    tcase_add_test(tc, test_freebsd);
     tcase_add_test(tc, test_openbsd);
     tcase_add_test(tc, test_opensuse);
     tcase_add_test(tc, test_centos);

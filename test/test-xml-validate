@@ -11,7 +11,7 @@ n=0
 f=0
 for dir in $DIRS
 do
-  XML=`find $abs_srcdir/../data/$dir -name '*.xml'` || exit 1
+  XML=`find $abs_builddir/../data/$dir -name '*.xml'` || exit 1
 
   for xml in `echo "$XML" | sort`
   do
@@ -42,7 +42,7 @@ exit $ret
 : ${srcdir=.}
 . $srcdir/test-lib.sh
 
-DIRS="datamaps oses hypervisors devices install-scripts"
+DIRS="datamap os platform device install-script"
 SCHEMA="libosinfo.rng"
 
 check_schema "$DIRS" "$SCHEMA"

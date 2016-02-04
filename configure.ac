@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [0.2.12], [libosinfo@redhat.com])
+AC_INIT([libosinfo], [0.3.0], [libosinfo@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -38,8 +38,7 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
 PKG_CHECK_MODULES([GIO], [gio-2.0])
-PKG_CHECK_MODULES([SOUP], [libsoup-2.4])
-PKG_CHECK_MODULES([SOUP_GNOME], [libsoup-gnome-2.4])
+PKG_CHECK_MODULES([SOUP], [libsoup-2.4 >= 2.42])
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])
 
@@ -121,26 +120,6 @@ if test "x$enable_introspection" = "xyes" ; then
 fi
 AM_CONDITIONAL([WITH_VALA], [test "x$enable_vala" = "xyes"])
 
-AC_ARG_ENABLE([udev],
-        AS_HELP_STRING([--enable-udev], [enable Udev support]),
-        [], [enable_udev=no])
-AM_CONDITIONAL([WITH_UDEV], [test "x$enable_udev" = "xyes"])
-
-AC_ARG_WITH([udev-rulesdir],
-             [AS_HELP_STRING([--with-udev-rulesdir],[UDev rules directory])],
-             [], [])
-
-if test "x$with_udev_rulesdir" = "x"; then
-        if test "x$prefix" = "x/usr" ; then
-                with_udev_rulesdir=/lib/udev/rules.d
-        else
-                with_udev_rulesdir=$prefix/lib/udev/rules.d
-        fi
-fi
-
-UDEV_RULESDIR="$with_udev_rulesdir"
-AC_SUBST(UDEV_RULESDIR)
-
 AC_ARG_ENABLE([coverage],
         AS_HELP_STRING([--enable-coverage], [enable GCC code coverage]),
         [], [enable_coverage=no])
@@ -155,25 +134,80 @@ fi
 AC_SUBST(COVERAGE_CFLAGS)
 AC_SUBST(COVERAGE_LDFLAGS)
 
-# Path to the usb.ids file -- to know if we use one shipped with another
-# package, or an internal file
+
+USB_ID_FILES="/usr/share/usb.ids /usr/share/misc/usb.ids /usr/share/hwdata/usb.ids"
+
 AC_ARG_WITH(usb-ids-path,
               [AC_HELP_STRING([--with-usb-ids-path],
-                              [Specify the path to usb.ids @<:@default=(internal)@:>@])],,
-                              [with_usb_ids_path="\${usb_databasedir}/usb.ids"])
+                              [Specify the path to usb.ids @<:@default=(internal)@:>@])])
 
-AM_CONDITIONAL(USE_INTERNAL_USB_IDS, test "x$with_usb_ids_path" = "x\${usb_databasedir}/usb.ids")
-AC_SUBST([USB_IDS], ["$with_usb_ids_path"])
+AC_MSG_CHECKING([location of usb.ids database])
+local_usb_ids=0
+if test -z "$with_usb_ids_path"
+then
+  if test $host = $build
+  then
+    for FILE in $USB_ID_FILES
+    do
+      if test -f $FILE
+      then
+        with_usb_ids_path="$FILE"
+        break
+      fi
+    done
+  fi
 
-# Path to the pci.ids file -- to know if we use one shipped with another
-# package, or an internal file
+  if test -z "$with_usb_ids_path"
+  then
+    local_usb_ids=1
+  fi
+fi
+AM_CONDITIONAL([LOCAL_USB_IDS], [test "$local_usb_ids" = "1"])
+if test -n "$with_usb_ids_path"
+then
+  AC_DEFINE_UNQUOTED([USB_IDS], ["$with_usb_ids_path"], ["location of usb.ids database"])
+  AC_MSG_RESULT([$with_usb_ids_path])
+else
+  AC_MSG_RESULT([<built-in>])
+fi
+
+
+PCI_ID_FILES="/usr/share/pci.ids /usr/share/misc/pci.ids /usr/share/hwdata/pci.ids"
+
 AC_ARG_WITH(pci-ids-path,
               [AC_HELP_STRING([--with-pci-ids-path],
-                              [Specify the path to pci.ids @<:@default=(internal)@:>@])],,
-                              [with_pci_ids_path="\${pci_databasedir}/pci.ids"])
+                              [Specify the path to pci.ids @<:@default=(internal)@:>@])])
 
-AM_CONDITIONAL(USE_INTERNAL_PCI_IDS, test "x$with_pci_ids_path" = "x\${pci_databasedir}/pci.ids")
-AC_SUBST([PCI_IDS], ["$with_pci_ids_path"])
+AC_MSG_CHECKING([location of pci.ids database])
+local_pci_ids=0
+if test -z "$with_pci_ids_path"
+then
+  if test $host = $build
+  then
+    for FILE in $PCI_ID_FILES
+    do
+      if test -f $FILE
+      then
+        with_pci_ids_path="$FILE"
+        break
+      fi
+    done
+  fi
+
+  if test -z "$with_pci_ids_path"
+  then
+    local_pci_ids=1
+  fi
+fi
+AM_CONDITIONAL([LOCAL_PCI_IDS], [test "$local_pci_ids" = "1"])
+if test -n "$with_pci_ids_path"
+then
+  AC_DEFINE_UNQUOTED([PCI_IDS], ["$with_pci_ids_path"], ["location of pci.ids database"])
+  AC_MSG_RESULT([$with_pci_ids_path])
+else
+  AC_MSG_RESULT([<built-in>])
+fi
+
 
 # Setup GLIB_MKENUMS to use glib-mkenums even if GLib is uninstalled.
 GLIB_MKENUMS=`$PKG_CONFIG --variable=glib_mkenums glib-2.0`
@@ -187,11 +221,65 @@ AC_CONFIG_FILES([
 	osinfo/libosinfo-1.0.pc
 	osinfo/osinfo_version.h
 	data/Makefile
-	data/datamaps/Makefile
-	data/devices/Makefile
-	data/hypervisors/Makefile
-	data/install-scripts/Makefile
-	data/oses/Makefile
+	data/datamap/Makefile
+	data/datamap/microsoft.com/Makefile
+	data/datamap/x.org/Makefile
+	data/device/Makefile
+	data/device/ibasetechnologies.net/Makefile
+	data/device/ibm.com/Makefile
+	data/device/pcisig.com/Makefile
+	data/device/pcisig.com/pci-1000-0012.d/Makefile
+	data/device/pcisig.com/pci-1013-00b8.d/Makefile
+	data/device/pcisig.com/pci-1022-2000.d/Makefile
+	data/device/pcisig.com/pci-10ec-8029.d/Makefile
+	data/device/pcisig.com/pci-10ec-8139.d/Makefile
+	data/device/pcisig.com/pci-1234-1111.d/Makefile
+	data/device/pcisig.com/pci-1274-5000.d/Makefile
+	data/device/pcisig.com/pci-15ad-0710.d/Makefile
+	data/device/pcisig.com/pci-1af4-1000.d/Makefile
+	data/device/pcisig.com/pci-1af4-1001.d/Makefile
+	data/device/pcisig.com/pci-1af4-1002.d/Makefile
+	data/device/pcisig.com/pci-1af4-1003.d/Makefile
+	data/device/pcisig.com/pci-1af4-1009.d/Makefile
+	data/device/pcisig.com/pci-1b36-0100.d/Makefile
+	data/device/pcisig.com/pci-8086-100e.d/Makefile
+	data/device/pcisig.com/pci-8086-2415.d/Makefile
+	data/device/pcisig.com/pci-8086-25ab.d/Makefile
+	data/device/pcisig.com/pci-8086-2668.d/Makefile
+	data/device/usb.org/Makefile
+	data/device/usb.org/usb-80ee-0021.d/Makefile
+	data/device/xen.org/Makefile
+	data/platform/Makefile
+	data/platform/linux-kvm.org/Makefile
+	data/platform/qemu.org/Makefile
+	data/platform/redhat.com/Makefile
+	data/platform/xen.org/Makefile
+	data/install-script/Makefile
+	data/install-script/debian.org/Makefile
+	data/install-script/fedoraproject.org/Makefile
+	data/install-script/microsoft.com/Makefile
+	data/install-script/redhat.com/Makefile
+	data/install-script/ubuntu.com/Makefile
+	data/os/Makefile
+	data/os/altlinux.org/Makefile
+	data/os/apple.com/Makefile
+	data/os/centos.org/Makefile
+	data/os/debian.org/Makefile
+	data/os/fedoraproject.org/Makefile
+	data/os/freebsd.org/Makefile
+	data/os/gnome.org/Makefile
+	data/os/mageia.org/Makefile
+	data/os/mandriva.com/Makefile
+	data/os/microsoft.com/Makefile
+	data/os/netbsd.org/Makefile
+	data/os/novell.com/Makefile
+	data/os/openbsd.org/Makefile
+	data/os/opensuse.org/Makefile
+	data/os/oracle.com/Makefile
+	data/os/redhat.com/Makefile
+	data/os/sun.com/Makefile
+	data/os/suse.com/Makefile
+	data/os/ubuntu.com/Makefile
 	data/schemas/Makefile
 	tools/Makefile
 	test/Makefile
