@@ -1,2 +1,2 @@
-/usr/lib/libosinfo-*.so.*
+/usr/lib/*/libosinfo-*.so.*
 /usr/share/libosinfo

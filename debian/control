@@ -26,6 +26,8 @@ Vcs-Browser: https://anonscm.debian.org/?p=pkg-libvirt/libosinfo.git
 
 Package: libosinfo-1.0-0
 Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}, pciutils, usbutils
 Description: Library for managing information about operating systems and hypervisors
  libosinfo is a GObject based library API for managing information about
@@ -70,6 +72,7 @@ Description: libosinfo debugging information
 
 Package: libosinfo-1.0-dev
 Architecture: any
+Multi-Arch: same
 Section: libdevel
 Depends: ${misc:Depends}, libosinfo-1.0-0 (=${binary:Version}),
  gir1.2-libosinfo-1.0 (=${binary:Version})
@@ -84,6 +87,7 @@ Description: libosinfo development files
 
 Package: gir1.2-libosinfo-1.0
 Architecture: any
+Multi-Arch: same
 Section: introspection
 Depends: ${gir:Depends},
          ${shlibs:Depends},
