@@ -21,8 +21,8 @@ Build-Depends: autoconf,
  valac (>= 0.20)
 Standards-Version: 3.9.5
 Homepage: https://libosinfo.org/
-Vcs-Git: git://git.debian.org/git/pkg-libvirt/libosinfo.git
-Vcs-Browser: http://git.debian.org/?p=pkg-libvirt/libosinfo.git
+Vcs-Git: https://anonscm.debian.org/git/pkg-libvirt/libosinfo.git
+Vcs-Browser: https://anonscm.debian.org/?p=pkg-libvirt/libosinfo.git
 
 Package: libosinfo-1.0-0
 Architecture: any
