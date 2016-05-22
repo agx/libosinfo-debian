@@ -19,7 +19,7 @@ DPKG_EXPORT_BUILDFLAGS = 1
 include /usr/share/dpkg/default.mk
 
 %:
-	dh $@
+	dh $@ --with gir
 
 override_dh_auto_configure:
 	./autogen.sh
@@ -33,10 +33,6 @@ override_dh_auto_configure:
 override_dh_strip:
 	dh_strip -plibosinfo-1.0-0 --dbg-package=libosinfo-1.0-0-dbg
 	dh_strip -plibosinfo-bin --dbg-package=libosinfo-1.0-0-dbg
-
-override_dh_makeshlibs:
-	dh_makeshlibs
-	dh_girepository
 
 override_dh_auto_clean:
 	[ ! -f Makefile ] || dh_auto_clean
