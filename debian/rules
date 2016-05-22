@@ -30,11 +30,6 @@ override_dh_auto_configure:
 		--enable-vala \
 		--enable-udev
 
-override_dh_installudev:
-	cp debian/tmp/lib/udev/rules.d/95-osinfo.rules \
-				debian/libosinfo-bin.osinfo.udev
-	dh_installudev -plibosinfo-bin --name osinfo --priority 95
-
 override_dh_strip:
 	dh_strip -plibosinfo-1.0-0 --dbg-package=libosinfo-1.0-0-dbg
 	dh_strip -plibosinfo-bin --dbg-package=libosinfo-1.0-0-dbg
