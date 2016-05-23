@@ -1,0 +1,3 @@
+Tests: smoke
+Depends: libosinfo-bin
+Restrictions: allow-stderr

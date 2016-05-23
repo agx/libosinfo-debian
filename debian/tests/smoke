@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+set -x
+
+# Just dump the DB
+osinfo-query os
+
+# Check if we can find Debian Jessie
+osinfo-query os name="Debian Jessie" | grep -qs debian8
+
+echo 'Smoke test of osinfo-query succesful'
+exit 0
