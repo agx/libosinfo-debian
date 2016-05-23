@@ -55,20 +55,6 @@ Description: Library for managing information about operating systems and hyperv
  .
  This package contains the runtime files.
 
-Package: libosinfo-1.0-0-dbg
-Architecture: any
-Section: debug
-Depends: ${shlibs:Depends}, ${misc:Depends},
- libosinfo-1.0-0 (=${binary:Version})
-Description: libosinfo debugging information
- libosinfo is a GObject based library API for managing information about
- operating systems, hypervisors and the (virtual) hardware devices they
- can support. It includes a database containing device metadata and
- provides APIs to match/identify optimal devices for deploying an
- operating system on a hypervisor.
- .
- This package contains the debugging symbols.
-
 Package: libosinfo-1.0-dev
 Architecture: any
 Multi-Arch: same
