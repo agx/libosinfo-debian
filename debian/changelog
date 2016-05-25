@@ -1,3 +1,19 @@
+libosinfo (0.3.0-2) unstable; urgency=medium
+
+  [ Laurent Bigonville ]
+  * [19e7318] Bump debhelper compatibility to 9 and multiarchify the library
+    packages.  Thanks to Matthias Klose <doko@debian.org> (Closes: #812921)
+
+  [ Guido Günther ]
+  * [7940355] Drop unneeded Pre-Depends
+  * [ffd3171] Drop debug package
+  * [59e011a] Fix Vcs-Browser URL
+  * [cf6b1ca] Build and install API documentation
+  * [00acc87] Add autopkg build-test
+  * [8edbebd] Test invocation of osinfo-install-script as well
+
+ -- Guido Günther <agx@sigxcpu.org>  Wed, 25 May 2016 09:30:36 +0200
+
 libosinfo (0.3.0-1) unstable; urgency=medium
 
   [ Guido Günther ]
