@@ -3,11 +3,30 @@
 set -e
 set -x
 
-# Just dump the DB
-osinfo-query os
+test_preseed()
+{
+    osinfo-install-script \
+	--config l10n-timezone=GMT+1 \
+	--config l10n-keyboard=de \
+	--config l10n-language=en_US \
+	--config admin-password=viot0kaP \
+	debian8
 
-# Check if we can find Debian Jessie
-osinfo-query os name="Debian Jessie" | grep -qs debian8
+    test -f preseed.cfg
+    rm -f preseed.cfg
+}
+
+test_osinfo()
+{
+    # Just dump the DB
+    osinfo-query os >/dev/null
+
+    # Check if we can find Debian Jessie
+    osinfo-query os name="Debian Jessie" | grep -qs debian8
+}
+
+test_osinfo
+test_preseed
 
 echo 'Smoke test of osinfo-query succesful'
 exit 0
