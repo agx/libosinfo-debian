@@ -3,3 +3,4 @@
 /usr/lib/*/libosinfo-1.0.so
 /usr/share/gir-1.0/Libosinfo-1.0.gir
 /usr/share/vala/vapi/libosinfo-1.0.vapi
+/usr/share/gtk-doc
