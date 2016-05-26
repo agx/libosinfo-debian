@@ -27,7 +27,8 @@ Vcs-Browser: https://anonscm.debian.org/gitweb/?p=pkg-libvirt/libosinfo.git
 Package: libosinfo-1.0-0
 Architecture: any
 Multi-Arch: same
-Depends: ${shlibs:Depends}, ${misc:Depends}, pciutils, usbutils
+Depends: ${shlibs:Depends}, ${misc:Depends}, pciutils, usbutils,
+ libosinfo-db (>= ${source:Version})
 Description: Library for managing information about operating systems and hypervisors
  libosinfo is a GObject based library API for managing information about
  operating systems, hypervisors and the (virtual) hardware devices they
@@ -43,6 +44,8 @@ Description: Library for managing information about operating systems and hyperv
 Package: libosinfo-bin
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Replaces: libosinfo-1.0-0 (<< 0.3.0-3~)
+Breaks: libosinfo-1.0.0 (<< 0.3.0-3~)
 Description: Library for managing information about operating systems and hypervisors
  libosinfo is a GObject based library API for managing information about
  operating systems, hypervisors and the (virtual) hardware devices they
@@ -54,6 +57,18 @@ Description: Library for managing information about operating systems and hyperv
  programming languages.
  .
  This package contains the runtime files.
+
+Package: libosinfo-db
+Architecture: any
+Description: Library for managing information about operating systems and hypervisors
+ libosinfo is a GObject based library API for managing information about
+ operating systems, hypervisors and the (virtual) hardware devices they
+ can support. It includes a database containing device metadata and
+ provides APIs to match/identify optimal devices for deploying an
+ operating system on a hypervisor.
+ .
+ This package contains database files describing operating systems and
+ hardware.
 
 Package: libosinfo-1.0-dev
 Architecture: any
