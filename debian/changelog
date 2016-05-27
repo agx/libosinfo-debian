@@ -1,3 +1,11 @@
+libosinfo (0.3.0-3) unstable; urgency=medium
+
+  * [a9a31e7] Move database files into separate package and install
+    translations (Closes: #825009)
+  * [a3c4034] Fail if we don't install all files
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 27 May 2016 16:13:43 +0200
+
 libosinfo (0.3.0-2) unstable; urgency=medium
 
   [ Laurent Bigonville ]
