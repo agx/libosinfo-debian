@@ -170,6 +170,7 @@ START_TEST(test_script_file)
     fail_unless(strcmp(actualData, expectData) == 0, "Actual '%s' match expect '%s'",
                 actualData, expectData);
 
+    g_free(actualData);
     g_object_unref(media);
     g_object_unref(db);
     g_object_unref(config);
@@ -193,6 +194,7 @@ START_TEST(test_script_data)
 
     g_file_load_contents(file, NULL, &data, NULL, NULL, &error);
     fail_unless(error == NULL, error ? error->message : "none");
+    g_object_unref(file);
 
     osinfo_loader_process_path(loader, SRCDIR "/test/dbdata", &error);
     fail_unless(error == NULL, error ? error->message : "none");
@@ -222,10 +224,13 @@ START_TEST(test_script_data)
     unlink(BUILDDIR "/test/install-script-actual.txt");
     fail_unless(error == NULL, error ? error->message : "none");
 
+    g_free(data);
+    g_free(actualData);
     g_object_unref(media);
     g_object_unref(db);
     g_object_unref(config);
     g_object_unref(script);
+    g_main_loop_unref(loop);
 }
 END_TEST
 
@@ -300,9 +305,11 @@ START_TEST(test_script_datamap)
     fail_unless(strcmp(actualData, expectData2) == 0, "Actual '%s' match expect '%s'",
                 actualData, expectData2);
 
+    g_free(actualData);
     g_object_unref(db);
     g_object_unref(os);
     g_object_unref(config);
+    g_main_loop_unref(loop);
 }
 END_TEST
 
@@ -327,9 +334,8 @@ int main(void)
     Suite *s = list_suite();
     SRunner *sr = srunner_create(s);
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
+    /* Make sure we catch unexpected g_warning() */
+    g_log_set_always_fatal(G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();

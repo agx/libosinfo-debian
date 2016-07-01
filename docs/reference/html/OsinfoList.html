@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoList: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoInstallScriptList.html" title="OsinfoInstallScriptList">
+<link rel="next" href="OsinfoLoader.html" title="OsinfoLoader">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoList.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoList.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#OsinfoList.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoInstallScriptList.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoLoader.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoList"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoList.top_of_page"></a>OsinfoList</span></h2>
+<p>OsinfoList — Abstract base class for entity lists</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoList.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/gobjectgobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-get-element-type" title="osinfo_list_get_element_type ()">osinfo_list_get_element_type</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-get-length" title="osinfo_list_get_length ()">osinfo_list_get_length</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="returnvalue">OsinfoEntity</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-get-nth" title="osinfo_list_get_nth ()">osinfo_list_get_nth</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="returnvalue">OsinfoEntity</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-find-by-id" title="osinfo_list_find_by_id ()">osinfo_list_find_by_id</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-get-elements" title="osinfo_list_get_elements ()">osinfo_list_get_elements</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-add" title="osinfo_list_add ()">osinfo_list_add</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-add-filtered" title="osinfo_list_add_filtered ()">osinfo_list_add_filtered</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-add-intersection" title="osinfo_list_add_intersection ()">osinfo_list_add_intersection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-add-union" title="osinfo_list_add_union ()">osinfo_list_add_union</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-add-all" title="osinfo_list_add_all ()">osinfo_list_add_all</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-new-copy" title="osinfo_list_new_copy ()">osinfo_list_new_copy</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-new-filtered" title="osinfo_list_new_filtered ()">osinfo_list_new_filtered</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-new-intersection" title="osinfo_list_new_intersection ()">osinfo_list_new_intersection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoList.html#osinfo-list-new-union" title="osinfo_list_new_union ()">osinfo_list_new_union</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody><tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/gobjectgobject-Type-Information.html#GType"><span class="type">GType</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoList.html#OsinfoList--element-type" title="The “element-type” property">element-type</a></td>
+<td class="property_flags">Read / Write / Construct Only</td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> OsinfoList
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDatamapList.html" title="OsinfoDatamapList">OsinfoDatamapList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeploymentList.html" title="OsinfoDeploymentList">OsinfoDeploymentList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceDriverList.html" title="OsinfoDeviceDriverList">OsinfoDeviceDriverList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceLinkList.html" title="OsinfoDeviceLinkList">OsinfoDeviceLinkList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList">OsinfoDeviceList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoInstallConfigParamList.html" title="OsinfoInstallConfigParamList">OsinfoInstallConfigParamList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoInstallScriptList.html" title="OsinfoInstallScriptList">OsinfoInstallScriptList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList">OsinfoMediaList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoOsVariantList.html" title="OsinfoOsVariantList">OsinfoOsVariantList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoProductList.html" title="OsinfoProductList">OsinfoProductList</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoResourcesList.html" title="OsinfoResourcesList">OsinfoResourcesList</a>
+        <span class="lineart">╰──</span> <a class="link" href="OsinfoTreeList.html" title="OsinfoTreeList">OsinfoTreeList</a>
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> provides a way to maintain a list of <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> objects.</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-list-get-element-type"></a><h3>osinfo_list_get_element_type ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gobjectgobject-Type-Information.html#GType"><span class="returnvalue">GType</span></a>
+osinfo_list_get_element_type (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>);</pre>
+<p>Retrieves the type of the subclass of <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a>
+that may be stored in the list</p>
+<div class="refsect3">
+<a name="osinfo-list-get-element-type.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-get-element-type.returns"></a><h4>Returns</h4>
+<p> the type of entity stored</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-get-length"></a><h3>osinfo_list_get_length ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+osinfo_list_get_length (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>);</pre>
+<p>Retrieves the number of elements currently stored
+in the list</p>
+<div class="refsect3">
+<a name="osinfo-list-get-length.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-get-length.returns"></a><h4>Returns</h4>
+<p> the list length</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-get-nth"></a><h3>osinfo_list_get_nth ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="returnvalue">OsinfoEntity</span></a> *
+osinfo_list_get_nth (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                     <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="type">gint</span></a> idx</code></em>);</pre>
+<p>Retrieves the element in the list at position <em class="parameter"><code>idx</code></em>
+. If
+<em class="parameter"><code>idx</code></em>
+ is less than zero, or greater than the number of
+elements in the list, the results are undefined.</p>
+<div class="refsect3">
+<a name="osinfo-list-get-nth.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>idx</p></td>
+<td class="parameter_description"><p>the list position to fetch</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-get-nth.returns"></a><h4>Returns</h4>
+<p> the list element. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-find-by-id"></a><h3>osinfo_list_find_by_id ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="returnvalue">OsinfoEntity</span></a> *
+osinfo_list_find_by_id (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                        <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>);</pre>
+<p>Search the list looking for the entity with a matching
+unique identifier.</p>
+<div class="refsect3">
+<a name="osinfo-list-find-by-id.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>id</p></td>
+<td class="parameter_description"><p>the unique identifier</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-find-by-id.returns"></a><h4>Returns</h4>
+<p> the matching entity, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-get-elements"></a><h3>osinfo_list_get_elements ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+osinfo_list_get_elements (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>);</pre>
+<p>Retrieve a linked list of all elements in the list.</p>
+<div class="refsect3">
+<a name="osinfo-list-get-elements.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-get-elements.returns"></a><h4>Returns</h4>
+<p> the list elements. </p>
+<p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> OsinfoEntity]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-add"></a><h3>osinfo_list_add ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_list_add (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                 <em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>);</pre>
+<p>Adds a new entity to the list.</p>
+<div class="refsect3">
+<a name="osinfo-list-add.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p> the entity to add to the list. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-add-filtered"></a><h3>osinfo_list_add_filtered ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_list_add_filtered (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                          <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *source</code></em>,
+                          <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Adds all entities from <em class="parameter"><code>source</code></em>
+ which are matched by <em class="parameter"><code>filter</code></em>
+. Using one
+of the constructors in a subclass is preferrable
+to this method.</p>
+<div class="refsect3">
+<a name="osinfo-list-add-filtered.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p> the source for elements. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> filter to process the source with. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-add-intersection"></a><h3>osinfo_list_add_intersection ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_list_add_intersection (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                              <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceOne</code></em>,
+                              <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceTwo</code></em>);</pre>
+<p>Computes the intersection between <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+ and
+adds the resulting list of entities to the <em class="parameter"><code>list</code></em>
+. Using one
+of the constructors in a subclass is preferrable
+to this method.</p>
+<div class="refsect3">
+<a name="osinfo-list-add-intersection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p> the first list to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p> the second list to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-add-union"></a><h3>osinfo_list_add_union ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_list_add_union (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                       <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceOne</code></em>,
+                       <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceTwo</code></em>);</pre>
+<p>Computes the union between <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+ and
+adds the resulting list of entities to the <em class="parameter"><code>list</code></em>
+. Using one
+of the constructors in a subclass is preferrable
+to this method.</p>
+<div class="refsect3">
+<a name="osinfo-list-add-union.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p> the first list to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p> the second list to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-add-all"></a><h3>osinfo_list_add_all ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_list_add_all (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *list</code></em>,
+                     <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *source</code></em>);</pre>
+<p>Adds all entities from <em class="parameter"><code>source</code></em>
+ to <em class="parameter"><code>list</code></em>
+. Using one
+of the constructors in a subclass is preferrable
+to this method.</p>
+<div class="refsect3">
+<a name="osinfo-list-add-all.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>list</p></td>
+<td class="parameter_description"><p>the entity list</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p> the list to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-new-copy"></a><h3>osinfo_list_new_copy ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+osinfo_list_new_copy (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *source</code></em>);</pre>
+<p>Construct a new list that is filled with elements from <em class="parameter"><code>source</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-list-new-copy.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p>the list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-new-copy.returns"></a><h4>Returns</h4>
+<p> a copy of the list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-new-filtered"></a><h3>osinfo_list_new_filtered ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+osinfo_list_new_filtered (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *source</code></em>,
+                          <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Construct a new list that is filled with elements from <em class="parameter"><code>source</code></em>
+ that
+match <em class="parameter"><code>filter</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-list-new-filtered.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p>the list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p>the filter to apply</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-new-filtered.returns"></a><h4>Returns</h4>
+<p> a filtered copy of the list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-new-intersection"></a><h3>osinfo_list_new_intersection ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+osinfo_list_new_intersection (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceOne</code></em>,
+                              <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceTwo</code></em>);</pre>
+<p>Construct a new list that is filled with only the elements
+that are present in both <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-list-new-intersection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p>the first list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p>the second list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-new-intersection.returns"></a><h4>Returns</h4>
+<p> an intersection of the two lists. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-list-new-union"></a><h3>osinfo_list_new_union ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="returnvalue">OsinfoList</span></a> *
+osinfo_list_new_union (<em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceOne</code></em>,
+                       <em class="parameter"><code><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a> *sourceTwo</code></em>);</pre>
+<p>Construct a new list that is filled with all the that are present in
+either <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+. <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+ must be of
+the same type.</p>
+<div class="refsect3">
+<a name="osinfo-list-new-union.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p>the first list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p>the second list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-list-new-union.returns"></a><h4>Returns</h4>
+<p> a union of the two lists. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.other_details"></a><h2>Types and Values</h2>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="OsinfoList--element-type"></a><h3>The <code class="literal">“element-type”</code> property</h3>
+<pre class="programlisting">  “element-type”             <a href="/usr/share/gtk-doc/html/gobjectgobject-Type-Information.html#GType"><span class="type">GType</span></a> *</pre>
+<p>The specialization of the list. The list will be
+restricted to storing <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> objects of
+the specified type.</p>
+<p>Flags: Read / Write / Construct Only</p>
+<p>Allowed values: OsinfoEntity</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoList.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

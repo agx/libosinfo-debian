@@ -17,12 +17,23 @@
     <variant id="enterprise">
       <_name>Microsoft Windows 10 Enterprise</_name>
     </variant>
+    <variant id="enterprise-ltsb">
+      <_name>Microsoft Windows 10 Enterprise (Long Term Servicing Branch)</_name>
+    </variant>
 
     <!-- Education -->
     <media arch="i686">
       <variant id="education"/>
       <iso>
-        <volume-id>J_CEDA_X86FRE_</volume-id>
+        <volume-id>J_CEDN?A_X86FRE_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <variant id="education"/>
+      <iso>
+        <volume-id>J_CEDN?A_X64FRE_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
       </iso>
@@ -32,7 +43,49 @@
     <media arch="i686">
       <variant id="enterprise"/>
       <iso>
-        <volume-id>J_CENA_X86FREV_</volume-id>
+        <volume-id>J_CENN?A_X86FREV_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <variant id="enterprise"/>
+      <iso>
+        <volume-id>J_CENN?A_X64FREV_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <!-- Enterprise LTSB -->
+    <media arch="i686">
+      <variant id="enterprise-ltsb"/>
+      <iso>
+        <volume-id>J_CESN?N?_X86FREV_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <variant id="enterprise-ltsb"/>
+      <iso>
+        <volume-id>J_CESN?N?_X64FREV_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+
+    <!-- No Variant -->
+    <media arch="i686">
+      <iso>
+        <volume-id>J_CCSN?A_X86FRE_</volume-id>
+        <publisher-id>MICROSOFT CORPORATION</publisher-id>
+        <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
+      </iso>
+    </media>
+    <media arch="x86_64">
+      <iso>
+        <volume-id>J_CCSN?A_X64FRE_</volume-id>
         <publisher-id>MICROSOFT CORPORATION</publisher-id>
         <l10n-language regex="true" l10n-language-map="http://microsoft.com/win/8/l10n-language">[[:upper:][:digit:]_]*_([[:upper:]]*-[[:upper:]]*)</l10n-language>
       </iso>
@@ -59,5 +112,17 @@
     <devices>
       <device id="http://pcisig.com/pci/8086/2668"/> <!-- ICH6 -->
     </devices>
+
+    <installer>
+      <script id='http://microsoft.com/windows/unattend/jeos'/>
+      <script id='http://microsoft.com/windows/unattend/desktop'/>
+
+      <!--
+          User avatar not being set for Windows 8 (or newer).
+          For more details, please, see:
+          https://bugzilla.redhat.com/show_bug.cgi?id=1328637
+      -->
+      <script id='http://microsoft.com/windows/cmd/desktop'/>
+    </installer>
   </os>
 </libosinfo>

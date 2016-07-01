@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoPlatformList: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoPlatform.html" title="OsinfoPlatform">
+<link rel="next" href="OsinfoMedia.html" title="OsinfoMedia">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoPlatformList.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoPlatformList.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoPlatform.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoMedia.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoPlatformList"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoPlatformList.top_of_page"></a>OsinfoPlatformList</span></h2>
+<p>OsinfoPlatformList — A list of virtualization platforms</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoPlatformList.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatformList.html#osinfo-platformlist-new" title="osinfo_platformlist_new ()">osinfo_platformlist_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatformList.html#osinfo-platformlist-new-copy" title="osinfo_platformlist_new_copy ()">osinfo_platformlist_new_copy</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatformList.html#osinfo-platformlist-new-filtered" title="osinfo_platformlist_new_filtered ()">osinfo_platformlist_new_filtered</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatformList.html#osinfo-platformlist-new-intersection" title="osinfo_platformlist_new_intersection ()">osinfo_platformlist_new_intersection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatformList.html#osinfo-platformlist-new-union" title="osinfo_platformlist_new_union ()">osinfo_platformlist_new_union</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatformList.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> <a class="link" href="OsinfoList.html" title="OsinfoList">OsinfoList</a>
+        <span class="lineart">╰──</span> <a class="link" href="OsinfoProductList.html" title="OsinfoProductList">OsinfoProductList</a>
+            <span class="lineart">╰──</span> OsinfoPlatformList
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatformList.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> is a list specialization that stores
+only <a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a> objects.</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatformList.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-platformlist-new"></a><h3>osinfo_platformlist_new ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+osinfo_platformlist_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>Construct a new platform list that is initially empty.</p>
+<div class="refsect3">
+<a name="osinfo-platformlist-new.returns"></a><h4>Returns</h4>
+<p> an empty platform list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platformlist-new-copy"></a><h3>osinfo_platformlist_new_copy ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+osinfo_platformlist_new_copy (<em class="parameter"><code><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> *source</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_platformlist_new_copy</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-copy" title="osinfo_list_new_copy ()"><code class="function">osinfo_list_new_copy()</code></a> instead.</p>
+</div>
+<p>Construct a new platform list that is filled with platforms
+from <em class="parameter"><code>source</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-copy.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p>the platform list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-copy.returns"></a><h4>Returns</h4>
+<p> a copy of the platform list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platformlist-new-filtered"></a><h3>osinfo_platformlist_new_filtered ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+osinfo_platformlist_new_filtered (<em class="parameter"><code><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> *source</code></em>,
+                                  <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_platformlist_new_filtered</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-filtered" title="osinfo_list_new_filtered ()"><code class="function">osinfo_list_new_filtered()</code></a> instead.</p>
+</div>
+<p>Construct a new platform list that is filled with platforms
+from <em class="parameter"><code>source</code></em>
+ that match <em class="parameter"><code>filter</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-filtered.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p>the platform list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p>the filter to apply</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-filtered.returns"></a><h4>Returns</h4>
+<p> a filtered copy of the platform list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platformlist-new-intersection"></a><h3>osinfo_platformlist_new_intersection ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+osinfo_platformlist_new_intersection (<em class="parameter"><code><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> *sourceOne</code></em>,
+                                      <em class="parameter"><code><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> *sourceTwo</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_platformlist_new_intersection</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-intersection" title="osinfo_list_new_intersection ()"><code class="function">osinfo_list_new_intersection()</code></a> instead.</p>
+</div>
+<p>Construct a new platform list that is filled with only the
+platforms that are present in both <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-intersection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p>the first platform list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p>the second platform list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-intersection.returns"></a><h4>Returns</h4>
+<p> an intersection of the two platform lists. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platformlist-new-union"></a><h3>osinfo_platformlist_new_union ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="returnvalue">OsinfoPlatformList</span></a> *
+osinfo_platformlist_new_union (<em class="parameter"><code><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> *sourceOne</code></em>,
+                               <em class="parameter"><code><a class="link" href="OsinfoPlatformList.html" title="OsinfoPlatformList"><span class="type">OsinfoPlatformList</span></a> *sourceTwo</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_platformlist_new_union</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-union" title="osinfo_list_new_union ()"><code class="function">osinfo_list_new_union()</code></a> instead.</p>
+</div>
+<p>Construct a new platform list that is filled with all the
+platforms that are present in either <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-union.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p>the first platform list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p>the second platform list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platformlist-new-union.returns"></a><h4>Returns</h4>
+<p> a union of the two platform lists. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatformList.other_details"></a><h2>Types and Values</h2>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatformList.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a>, <a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

@@ -1,0 +1,837 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoTree: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoResourcesList.html" title="OsinfoResourcesList">
+<link rel="next" href="OsinfoTreeList.html" title="OsinfoTreeList">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoTree.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoTree.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#OsinfoTree.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoResourcesList.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoTreeList.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoTree"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoTree.top_of_page"></a>OsinfoTree</span></h2>
+<p>OsinfoTree — An installation tree for a (guest) OS</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoTree.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-error-quark" title="osinfo_tree_error_quark ()">osinfo_tree_error_quark</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="returnvalue">OsinfoTree</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-new" title="osinfo_tree_new ()">osinfo_tree_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="returnvalue">OsinfoTree</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-create-from-location" title="osinfo_tree_create_from_location ()">osinfo_tree_create_from_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-create-from-location-async" title="osinfo_tree_create_from_location_async ()">osinfo_tree_create_from_location_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="returnvalue">OsinfoTree</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-create-from-location-finish" title="osinfo_tree_create_from_location_finish ()">osinfo_tree_create_from_location_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-architecture" title="osinfo_tree_get_architecture ()">osinfo_tree_get_architecture</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-url" title="osinfo_tree_get_url ()">osinfo_tree_get_url</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-treeinfo-family" title="osinfo_tree_get_treeinfo_family ()">osinfo_tree_get_treeinfo_family</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-treeinfo-variant" title="osinfo_tree_get_treeinfo_variant ()">osinfo_tree_get_treeinfo_variant</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-treeinfo-version" title="osinfo_tree_get_treeinfo_version ()">osinfo_tree_get_treeinfo_version</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-treeinfo-arch" title="osinfo_tree_get_treeinfo_arch ()">osinfo_tree_get_treeinfo_arch</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-boot-iso-path" title="osinfo_tree_get_boot_iso_path ()">osinfo_tree_get_boot_iso_path</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-kernel-path" title="osinfo_tree_get_kernel_path ()">osinfo_tree_get_kernel_path</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoTree.html#osinfo-tree-get-initrd-path" title="osinfo_tree_get_initrd_path ()">osinfo_tree_get_initrd_path</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--application-id" title="The “application-id” property">application-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--architecture" title="The “architecture” property">architecture</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--boot-iso-path" title="The “boot-iso-path” property">boot-iso-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--initrd-path" title="The “initrd-path” property">initrd-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--kernel-path" title="The “kernel-path” property">kernel-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--publisher-id" title="The “publisher-id” property">publisher-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--system-id" title="The “system-id” property">system-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--url" title="The “url” property">url</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoTree.html#OsinfoTree--volume-id" title="The “volume-id” property">volume-id</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-ERROR:CAPS" title="OSINFO_TREE_ERROR">OSINFO_TREE_ERROR</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-ARCHITECTURE:CAPS" title="OSINFO_TREE_PROP_ARCHITECTURE">OSINFO_TREE_PROP_ARCHITECTURE</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-URL:CAPS" title="OSINFO_TREE_PROP_URL">OSINFO_TREE_PROP_URL</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-FAMILY:CAPS" title="OSINFO_TREE_PROP_TREEINFO_FAMILY">OSINFO_TREE_PROP_TREEINFO_FAMILY</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-VARIANT:CAPS" title="OSINFO_TREE_PROP_TREEINFO_VARIANT">OSINFO_TREE_PROP_TREEINFO_VARIANT</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-VERSION:CAPS" title="OSINFO_TREE_PROP_TREEINFO_VERSION">OSINFO_TREE_PROP_TREEINFO_VERSION</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-ARCH:CAPS" title="OSINFO_TREE_PROP_TREEINFO_ARCH">OSINFO_TREE_PROP_TREEINFO_ARCH</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-BOOT-ISO:CAPS" title="OSINFO_TREE_PROP_BOOT_ISO">OSINFO_TREE_PROP_BOOT_ISO</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-KERNEL:CAPS" title="OSINFO_TREE_PROP_KERNEL">OSINFO_TREE_PROP_KERNEL</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoTree.html#OSINFO-TREE-PROP-INITRD:CAPS" title="OSINFO_TREE_PROP_INITRD">OSINFO_TREE_PROP_INITRD</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
+        <span class="lineart">╰──</span> OsinfoTree
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> is an entity representing an installation tree
+a (guest) operating system.</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-tree-error-quark"></a><h3>osinfo_tree_error_quark ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Quarks.html#GQuark"><span class="returnvalue">GQuark</span></a>
+osinfo_tree_error_quark (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-new"></a><h3>osinfo_tree_new ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="returnvalue">OsinfoTree</span></a> *
+osinfo_tree_new (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>,
+                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *architecture</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-create-from-location"></a><h3>osinfo_tree_create_from_location ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="returnvalue">OsinfoTree</span></a> *
+osinfo_tree_create_from_location (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>,
+                                  <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                  <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Creates a new <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> for installation tree at <em class="parameter"><code>location</code></em>
+. The <em class="parameter"><code>location</code></em>
+
+could be any URI that GIO can handle or a local path.</p>
+<p>NOTE: Currently this only works for trees with a .treeinfo file</p>
+<div class="refsect3">
+<a name="osinfo-tree-create-from-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>the location of an installation tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p> a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>The location where to store any error, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-create-from-location.returns"></a><h4>Returns</h4>
+<p> a new <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> , or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-create-from-location-async"></a><h3>osinfo_tree_create_from_location_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_tree_create_from_location_async
+                               (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="type">gint</span></a> priority</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gioGAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Asynchronous variant of <a class="link" href="OsinfoTree.html#osinfo-tree-create-from-location" title="osinfo_tree_create_from_location ()"><span class="type">osinfo_tree_create_from_location</span></a>.</p>
+<div class="refsect3">
+<a name="osinfo-tree-create-from-location-async.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>the location of an installation tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>priority</p></td>
+<td class="parameter_description"><p>the I/O priority of the request</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p> a <a href="/usr/share/gtk-doc/html/gioGCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>Function to call when result of this call is ready</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>The user data to pass to <em class="parameter"><code>callback</code></em>
+, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-create-from-location-finish"></a><h3>osinfo_tree_create_from_location_finish ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="returnvalue">OsinfoTree</span></a> *
+osinfo_tree_create_from_location_finish
+                               (<em class="parameter"><code><a href="/usr/share/gtk-doc/html/gioGAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *res</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Finishes an asynchronous tree object creation process started with
+<a class="link" href="OsinfoTree.html#osinfo-tree-create-from-location-async" title="osinfo_tree_create_from_location_async ()"><span class="type">osinfo_tree_create_from_location_async</span></a>.</p>
+<div class="refsect3">
+<a name="osinfo-tree-create-from-location-finish.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>res</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gioGAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>The location where to store any error, or <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-create-from-location-finish.returns"></a><h4>Returns</h4>
+<p> a new <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> , or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-architecture"></a><h3>osinfo_tree_get_architecture ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_architecture (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>Retrieves the target hardware architecture of the OS <em class="parameter"><code>tree</code></em>
+ provides.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-architecture.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-architecture.returns"></a><h4>Returns</h4>
+<p> the hardware architecture, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-url"></a><h3>osinfo_tree_get_url ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_url (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>The URL to the <em class="parameter"><code>tree</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-url.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-url.returns"></a><h4>Returns</h4>
+<p> the URL, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-treeinfo-family"></a><h3>osinfo_tree_get_treeinfo_family ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_treeinfo_family (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>If <em class="parameter"><code>tree</code></em>
+ is an ISO9660 image/device, this function retrieves the expected
+volume ID.</p>
+<p>Note: In practice, this will usually not be the exact copy of the volume ID
+string on the ISO image/device but rather a regular expression that matches
+it.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-family.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-family.returns"></a><h4>Returns</h4>
+<p> the volume id, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-treeinfo-variant"></a><h3>osinfo_tree_get_treeinfo_variant ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_treeinfo_variant (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>If <em class="parameter"><code>tree</code></em>
+ is an ISO9660 image/device, this function retrieves the expected
+publisher ID.</p>
+<p>Note: In practice, this will usually not be the exact copy of the publisher
+ID string on the ISO image/device but rather a regular expression that
+matches it.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-variant.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-variant.returns"></a><h4>Returns</h4>
+<p> the publisher id, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-treeinfo-version"></a><h3>osinfo_tree_get_treeinfo_version ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_treeinfo_version (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>If <em class="parameter"><code>tree</code></em>
+ is an ISO9660 image/device, this function retrieves the expected
+application ID.</p>
+<p>Note: In practice, this will usually not be the exact copy of the application
+ID string on the ISO image/device but rather a regular expression that
+matches it.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-version.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-version.returns"></a><h4>Returns</h4>
+<p> the application id, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-treeinfo-arch"></a><h3>osinfo_tree_get_treeinfo_arch ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_treeinfo_arch (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>If <em class="parameter"><code>tree</code></em>
+ is an ISO9660 image/device, this function retrieves the expected
+system ID.</p>
+<p>Note: In practice, this will usually not be the exact copy of the system ID
+string on the ISO image/device but rather a regular expression that matches
+it.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-arch.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-treeinfo-arch.returns"></a><h4>Returns</h4>
+<p> the system id, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-boot-iso-path"></a><h3>osinfo_tree_get_boot_iso_path ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_boot_iso_path (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>Retrieves the path to the boot_iso image in the install tree.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-boot-iso-path.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-boot-iso-path.returns"></a><h4>Returns</h4>
+<p> the path to boot_iso image, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-kernel-path"></a><h3>osinfo_tree_get_kernel_path ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_kernel_path (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>Retrieves the path to the kernel image in the install tree.</p>
+<p>Note: This only applies to installer trees of 'linux' OS family.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-kernel-path.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-kernel-path.returns"></a><h4>Returns</h4>
+<p> the path to kernel image, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-tree-get-initrd-path"></a><h3>osinfo_tree_get_initrd_path ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_tree_get_initrd_path (<em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>Retrieves the path to the initrd image in the install tree.</p>
+<p>Note: This only applies to installer trees of 'linux' OS family.</p>
+<div class="refsect3">
+<a name="osinfo-tree-get-initrd-path.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-tree-get-initrd-path.returns"></a><h4>Returns</h4>
+<p> the path to initrd image, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="OSINFO-TREE-ERROR:CAPS"></a><h3>OSINFO_TREE_ERROR</h3>
+<pre class="programlisting">#define OSINFO_TREE_ERROR (osinfo_tree_error_quark ())
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-ARCHITECTURE:CAPS"></a><h3>OSINFO_TREE_PROP_ARCHITECTURE</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_ARCHITECTURE     "architecture"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-URL:CAPS"></a><h3>OSINFO_TREE_PROP_URL</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_URL              "url"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-TREEINFO-FAMILY:CAPS"></a><h3>OSINFO_TREE_PROP_TREEINFO_FAMILY</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_TREEINFO_FAMILY  "treeinfo-family"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-TREEINFO-VARIANT:CAPS"></a><h3>OSINFO_TREE_PROP_TREEINFO_VARIANT</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_TREEINFO_VARIANT "treeinfo-variant"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-TREEINFO-VERSION:CAPS"></a><h3>OSINFO_TREE_PROP_TREEINFO_VERSION</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_TREEINFO_VERSION "treeinfo-version"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-TREEINFO-ARCH:CAPS"></a><h3>OSINFO_TREE_PROP_TREEINFO_ARCH</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_TREEINFO_ARCH    "treeinfo-arch"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-BOOT-ISO:CAPS"></a><h3>OSINFO_TREE_PROP_BOOT_ISO</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_BOOT_ISO         "boot-iso"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-KERNEL:CAPS"></a><h3>OSINFO_TREE_PROP_KERNEL</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_KERNEL           "kernel"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-TREE-PROP-INITRD:CAPS"></a><h3>OSINFO_TREE_PROP_INITRD</h3>
+<pre class="programlisting">#define OSINFO_TREE_PROP_INITRD           "initrd"
+</pre>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="OsinfoTree--application-id"></a><h3>The <code class="literal">“application-id”</code> property</h3>
+<pre class="programlisting">  “application-id”           <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>Expected application ID (regular expression) for ISO9660 image/device.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--architecture"></a><h3>The <code class="literal">“architecture”</code> property</h3>
+<pre class="programlisting">  “architecture”             <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The target hardware architecture of this tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--boot-iso-path"></a><h3>The <code class="literal">“boot-iso-path”</code> property</h3>
+<pre class="programlisting">  “boot-iso-path”            <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The path to the boot ISO in the install tree</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--initrd-path"></a><h3>The <code class="literal">“initrd-path”</code> property</h3>
+<pre class="programlisting">  “initrd-path”              <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The path to the initrd image in the install tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--kernel-path"></a><h3>The <code class="literal">“kernel-path”</code> property</h3>
+<pre class="programlisting">  “kernel-path”              <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The path to the kernel image in the install tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--publisher-id"></a><h3>The <code class="literal">“publisher-id”</code> property</h3>
+<pre class="programlisting">  “publisher-id”             <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>Expected publisher ID (regular expression) for ISO9660 image/device.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--system-id"></a><h3>The <code class="literal">“system-id”</code> property</h3>
+<pre class="programlisting">  “system-id”                <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>Expected system ID (regular expression) for ISO9660 image/device.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--url"></a><h3>The <code class="literal">“url”</code> property</h3>
+<pre class="programlisting">  “url”                      <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The URL to this tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--volume-id"></a><h3>The <code class="literal">“volume-id”</code> property</h3>
+<pre class="programlisting">  “volume-id”                <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>Expected volume ID (regular expression) for ISO9660 image/device.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoTree.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

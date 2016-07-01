@@ -97,7 +97,7 @@ START_TEST(test_uris)
         tmp = tmp->next;
     }
 
-    g_list_free(tmp);
+    g_list_free(osel);
     if (oslist)
         g_object_unref(oslist);
 
@@ -125,12 +125,11 @@ int main(void)
     Suite *s = list_suite();
     SRunner *sr = srunner_create(s);
 
+    /* Make sure we catch unexpected g_warning() */
+    g_log_set_always_fatal(G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
+
     if (!g_getenv("LIBOSINFO_NETWORK_TESTS"))
         return 77; /* Skip */
-
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
 
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();

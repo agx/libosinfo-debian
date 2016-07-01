@@ -182,6 +182,8 @@ START_TEST(test_supportdate)
     g_object_unref(product2);
     g_object_unref(product3);
     g_object_unref(product4);
+    g_object_unref(filter);
+    g_object_unref(products);
 }
 END_TEST
 
@@ -205,9 +207,8 @@ int main(void)
     Suite *s = product_suite();
     SRunner *sr = srunner_create(s);
 
-#if !GLIB_CHECK_VERSION(2,35,1)
-    g_type_init();
-#endif
+    /* Make sure we catch unexpected g_warning() */
+    g_log_set_always_fatal(G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 
     /* Upfront so we don't confuse valgrind */
     osinfo_platform_get_type();

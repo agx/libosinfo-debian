@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoMediaList: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoMedia.html" title="OsinfoMedia">
+<link rel="next" href="OsinfoResources.html" title="OsinfoResources">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoMediaList.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoMediaList.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoMedia.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoResources.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoMediaList"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoMediaList.top_of_page"></a>OsinfoMediaList</span></h2>
+<p>OsinfoMediaList — A list of installation media</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoMediaList.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMediaList.html#osinfo-medialist-new" title="osinfo_medialist_new ()">osinfo_medialist_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMediaList.html#osinfo-medialist-new-copy" title="osinfo_medialist_new_copy ()">osinfo_medialist_new_copy</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMediaList.html#osinfo-medialist-new-filtered" title="osinfo_medialist_new_filtered ()">osinfo_medialist_new_filtered</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMediaList.html#osinfo-medialist-new-intersection" title="osinfo_medialist_new_intersection ()">osinfo_medialist_new_intersection</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMediaList.html#osinfo-medialist-new-union" title="osinfo_medialist_new_union ()">osinfo_medialist_new_union</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoMediaList.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> <a class="link" href="OsinfoList.html" title="OsinfoList">OsinfoList</a>
+        <span class="lineart">╰──</span> OsinfoMediaList
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoMediaList.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> is a list specialization that stores
+only <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> objects.</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoMediaList.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-medialist-new"></a><h3>osinfo_medialist_new ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+osinfo_medialist_new (<em class="parameter"><code><span class="type">void</span></code></em>);</pre>
+<p>Construct a new media list that is initially empty.</p>
+<div class="refsect3">
+<a name="osinfo-medialist-new.returns"></a><h4>Returns</h4>
+<p> an empty media list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-medialist-new-copy"></a><h3>osinfo_medialist_new_copy ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+osinfo_medialist_new_copy (<em class="parameter"><code><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> *source</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_medialist_new_copy</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-copy" title="osinfo_list_new_copy ()"><code class="function">osinfo_list_new_copy()</code></a> instead.</p>
+</div>
+<p>Construct a new media list that is filled with medias
+from <em class="parameter"><code>source</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-medialist-new-copy.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p>the media list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-medialist-new-copy.returns"></a><h4>Returns</h4>
+<p> a copy of the media list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-medialist-new-filtered"></a><h3>osinfo_medialist_new_filtered ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+osinfo_medialist_new_filtered (<em class="parameter"><code><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> *source</code></em>,
+                               <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_medialist_new_filtered</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-filtered" title="osinfo_list_new_filtered ()"><code class="function">osinfo_list_new_filtered()</code></a> instead.</p>
+</div>
+<p>Construct a new media list that is filled with medias
+from <em class="parameter"><code>source</code></em>
+ that match <em class="parameter"><code>filter</code></em>
+</p>
+<div class="refsect3">
+<a name="osinfo-medialist-new-filtered.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>source</p></td>
+<td class="parameter_description"><p>the media list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p>the filter to apply</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-medialist-new-filtered.returns"></a><h4>Returns</h4>
+<p> a filtered copy of the media list. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-medialist-new-intersection"></a><h3>osinfo_medialist_new_intersection ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+osinfo_medialist_new_intersection (<em class="parameter"><code><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> *sourceOne</code></em>,
+                                   <em class="parameter"><code><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> *sourceTwo</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_medialist_new_intersection</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-intersection" title="osinfo_list_new_intersection ()"><code class="function">osinfo_list_new_intersection()</code></a> instead.</p>
+</div>
+<p>Construct a new media list that is filled with only the
+medias that are present in both <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-medialist-new-intersection.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p>the first media list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p>the second media list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-medialist-new-intersection.returns"></a><h4>Returns</h4>
+<p> an intersection of the two media lists. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-medialist-new-union"></a><h3>osinfo_medialist_new_union ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+osinfo_medialist_new_union (<em class="parameter"><code><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> *sourceOne</code></em>,
+                            <em class="parameter"><code><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="type">OsinfoMediaList</span></a> *sourceTwo</code></em>);</pre>
+<div class="warning">
+<p><code class="literal">osinfo_medialist_new_union</code> has been deprecated since version 0.2.2 and should not be used in newly-written code.</p>
+<p>Use <a class="link" href="OsinfoList.html#osinfo-list-new-union" title="osinfo_list_new_union ()"><code class="function">osinfo_list_new_union()</code></a> instead.</p>
+</div>
+<p>Construct a new media list that is filled with all the
+medias that are present in either <em class="parameter"><code>sourceOne</code></em>
+ and <em class="parameter"><code>sourceTwo</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-medialist-new-union.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>sourceOne</p></td>
+<td class="parameter_description"><p>the first media list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>sourceTwo</p></td>
+<td class="parameter_description"><p>the second media list to copy</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-medialist-new-union.returns"></a><h4>Returns</h4>
+<p> a union of the two media lists. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoMediaList.other_details"></a><h2>Types and Values</h2>
+</div>
+<div class="refsect1">
+<a name="OsinfoMediaList.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a>, <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

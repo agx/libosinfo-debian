@@ -1,0 +1,554 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoEntity: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoDeviceDriverList.html" title="OsinfoDeviceDriverList">
+<link rel="next" href="Libosinfo-osinfo-enum-types.html" title="osinfo_enum_types">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoEntity.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoEntity.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#OsinfoEntity.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoDeviceDriverList.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="Libosinfo-osinfo-enum-types.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoEntity"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoEntity.top_of_page"></a>OsinfoEntity</span></h2>
+<p>OsinfoEntity — Abstract base class for metadata objects</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoEntity.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-id" title="osinfo_entity_get_id ()">osinfo_entity_get_id</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-keys" title="osinfo_entity_get_param_keys ()">osinfo_entity_get_param_keys</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value" title="osinfo_entity_get_param_value ()">osinfo_entity_get_param_value</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value-boolean" title="osinfo_entity_get_param_value_boolean ()">osinfo_entity_get_param_value_boolean</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value-boolean-with-default" title="osinfo_entity_get_param_value_boolean_with_default ()">osinfo_entity_get_param_value_boolean_with_default</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value-enum" title="osinfo_entity_get_param_value_enum ()">osinfo_entity_get_param_value_enum</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value-int64" title="osinfo_entity_get_param_value_int64 ()">osinfo_entity_get_param_value_int64</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value-int64-with-default" title="osinfo_entity_get_param_value_int64_with_default ()">osinfo_entity_get_param_value_int64_with_default</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-get-param-value-list" title="osinfo_entity_get_param_value_list ()">osinfo_entity_get_param_value_list</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-set-param" title="osinfo_entity_set_param ()">osinfo_entity_set_param</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-set-param-boolean" title="osinfo_entity_set_param_boolean ()">osinfo_entity_set_param_boolean</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-set-param-int64" title="osinfo_entity_set_param_int64 ()">osinfo_entity_set_param_int64</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-set-param-enum" title="osinfo_entity_set_param_enum ()">osinfo_entity_set_param_enum</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-add-param" title="osinfo_entity_add_param ()">osinfo_entity_add_param</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoEntity.html#osinfo-entity-clear-param" title="osinfo_entity_clear_param ()">osinfo_entity_clear_param</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody><tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoEntity.html#OsinfoEntity--id" title="The “id” property">id</a></td>
+<td class="property_flags">Read / Write / Construct</td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody><tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoEntity.html#OSINFO-ENTITY-PROP-ID:CAPS" title="OSINFO_ENTITY_PROP_ID">OSINFO_ENTITY_PROP_ID</a></td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> OsinfoEntity
+        <span class="lineart">├──</span> <a class="link" href="OsinfoAvatarFormat.html" title="OsinfoAvatarFormat">OsinfoAvatarFormat</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDatamap.html" title="OsinfoDatamap">OsinfoDatamap</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeployment.html" title="OsinfoDeployment">OsinfoDeployment</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver">OsinfoDeviceDriver</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDevice.html" title="OsinfoDevice">OsinfoDevice</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink">OsinfoDeviceLink</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig">OsinfoInstallConfig</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam">OsinfoInstallConfigParam</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript">OsinfoInstallScript</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoInstallScript.html#OsinfoMedia">OsinfoMedia</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoProduct.html" title="OsinfoProduct">OsinfoProduct</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoOsVariant.html" title="OsinfoOsVariant">OsinfoOsVariant</a>
+        <span class="lineart">├──</span> <a class="link" href="OsinfoResources.html" title="OsinfoResources">OsinfoResources</a>
+        <span class="lineart">╰──</span> <a class="link" href="OsinfoTree.html" title="OsinfoTree">OsinfoTree</a>
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> is an abstract base class for all objects against which
+metadata needs to be recorded. Every object has a unique identifier,
+which is recommended to be in URI format. Named, multi-valued data
+parameters can be associated with each entity. When filtering lists
+of entities, the parameter values can be used for matching.</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-entity-get-id"></a><h3>osinfo_entity_get_id ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_entity_get_id (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>);</pre>
+<p>Retrieves the unique key for the entity. The format of identifiers
+is undefined, but the recommended practice is to use a URI.</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-id.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-id.returns"></a><h4>Returns</h4>
+<p> the unique key for the entity. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-keys"></a><h3>osinfo_entity_get_param_keys ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+osinfo_entity_get_param_keys (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>);</pre>
+<p>Retrieve all the known parameter keys associated with
+the entity</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-keys.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-keys.returns"></a><h4>Returns</h4>
+<p> The list of string parameters. </p>
+<p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value"></a><h3>osinfo_entity_get_param_value ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_entity_get_param_value (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                               <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>Retrieve the parameter value associated with a named key. If
+multiple values are stored against the key, only the first
+value is returned. If no value is associated, NULL is returned</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value.returns"></a><h4>Returns</h4>
+<p> the value associated with the key, or NULL. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value-boolean"></a><h3>osinfo_entity_get_param_value_boolean ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+osinfo_entity_get_param_value_boolean (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                       <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value-boolean-with-default"></a><h3>osinfo_entity_get_param_value_boolean_with_default ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+osinfo_entity_get_param_value_boolean_with_default
+                               (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> default_value</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value-enum"></a><h3>osinfo_entity_get_param_value_enum ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="returnvalue">gint</span></a>
+osinfo_entity_get_param_value_enum (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                    <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
+                                    <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gobjectgobject-Type-Information.html#GType"><span class="type">GType</span></a> enum_type</code></em>,
+                                    <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="type">gint</span></a> default_value</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value-int64"></a><h3>osinfo_entity_get_param_value_int64 ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
+osinfo_entity_get_param_value_int64 (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                     <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value-int64-with-default"></a><h3>osinfo_entity_get_param_value_int64_with_default ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
+osinfo_entity_get_param_value_int64_with_default
+                               (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint64"><span class="type">gint64</span></a> default_value</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-get-param-value-list"></a><h3>osinfo_entity_get_param_value_list ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+osinfo_entity_get_param_value_list (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                    <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>Retrieve all the parameter values associated with a named
+key. If no values are associated, NULL is returned</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-list.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-list.returns"></a><h4>Returns</h4>
+<p> the values associated with the key. </p>
+<p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-set-param"></a><h3>osinfo_entity_set_param ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_entity_set_param (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                         <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                         <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>Sets a new parameter against the entity. If the key already
+has a value associated with it, the existing value will be
+cleared.</p>
+<div class="refsect3">
+<a name="osinfo-entity-set-param.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the data to associated with that key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-set-param-boolean"></a><h3>osinfo_entity_set_param_boolean ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_entity_set_param_boolean (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> value</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-set-param-int64"></a><h3>osinfo_entity_set_param_int64 ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_entity_set_param_int64 (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                               <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                               <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint64"><span class="type">gint64</span></a> value</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-set-param-enum"></a><h3>osinfo_entity_set_param_enum ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_entity_set_param_enum (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                              <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                              <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
+                              <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gobjectgobject-Type-Information.html#GType"><span class="type">GType</span></a> enum_type</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-add-param"></a><h3>osinfo_entity_add_param ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_entity_add_param (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                         <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
+                         <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *value</code></em>);</pre>
+<p>Adds a new parameter against the entity. A key can have multiple
+values associated. Thus repeated calls with the same key will
+build up a list of possible values.</p>
+<div class="refsect3">
+<a name="osinfo-entity-add-param.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the data to associated with that key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-entity-clear-param"></a><h3>osinfo_entity_clear_param ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_entity_clear_param (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
+                           <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>Remove all values associated with a key</p>
+<div class="refsect3">
+<a name="osinfo-entity-clear-param.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="OSINFO-ENTITY-PROP-ID:CAPS"></a><h3>OSINFO_ENTITY_PROP_ID</h3>
+<pre class="programlisting">#define OSINFO_ENTITY_PROP_ID "id"
+</pre>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="OsinfoEntity--id"></a><h3>The <code class="literal">“id”</code> property</h3>
+<pre class="programlisting">  “id”                       <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The unique identifier for the entity The format of identifiers
+is undefined, but the recommended practice is to use a URI.
+This parameter must be set at time of construction as no
+default value is provided.</p>
+<p>Flags: Read / Write / Construct</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoEntity.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoList.html" title="OsinfoList"><span class="type">OsinfoList</span></a>, <a class="link" href="OsinfoDb.html" title="OsinfoDb"><span class="type">OsinfoDb</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

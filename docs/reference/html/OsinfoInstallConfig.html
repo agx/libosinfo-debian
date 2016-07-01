@@ -1,0 +1,1555 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoInstallConfig: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoFilter.html" title="OsinfoFilter">
+<link rel="next" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoInstallConfig.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoInstallConfig.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoFilter.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoInstallConfigParam.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoInstallConfig"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoInstallConfig.top_of_page"></a>OsinfoInstallConfig</span></h2>
+<p>OsinfoInstallConfig — OS install configuration</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="returnvalue">OsinfoInstallConfig</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-new" title="osinfo_install_config_new ()">osinfo_install_config_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-hardware-arch" title="osinfo_install_config_set_hardware_arch ()">osinfo_install_config_set_hardware_arch</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-hardware-arch" title="osinfo_install_config_get_hardware_arch ()">osinfo_install_config_get_hardware_arch</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-keyboard" title="osinfo_install_config_set_l10n_keyboard ()">osinfo_install_config_set_l10n_keyboard</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-l10n-keyboard" title="osinfo_install_config_get_l10n_keyboard ()">osinfo_install_config_get_l10n_keyboard</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-language" title="osinfo_install_config_set_l10n_language ()">osinfo_install_config_set_l10n_language</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-l10n-language" title="osinfo_install_config_get_l10n_language ()">osinfo_install_config_get_l10n_language</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-timezone" title="osinfo_install_config_set_l10n_timezone ()">osinfo_install_config_set_l10n_timezone</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-l10n-timezone" title="osinfo_install_config_get_l10n_timezone ()">osinfo_install_config_get_l10n_timezone</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-admin-password" title="osinfo_install_config_set_admin_password ()">osinfo_install_config_set_admin_password</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-admin-password" title="osinfo_install_config_get_admin_password ()">osinfo_install_config_get_admin_password</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-user-login" title="osinfo_install_config_set_user_login ()">osinfo_install_config_set_user_login</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-user-login" title="osinfo_install_config_get_user_login ()">osinfo_install_config_get_user_login</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-user-password" title="osinfo_install_config_set_user_password ()">osinfo_install_config_set_user_password</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-user-password" title="osinfo_install_config_get_user_password ()">osinfo_install_config_get_user_password</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-user-realname" title="osinfo_install_config_set_user_realname ()">osinfo_install_config_set_user_realname</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-user-realname" title="osinfo_install_config_get_user_realname ()">osinfo_install_config_get_user_realname</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-user-autologin" title="osinfo_install_config_set_user_autologin ()">osinfo_install_config_set_user_autologin</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-user-autologin" title="osinfo_install_config_get_user_autologin ()">osinfo_install_config_get_user_autologin</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-user-administrator" title="osinfo_install_config_set_user_administrator ()">osinfo_install_config_set_user_administrator</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-user-administrator" title="osinfo_install_config_get_user_administrator ()">osinfo_install_config_get_user_administrator</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-reg-login" title="osinfo_install_config_set_reg_login ()">osinfo_install_config_set_reg_login</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-reg-login" title="osinfo_install_config_get_reg_login ()">osinfo_install_config_get_reg_login</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-reg-password" title="osinfo_install_config_set_reg_password ()">osinfo_install_config_set_reg_password</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-reg-password" title="osinfo_install_config_get_reg_password ()">osinfo_install_config_get_reg_password</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-reg-product-key" title="osinfo_install_config_set_reg_product_key ()">osinfo_install_config_set_reg_product_key</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-reg-product-key" title="osinfo_install_config_get_reg_product_key ()">osinfo_install_config_get_reg_product_key</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-hostname" title="osinfo_install_config_set_hostname ()">osinfo_install_config_set_hostname</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-hostname" title="osinfo_install_config_get_hostname ()">osinfo_install_config_get_hostname</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-target-disk" title="osinfo_install_config_set_target_disk ()">osinfo_install_config_set_target_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-target-disk" title="osinfo_install_config_get_target_disk ()">osinfo_install_config_get_target_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-script-disk" title="osinfo_install_config_set_script_disk ()">osinfo_install_config_set_script_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-script-disk" title="osinfo_install_config_get_script_disk ()">osinfo_install_config_get_script_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-avatar-location" title="osinfo_install_config_set_avatar_location ()">osinfo_install_config_set_avatar_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-avatar-location" title="osinfo_install_config_get_avatar_location ()">osinfo_install_config_get_avatar_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-avatar-disk" title="osinfo_install_config_set_avatar_disk ()">osinfo_install_config_set_avatar_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-avatar-disk" title="osinfo_install_config_get_avatar_disk ()">osinfo_install_config_get_avatar_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-disk" title="osinfo_install_config_set_pre_install_drivers_disk ()">osinfo_install_config_set_pre_install_drivers_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-pre-install-drivers-disk" title="osinfo_install_config_get_pre_install_drivers_disk ()">osinfo_install_config_get_pre_install_drivers_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-location" title="osinfo_install_config_set_pre_install_drivers_location ()">osinfo_install_config_set_pre_install_drivers_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-pre-install-drivers-location" title="osinfo_install_config_get_pre_install_drivers_location ()">osinfo_install_config_get_pre_install_drivers_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-disk" title="osinfo_install_config_set_post_install_drivers_disk ()">osinfo_install_config_set_post_install_drivers_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-post-install-drivers-disk" title="osinfo_install_config_get_post_install_drivers_disk ()">osinfo_install_config_get_post_install_drivers_disk</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-location" title="osinfo_install_config_set_post_install_drivers_location ()">osinfo_install_config_set_post_install_drivers_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-post-install-drivers-location" title="osinfo_install_config_get_post_install_drivers_location ()">osinfo_install_config_get_post_install_drivers_location</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-driver-signing" title="osinfo_install_config_set_driver_signing ()">osinfo_install_config_set_driver_signing</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-driver-signing" title="osinfo_install_config_get_driver_signing ()">osinfo_install_config_get_driver_signing</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HARDWARE-ARCH:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH">OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-TIMEZONE:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE">OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-LANGUAGE:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE">OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-KEYBOARD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD">OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-ADMIN-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD">OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD">OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-LOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN">OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-REALNAME:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME">OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-AUTOLOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN">OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-ADMIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN">OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-LOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN">OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD">OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PRODUCTKEY:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY">OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HOSTNAME:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_HOSTNAME">OSINFO_INSTALL_CONFIG_PROP_HOSTNAME</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-TARGET-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK">OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-SCRIPT-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK">OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-LOCATION:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION">OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK">OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-PRE-INSTALL-DRIVERS-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK">OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-PRE-INSTALL-DRIVERS-LOCATION:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION">OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-POST-INSTALL-DRIVERS-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK">OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-POST-INSTALL-DRIVERS-LOCATION:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION">OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-DRIVER-SIGNING:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING">OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
+        <span class="lineart">╰──</span> OsinfoInstallConfig
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> is an object for representing OS
+install configuration data. It is used to generate an
+automated installation script</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-install-config-new"></a><h3>osinfo_install_config_new ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="returnvalue">OsinfoInstallConfig</span></a> *
+osinfo_install_config_new (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>);</pre>
+<p>Construct a new install configuration with default values for
+language, keyboard, timezone and admin password. The default values
+are to use an 'en_US' language and keyboard, and an 'America/New_York'
+timezone. The admin password is set to a random 8 character password.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>id</p></td>
+<td class="parameter_description"><p>the unique identifier</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-new.returns"></a><h4>Returns</h4>
+<p> an install configuration with default
+values. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-hardware-arch"></a><h3>osinfo_install_config_set_hardware_arch ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_hardware_arch
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *arch</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-hardware-arch"></a><h3>osinfo_install_config_get_hardware_arch ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_hardware_arch
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-l10n-keyboard"></a><h3>osinfo_install_config_set_l10n_keyboard ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_l10n_keyboard
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *keyboard</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-KEYBOARD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD</span></a> parameter.</p>
+<p>The expected format of this string is the same as
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-language" title="osinfo_install_config_set_l10n_language ()"><span class="type">osinfo_install_config_set_l10n_language</span></a> function's 'language' parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-l10n-keyboard.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>keyboard</p></td>
+<td class="parameter_description"><p>the keyboard</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-l10n-keyboard"></a><h3>osinfo_install_config_get_l10n_keyboard ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_l10n_keyboard
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-l10n-language"></a><h3>osinfo_install_config_set_l10n_language ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_l10n_language
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *language</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-LANGUAGE:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE"><span class="type">OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE</span></a> parameter.</p>
+<p>The expected format of this string is the gettext locale names standard:</p>
+<p>https://www.gnu.org/savannah-checkouts/gnu/gettext/manual/html_node/Locale-Names.html</p>
+<p>Encoding and variant are (at least for now) not supported. For example,
+'pt_BR' is accepted is accepted as the language codes for Brazilian Portuguese
+but 'pt_BR.utf8' is not.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-l10n-language.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>language</p></td>
+<td class="parameter_description"><p>the language</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-l10n-language"></a><h3>osinfo_install_config_get_l10n_language ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_l10n_language
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-l10n-timezone"></a><h3>osinfo_install_config_set_l10n_timezone ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_l10n_timezone
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *timezone</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-l10n-timezone"></a><h3>osinfo_install_config_get_l10n_timezone ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_l10n_timezone
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-admin-password"></a><h3>osinfo_install_config_set_admin_password ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_admin_password
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *password</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-admin-password"></a><h3>osinfo_install_config_get_admin_password ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_admin_password
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-user-login"></a><h3>osinfo_install_config_set_user_login ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_user_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                      <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *username</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-user-login"></a><h3>osinfo_install_config_get_user_login ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_user_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-user-password"></a><h3>osinfo_install_config_set_user_password ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_user_password
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *password</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-user-password"></a><h3>osinfo_install_config_get_user_password ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_user_password
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-user-realname"></a><h3>osinfo_install_config_set_user_realname ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_user_realname
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-user-realname"></a><h3>osinfo_install_config_get_user_realname ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_user_realname
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-user-autologin"></a><h3>osinfo_install_config_set_user_autologin ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_user_autologin
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autologin</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-user-autologin"></a><h3>osinfo_install_config_get_user_autologin ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+osinfo_install_config_get_user_autologin
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-user-administrator"></a><h3>osinfo_install_config_set_user_administrator ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_user_administrator
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> admin</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-user-administrator"></a><h3>osinfo_install_config_get_user_administrator ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+osinfo_install_config_get_user_administrator
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-reg-login"></a><h3>osinfo_install_config_set_reg_login ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_reg_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                     <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-reg-login"></a><h3>osinfo_install_config_get_reg_login ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_reg_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-reg-password"></a><h3>osinfo_install_config_set_reg_password ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_reg_password
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *password</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-reg-password"></a><h3>osinfo_install_config_get_reg_password ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_reg_password
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-reg-product-key"></a><h3>osinfo_install_config_set_reg_product_key ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_reg_product_key
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-reg-product-key"></a><h3>osinfo_install_config_get_reg_product_key ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_reg_product_key
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-hostname"></a><h3>osinfo_install_config_set_hostname ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_hostname (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                    <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *hostname</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HOSTNAME:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_HOSTNAME"><span class="type">OSINFO_INSTALL_CONFIG_PROP_HOSTNAME</span></a> parameter.</p>
+<p>Note that some operating systems have restrictions on maximum number of, and
+allowed characters in hostname (or its equivalent) so it is highly
+recommended that you keep the actual hostname less than or equal to 15
+characters long and make sure that it does not contain any characters other
+than ASCII alphanumeric and '-'. Otherwise unattended installation might
+fail.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-hostname.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>hostname</p></td>
+<td class="parameter_description"><p>the desired hostname</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-hostname"></a><h3>osinfo_install_config_get_hostname ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_hostname (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-target-disk"></a><h3>osinfo_install_config_set_target_disk ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_target_disk (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                       <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *disk</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-TARGET-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK</span></a> parameter.</p>
+<p>Note that the format of this string is dependent on the installer script
+<em class="parameter"><code>config</code></em>
+ is going to be used with. You can use
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-get-path-format" title="osinfo_install_script_get_path_format ()"><code class="function">osinfo_install_script_get_path_format()</code></a> to find out which format
+does the script expects this string to be in. In case of
+<a class="link" href="OsinfoInstallScript.html#OSINFO-PATH-FORMAT-UNIX:CAPS"><span class="type">OSINFO_PATH_FORMAT_UNIX</span></a> unix device node names are expected, e.g "/dev/fd0".
+In case of <a class="link" href="OsinfoInstallScript.html#OSINFO-PATH-FORMAT-DOS:CAPS"><span class="type">OSINFO_PATH_FORMAT_DOS</span></a> drive letters are expected, e.g "A".</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-target-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>disk</p></td>
+<td class="parameter_description"><p>the target disk</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-target-disk"></a><h3>osinfo_install_config_get_target_disk ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_target_disk (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-target-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-target-disk.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-TARGET-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK</span></a> parameter,
+or NULL.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-script-disk"></a><h3>osinfo_install_config_set_script_disk ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_script_disk (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                       <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *disk</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-SCRIPT-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK</span></a> parameter.</p>
+<p>Please read documentation on <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-target-disk" title="osinfo_install_config_set_target_disk ()"><code class="function">osinfo_install_config_set_target_disk()</code></a> for
+explanation on the format of <em class="parameter"><code>disk</code></em>
+ string.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-script-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>disk</p></td>
+<td class="parameter_description"><p>the disk</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-script-disk"></a><h3>osinfo_install_config_get_script_disk ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_script_disk (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-script-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-script-disk.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-SCRIPT-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK</span></a> parameter,
+or NULL.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-avatar-location"></a><h3>osinfo_install_config_set_avatar_location ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_avatar_location
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-LOCATION:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION"><span class="type">OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION</span></a> parameter.</p>
+<p>Note that the format of this string is dependent on the installer script
+<em class="parameter"><code>config</code></em>
+ is going to be used with. You can use
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-get-path-format" title="osinfo_install_script_get_path_format ()"><code class="function">osinfo_install_script_get_path_format()</code></a> to find out which format
+does the script expects this string to be in.</p>
+<p>Also note that in case of <a class="link" href="OsinfoInstallScript.html#OSINFO-PATH-FORMAT-DOS:CAPS"><span class="type">OSINFO_PATH_FORMAT_DOS</span></a>, the drive/disk letter
+and the leading ':' must not be included in the path.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-avatar-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>new location</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-avatar-location"></a><h3>osinfo_install_config_get_avatar_location ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_avatar_location
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-avatar-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-avatar-location.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-LOCATION:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION"><span class="type">OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION</span></a> parameter,
+or NULL.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-avatar-disk"></a><h3>osinfo_install_config_set_avatar_disk ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_avatar_disk (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                       <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *disk</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK</span></a> parameter.</p>
+<p>Please read documentation on <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-target-disk" title="osinfo_install_config_set_target_disk ()"><code class="function">osinfo_install_config_set_target_disk()</code></a> for
+explanation on the format of <em class="parameter"><code>disk</code></em>
+ string.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-avatar-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>disk</p></td>
+<td class="parameter_description"><p>the avatar disk</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-avatar-disk"></a><h3>osinfo_install_config_get_avatar_disk ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_avatar_disk (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-avatar-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-avatar-disk.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK</span></a> parameter,
+or NULL.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-pre-install-drivers-disk"></a><h3>osinfo_install_config_set_pre_install_drivers_disk ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_pre_install_drivers_disk
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *disk</code></em>);</pre>
+<p>Specify the disk on which drivers to be installed at the very beginning of
+installation, are available. This is usually needed for devices for which the
+OS in question does not have out of the box support for and devices are
+required/prefered to be available during actual installation.</p>
+<p>Please read documentation on <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-target-disk" title="osinfo_install_config_set_target_disk ()"><code class="function">osinfo_install_config_set_target_disk()</code></a> for
+explanation on the format of <em class="parameter"><code>disk</code></em>
+ string.</p>
+<p>NOTE: Not every install script supports pre-installation of drivers. Use
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-get-can-pre-install-drivers" title="osinfo_install_script_get_can_pre_install_drivers ()"><code class="function">osinfo_install_script_get_can_pre_install_drivers()</code></a> to find out if an
+installer script supports it.</p>
+<p>NOTE: Microsoft Windows XP requires pre-installation driver files to be
+present in the script disk under the toplevel directory.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-pre-install-drivers-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>disk</p></td>
+<td class="parameter_description"><p>the disk</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-pre-install-drivers-disk"></a><h3>osinfo_install_config_get_pre_install_drivers_disk ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_pre_install_drivers_disk
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-pre-install-drivers-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-pre-install-drivers-disk.returns"></a><h4>Returns</h4>
+<p> The disk on which pre-installation drivers are located, or NULL if
+its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-disk" title="osinfo_install_config_set_pre_install_drivers_disk ()"><code class="function">osinfo_install_config_set_pre_install_drivers_disk()</code></a>.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-pre-install-drivers-location"></a><h3>osinfo_install_config_set_pre_install_drivers_location ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_pre_install_drivers_location
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>);</pre>
+<p>Specify the location on which drivers to be installed at the very beginning of
+installation, are available. Please read documentation on
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-disk" title="osinfo_install_config_set_pre_install_drivers_disk ()"><code class="function">osinfo_install_config_set_pre_install_drivers_disk()</code></a> for more information
+about pre-installation of drivers.</p>
+<p>Please read documentation on <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-avatar-location" title="osinfo_install_config_set_avatar_location ()"><code class="function">osinfo_install_config_set_avatar_location()</code></a> for
+explanation on the format of <em class="parameter"><code>location</code></em>
+ string.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-pre-install-drivers-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>the location</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-pre-install-drivers-location"></a><h3>osinfo_install_config_get_pre_install_drivers_location ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_pre_install_drivers_location
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-pre-install-drivers-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-pre-install-drivers-location.returns"></a><h4>Returns</h4>
+<p> The location on which pre-installation drivers are located, or NULL if
+its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-location" title="osinfo_install_config_set_pre_install_drivers_location ()"><code class="function">osinfo_install_config_set_pre_install_drivers_location()</code></a>.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-post-install-drivers-disk"></a><h3>osinfo_install_config_set_post_install_drivers_disk ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_post_install_drivers_disk
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *disk</code></em>);</pre>
+<p>Specify the disk on which drivers to be installed at the end of installation,
+are available.</p>
+<p>Please read documentation on <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-target-disk" title="osinfo_install_config_set_target_disk ()"><code class="function">osinfo_install_config_set_target_disk()</code></a> for
+explanation on the format of <em class="parameter"><code>disk</code></em>
+ string.</p>
+<p>NOTE: Not every install script supports post-installation of drivers. Use
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-get-can-post-install-drivers" title="osinfo_install_script_get_can_post_install_drivers ()"><code class="function">osinfo_install_script_get_can_post_install_drivers()</code></a> to find out if an
+install script supports it.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-post-install-drivers-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>disk</p></td>
+<td class="parameter_description"><p>the target disk</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-post-install-drivers-disk"></a><h3>osinfo_install_config_get_post_install_drivers_disk ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_post_install_drivers_disk
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-post-install-drivers-disk.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-post-install-drivers-disk.returns"></a><h4>Returns</h4>
+<p> The disk on which post-installation drivers are located, or NULL if
+its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-disk" title="osinfo_install_config_set_post_install_drivers_disk ()"><code class="function">osinfo_install_config_set_post_install_drivers_disk()</code></a>.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-post-install-drivers-location"></a><h3>osinfo_install_config_set_post_install_drivers_location ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_post_install_drivers_location
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>);</pre>
+<p>Specify the disk on which drivers to be installed at the end of installation,
+are available.</p>
+<p>Please read documentation on <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-avatar-location" title="osinfo_install_config_set_avatar_location ()"><code class="function">osinfo_install_config_set_avatar_location()</code></a> for
+explanation on the format of <em class="parameter"><code>location</code></em>
+ string.</p>
+<p>NOTE: Not every install script supports post-installation of drivers. Use
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-get-can-post-install-drivers" title="osinfo_install_script_get_can_post_install_drivers ()"><code class="function">osinfo_install_script_get_can_post_install_drivers()</code></a> to find out if an
+install script supports it.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-post-install-drivers-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>the location of avatar</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-post-install-drivers-location"></a><h3>osinfo_install_config_get_post_install_drivers_location ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_post_install_drivers_location
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-post-install-drivers-location.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-post-install-drivers-location.returns"></a><h4>Returns</h4>
+<p> The disk on which post-installation drivers are located, or NULL if
+its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-location" title="osinfo_install_config_set_post_install_drivers_location ()"><code class="function">osinfo_install_config_set_post_install_drivers_location()</code></a>.</p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-driver-signing"></a><h3>osinfo_install_config_set_driver_signing ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_driver_signing
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> signing</code></em>);</pre>
+<p>If a script requires drivers to be signed, this function can be used to
+disable that security feature. WARNING: Disabling driver signing may very
+well mean disabling it permanently.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-driver-signing.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>signing</p></td>
+<td class="parameter_description"><p>boolean value</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-driver-signing"></a><h3>osinfo_install_config_get_driver_signing ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+osinfo_install_config_get_driver_signing
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-driver-signing.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-driver-signing.returns"></a><h4>Returns</h4>
+<p> <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#TRUE:CAPS"><code class="literal">TRUE</code></a> if driver signing is currently enabled, <a href="/usr/share/gtk-doc/html/glibglib-Standard-Macros.html#FALSE:CAPS"><code class="literal">FALSE</code></a> otherwise, see
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-driver-signing" title="osinfo_install_config_set_driver_signing ()"><code class="function">osinfo_install_config_set_driver_signing()</code></a> for more details about driver
+signing.</p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-HARDWARE-ARCH:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH  "hardware-arch"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-L10N-TIMEZONE:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE  "l10n-timezone"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-L10N-LANGUAGE:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE  "l10n-language"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-L10N-KEYBOARD:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD  "l10n-keyboard"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-ADMIN-PASSWORD:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD "admin-password"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-USER-PASSWORD:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD  "user-password"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-USER-LOGIN:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN     "user-login"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-USER-REALNAME:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME  "user-realname"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-USER-AUTOLOGIN:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN "user-autologin"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-USER-ADMIN:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN     "user-admin"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-REG-LOGIN:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN      "reg-login"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-REG-PASSWORD:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD   "reg-password"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-REG-PRODUCTKEY:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY "reg-product-key"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-HOSTNAME:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_HOSTNAME</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_HOSTNAME    "hostname"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-TARGET-DISK:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK "target-disk"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-SCRIPT-DISK:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK "script-disk"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-AVATAR-LOCATION:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION "avatar-location"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-AVATAR-DISK:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK     "avatar-disk"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-PRE-INSTALL-DRIVERS-DISK:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK "pre-install-drivers-disk"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-PRE-INSTALL-DRIVERS-LOCATION:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION "pre-install-drivers-location"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-POST-INSTALL-DRIVERS-DISK:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK "post-install-drivers-disk"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-POST-INSTALL-DRIVERS-LOCATION:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION "post-install-drivers-location"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-DRIVER-SIGNING:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING "driver-signing"
+</pre>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoInstallConfig.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>
