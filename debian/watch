@@ -1,2 +1,4 @@
 version=3
-https://fedorahosted.org/releases/l/i/libosinfo/libosinfo-(\d.*).tar.gz
+
+opts="pgpsigurlmangle=s/$/.asc/" \
+  https://fedorahosted.org/releases/l/i/libosinfo/libosinfo-(\d.*).tar.gz
