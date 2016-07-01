@@ -1,3 +1,11 @@
+libosinfo (0.3.1-1) unstable; urgency=medium
+
+  * [9abe446] New upstream version 0.3.1
+  * [871f311] watch: Add signature verifiation
+  * [1991a68] Switch back to tarballs
+
+ -- Guido Günther <agx@sigxcpu.org>  Fri, 01 Jul 2016 19:58:32 +0200
+
 libosinfo (0.3.0-3) unstable; urgency=medium
 
   * [a9a31e7] Move database files into separate package and install
