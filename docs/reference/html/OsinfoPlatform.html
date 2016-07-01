@@ -1,0 +1,284 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoPlatform: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoProductList.html" title="OsinfoProductList">
+<link rel="next" href="OsinfoPlatformList.html" title="OsinfoPlatformList">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoPlatform.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoPlatform.object-hierarchy" class="shortcut">Object Hierarchy</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoProductList.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoPlatformList.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoPlatform"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoPlatform.top_of_page"></a>OsinfoPlatform</span></h2>
+<p>OsinfoPlatform — An virtualization platform</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoPlatform.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="returnvalue">OsinfoPlatform</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatform.html#osinfo-platform-new" title="osinfo_platform_new ()">osinfo_platform_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatform.html#osinfo-platform-get-devices" title="osinfo_platform_get_devices ()">osinfo_platform_get_devices</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatform.html#osinfo-platform-get-all-devices" title="osinfo_platform_get_all_devices ()">osinfo_platform_get_all_devices</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceLinkList.html" title="OsinfoDeviceLinkList"><span class="returnvalue">OsinfoDeviceLinkList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatform.html#osinfo-platform-get-device-links" title="osinfo_platform_get_device_links ()">osinfo_platform_get_device_links</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><span class="returnvalue">OsinfoDeviceLink</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoPlatform.html#osinfo-platform-add-device" title="osinfo_platform_add_device ()">osinfo_platform_add_device</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatform.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
+        <span class="lineart">╰──</span> <a class="link" href="OsinfoProduct.html" title="OsinfoProduct">OsinfoProduct</a>
+            <span class="lineart">╰──</span> OsinfoPlatform
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatform.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a> is an entity representing an virtualization
+platform. Platforms have a list of supported devices</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatform.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-platform-new"></a><h3>osinfo_platform_new ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="returnvalue">OsinfoPlatform</span></a> *
+osinfo_platform_new (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>);</pre>
+<p>Create a new platform entity</p>
+<div class="refsect3">
+<a name="osinfo-platform-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>id</p></td>
+<td class="parameter_description"><p>a unique identifier</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platform-new.returns"></a><h4>Returns</h4>
+<p> A platform entity. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platform-get-devices"></a><h3>osinfo_platform_get_devices ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+osinfo_platform_get_devices (<em class="parameter"><code><a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a> *platform</code></em>,
+                             <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Retrieve all the associated devices matching the filter.
+The filter matches against the device, not the link.</p>
+<div class="refsect3">
+<a name="osinfo-platform-get-devices.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>platform</p></td>
+<td class="parameter_description"><p>a platform entity</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> an optional filter. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platform-get-devices.returns"></a><h4>Returns</h4>
+<p> a list of <a class="link" href="OsinfoDevice.html" title="OsinfoDevice"><span class="type">OsinfoDevice</span></a> entities. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platform-get-all-devices"></a><h3>osinfo_platform_get_all_devices ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+osinfo_platform_get_all_devices (<em class="parameter"><code><a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a> *platform</code></em>,
+                                 <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Get all platforms matching a given filter but unlike
+osinfo_platform_get_devices this function also retrieves devices from
+all derived and upgraded platforms.</p>
+<div class="refsect3">
+<a name="osinfo-platform-get-all-devices.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>platform</p></td>
+<td class="parameter_description"><p>a platform</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> an optional device property filter. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platform-get-all-devices.returns"></a><h4>Returns</h4>
+<p> A list of devices. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platform-get-device-links"></a><h3>osinfo_platform_get_device_links ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceLinkList.html" title="OsinfoDeviceLinkList"><span class="returnvalue">OsinfoDeviceLinkList</span></a> *
+osinfo_platform_get_device_links (<em class="parameter"><code><a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a> *platform</code></em>,
+                                  <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Retrieve all the associated devices matching the filter.
+The filter matches against the link, not the device.</p>
+<div class="refsect3">
+<a name="osinfo-platform-get-device-links.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>platform</p></td>
+<td class="parameter_description"><p>a platform entity</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> an optional filter. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>][<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platform-get-device-links.returns"></a><h4>Returns</h4>
+<p> a list of <a class="link" href="OsinfoDevice.html" title="OsinfoDevice"><span class="type">OsinfoDevice</span></a> entities. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-platform-add-device"></a><h3>osinfo_platform_add_device ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><span class="returnvalue">OsinfoDeviceLink</span></a> *
+osinfo_platform_add_device (<em class="parameter"><code><a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a> *platform</code></em>,
+                            <em class="parameter"><code><a class="link" href="OsinfoDevice.html" title="OsinfoDevice"><span class="type">OsinfoDevice</span></a> *dev</code></em>);</pre>
+<p>Associate a device with a platform. The returned <a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><span class="type">OsinfoDeviceLink</span></a>
+can be used to record extra metadata against the link</p>
+<div class="refsect3">
+<a name="osinfo-platform-add-device.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>platform</p></td>
+<td class="parameter_description"><p>a platform entity</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>dev</p></td>
+<td class="parameter_description"><p> the device to associate. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-platform-add-device.returns"></a><h4>Returns</h4>
+<p> the device association. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatform.other_details"></a><h2>Types and Values</h2>
+</div>
+<div class="refsect1">
+<a name="OsinfoPlatform.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a>, <a class="link" href="OsinfoPlatform.html" title="OsinfoPlatform"><span class="type">OsinfoPlatform</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

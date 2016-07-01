@@ -1,0 +1,1112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>OsinfoOs: Libosinfo Reference Manual</title>
+<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<link rel="home" href="index.html" title="Libosinfo Reference Manual">
+<link rel="up" href="ch01.html" title="Libosinfo">
+<link rel="prev" href="OsinfoLoader.html" title="OsinfoLoader">
+<link rel="next" href="OsinfoOsList.html" title="OsinfoOsList">
+<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
+<table class="navigation" id="top" width="100%" summary="Navigation header" cellpadding="2" cellspacing="5"><tr valign="middle">
+<td width="100%" align="left" class="shortcuts">
+<a href="#" class="shortcut">Top</a><span id="nav_description">  <span class="dim">|</span> 
+                  <a href="#OsinfoOs.description" class="shortcut">Description</a></span><span id="nav_hierarchy">  <span class="dim">|</span> 
+                  <a href="#OsinfoOs.object-hierarchy" class="shortcut">Object Hierarchy</a></span><span id="nav_properties">  <span class="dim">|</span> 
+                  <a href="#OsinfoOs.properties" class="shortcut">Properties</a></span>
+</td>
+<td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
+<td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
+<td><a accesskey="p" href="OsinfoLoader.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="n" href="OsinfoOsList.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
+</tr></table>
+<div class="refentry">
+<a name="OsinfoOs"></a><div class="titlepage"></div>
+<div class="refnamediv"><table width="100%"><tr>
+<td valign="top">
+<h2><span class="refentrytitle"><a name="OsinfoOs.top_of_page"></a>OsinfoOs</span></h2>
+<p>OsinfoOs — An operating system</p>
+</td>
+<td class="gallery_image" valign="top" align="right"></td>
+</tr></table></div>
+<div class="refsect1">
+<a name="OsinfoOs.functions"></a><h2>Functions</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="functions_return">
+<col class="functions_name">
+</colgroup>
+<tbody>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="returnvalue">OsinfoOs</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-new" title="osinfo_os_new ()">osinfo_os_new</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-devices" title="osinfo_os_get_devices ()">osinfo_os_get_devices</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-all-devices" title="osinfo_os_get_all_devices ()">osinfo_os_get_all_devices</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-devices-by-property" title="osinfo_os_get_devices_by_property ()">osinfo_os_get_devices_by_property</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceLinkList.html" title="OsinfoDeviceLinkList"><span class="returnvalue">OsinfoDeviceLinkList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-device-links" title="osinfo_os_get_device_links ()">osinfo_os_get_device_links</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><span class="returnvalue">OsinfoDeviceLink</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-device" title="osinfo_os_add_device ()">osinfo_os_add_device</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-family" title="osinfo_os_get_family ()">osinfo_os_get_family</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-distro" title="osinfo_os_get_distro ()">osinfo_os_get_distro</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">int</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-release-status" title="osinfo_os_get_release_status ()">osinfo_os_get_release_status</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-media-list" title="osinfo_os_get_media_list ()">osinfo_os_get_media_list</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-media" title="osinfo_os_add_media ()">osinfo_os_add_media</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoTreeList.html" title="OsinfoTreeList"><span class="returnvalue">OsinfoTreeList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-tree-list" title="osinfo_os_get_tree_list ()">osinfo_os_get_tree_list</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-tree" title="osinfo_os_add_tree ()">osinfo_os_add_tree</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoOsVariantList.html" title="OsinfoOsVariantList"><span class="returnvalue">OsinfoOsVariantList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-variant-list" title="osinfo_os_get_variant_list ()">osinfo_os_get_variant_list</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-variant" title="osinfo_os_add_variant ()">osinfo_os_add_variant</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoResourcesList.html" title="OsinfoResourcesList"><span class="returnvalue">OsinfoResourcesList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-minimum-resources" title="osinfo_os_get_minimum_resources ()">osinfo_os_get_minimum_resources</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoResourcesList.html" title="OsinfoResourcesList"><span class="returnvalue">OsinfoResourcesList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-recommended-resources" title="osinfo_os_get_recommended_resources ()">osinfo_os_get_recommended_resources</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-minimum-resources" title="osinfo_os_add_minimum_resources ()">osinfo_os_add_minimum_resources</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-recommended-resources" title="osinfo_os_add_recommended_resources ()">osinfo_os_add_recommended_resources</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="returnvalue">OsinfoInstallScript</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-find-install-script" title="osinfo_os_find_install_script ()">osinfo_os_find_install_script</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoInstallScriptList.html" title="OsinfoInstallScriptList"><span class="returnvalue">OsinfoInstallScriptList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-install-script-list" title="osinfo_os_get_install_script_list ()">osinfo_os_get_install_script_list</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-install-script" title="osinfo_os_add_install_script ()">osinfo_os_add_install_script</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoDeviceDriverList.html" title="OsinfoDeviceDriverList"><span class="returnvalue">OsinfoDeviceDriverList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-get-device-drivers" title="osinfo_os_get_device_drivers ()">osinfo_os_get_device_drivers</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoOs.html#osinfo-os-add-device-driver" title="osinfo_os_add_device_driver ()">osinfo_os_add_device_driver</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.properties"></a><h2>Properties</h2>
+<div class="informaltable"><table border="0">
+<colgroup>
+<col width="150px" class="properties_type">
+<col width="300px" class="properties_name">
+<col width="200px" class="properties_flags">
+</colgroup>
+<tbody>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoOs--distro" title="The “distro” property">distro</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoOs--family" title="The “family” property">family</a></td>
+<td class="property_flags">Read</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.other"></a><h2>Types and Values</h2>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="name">
+<col class="description">
+</colgroup>
+<tbody>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoOs.html#OSINFO-OS-PROP-FAMILY:CAPS" title="OSINFO_OS_PROP_FAMILY">OSINFO_OS_PROP_FAMILY</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoOs.html#OSINFO-OS-PROP-DISTRO:CAPS" title="OSINFO_OS_PROP_DISTRO">OSINFO_OS_PROP_DISTRO</a></td>
+</tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoOs.html#OSINFO-OS-PROP-RELEASE-STATUS:CAPS" title="OSINFO_OS_PROP_RELEASE_STATUS">OSINFO_OS_PROP_RELEASE_STATUS</a></td>
+</tr>
+<tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="OsinfoOs.html#OsinfoReleaseStatus" title="enum OsinfoReleaseStatus">OsinfoReleaseStatus</a></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.object-hierarchy"></a><h2>Object Hierarchy</h2>
+<pre class="screen">    <a href="https://developer.gnome.org/gobject/unstable/gobject-Enumeration-and-Flag-Types.html">GEnum</a>
+    <span class="lineart">╰──</span> OsinfoReleaseStatus
+    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
+        <span class="lineart">╰──</span> <a class="link" href="OsinfoProduct.html" title="OsinfoProduct">OsinfoProduct</a>
+            <span class="lineart">╰──</span> OsinfoOs
+</pre>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.description"></a><h2>Description</h2>
+<p><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> is an entity representing an operating system.
+Operating systems have a list of supported devices.
+There are relationships amongst operating systems to
+declare which are newest releases, which are clones
+and which are derived from a common ancestry.</p>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.functions_details"></a><h2>Functions</h2>
+<div class="refsect2">
+<a name="osinfo-os-new"></a><h3>osinfo_os_new ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="returnvalue">OsinfoOs</span></a> *
+osinfo_os_new (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>);</pre>
+<p>Create a new operating system entity</p>
+<div class="refsect3">
+<a name="osinfo-os-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>id</p></td>
+<td class="parameter_description"><p>a unique identifier</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-new.returns"></a><h4>Returns</h4>
+<p> a new operating system entity. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-devices"></a><h3>osinfo_os_get_devices ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+osinfo_os_get_devices (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                       <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Get all devices matching a given filter</p>
+<div class="refsect3">
+<a name="osinfo-os-get-devices.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> an optional device property filter. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-devices.returns"></a><h4>Returns</h4>
+<p> A list of devices. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-all-devices"></a><h3>osinfo_os_get_all_devices ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+osinfo_os_get_all_devices (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                           <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Get all devices matching a given filter but unlike osinfo_os_get_devices
+this function also retrieves devices from all derived and cloned operating
+systems.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-all-devices.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> an optional device property filter. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-all-devices.returns"></a><h4>Returns</h4>
+<p> A list of devices. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-devices-by-property"></a><h3>osinfo_os_get_devices_by_property ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceList.html" title="OsinfoDeviceList"><span class="returnvalue">OsinfoDeviceList</span></a> *
+osinfo_os_get_devices_by_property (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                                   <em class="parameter"><code>const <span class="type">char</span> *property</code></em>,
+                                   <em class="parameter"><code>const <span class="type">char</span> *value</code></em>,
+                                   <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> inherited</code></em>);</pre>
+<p>A utility function that gets devices found from the list of devices
+<em class="parameter"><code>os</code></em>
+ supports, for which the value of <em class="parameter"><code>property</code></em>
+ is <em class="parameter"><code>value</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-devices-by-property.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>property</p></td>
+<td class="parameter_description"><p>the property of interest</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the required value of property <em class="parameter"><code>property</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>inherited</p></td>
+<td class="parameter_description"><p>Should devices from inherited and cloned OSs be included in the
+search.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-devices-by-property.returns"></a><h4>Returns</h4>
+<p> The found devices. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-device-links"></a><h3>osinfo_os_get_device_links ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceLinkList.html" title="OsinfoDeviceLinkList"><span class="returnvalue">OsinfoDeviceLinkList</span></a> *
+osinfo_os_get_device_links (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                            <em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
+<p>Get all devices matching a given filter. The filter
+matches against the links, not the devices.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-device-links.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>filter</p></td>
+<td class="parameter_description"><p> an optional device property filter. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>][<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-device-links.returns"></a><h4>Returns</h4>
+<p> A list of device links. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-device"></a><h3>osinfo_os_add_device ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><span class="returnvalue">OsinfoDeviceLink</span></a> *
+osinfo_os_add_device (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                      <em class="parameter"><code><a class="link" href="OsinfoDevice.html" title="OsinfoDevice"><span class="type">OsinfoDevice</span></a> *dev</code></em>);</pre>
+<p>Associated a device with an operating system.  The
+returned <a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><span class="type">OsinfoDeviceLink</span></a> can be used to record
+extra metadata against the link</p>
+<div class="refsect3">
+<a name="osinfo-os-add-device.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>dev</p></td>
+<td class="parameter_description"><p> the device to associate with. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-add-device.returns"></a><h4>Returns</h4>
+<p> the device association. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-family"></a><h3>osinfo_os_get_family ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_os_get_family (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Retrieves the generic family the OS <em class="parameter"><code>os</code></em>
+ belongs to, based upon its kernel,
+for example linux, winnt, solaris, freebsd etc.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-family.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-family.returns"></a><h4>Returns</h4>
+<p> the family of this os. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-distro"></a><h3>osinfo_os_get_distro ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_os_get_distro (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Retrieves the generic family the OS <em class="parameter"><code>os</code></em>
+ belongs to, for example fedora,
+ubuntu, windows, solaris, freebsd etc.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-distro.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-distro.returns"></a><h4>Returns</h4>
+<p> the distro of this os. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-release-status"></a><h3>osinfo_os_get_release_status ()</h3>
+<pre class="programlisting"><span class="returnvalue">int</span>
+osinfo_os_get_release_status (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Use this to determine the release status of the <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-release-status.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-release-status.returns"></a><h4>Returns</h4>
+<p> release status of <em class="parameter"><code>os</code></em>
+. </p>
+<p><span class="annotation">[<acronym title="Override the parsed C type with given type."><span class="acronym">type</span></acronym> OsinfoReleaseStatus]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-media-list"></a><h3>osinfo_os_get_media_list ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoMediaList.html" title="OsinfoMediaList"><span class="returnvalue">OsinfoMediaList</span></a> *
+osinfo_os_get_media_list (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Get all installation medias associated with operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-media-list.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-media-list.returns"></a><h4>Returns</h4>
+<p> A list of medias. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-media"></a><h3>osinfo_os_add_media ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_media (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                     <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> *media</code></em>);</pre>
+<p>Adds installation media <em class="parameter"><code>media</code></em>
+ to operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-add-media.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>media</p></td>
+<td class="parameter_description"><p> the media to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-tree-list"></a><h3>osinfo_os_get_tree_list ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoTreeList.html" title="OsinfoTreeList"><span class="returnvalue">OsinfoTreeList</span></a> *
+osinfo_os_get_tree_list (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Get all installation trees associated with operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-tree-list.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-tree-list.returns"></a><h4>Returns</h4>
+<p> A list of trees. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-tree"></a><h3>osinfo_os_add_tree ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_tree (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                    <em class="parameter"><code><a class="link" href="OsinfoTree.html" title="OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>);</pre>
+<p>Adds installation tree <em class="parameter"><code>tree</code></em>
+ to operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-add-tree.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p> the tree to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-variant-list"></a><h3>osinfo_os_get_variant_list ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoOsVariantList.html" title="OsinfoOsVariantList"><span class="returnvalue">OsinfoOsVariantList</span></a> *
+osinfo_os_get_variant_list (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Gets all known variants of operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-variant-list.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-variant-list.returns"></a><h4>Returns</h4>
+<p> A list of variants. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-variant"></a><h3>osinfo_os_add_variant ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_variant (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                       <em class="parameter"><code><a class="link" href="OsinfoOsVariant.html" title="OsinfoOsVariant"><span class="type">OsinfoOsVariant</span></a> *variant</code></em>);</pre>
+<p>Adds a variant <em class="parameter"><code>variant</code></em>
+ to operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-add-variant.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>variant</p></td>
+<td class="parameter_description"><p> the variant to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-minimum-resources"></a><h3>osinfo_os_get_minimum_resources ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoResourcesList.html" title="OsinfoResourcesList"><span class="returnvalue">OsinfoResourcesList</span></a> *
+osinfo_os_get_minimum_resources (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Get the list of minimum required resources for the operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-minimum-resources.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-minimum-resources.returns"></a><h4>Returns</h4>
+<p> A list of resources. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-recommended-resources"></a><h3>osinfo_os_get_recommended_resources ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoResourcesList.html" title="OsinfoResourcesList"><span class="returnvalue">OsinfoResourcesList</span></a> *
+osinfo_os_get_recommended_resources (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Get the list of recommended resources for the operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-recommended-resources.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-recommended-resources.returns"></a><h4>Returns</h4>
+<p> A list of resources. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-minimum-resources"></a><h3>osinfo_os_add_minimum_resources ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_minimum_resources (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                                 <em class="parameter"><code><a class="link" href="OsinfoResources.html" title="OsinfoResources"><span class="type">OsinfoResources</span></a> *resources</code></em>);</pre>
+<p>Adds <em class="parameter"><code>resources</code></em>
+ to list of minimum resources of operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-add-minimum-resources.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>resources</p></td>
+<td class="parameter_description"><p> the resources to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-recommended-resources"></a><h3>osinfo_os_add_recommended_resources ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_recommended_resources (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                                     <em class="parameter"><code><a class="link" href="OsinfoResources.html" title="OsinfoResources"><span class="type">OsinfoResources</span></a> *resources</code></em>);</pre>
+<p>Adds <em class="parameter"><code>resources</code></em>
+ to list of recommended resources of operating system <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-add-recommended-resources.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>resources</p></td>
+<td class="parameter_description"><p> the resources to add. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-find-install-script"></a><h3>osinfo_os_find_install_script ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="returnvalue">OsinfoInstallScript</span></a> *
+osinfo_os_find_install_script (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                               <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *profile</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-os-find-install-script.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>profile</p></td>
+<td class="parameter_description"><p>the install script profile</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-find-install-script.returns"></a><h4>Returns</h4>
+<p> A new <a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> for the <em class="parameter"><code>os</code></em>
+<em class="parameter"><code>profile</code></em>
+. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-install-script-list"></a><h3>osinfo_os_get_install_script_list ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoInstallScriptList.html" title="OsinfoInstallScriptList"><span class="returnvalue">OsinfoInstallScriptList</span></a> *
+osinfo_os_get_install_script_list (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-os-get-install-script-list.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-install-script-list.returns"></a><h4>Returns</h4>
+<p> a list of the install scripts for the specified os. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-install-script"></a><h3>osinfo_os_add_install_script ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_install_script (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                              <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-get-device-drivers"></a><h3>osinfo_os_get_device_drivers ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoDeviceDriverList.html" title="OsinfoDeviceDriverList"><span class="returnvalue">OsinfoDeviceDriverList</span></a> *
+osinfo_os_get_device_drivers (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
+<p>Gets list of all available device drivers for OS <em class="parameter"><code>os</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-os-get-device-drivers.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>os</p></td>
+<td class="parameter_description"><p>an operating system</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-os-get-device-drivers.returns"></a><h4>Returns</h4>
+<p> A list of device drivers. </p>
+<p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
+</div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-os-add-device-driver"></a><h3>osinfo_os_add_device_driver ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_os_add_device_driver (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
+                             <em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.other_details"></a><h2>Types and Values</h2>
+<div class="refsect2">
+<a name="OSINFO-OS-PROP-FAMILY:CAPS"></a><h3>OSINFO_OS_PROP_FAMILY</h3>
+<pre class="programlisting">#define OSINFO_OS_PROP_FAMILY                 "family"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-OS-PROP-DISTRO:CAPS"></a><h3>OSINFO_OS_PROP_DISTRO</h3>
+<pre class="programlisting">#define OSINFO_OS_PROP_DISTRO                 "distro"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-OS-PROP-RELEASE-STATUS:CAPS"></a><h3>OSINFO_OS_PROP_RELEASE_STATUS</h3>
+<pre class="programlisting">#define OSINFO_OS_PROP_RELEASE_STATUS         "release-status"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoReleaseStatus"></a><h3>enum OsinfoReleaseStatus</h3>
+<div class="refsect3">
+<a name="OsinfoReleaseStatus.members"></a><h4>Members</h4>
+<div class="informaltable"><table width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="enum_member_name"><p><a name="OSINFO-RELEASE-STATUS-RELEASED:CAPS"></a>OSINFO_RELEASE_STATUS_RELEASED</p></td>
+<td class="enum_member_description">
+<p>A released OS.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="OSINFO-RELEASE-STATUS-SNAPSHOT:CAPS"></a>OSINFO_RELEASE_STATUS_SNAPSHOT</p></td>
+<td class="enum_member_description">
+<p>A continuous integration snapshot and not
+an actual released product yet. For example, gnome-continuous images for
+development snapshots of GNOME and nightly build ISOs of Fedora etc.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+<tr>
+<td class="enum_member_name"><p><a name="OSINFO-RELEASE-STATUS-PRERELEASE:CAPS"></a>OSINFO_RELEASE_STATUS_PRERELEASE</p></td>
+<td class="enum_member_description">
+<p>A pre-release. For example, alpha and
+beta pre-releases of Fedora etc.</p>
+</td>
+<td class="enum_member_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.property-details"></a><h2>Property Details</h2>
+<div class="refsect2">
+<a name="OsinfoOs--distro"></a><h3>The <code class="literal">“distro”</code> property</h3>
+<pre class="programlisting">  “distro”                   <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The generic distro this OS belongs to, for example fedora, windows,
+solaris, freebsd etc.</p>
+<p>Flags: Read</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoOs--family"></a><h3>The <code class="literal">“family”</code> property</h3>
+<pre class="programlisting">  “family”                   <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The generic family this OS belongs to, based upon its kernel,
+for example linux, winnt, solaris, freebsd etc.</p>
+<p>Flags: Read</p>
+<p>Default value: NULL</p>
+</div>
+</div>
+<div class="refsect1">
+<a name="OsinfoOs.see-also"></a><h2>See Also</h2>
+<p><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a>, <a class="link" href="OsinfoDeployment.html" title="OsinfoDeployment"><span class="type">OsinfoDeployment</span></a></p>
+</div>
+</div>
+<div class="footer">
+<hr>Generated by GTK-Doc V1.25</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [0.3.0], [libosinfo@redhat.com])
+AC_INIT([libosinfo], [0.3.1], [libosinfo@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -36,11 +36,28 @@ m4_if(m4_version_compare([2.61a.100],
 # Use the silent-rules feature when possible.
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
-PKG_CHECK_MODULES([GOBJECT], [gobject-2.0])
-PKG_CHECK_MODULES([GIO], [gio-2.0])
-PKG_CHECK_MODULES([SOUP], [libsoup-2.4 >= 2.42])
+# Keep these two definitions in agreement.
+GLIB_MINIMUM_VERSION="2.36"
+GLIB_ENCODED_VERSION="GLIB_VERSION_2_36"
+
+# Keep these two definitions in agreement.
+SOUP_MINIMUM_VERSION="2.42"
+SOUP_ENCODED_VERSION="SOUP_VERSION_2_42"
+
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])
+
+PKG_CHECK_MODULES([GLIB], [glib-2.0 >= $GLIB_MINIMUM_VERSION gobject-2.0 gio-2.0])
+GLIB_CFLAGS="$GLIB_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=$GLIB_ENCODED_VERSION"
+GLIB_CFLAGS="$GLIB_CFLAGS -DGLIB_VERSION_MAX_ALLOWED=$GLIB_ENCODED_VERSION"
+AC_SUBST(GLIB_CFLAGS)
+AC_SUBST(GLIB_LIBS)
+
+PKG_CHECK_MODULES([SOUP], [libsoup-2.4 >= $SOUP_MINIMUM_VERSION])
+SOUP_CFLAGS="$SOUP_CFLAGS -DSOUP_VERSION_MIN_REQUIRED=$SOUP_ENCODED_VERSION"
+SOUP_CFLAGS="$SOUP_CFLAGS -DSOUP_VERSION_MAX_ALLOWED=$SOUP_ENCODED_VERSION"
+AC_SUBST(SOUP_CFLAGS)
+AC_SUBST(SOUP_LIBS)
 
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
 
@@ -78,6 +95,14 @@ case "$host" in
 
   *-*-cygwin*)
     NO_UNDEFINED_LDFLAGS="-no-undefined"
+    ;;
+
+  *darwin*)
+    NO_UNDEFINED_LDFLAGS="-Wl,-undefined,error"
+    ;;
+
+  *-*-solaris*)
+    NO_UNDEFINED_LDFLAGS="-zdefs"
     ;;
 
   *)
@@ -258,6 +283,7 @@ AC_CONFIG_FILES([
 	data/install-script/debian.org/Makefile
 	data/install-script/fedoraproject.org/Makefile
 	data/install-script/microsoft.com/Makefile
+	data/install-script/opensuse.org/Makefile
 	data/install-script/redhat.com/Makefile
 	data/install-script/ubuntu.com/Makefile
 	data/os/Makefile

@@ -1,0 +1,619 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<book xmlns="http://www.devhelp.net/book" title="Libosinfo Reference Manual" link="index.html" author="" name="Libosinfo" version="2" language="c">
+  <chapters>
+    <sub name="Libosinfo" link="ch01.html">
+      <sub name="OsinfoAvatarFormat" link="OsinfoAvatarFormat.html"/>
+      <sub name="OsinfoDatamapList" link="OsinfoDatamapList.html"/>
+      <sub name="OsinfoDatamap" link="OsinfoDatamap.html"/>
+      <sub name="OsinfoDb" link="OsinfoDb.html"/>
+      <sub name="OsinfoDeployment" link="OsinfoDeployment.html"/>
+      <sub name="OsinfoDeploymentList" link="OsinfoDeploymentList.html"/>
+      <sub name="OsinfoDevice" link="OsinfoDevice.html"/>
+      <sub name="OsinfoDeviceList" link="OsinfoDeviceList.html"/>
+      <sub name="OsinfoDeviceLink" link="OsinfoDeviceLink.html"/>
+      <sub name="OsinfoDeviceLinkFilter" link="OsinfoDeviceLinkFilter.html"/>
+      <sub name="OsinfoDeviceLinkList" link="OsinfoDeviceLinkList.html"/>
+      <sub name="OsinfoDeviceDriver" link="OsinfoDeviceDriver.html"/>
+      <sub name="OsinfoDeviceDriverList" link="OsinfoDeviceDriverList.html"/>
+      <sub name="OsinfoEntity" link="OsinfoEntity.html"/>
+      <sub name="osinfo_enum_types" link="Libosinfo-osinfo-enum-types.html"/>
+      <sub name="OsinfoFilter" link="OsinfoFilter.html"/>
+      <sub name="OsinfoInstallConfig" link="OsinfoInstallConfig.html"/>
+      <sub name="OsinfoInstallConfigParam" link="OsinfoInstallConfigParam.html"/>
+      <sub name="OsinfoInstallConfigParamList" link="OsinfoInstallConfigParamList.html"/>
+      <sub name="OsinfoInstallScript" link="OsinfoInstallScript.html"/>
+      <sub name="OsinfoInstallScriptList" link="OsinfoInstallScriptList.html"/>
+      <sub name="OsinfoList" link="OsinfoList.html"/>
+      <sub name="OsinfoLoader" link="OsinfoLoader.html"/>
+      <sub name="OsinfoOs" link="OsinfoOs.html"/>
+      <sub name="OsinfoOsList" link="OsinfoOsList.html"/>
+      <sub name="OsinfoOsVariant" link="OsinfoOsVariant.html"/>
+      <sub name="OsinfoOsVariantList" link="OsinfoOsVariantList.html"/>
+      <sub name="OsinfoProduct" link="OsinfoProduct.html"/>
+      <sub name="OsinfoProductFilter" link="OsinfoProductFilter.html"/>
+      <sub name="OsinfoProductList" link="OsinfoProductList.html"/>
+      <sub name="OsinfoPlatform" link="OsinfoPlatform.html"/>
+      <sub name="OsinfoPlatformList" link="OsinfoPlatformList.html"/>
+      <sub name="OsinfoMedia" link="OsinfoMedia.html"/>
+      <sub name="OsinfoMediaList" link="OsinfoMediaList.html"/>
+      <sub name="OsinfoResources" link="OsinfoResources.html"/>
+      <sub name="OsinfoResourcesList" link="OsinfoResourcesList.html"/>
+      <sub name="OsinfoTree" link="OsinfoTree.html"/>
+      <sub name="OsinfoTreeList" link="OsinfoTreeList.html"/>
+      <sub name="osinfo_version" link="Libosinfo-osinfo-version.html"/>
+    </sub>
+    <sub name="Object Hierarchy" link="object-tree.html"/>
+    <sub name="API Index" link="api-index-full.html"/>
+    <sub name="Deprecated API Index" link="depr-index.html"/>
+    <sub name="Annotation Glossary" link="annotation-glossary.html"/>
+  </chapters>
+  <functions>
+    <keyword type="function" name="osinfo_avatar_format_new ()" link="OsinfoAvatarFormat.html#osinfo-avatar-format-new"/>
+    <keyword type="function" name="osinfo_avatar_format_get_mime_types ()" link="OsinfoAvatarFormat.html#osinfo-avatar-format-get-mime-types"/>
+    <keyword type="function" name="osinfo_avatar_format_get_width ()" link="OsinfoAvatarFormat.html#osinfo-avatar-format-get-width"/>
+    <keyword type="function" name="osinfo_avatar_format_get_height ()" link="OsinfoAvatarFormat.html#osinfo-avatar-format-get-height"/>
+    <keyword type="function" name="osinfo_avatar_format_get_alpha ()" link="OsinfoAvatarFormat.html#osinfo-avatar-format-get-alpha"/>
+    <keyword type="macro" name="OSINFO_AVATAR_FORMAT_PROP_MIME_TYPE" link="OsinfoAvatarFormat.html#OSINFO-AVATAR-FORMAT-PROP-MIME-TYPE:CAPS"/>
+    <keyword type="macro" name="OSINFO_AVATAR_FORMAT_PROP_WIDTH" link="OsinfoAvatarFormat.html#OSINFO-AVATAR-FORMAT-PROP-WIDTH:CAPS"/>
+    <keyword type="macro" name="OSINFO_AVATAR_FORMAT_PROP_HEIGHT" link="OsinfoAvatarFormat.html#OSINFO-AVATAR-FORMAT-PROP-HEIGHT:CAPS"/>
+    <keyword type="macro" name="OSINFO_AVATAR_FORMAT_PROP_ALPHA" link="OsinfoAvatarFormat.html#OSINFO-AVATAR-FORMAT-PROP-ALPHA:CAPS"/>
+    <keyword type="property" name="The “alpha” property" link="OsinfoAvatarFormat.html#OsinfoAvatarFormat--alpha"/>
+    <keyword type="property" name="The “height” property" link="OsinfoAvatarFormat.html#OsinfoAvatarFormat--height"/>
+    <keyword type="property" name="The “mime-types” property" link="OsinfoAvatarFormat.html#OsinfoAvatarFormat--mime-types"/>
+    <keyword type="property" name="The “width” property" link="OsinfoAvatarFormat.html#OsinfoAvatarFormat--width"/>
+    <keyword type="function" name="osinfo_datamaplist_new ()" link="OsinfoDatamapList.html#osinfo-datamaplist-new"/>
+    <keyword type="function" name="osinfo_datamap_new ()" link="OsinfoDatamap.html#osinfo-datamap-new"/>
+    <keyword type="function" name="osinfo_datamap_insert ()" link="OsinfoDatamap.html#osinfo-datamap-insert"/>
+    <keyword type="function" name="osinfo_datamap_lookup ()" link="OsinfoDatamap.html#osinfo-datamap-lookup"/>
+    <keyword type="function" name="osinfo_datamap_reverse_lookup ()" link="OsinfoDatamap.html#osinfo-datamap-reverse-lookup"/>
+    <keyword type="function" name="osinfo_db_new ()" link="OsinfoDb.html#osinfo-db-new"/>
+    <keyword type="function" name="osinfo_db_get_platform ()" link="OsinfoDb.html#osinfo-db-get-platform"/>
+    <keyword type="function" name="osinfo_db_get_device ()" link="OsinfoDb.html#osinfo-db-get-device"/>
+    <keyword type="function" name="osinfo_db_get_os ()" link="OsinfoDb.html#osinfo-db-get-os"/>
+    <keyword type="function" name="osinfo_db_get_deployment ()" link="OsinfoDb.html#osinfo-db-get-deployment"/>
+    <keyword type="function" name="osinfo_db_get_datamap ()" link="OsinfoDb.html#osinfo-db-get-datamap"/>
+    <keyword type="function" name="osinfo_db_get_install_script ()" link="OsinfoDb.html#osinfo-db-get-install-script"/>
+    <keyword type="function" name="osinfo_db_find_deployment ()" link="OsinfoDb.html#osinfo-db-find-deployment"/>
+    <keyword type="function" name="osinfo_db_get_os_list ()" link="OsinfoDb.html#osinfo-db-get-os-list"/>
+    <keyword type="function" name="osinfo_db_get_platform_list ()" link="OsinfoDb.html#osinfo-db-get-platform-list"/>
+    <keyword type="function" name="osinfo_db_get_device_list ()" link="OsinfoDb.html#osinfo-db-get-device-list"/>
+    <keyword type="function" name="osinfo_db_get_deployment_list ()" link="OsinfoDb.html#osinfo-db-get-deployment-list"/>
+    <keyword type="function" name="osinfo_db_get_install_script_list ()" link="OsinfoDb.html#osinfo-db-get-install-script-list"/>
+    <keyword type="function" name="osinfo_db_get_datamap_list ()" link="OsinfoDb.html#osinfo-db-get-datamap-list"/>
+    <keyword type="function" name="osinfo_db_add_os ()" link="OsinfoDb.html#osinfo-db-add-os"/>
+    <keyword type="function" name="osinfo_db_add_platform ()" link="OsinfoDb.html#osinfo-db-add-platform"/>
+    <keyword type="function" name="osinfo_db_add_device ()" link="OsinfoDb.html#osinfo-db-add-device"/>
+    <keyword type="function" name="osinfo_db_add_deployment ()" link="OsinfoDb.html#osinfo-db-add-deployment"/>
+    <keyword type="function" name="osinfo_db_add_datamap ()" link="OsinfoDb.html#osinfo-db-add-datamap"/>
+    <keyword type="function" name="osinfo_db_add_install_script ()" link="OsinfoDb.html#osinfo-db-add-install-script"/>
+    <keyword type="function" name="osinfo_db_guess_os_from_media ()" link="OsinfoDb.html#osinfo-db-guess-os-from-media" deprecated="0.2.3: Use osinfo_db_identify_media() instead."/>
+    <keyword type="function" name="osinfo_db_identify_media ()" link="OsinfoDb.html#osinfo-db-identify-media"/>
+    <keyword type="function" name="osinfo_db_guess_os_from_tree ()" link="OsinfoDb.html#osinfo-db-guess-os-from-tree"/>
+    <keyword type="function" name="osinfo_db_unique_values_for_property_in_os ()" link="OsinfoDb.html#osinfo-db-unique-values-for-property-in-os"/>
+    <keyword type="function" name="osinfo_db_unique_values_for_property_in_platform ()" link="OsinfoDb.html#osinfo-db-unique-values-for-property-in-platform"/>
+    <keyword type="function" name="osinfo_db_unique_values_for_property_in_device ()" link="OsinfoDb.html#osinfo-db-unique-values-for-property-in-device"/>
+    <keyword type="function" name="osinfo_db_unique_values_for_property_in_deployment ()" link="OsinfoDb.html#osinfo-db-unique-values-for-property-in-deployment"/>
+    <keyword type="function" name="osinfo_db_unique_values_for_os_relationship ()" link="OsinfoDb.html#osinfo-db-unique-values-for-os-relationship"/>
+    <keyword type="function" name="osinfo_db_unique_values_for_platform_relationship ()" link="OsinfoDb.html#osinfo-db-unique-values-for-platform-relationship"/>
+    <keyword type="function" name="osinfo_deployment_new ()" link="OsinfoDeployment.html#osinfo-deployment-new"/>
+    <keyword type="function" name="osinfo_deployment_get_os ()" link="OsinfoDeployment.html#osinfo-deployment-get-os"/>
+    <keyword type="function" name="osinfo_deployment_get_platform ()" link="OsinfoDeployment.html#osinfo-deployment-get-platform"/>
+    <keyword type="function" name="osinfo_deployment_get_preferred_device ()" link="OsinfoDeployment.html#osinfo-deployment-get-preferred-device"/>
+    <keyword type="function" name="osinfo_deployment_get_preferred_device_link ()" link="OsinfoDeployment.html#osinfo-deployment-get-preferred-device-link"/>
+    <keyword type="function" name="osinfo_deployment_get_devices ()" link="OsinfoDeployment.html#osinfo-deployment-get-devices"/>
+    <keyword type="function" name="osinfo_deployment_get_device_links ()" link="OsinfoDeployment.html#osinfo-deployment-get-device-links"/>
+    <keyword type="function" name="osinfo_deployment_add_device ()" link="OsinfoDeployment.html#osinfo-deployment-add-device"/>
+    <keyword type="property" name="The “os” property" link="OsinfoDeployment.html#OsinfoDeployment--os"/>
+    <keyword type="property" name="The “platform” property" link="OsinfoDeployment.html#OsinfoDeployment--platform"/>
+    <keyword type="function" name="osinfo_deploymentlist_new ()" link="OsinfoDeploymentList.html#osinfo-deploymentlist-new"/>
+    <keyword type="function" name="osinfo_deploymentlist_new_copy ()" link="OsinfoDeploymentList.html#osinfo-deploymentlist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_deploymentlist_new_filtered ()" link="OsinfoDeploymentList.html#osinfo-deploymentlist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_deploymentlist_new_intersection ()" link="OsinfoDeploymentList.html#osinfo-deploymentlist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_deploymentlist_new_union ()" link="OsinfoDeploymentList.html#osinfo-deploymentlist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_device_new ()" link="OsinfoDevice.html#osinfo-device-new"/>
+    <keyword type="function" name="osinfo_device_get_vendor ()" link="OsinfoDevice.html#osinfo-device-get-vendor"/>
+    <keyword type="function" name="osinfo_device_get_vendor_id ()" link="OsinfoDevice.html#osinfo-device-get-vendor-id"/>
+    <keyword type="function" name="osinfo_device_get_product ()" link="OsinfoDevice.html#osinfo-device-get-product"/>
+    <keyword type="function" name="osinfo_device_get_product_id ()" link="OsinfoDevice.html#osinfo-device-get-product-id"/>
+    <keyword type="function" name="osinfo_device_get_bus_type ()" link="OsinfoDevice.html#osinfo-device-get-bus-type"/>
+    <keyword type="function" name="osinfo_device_get_class ()" link="OsinfoDevice.html#osinfo-device-get-class"/>
+    <keyword type="function" name="osinfo_device_get_name ()" link="OsinfoDevice.html#osinfo-device-get-name"/>
+    <keyword type="function" name="osinfo_device_get_subsystem ()" link="OsinfoDevice.html#osinfo-device-get-subsystem"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_VENDOR" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-VENDOR:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_VENDOR_ID" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-VENDOR-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_PRODUCT" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-PRODUCT:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_PRODUCT_ID" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-PRODUCT-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_NAME" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-NAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_CLASS" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-CLASS:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_BUS_TYPE" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-BUS-TYPE:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_PROP_SUBSYSTEM" link="OsinfoDevice.html#OSINFO-DEVICE-PROP-SUBSYSTEM:CAPS"/>
+    <keyword type="function" name="osinfo_devicelist_new ()" link="OsinfoDeviceList.html#osinfo-devicelist-new"/>
+    <keyword type="function" name="osinfo_devicelist_new_copy ()" link="OsinfoDeviceList.html#osinfo-devicelist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_devicelist_new_filtered ()" link="OsinfoDeviceList.html#osinfo-devicelist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_devicelist_new_intersection ()" link="OsinfoDeviceList.html#osinfo-devicelist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_devicelist_new_union ()" link="OsinfoDeviceList.html#osinfo-devicelist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_devicelink_new ()" link="OsinfoDeviceLink.html#osinfo-devicelink-new"/>
+    <keyword type="function" name="osinfo_devicelink_get_target ()" link="OsinfoDeviceLink.html#osinfo-devicelink-get-target"/>
+    <keyword type="function" name="osinfo_devicelink_get_driver ()" link="OsinfoDeviceLink.html#osinfo-devicelink-get-driver"/>
+    <keyword type="macro" name="OSINFO_DEVICELINK_PROP_DRIVER" link="OsinfoDeviceLink.html#OSINFO-DEVICELINK-PROP-DRIVER:CAPS"/>
+    <keyword type="property" name="The “target” property" link="OsinfoDeviceLink.html#OsinfoDeviceLink--target"/>
+    <keyword type="function" name="osinfo_devicelinkfilter_new ()" link="OsinfoDeviceLinkFilter.html#osinfo-devicelinkfilter-new"/>
+    <keyword type="function" name="osinfo_devicelinkfilter_get_target_filter ()" link="OsinfoDeviceLinkFilter.html#osinfo-devicelinkfilter-get-target-filter"/>
+    <keyword type="property" name="The “target-filter” property" link="OsinfoDeviceLinkFilter.html#OsinfoDeviceLinkFilter--target-filter"/>
+    <keyword type="function" name="osinfo_devicelinklist_new ()" link="OsinfoDeviceLinkList.html#osinfo-devicelinklist-new"/>
+    <keyword type="function" name="osinfo_devicelinklist_new_copy ()" link="OsinfoDeviceLinkList.html#osinfo-devicelinklist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_devicelinklist_new_filtered ()" link="OsinfoDeviceLinkList.html#osinfo-devicelinklist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_devicelinklist_new_intersection ()" link="OsinfoDeviceLinkList.html#osinfo-devicelinklist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_devicelinklist_new_union ()" link="OsinfoDeviceLinkList.html#osinfo-devicelinklist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_devicelinklist_get_devices ()" link="OsinfoDeviceLinkList.html#osinfo-devicelinklist-get-devices"/>
+    <keyword type="function" name="osinfo_device_driver_get_architecture ()" link="OsinfoDeviceDriver.html#osinfo-device-driver-get-architecture"/>
+    <keyword type="function" name="osinfo_device_driver_get_location ()" link="OsinfoDeviceDriver.html#osinfo-device-driver-get-location"/>
+    <keyword type="function" name="osinfo_device_driver_get_pre_installable ()" link="OsinfoDeviceDriver.html#osinfo-device-driver-get-pre-installable"/>
+    <keyword type="function" name="osinfo_device_driver_get_files ()" link="OsinfoDeviceDriver.html#osinfo-device-driver-get-files"/>
+    <keyword type="function" name="osinfo_device_driver_get_devices ()" link="OsinfoDeviceDriver.html#osinfo-device-driver-get-devices"/>
+    <keyword type="function" name="osinfo_device_driver_get_signed ()" link="OsinfoDeviceDriver.html#osinfo-device-driver-get-signed"/>
+    <keyword type="macro" name="OSINFO_DEVICE_DRIVER_PROP_ARCHITECTURE" link="OsinfoDeviceDriver.html#OSINFO-DEVICE-DRIVER-PROP-ARCHITECTURE:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_DRIVER_PROP_LOCATION" link="OsinfoDeviceDriver.html#OSINFO-DEVICE-DRIVER-PROP-LOCATION:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE" link="OsinfoDeviceDriver.html#OSINFO-DEVICE-DRIVER-PROP-PRE-INSTALLABLE:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_DRIVER_PROP_FILE" link="OsinfoDeviceDriver.html#OSINFO-DEVICE-DRIVER-PROP-FILE:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_DRIVER_PROP_DEVICE" link="OsinfoDeviceDriver.html#OSINFO-DEVICE-DRIVER-PROP-DEVICE:CAPS"/>
+    <keyword type="macro" name="OSINFO_DEVICE_DRIVER_PROP_SIGNED" link="OsinfoDeviceDriver.html#OSINFO-DEVICE-DRIVER-PROP-SIGNED:CAPS"/>
+    <keyword type="function" name="osinfo_device_driverlist_new ()" link="OsinfoDeviceDriverList.html#osinfo-device-driverlist-new"/>
+    <keyword type="function" name="osinfo_entity_get_id ()" link="OsinfoEntity.html#osinfo-entity-get-id"/>
+    <keyword type="function" name="osinfo_entity_get_param_keys ()" link="OsinfoEntity.html#osinfo-entity-get-param-keys"/>
+    <keyword type="function" name="osinfo_entity_get_param_value ()" link="OsinfoEntity.html#osinfo-entity-get-param-value"/>
+    <keyword type="function" name="osinfo_entity_get_param_value_boolean ()" link="OsinfoEntity.html#osinfo-entity-get-param-value-boolean"/>
+    <keyword type="function" name="osinfo_entity_get_param_value_boolean_with_default ()" link="OsinfoEntity.html#osinfo-entity-get-param-value-boolean-with-default"/>
+    <keyword type="function" name="osinfo_entity_get_param_value_enum ()" link="OsinfoEntity.html#osinfo-entity-get-param-value-enum"/>
+    <keyword type="function" name="osinfo_entity_get_param_value_int64 ()" link="OsinfoEntity.html#osinfo-entity-get-param-value-int64"/>
+    <keyword type="function" name="osinfo_entity_get_param_value_int64_with_default ()" link="OsinfoEntity.html#osinfo-entity-get-param-value-int64-with-default"/>
+    <keyword type="function" name="osinfo_entity_get_param_value_list ()" link="OsinfoEntity.html#osinfo-entity-get-param-value-list"/>
+    <keyword type="function" name="osinfo_entity_set_param ()" link="OsinfoEntity.html#osinfo-entity-set-param"/>
+    <keyword type="function" name="osinfo_entity_set_param_boolean ()" link="OsinfoEntity.html#osinfo-entity-set-param-boolean"/>
+    <keyword type="function" name="osinfo_entity_set_param_int64 ()" link="OsinfoEntity.html#osinfo-entity-set-param-int64"/>
+    <keyword type="function" name="osinfo_entity_set_param_enum ()" link="OsinfoEntity.html#osinfo-entity-set-param-enum"/>
+    <keyword type="function" name="osinfo_entity_add_param ()" link="OsinfoEntity.html#osinfo-entity-add-param"/>
+    <keyword type="function" name="osinfo_entity_clear_param ()" link="OsinfoEntity.html#osinfo-entity-clear-param"/>
+    <keyword type="macro" name="OSINFO_ENTITY_PROP_ID" link="OsinfoEntity.html#OSINFO-ENTITY-PROP-ID:CAPS"/>
+    <keyword type="property" name="The “id” property" link="OsinfoEntity.html#OsinfoEntity--id"/>
+    <keyword type="function" name="osinfo_filter_new ()" link="OsinfoFilter.html#osinfo-filter-new"/>
+    <keyword type="function" name="osinfo_filter_add_constraint ()" link="OsinfoFilter.html#osinfo-filter-add-constraint"/>
+    <keyword type="function" name="osinfo_filter_clear_constraint ()" link="OsinfoFilter.html#osinfo-filter-clear-constraint"/>
+    <keyword type="function" name="osinfo_filter_clear_constraints ()" link="OsinfoFilter.html#osinfo-filter-clear-constraints"/>
+    <keyword type="function" name="osinfo_filter_get_constraint_keys ()" link="OsinfoFilter.html#osinfo-filter-get-constraint-keys"/>
+    <keyword type="function" name="osinfo_filter_get_constraint_values ()" link="OsinfoFilter.html#osinfo-filter-get-constraint-values"/>
+    <keyword type="function" name="osinfo_filter_matches ()" link="OsinfoFilter.html#osinfo-filter-matches"/>
+    <keyword type="function" name="osinfo_install_config_new ()" link="OsinfoInstallConfig.html#osinfo-install-config-new"/>
+    <keyword type="function" name="osinfo_install_config_set_hardware_arch ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-hardware-arch"/>
+    <keyword type="function" name="osinfo_install_config_get_hardware_arch ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-hardware-arch"/>
+    <keyword type="function" name="osinfo_install_config_set_l10n_keyboard ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-keyboard"/>
+    <keyword type="function" name="osinfo_install_config_get_l10n_keyboard ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-l10n-keyboard"/>
+    <keyword type="function" name="osinfo_install_config_set_l10n_language ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-language"/>
+    <keyword type="function" name="osinfo_install_config_get_l10n_language ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-l10n-language"/>
+    <keyword type="function" name="osinfo_install_config_set_l10n_timezone ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-l10n-timezone"/>
+    <keyword type="function" name="osinfo_install_config_get_l10n_timezone ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-l10n-timezone"/>
+    <keyword type="function" name="osinfo_install_config_set_admin_password ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-admin-password"/>
+    <keyword type="function" name="osinfo_install_config_get_admin_password ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-admin-password"/>
+    <keyword type="function" name="osinfo_install_config_set_user_login ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-user-login"/>
+    <keyword type="function" name="osinfo_install_config_get_user_login ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-user-login"/>
+    <keyword type="function" name="osinfo_install_config_set_user_password ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-user-password"/>
+    <keyword type="function" name="osinfo_install_config_get_user_password ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-user-password"/>
+    <keyword type="function" name="osinfo_install_config_set_user_realname ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-user-realname"/>
+    <keyword type="function" name="osinfo_install_config_get_user_realname ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-user-realname"/>
+    <keyword type="function" name="osinfo_install_config_set_user_autologin ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-user-autologin"/>
+    <keyword type="function" name="osinfo_install_config_get_user_autologin ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-user-autologin"/>
+    <keyword type="function" name="osinfo_install_config_set_user_administrator ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-user-administrator"/>
+    <keyword type="function" name="osinfo_install_config_get_user_administrator ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-user-administrator"/>
+    <keyword type="function" name="osinfo_install_config_set_reg_login ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-reg-login"/>
+    <keyword type="function" name="osinfo_install_config_get_reg_login ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-reg-login"/>
+    <keyword type="function" name="osinfo_install_config_set_reg_password ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-reg-password"/>
+    <keyword type="function" name="osinfo_install_config_get_reg_password ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-reg-password"/>
+    <keyword type="function" name="osinfo_install_config_set_reg_product_key ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-reg-product-key"/>
+    <keyword type="function" name="osinfo_install_config_get_reg_product_key ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-reg-product-key"/>
+    <keyword type="function" name="osinfo_install_config_set_hostname ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-hostname"/>
+    <keyword type="function" name="osinfo_install_config_get_hostname ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-hostname"/>
+    <keyword type="function" name="osinfo_install_config_set_target_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-target-disk"/>
+    <keyword type="function" name="osinfo_install_config_get_target_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-target-disk"/>
+    <keyword type="function" name="osinfo_install_config_set_script_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-script-disk"/>
+    <keyword type="function" name="osinfo_install_config_get_script_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-script-disk"/>
+    <keyword type="function" name="osinfo_install_config_set_avatar_location ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-avatar-location"/>
+    <keyword type="function" name="osinfo_install_config_get_avatar_location ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-avatar-location"/>
+    <keyword type="function" name="osinfo_install_config_set_avatar_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-avatar-disk"/>
+    <keyword type="function" name="osinfo_install_config_get_avatar_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-avatar-disk"/>
+    <keyword type="function" name="osinfo_install_config_set_pre_install_drivers_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-disk"/>
+    <keyword type="function" name="osinfo_install_config_get_pre_install_drivers_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-pre-install-drivers-disk"/>
+    <keyword type="function" name="osinfo_install_config_set_pre_install_drivers_location ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-location"/>
+    <keyword type="function" name="osinfo_install_config_get_pre_install_drivers_location ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-pre-install-drivers-location"/>
+    <keyword type="function" name="osinfo_install_config_set_post_install_drivers_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-disk"/>
+    <keyword type="function" name="osinfo_install_config_get_post_install_drivers_disk ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-post-install-drivers-disk"/>
+    <keyword type="function" name="osinfo_install_config_set_post_install_drivers_location ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-location"/>
+    <keyword type="function" name="osinfo_install_config_get_post_install_drivers_location ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-post-install-drivers-location"/>
+    <keyword type="function" name="osinfo_install_config_set_driver_signing ()" link="OsinfoInstallConfig.html#osinfo-install-config-set-driver-signing"/>
+    <keyword type="function" name="osinfo_install_config_get_driver_signing ()" link="OsinfoInstallConfig.html#osinfo-install-config-get-driver-signing"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HARDWARE-ARCH:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-TIMEZONE:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-LANGUAGE:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-KEYBOARD:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-ADMIN-PASSWORD:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-PASSWORD:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-LOGIN:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-REALNAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-AUTOLOGIN:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-ADMIN:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-LOGIN:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PASSWORD:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PRODUCTKEY:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_HOSTNAME" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HOSTNAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-TARGET-DISK:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-SCRIPT-DISK:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-LOCATION:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-DISK:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_DISK" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-PRE-INSTALL-DRIVERS-DISK:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_PRE_INSTALL_DRIVERS_LOCATION" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-PRE-INSTALL-DRIVERS-LOCATION:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_DISK" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-POST-INSTALL-DRIVERS-DISK:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_POST_INSTALL_DRIVERS_LOCATION" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-POST-INSTALL-DRIVERS-LOCATION:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING" link="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-DRIVER-SIGNING:CAPS"/>
+    <keyword type="function" name="osinfo_install_config_param_new ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-new"/>
+    <keyword type="function" name="osinfo_install_config_param_get_name ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-get-name"/>
+    <keyword type="function" name="osinfo_install_config_param_get_policy ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-get-policy"/>
+    <keyword type="function" name="osinfo_install_config_param_is_required ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-is-required"/>
+    <keyword type="function" name="osinfo_install_config_param_is_optional ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-is-optional"/>
+    <keyword type="function" name="osinfo_install_config_param_set_value_map ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-set-value-map"/>
+    <keyword type="function" name="osinfo_install_config_param_get_value_map ()" link="OsinfoInstallConfigParam.html#osinfo-install-config-param-get-value-map"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PARAM_PROP_DATAMAP" link="OsinfoInstallConfigParam.html#OSINFO-INSTALL-CONFIG-PARAM-PROP-DATAMAP:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PARAM_PROP_NAME" link="OsinfoInstallConfigParam.html#OSINFO-INSTALL-CONFIG-PARAM-PROP-NAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_CONFIG_PARAM_PROP_POLICY" link="OsinfoInstallConfigParam.html#OSINFO-INSTALL-CONFIG-PARAM-PROP-POLICY:CAPS"/>
+    <keyword type="enum" name="enum OsinfoInstallConfigParamPolicy" link="OsinfoInstallConfigParam.html#OsinfoInstallConfigParamPolicy"/>
+    <keyword type="property" name="The “name” property" link="OsinfoInstallConfigParam.html#OsinfoInstallConfigParam--name"/>
+    <keyword type="property" name="The “policy” property" link="OsinfoInstallConfigParam.html#OsinfoInstallConfigParam--policy"/>
+    <keyword type="property" name="The “value-map” property" link="OsinfoInstallConfigParam.html#OsinfoInstallConfigParam--value-map"/>
+    <keyword type="function" name="osinfo_install_config_paramlist_new ()" link="OsinfoInstallConfigParamList.html#osinfo-install-config-paramlist-new"/>
+    <keyword type="function" name="osinfo_install_script_new ()" link="OsinfoInstallScript.html#osinfo-install-script-new"/>
+    <keyword type="function" name="osinfo_install_script_new_uri ()" link="OsinfoInstallScript.html#osinfo-install-script-new-uri"/>
+    <keyword type="function" name="osinfo_install_script_new_data ()" link="OsinfoInstallScript.html#osinfo-install-script-new-data"/>
+    <keyword type="function" name="osinfo_install_script_get_template_uri ()" link="OsinfoInstallScript.html#osinfo-install-script-get-template-uri"/>
+    <keyword type="function" name="osinfo_install_script_get_template_data ()" link="OsinfoInstallScript.html#osinfo-install-script-get-template-data"/>
+    <keyword type="function" name="osinfo_install_script_get_profile ()" link="OsinfoInstallScript.html#osinfo-install-script-get-profile"/>
+    <keyword type="function" name="osinfo_install_script_get_product_key_format ()" link="OsinfoInstallScript.html#osinfo-install-script-get-product-key-format"/>
+    <keyword type="function" name="osinfo_install_script_set_output_prefix ()" link="OsinfoInstallScript.html#osinfo-install-script-set-output-prefix"/>
+    <keyword type="function" name="osinfo_install_script_get_output_prefix ()" link="OsinfoInstallScript.html#osinfo-install-script-get-output-prefix"/>
+    <keyword type="function" name="osinfo_install_script_get_output_filename ()" link="OsinfoInstallScript.html#osinfo-install-script-get-output-filename"/>
+    <keyword type="function" name="osinfo_install_script_get_expected_filename ()" link="OsinfoInstallScript.html#osinfo-install-script-get-expected-filename"/>
+    <keyword type="function" name="osinfo_install_script_get_avatar_format ()" link="OsinfoInstallScript.html#osinfo-install-script-get-avatar-format"/>
+    <keyword type="function" name="osinfo_install_script_generate_async ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-async"/>
+    <keyword type="function" name="osinfo_install_script_generate_finish ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-finish"/>
+    <keyword type="function" name="osinfo_install_script_generate ()" link="OsinfoInstallScript.html#osinfo-install-script-generate"/>
+    <keyword type="function" name="osinfo_install_script_generate_output_async ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-output-async"/>
+    <keyword type="function" name="osinfo_install_script_generate_output_finish ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-output-finish"/>
+    <keyword type="function" name="osinfo_install_script_generate_output ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-output"/>
+    <keyword type="function" name="osinfo_install_script_generate_for_media_async ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-for-media-async" since="0.2.12"/>
+    <keyword type="function" name="osinfo_install_script_generate_for_media_finish ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-for-media-finish" since="0.2.12"/>
+    <keyword type="function" name="osinfo_install_script_generate_for_media ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-for-media" since="0.2.12"/>
+    <keyword type="function" name="osinfo_install_script_generate_output_for_media_async ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-media-async" since="0.2.12"/>
+    <keyword type="function" name="osinfo_install_script_generate_output_for_media_finish ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-media-finish" since="0.2.12"/>
+    <keyword type="function" name="osinfo_install_script_generate_output_for_media ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-media" since="0.2.12"/>
+    <keyword type="function" name="osinfo_install_script_generate_command_line ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-command-line"/>
+    <keyword type="function" name="osinfo_install_script_generate_command_line_for_media ()" link="OsinfoInstallScript.html#osinfo-install-script-generate-command-line-for-media"/>
+    <keyword type="function" name="osinfo_install_script_has_config_param ()" link="OsinfoInstallScript.html#osinfo-install-script-has-config-param"/>
+    <keyword type="function" name="osinfo_install_script_has_config_param_name ()" link="OsinfoInstallScript.html#osinfo-install-script-has-config-param-name"/>
+    <keyword type="function" name="osinfo_install_script_get_config_param ()" link="OsinfoInstallScript.html#osinfo-install-script-get-config-param"/>
+    <keyword type="function" name="osinfo_install_script_get_config_param_list ()" link="OsinfoInstallScript.html#osinfo-install-script-get-config-param-list"/>
+    <keyword type="function" name="osinfo_install_script_get_config_params ()" link="OsinfoInstallScript.html#osinfo-install-script-get-config-params"/>
+    <keyword type="function" name="osinfo_install_script_get_path_format ()" link="OsinfoInstallScript.html#osinfo-install-script-get-path-format"/>
+    <keyword type="function" name="osinfo_install_script_get_can_pre_install_drivers ()" link="OsinfoInstallScript.html#osinfo-install-script-get-can-pre-install-drivers"/>
+    <keyword type="function" name="osinfo_install_script_get_can_post_install_drivers ()" link="OsinfoInstallScript.html#osinfo-install-script-get-can-post-install-drivers"/>
+    <keyword type="function" name="osinfo_install_script_get_pre_install_drivers_signing_req ()" link="OsinfoInstallScript.html#osinfo-install-script-get-pre-install-drivers-signing-req"/>
+    <keyword type="function" name="osinfo_install_script_get_post_install_drivers_signing_req ()" link="OsinfoInstallScript.html#osinfo-install-script-get-post-install-drivers-signing-req"/>
+    <keyword type="function" name="osinfo_install_script_get_injection_methods ()" link="OsinfoInstallScript.html#osinfo-install-script-get-injection-methods"/>
+    <keyword type="function" name="osinfo_install_script_get_needs_internet ()" link="OsinfoInstallScript.html#osinfo-install-script-get-needs-internet"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROFILE_JEOS" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROFILE-JEOS:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROFILE_DESKTOP" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROFILE-DESKTOP:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_URI" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-TEMPLATE-URI:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_TEMPLATE_DATA" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-TEMPLATE-DATA:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_PROFILE" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-PROFILE:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_PRODUCT_KEY_FORMAT" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-PRODUCT-KEY-FORMAT:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_EXPECTED_FILENAME" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-EXPECTED-FILENAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_PATH_FORMAT" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-PATH-FORMAT:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_CAN_PRE_INSTALL_DRIVERS" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-CAN-PRE-INSTALL-DRIVERS:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_CAN_POST_INSTALL_DRIVERS" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-CAN-POST-INSTALL-DRIVERS:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_NEEDS_INTERNET" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-NEEDS-INTERNET:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-PRE-INSTALL-DRIVERS-SIGNING-REQ:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-POST-INSTALL-DRIVERS-SIGNING-REQ:CAPS"/>
+    <keyword type="macro" name="OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-PROP-INJECTION-METHOD:CAPS"/>
+    <keyword type="enum" name="enum OsinfoPathFormat" link="OsinfoInstallScript.html#OsinfoPathFormat"/>
+    <keyword type="enum" name="enum OsinfoDeviceDriverSigningReq" link="OsinfoInstallScript.html#OsinfoDeviceDriverSigningReq"/>
+    <keyword type="enum" name="enum OsinfoInstallScriptInjectionMethod" link="OsinfoInstallScript.html#OsinfoInstallScriptInjectionMethod"/>
+    <keyword type="struct" name="OsinfoMedia" link="OsinfoInstallScript.html#OsinfoMedia-struct"/>
+    <keyword type="struct" name="OsinfoOs" link="OsinfoInstallScript.html#OsinfoOs-struct"/>
+    <keyword type="property" name="The “application-id” property" link="OsinfoInstallScript.html#OsinfoMedia--application-id"/>
+    <keyword type="property" name="The “architecture” property" link="OsinfoInstallScript.html#OsinfoMedia--architecture"/>
+    <keyword type="property" name="The “initrd-path” property" link="OsinfoInstallScript.html#OsinfoMedia--initrd-path"/>
+    <keyword type="property" name="The “installer” property" link="OsinfoInstallScript.html#OsinfoMedia--installer"/>
+    <keyword type="property" name="The “installer-reboots” property" link="OsinfoInstallScript.html#OsinfoMedia--installer-reboots"/>
+    <keyword type="property" name="The “kernel-path” property" link="OsinfoInstallScript.html#OsinfoMedia--kernel-path"/>
+    <keyword type="property" name="The “languages” property" link="OsinfoInstallScript.html#OsinfoMedia--languages"/>
+    <keyword type="property" name="The “live” property" link="OsinfoInstallScript.html#OsinfoMedia--live"/>
+    <keyword type="property" name="The “os” property" link="OsinfoInstallScript.html#OsinfoMedia--os"/>
+    <keyword type="property" name="The “publisher-id” property" link="OsinfoInstallScript.html#OsinfoMedia--publisher-id"/>
+    <keyword type="property" name="The “system-id” property" link="OsinfoInstallScript.html#OsinfoMedia--system-id"/>
+    <keyword type="property" name="The “url” property" link="OsinfoInstallScript.html#OsinfoMedia--url"/>
+    <keyword type="property" name="The “volume-id” property" link="OsinfoInstallScript.html#OsinfoMedia--volume-id"/>
+    <keyword type="property" name="The “volume-size” property" link="OsinfoInstallScript.html#OsinfoMedia--volume-size"/>
+    <keyword type="property" name="The “distro” property" link="OsinfoInstallScript.html#OsinfoOs--distro"/>
+    <keyword type="property" name="The “family” property" link="OsinfoInstallScript.html#OsinfoOs--family"/>
+    <keyword type="property" name="The “avatar-format” property" link="OsinfoInstallScript.html#OsinfoInstallScript--avatar-format"/>
+    <keyword type="property" name="The “path-format” property" link="OsinfoInstallScript.html#OsinfoInstallScript--path-format"/>
+    <keyword type="property" name="The “product-key-format” property" link="OsinfoInstallScript.html#OsinfoInstallScript--product-key-format"/>
+    <keyword type="property" name="The “profile” property" link="OsinfoInstallScript.html#OsinfoInstallScript--profile"/>
+    <keyword type="property" name="The “template-data” property" link="OsinfoInstallScript.html#OsinfoInstallScript--template-data"/>
+    <keyword type="property" name="The “template-uri” property" link="OsinfoInstallScript.html#OsinfoInstallScript--template-uri"/>
+    <keyword type="function" name="osinfo_install_scriptlist_new ()" link="OsinfoInstallScriptList.html#osinfo-install-scriptlist-new"/>
+    <keyword type="function" name="osinfo_install_scriptlist_new_copy ()" link="OsinfoInstallScriptList.html#osinfo-install-scriptlist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_install_scriptlist_new_filtered ()" link="OsinfoInstallScriptList.html#osinfo-install-scriptlist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_install_scriptlist_new_intersection ()" link="OsinfoInstallScriptList.html#osinfo-install-scriptlist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_install_scriptlist_new_union ()" link="OsinfoInstallScriptList.html#osinfo-install-scriptlist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_list_get_element_type ()" link="OsinfoList.html#osinfo-list-get-element-type"/>
+    <keyword type="function" name="osinfo_list_get_length ()" link="OsinfoList.html#osinfo-list-get-length"/>
+    <keyword type="function" name="osinfo_list_get_nth ()" link="OsinfoList.html#osinfo-list-get-nth"/>
+    <keyword type="function" name="osinfo_list_find_by_id ()" link="OsinfoList.html#osinfo-list-find-by-id"/>
+    <keyword type="function" name="osinfo_list_get_elements ()" link="OsinfoList.html#osinfo-list-get-elements"/>
+    <keyword type="function" name="osinfo_list_add ()" link="OsinfoList.html#osinfo-list-add"/>
+    <keyword type="function" name="osinfo_list_add_filtered ()" link="OsinfoList.html#osinfo-list-add-filtered"/>
+    <keyword type="function" name="osinfo_list_add_intersection ()" link="OsinfoList.html#osinfo-list-add-intersection"/>
+    <keyword type="function" name="osinfo_list_add_union ()" link="OsinfoList.html#osinfo-list-add-union"/>
+    <keyword type="function" name="osinfo_list_add_all ()" link="OsinfoList.html#osinfo-list-add-all"/>
+    <keyword type="function" name="osinfo_list_new_copy ()" link="OsinfoList.html#osinfo-list-new-copy"/>
+    <keyword type="function" name="osinfo_list_new_filtered ()" link="OsinfoList.html#osinfo-list-new-filtered"/>
+    <keyword type="function" name="osinfo_list_new_intersection ()" link="OsinfoList.html#osinfo-list-new-intersection"/>
+    <keyword type="function" name="osinfo_list_new_union ()" link="OsinfoList.html#osinfo-list-new-union"/>
+    <keyword type="property" name="The “element-type” property" link="OsinfoList.html#OsinfoList--element-type"/>
+    <keyword type="function" name="osinfo_loader_new ()" link="OsinfoLoader.html#osinfo-loader-new"/>
+    <keyword type="function" name="osinfo_loader_get_db ()" link="OsinfoLoader.html#osinfo-loader-get-db"/>
+    <keyword type="function" name="osinfo_loader_process_path ()" link="OsinfoLoader.html#osinfo-loader-process-path"/>
+    <keyword type="function" name="osinfo_loader_process_uri ()" link="OsinfoLoader.html#osinfo-loader-process-uri"/>
+    <keyword type="function" name="osinfo_loader_process_default_path ()" link="OsinfoLoader.html#osinfo-loader-process-default-path"/>
+    <keyword type="function" name="osinfo_loader_process_system_path ()" link="OsinfoLoader.html#osinfo-loader-process-system-path"/>
+    <keyword type="function" name="osinfo_loader_process_local_path ()" link="OsinfoLoader.html#osinfo-loader-process-local-path"/>
+    <keyword type="function" name="osinfo_loader_process_user_path ()" link="OsinfoLoader.html#osinfo-loader-process-user-path"/>
+    <keyword type="function" name="osinfo_os_new ()" link="OsinfoOs.html#osinfo-os-new"/>
+    <keyword type="function" name="osinfo_os_get_devices ()" link="OsinfoOs.html#osinfo-os-get-devices"/>
+    <keyword type="function" name="osinfo_os_get_all_devices ()" link="OsinfoOs.html#osinfo-os-get-all-devices"/>
+    <keyword type="function" name="osinfo_os_get_devices_by_property ()" link="OsinfoOs.html#osinfo-os-get-devices-by-property"/>
+    <keyword type="function" name="osinfo_os_get_device_links ()" link="OsinfoOs.html#osinfo-os-get-device-links"/>
+    <keyword type="function" name="osinfo_os_add_device ()" link="OsinfoOs.html#osinfo-os-add-device"/>
+    <keyword type="function" name="osinfo_os_get_family ()" link="OsinfoOs.html#osinfo-os-get-family"/>
+    <keyword type="function" name="osinfo_os_get_distro ()" link="OsinfoOs.html#osinfo-os-get-distro"/>
+    <keyword type="function" name="osinfo_os_get_release_status ()" link="OsinfoOs.html#osinfo-os-get-release-status"/>
+    <keyword type="function" name="osinfo_os_get_media_list ()" link="OsinfoOs.html#osinfo-os-get-media-list"/>
+    <keyword type="function" name="osinfo_os_add_media ()" link="OsinfoOs.html#osinfo-os-add-media"/>
+    <keyword type="function" name="osinfo_os_get_tree_list ()" link="OsinfoOs.html#osinfo-os-get-tree-list"/>
+    <keyword type="function" name="osinfo_os_add_tree ()" link="OsinfoOs.html#osinfo-os-add-tree"/>
+    <keyword type="function" name="osinfo_os_get_variant_list ()" link="OsinfoOs.html#osinfo-os-get-variant-list"/>
+    <keyword type="function" name="osinfo_os_add_variant ()" link="OsinfoOs.html#osinfo-os-add-variant"/>
+    <keyword type="function" name="osinfo_os_get_minimum_resources ()" link="OsinfoOs.html#osinfo-os-get-minimum-resources"/>
+    <keyword type="function" name="osinfo_os_get_recommended_resources ()" link="OsinfoOs.html#osinfo-os-get-recommended-resources"/>
+    <keyword type="function" name="osinfo_os_add_minimum_resources ()" link="OsinfoOs.html#osinfo-os-add-minimum-resources"/>
+    <keyword type="function" name="osinfo_os_add_recommended_resources ()" link="OsinfoOs.html#osinfo-os-add-recommended-resources"/>
+    <keyword type="function" name="osinfo_os_find_install_script ()" link="OsinfoOs.html#osinfo-os-find-install-script"/>
+    <keyword type="function" name="osinfo_os_get_install_script_list ()" link="OsinfoOs.html#osinfo-os-get-install-script-list"/>
+    <keyword type="function" name="osinfo_os_add_install_script ()" link="OsinfoOs.html#osinfo-os-add-install-script"/>
+    <keyword type="function" name="osinfo_os_get_device_drivers ()" link="OsinfoOs.html#osinfo-os-get-device-drivers"/>
+    <keyword type="function" name="osinfo_os_add_device_driver ()" link="OsinfoOs.html#osinfo-os-add-device-driver"/>
+    <keyword type="macro" name="OSINFO_OS_PROP_FAMILY" link="OsinfoOs.html#OSINFO-OS-PROP-FAMILY:CAPS"/>
+    <keyword type="macro" name="OSINFO_OS_PROP_DISTRO" link="OsinfoOs.html#OSINFO-OS-PROP-DISTRO:CAPS"/>
+    <keyword type="macro" name="OSINFO_OS_PROP_RELEASE_STATUS" link="OsinfoOs.html#OSINFO-OS-PROP-RELEASE-STATUS:CAPS"/>
+    <keyword type="enum" name="enum OsinfoReleaseStatus" link="OsinfoOs.html#OsinfoReleaseStatus"/>
+    <keyword type="property" name="The “distro” property" link="OsinfoOs.html#OsinfoOs--distro"/>
+    <keyword type="property" name="The “family” property" link="OsinfoOs.html#OsinfoOs--family"/>
+    <keyword type="function" name="osinfo_oslist_new ()" link="OsinfoOsList.html#osinfo-oslist-new"/>
+    <keyword type="function" name="osinfo_oslist_new_copy ()" link="OsinfoOsList.html#osinfo-oslist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_oslist_new_filtered ()" link="OsinfoOsList.html#osinfo-oslist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_oslist_new_intersection ()" link="OsinfoOsList.html#osinfo-oslist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_oslist_new_union ()" link="OsinfoOsList.html#osinfo-oslist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_os_variant_new ()" link="OsinfoOsVariant.html#osinfo-os-variant-new"/>
+    <keyword type="function" name="osinfo_os_variant_get_name ()" link="OsinfoOsVariant.html#osinfo-os-variant-get-name"/>
+    <keyword type="macro" name="OSINFO_OS_VARIANT_PROP_NAME" link="OsinfoOsVariant.html#OSINFO-OS-VARIANT-PROP-NAME:CAPS"/>
+    <keyword type="property" name="The “name” property" link="OsinfoOsVariant.html#OsinfoOsVariant--name"/>
+    <keyword type="function" name="osinfo_os_variantlist_new ()" link="OsinfoOsVariantList.html#osinfo-os-variantlist-new"/>
+    <keyword type="function" name="osinfo_product_get_related ()" link="OsinfoProduct.html#osinfo-product-get-related"/>
+    <keyword type="function" name="osinfo_product_add_related ()" link="OsinfoProduct.html#osinfo-product-add-related"/>
+    <keyword type="function" name="osinfo_product_get_vendor ()" link="OsinfoProduct.html#osinfo-product-get-vendor"/>
+    <keyword type="function" name="osinfo_product_get_version ()" link="OsinfoProduct.html#osinfo-product-get-version"/>
+    <keyword type="function" name="osinfo_product_get_short_id ()" link="OsinfoProduct.html#osinfo-product-get-short-id"/>
+    <keyword type="function" name="osinfo_product_get_name ()" link="OsinfoProduct.html#osinfo-product-get-name"/>
+    <keyword type="function" name="osinfo_product_get_codename ()" link="OsinfoProduct.html#osinfo-product-get-codename"/>
+    <keyword type="function" name="osinfo_product_get_release_date_string ()" link="OsinfoProduct.html#osinfo-product-get-release-date-string"/>
+    <keyword type="function" name="osinfo_product_get_eol_date_string ()" link="OsinfoProduct.html#osinfo-product-get-eol-date-string"/>
+    <keyword type="function" name="osinfo_product_get_release_date ()" link="OsinfoProduct.html#osinfo-product-get-release-date"/>
+    <keyword type="function" name="osinfo_product_get_eol_date ()" link="OsinfoProduct.html#osinfo-product-get-eol-date"/>
+    <keyword type="function" name="osinfo_product_get_logo ()" link="OsinfoProduct.html#osinfo-product-get-logo"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_VENDOR" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-VENDOR:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_VERSION" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-VERSION:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_SHORT_ID" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-SHORT-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_NAME" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-NAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_RELEASE_DATE" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-RELEASE-DATE:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_EOL_DATE" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-EOL-DATE:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_CODENAME" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-CODENAME:CAPS"/>
+    <keyword type="macro" name="OSINFO_PRODUCT_PROP_LOGO" link="OsinfoProduct.html#OSINFO-PRODUCT-PROP-LOGO:CAPS"/>
+    <keyword type="enum" name="enum OsinfoProductRelationship" link="OsinfoProduct.html#OsinfoProductRelationship"/>
+    <keyword type="property" name="The “codename” property" link="OsinfoProduct.html#OsinfoProduct--codename"/>
+    <keyword type="property" name="The “logo” property" link="OsinfoProduct.html#OsinfoProduct--logo"/>
+    <keyword type="property" name="The “name” property" link="OsinfoProduct.html#OsinfoProduct--name"/>
+    <keyword type="property" name="The “short-id” property" link="OsinfoProduct.html#OsinfoProduct--short-id"/>
+    <keyword type="property" name="The “vendor” property" link="OsinfoProduct.html#OsinfoProduct--vendor"/>
+    <keyword type="property" name="The “version” property" link="OsinfoProduct.html#OsinfoProduct--version"/>
+    <keyword type="function" name="osinfo_productfilter_new ()" link="OsinfoProductFilter.html#osinfo-productfilter-new"/>
+    <keyword type="function" name="osinfo_productfilter_add_product_constraint ()" link="OsinfoProductFilter.html#osinfo-productfilter-add-product-constraint"/>
+    <keyword type="function" name="osinfo_productfilter_clear_product_constraint ()" link="OsinfoProductFilter.html#osinfo-productfilter-clear-product-constraint"/>
+    <keyword type="function" name="osinfo_productfilter_clear_product_constraints ()" link="OsinfoProductFilter.html#osinfo-productfilter-clear-product-constraints"/>
+    <keyword type="function" name="osinfo_productfilter_get_product_constraint_values ()" link="OsinfoProductFilter.html#osinfo-productfilter-get-product-constraint-values"/>
+    <keyword type="function" name="osinfo_productfilter_add_support_date_constraint ()" link="OsinfoProductFilter.html#osinfo-productfilter-add-support-date-constraint"/>
+    <keyword type="function" name="osinfo_productlist_new ()" link="OsinfoProductList.html#osinfo-productlist-new"/>
+    <keyword type="function" name="osinfo_productlist_new_copy ()" link="OsinfoProductList.html#osinfo-productlist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_productlist_new_filtered ()" link="OsinfoProductList.html#osinfo-productlist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_productlist_new_intersection ()" link="OsinfoProductList.html#osinfo-productlist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_productlist_new_union ()" link="OsinfoProductList.html#osinfo-productlist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_platform_new ()" link="OsinfoPlatform.html#osinfo-platform-new"/>
+    <keyword type="function" name="osinfo_platform_get_devices ()" link="OsinfoPlatform.html#osinfo-platform-get-devices"/>
+    <keyword type="function" name="osinfo_platform_get_all_devices ()" link="OsinfoPlatform.html#osinfo-platform-get-all-devices"/>
+    <keyword type="function" name="osinfo_platform_get_device_links ()" link="OsinfoPlatform.html#osinfo-platform-get-device-links"/>
+    <keyword type="function" name="osinfo_platform_add_device ()" link="OsinfoPlatform.html#osinfo-platform-add-device"/>
+    <keyword type="function" name="osinfo_platformlist_new ()" link="OsinfoPlatformList.html#osinfo-platformlist-new"/>
+    <keyword type="function" name="osinfo_platformlist_new_copy ()" link="OsinfoPlatformList.html#osinfo-platformlist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_platformlist_new_filtered ()" link="OsinfoPlatformList.html#osinfo-platformlist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_platformlist_new_intersection ()" link="OsinfoPlatformList.html#osinfo-platformlist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_platformlist_new_union ()" link="OsinfoPlatformList.html#osinfo-platformlist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_media_error_quark ()" link="OsinfoMedia.html#osinfo-media-error-quark"/>
+    <keyword type="function" name="osinfo_media_new ()" link="OsinfoMedia.html#osinfo-media-new"/>
+    <keyword type="function" name="osinfo_media_create_from_location ()" link="OsinfoMedia.html#osinfo-media-create-from-location"/>
+    <keyword type="function" name="osinfo_media_create_from_location_async ()" link="OsinfoMedia.html#osinfo-media-create-from-location-async"/>
+    <keyword type="function" name="osinfo_media_create_from_location_finish ()" link="OsinfoMedia.html#osinfo-media-create-from-location-finish"/>
+    <keyword type="function" name="osinfo_media_get_architecture ()" link="OsinfoMedia.html#osinfo-media-get-architecture"/>
+    <keyword type="function" name="osinfo_media_get_url ()" link="OsinfoMedia.html#osinfo-media-get-url"/>
+    <keyword type="function" name="osinfo_media_get_volume_id ()" link="OsinfoMedia.html#osinfo-media-get-volume-id"/>
+    <keyword type="function" name="osinfo_media_get_system_id ()" link="OsinfoMedia.html#osinfo-media-get-system-id"/>
+    <keyword type="function" name="osinfo_media_get_publisher_id ()" link="OsinfoMedia.html#osinfo-media-get-publisher-id"/>
+    <keyword type="function" name="osinfo_media_get_application_id ()" link="OsinfoMedia.html#osinfo-media-get-application-id"/>
+    <keyword type="function" name="osinfo_media_get_kernel_path ()" link="OsinfoMedia.html#osinfo-media-get-kernel-path"/>
+    <keyword type="function" name="osinfo_media_get_initrd_path ()" link="OsinfoMedia.html#osinfo-media-get-initrd-path"/>
+    <keyword type="function" name="osinfo_media_get_os ()" link="OsinfoMedia.html#osinfo-media-get-os"/>
+    <keyword type="function" name="osinfo_media_get_os_variants ()" link="OsinfoMedia.html#osinfo-media-get-os-variants"/>
+    <keyword type="function" name="osinfo_media_get_languages ()" link="OsinfoMedia.html#osinfo-media-get-languages"/>
+    <keyword type="function" name="osinfo_media_get_installer ()" link="OsinfoMedia.html#osinfo-media-get-installer"/>
+    <keyword type="function" name="osinfo_media_get_live ()" link="OsinfoMedia.html#osinfo-media-get-live"/>
+    <keyword type="function" name="osinfo_media_get_installer_reboots ()" link="OsinfoMedia.html#osinfo-media-get-installer-reboots"/>
+    <keyword type="function" name="osinfo_media_get_volume_size ()" link="OsinfoMedia.html#osinfo-media-get-volume-size"/>
+    <keyword type="macro" name="OSINFO_MEDIA_ERROR" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR:CAPS"/>
+    <keyword type="enum" name="enum OsinfoMediaError" link="OsinfoMedia.html#OsinfoMediaError"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_ARCHITECTURE" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-ARCHITECTURE:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_URL" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-URL:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_VOLUME_ID" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-VOLUME-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_SYSTEM_ID" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-SYSTEM-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_PUBLISHER_ID" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-PUBLISHER-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_APPLICATION_ID" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-APPLICATION-ID:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_KERNEL" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-KERNEL:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_INITRD" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-INITRD:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_LIVE" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-LIVE:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_INSTALLER" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-INSTALLER:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_INSTALLER_REBOOTS" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-INSTALLER-REBOOTS:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_LANG" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-LANG:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_LANG_REGEX" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-LANG-REGEX:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_LANG_MAP" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-LANG-MAP:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_VARIANT" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-VARIANT:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_VOLUME_SIZE" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-VOLUME-SIZE:CAPS"/>
+    <keyword type="property" name="The “application-id” property" link="OsinfoMedia.html#OsinfoMedia--application-id"/>
+    <keyword type="property" name="The “architecture” property" link="OsinfoMedia.html#OsinfoMedia--architecture"/>
+    <keyword type="property" name="The “initrd-path” property" link="OsinfoMedia.html#OsinfoMedia--initrd-path"/>
+    <keyword type="property" name="The “installer” property" link="OsinfoMedia.html#OsinfoMedia--installer"/>
+    <keyword type="property" name="The “installer-reboots” property" link="OsinfoMedia.html#OsinfoMedia--installer-reboots"/>
+    <keyword type="property" name="The “kernel-path” property" link="OsinfoMedia.html#OsinfoMedia--kernel-path"/>
+    <keyword type="property" name="The “languages” property" link="OsinfoMedia.html#OsinfoMedia--languages"/>
+    <keyword type="property" name="The “live” property" link="OsinfoMedia.html#OsinfoMedia--live"/>
+    <keyword type="property" name="The “os” property" link="OsinfoMedia.html#OsinfoMedia--os"/>
+    <keyword type="property" name="The “publisher-id” property" link="OsinfoMedia.html#OsinfoMedia--publisher-id"/>
+    <keyword type="property" name="The “system-id” property" link="OsinfoMedia.html#OsinfoMedia--system-id"/>
+    <keyword type="property" name="The “url” property" link="OsinfoMedia.html#OsinfoMedia--url"/>
+    <keyword type="property" name="The “volume-id” property" link="OsinfoMedia.html#OsinfoMedia--volume-id"/>
+    <keyword type="property" name="The “volume-size” property" link="OsinfoMedia.html#OsinfoMedia--volume-size"/>
+    <keyword type="function" name="osinfo_medialist_new ()" link="OsinfoMediaList.html#osinfo-medialist-new"/>
+    <keyword type="function" name="osinfo_medialist_new_copy ()" link="OsinfoMediaList.html#osinfo-medialist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_medialist_new_filtered ()" link="OsinfoMediaList.html#osinfo-medialist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_medialist_new_intersection ()" link="OsinfoMediaList.html#osinfo-medialist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_medialist_new_union ()" link="OsinfoMediaList.html#osinfo-medialist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_resources_new ()" link="OsinfoResources.html#osinfo-resources-new"/>
+    <keyword type="function" name="osinfo_resources_get_architecture ()" link="OsinfoResources.html#osinfo-resources-get-architecture"/>
+    <keyword type="function" name="osinfo_resources_get_n_cpus ()" link="OsinfoResources.html#osinfo-resources-get-n-cpus"/>
+    <keyword type="function" name="osinfo_resources_get_cpu ()" link="OsinfoResources.html#osinfo-resources-get-cpu"/>
+    <keyword type="function" name="osinfo_resources_get_ram ()" link="OsinfoResources.html#osinfo-resources-get-ram"/>
+    <keyword type="function" name="osinfo_resources_get_storage ()" link="OsinfoResources.html#osinfo-resources-get-storage"/>
+    <keyword type="function" name="osinfo_resources_set_n_cpus ()" link="OsinfoResources.html#osinfo-resources-set-n-cpus"/>
+    <keyword type="function" name="osinfo_resources_set_cpu ()" link="OsinfoResources.html#osinfo-resources-set-cpu"/>
+    <keyword type="function" name="osinfo_resources_set_ram ()" link="OsinfoResources.html#osinfo-resources-set-ram"/>
+    <keyword type="function" name="osinfo_resources_set_storage ()" link="OsinfoResources.html#osinfo-resources-set-storage"/>
+    <keyword type="macro" name="OSINFO_ARCHITECTURE_ALL" link="OsinfoResources.html#OSINFO-ARCHITECTURE-ALL:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEGAHERTZ" link="OsinfoResources.html#OSINFO-MEGAHERTZ:CAPS"/>
+    <keyword type="macro" name="OSINFO_KIBIBYTES" link="OsinfoResources.html#OSINFO-KIBIBYTES:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEBIBYTES" link="OsinfoResources.html#OSINFO-MEBIBYTES:CAPS"/>
+    <keyword type="macro" name="OSINFO_GIBIBYTES" link="OsinfoResources.html#OSINFO-GIBIBYTES:CAPS"/>
+    <keyword type="macro" name="OSINFO_RESOURCES_PROP_ARCHITECTURE" link="OsinfoResources.html#OSINFO-RESOURCES-PROP-ARCHITECTURE:CAPS"/>
+    <keyword type="macro" name="OSINFO_RESOURCES_PROP_CPU" link="OsinfoResources.html#OSINFO-RESOURCES-PROP-CPU:CAPS"/>
+    <keyword type="macro" name="OSINFO_RESOURCES_PROP_N_CPUS" link="OsinfoResources.html#OSINFO-RESOURCES-PROP-N-CPUS:CAPS"/>
+    <keyword type="macro" name="OSINFO_RESOURCES_PROP_RAM" link="OsinfoResources.html#OSINFO-RESOURCES-PROP-RAM:CAPS"/>
+    <keyword type="macro" name="OSINFO_RESOURCES_PROP_STORAGE" link="OsinfoResources.html#OSINFO-RESOURCES-PROP-STORAGE:CAPS"/>
+    <keyword type="property" name="The “architecture” property" link="OsinfoResources.html#OsinfoResources--architecture"/>
+    <keyword type="property" name="The “cpu” property" link="OsinfoResources.html#OsinfoResources--cpu"/>
+    <keyword type="property" name="The “n-cpus” property" link="OsinfoResources.html#OsinfoResources--n-cpus"/>
+    <keyword type="property" name="The “ram” property" link="OsinfoResources.html#OsinfoResources--ram"/>
+    <keyword type="property" name="The “storage” property" link="OsinfoResources.html#OsinfoResources--storage"/>
+    <keyword type="function" name="osinfo_resourceslist_new ()" link="OsinfoResourcesList.html#osinfo-resourceslist-new"/>
+    <keyword type="function" name="osinfo_resourceslist_new_copy ()" link="OsinfoResourcesList.html#osinfo-resourceslist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_resourceslist_new_filtered ()" link="OsinfoResourcesList.html#osinfo-resourceslist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_resourceslist_new_intersection ()" link="OsinfoResourcesList.html#osinfo-resourceslist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_resourceslist_new_union ()" link="OsinfoResourcesList.html#osinfo-resourceslist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="function" name="osinfo_tree_error_quark ()" link="OsinfoTree.html#osinfo-tree-error-quark"/>
+    <keyword type="function" name="osinfo_tree_new ()" link="OsinfoTree.html#osinfo-tree-new"/>
+    <keyword type="function" name="osinfo_tree_create_from_location ()" link="OsinfoTree.html#osinfo-tree-create-from-location"/>
+    <keyword type="function" name="osinfo_tree_create_from_location_async ()" link="OsinfoTree.html#osinfo-tree-create-from-location-async"/>
+    <keyword type="function" name="osinfo_tree_create_from_location_finish ()" link="OsinfoTree.html#osinfo-tree-create-from-location-finish"/>
+    <keyword type="function" name="osinfo_tree_get_architecture ()" link="OsinfoTree.html#osinfo-tree-get-architecture"/>
+    <keyword type="function" name="osinfo_tree_get_url ()" link="OsinfoTree.html#osinfo-tree-get-url"/>
+    <keyword type="function" name="osinfo_tree_get_treeinfo_family ()" link="OsinfoTree.html#osinfo-tree-get-treeinfo-family"/>
+    <keyword type="function" name="osinfo_tree_get_treeinfo_variant ()" link="OsinfoTree.html#osinfo-tree-get-treeinfo-variant"/>
+    <keyword type="function" name="osinfo_tree_get_treeinfo_version ()" link="OsinfoTree.html#osinfo-tree-get-treeinfo-version"/>
+    <keyword type="function" name="osinfo_tree_get_treeinfo_arch ()" link="OsinfoTree.html#osinfo-tree-get-treeinfo-arch"/>
+    <keyword type="function" name="osinfo_tree_get_boot_iso_path ()" link="OsinfoTree.html#osinfo-tree-get-boot-iso-path"/>
+    <keyword type="function" name="osinfo_tree_get_kernel_path ()" link="OsinfoTree.html#osinfo-tree-get-kernel-path"/>
+    <keyword type="function" name="osinfo_tree_get_initrd_path ()" link="OsinfoTree.html#osinfo-tree-get-initrd-path"/>
+    <keyword type="macro" name="OSINFO_TREE_ERROR" link="OsinfoTree.html#OSINFO-TREE-ERROR:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_ARCHITECTURE" link="OsinfoTree.html#OSINFO-TREE-PROP-ARCHITECTURE:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_URL" link="OsinfoTree.html#OSINFO-TREE-PROP-URL:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_TREEINFO_FAMILY" link="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-FAMILY:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_TREEINFO_VARIANT" link="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-VARIANT:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_TREEINFO_VERSION" link="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-VERSION:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_TREEINFO_ARCH" link="OsinfoTree.html#OSINFO-TREE-PROP-TREEINFO-ARCH:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_BOOT_ISO" link="OsinfoTree.html#OSINFO-TREE-PROP-BOOT-ISO:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_KERNEL" link="OsinfoTree.html#OSINFO-TREE-PROP-KERNEL:CAPS"/>
+    <keyword type="macro" name="OSINFO_TREE_PROP_INITRD" link="OsinfoTree.html#OSINFO-TREE-PROP-INITRD:CAPS"/>
+    <keyword type="property" name="The “application-id” property" link="OsinfoTree.html#OsinfoTree--application-id"/>
+    <keyword type="property" name="The “architecture” property" link="OsinfoTree.html#OsinfoTree--architecture"/>
+    <keyword type="property" name="The “boot-iso-path” property" link="OsinfoTree.html#OsinfoTree--boot-iso-path"/>
+    <keyword type="property" name="The “initrd-path” property" link="OsinfoTree.html#OsinfoTree--initrd-path"/>
+    <keyword type="property" name="The “kernel-path” property" link="OsinfoTree.html#OsinfoTree--kernel-path"/>
+    <keyword type="property" name="The “publisher-id” property" link="OsinfoTree.html#OsinfoTree--publisher-id"/>
+    <keyword type="property" name="The “system-id” property" link="OsinfoTree.html#OsinfoTree--system-id"/>
+    <keyword type="property" name="The “url” property" link="OsinfoTree.html#OsinfoTree--url"/>
+    <keyword type="property" name="The “volume-id” property" link="OsinfoTree.html#OsinfoTree--volume-id"/>
+    <keyword type="function" name="osinfo_treelist_new ()" link="OsinfoTreeList.html#osinfo-treelist-new"/>
+    <keyword type="function" name="osinfo_treelist_new_copy ()" link="OsinfoTreeList.html#osinfo-treelist-new-copy" deprecated="0.2.2: Use osinfo_list_new_copy() instead."/>
+    <keyword type="function" name="osinfo_treelist_new_filtered ()" link="OsinfoTreeList.html#osinfo-treelist-new-filtered" deprecated="0.2.2: Use osinfo_list_new_filtered() instead."/>
+    <keyword type="function" name="osinfo_treelist_new_intersection ()" link="OsinfoTreeList.html#osinfo-treelist-new-intersection" deprecated="0.2.2: Use osinfo_list_new_intersection() instead."/>
+    <keyword type="function" name="osinfo_treelist_new_union ()" link="OsinfoTreeList.html#osinfo-treelist-new-union" deprecated="0.2.2: Use osinfo_list_new_union() instead."/>
+    <keyword type="macro" name="OSINFO_MAJOR_VERSION" link="Libosinfo-osinfo-version.html#OSINFO-MAJOR-VERSION:CAPS"/>
+    <keyword type="macro" name="OSINFO_MINOR_VERSION" link="Libosinfo-osinfo-version.html#OSINFO-MINOR-VERSION:CAPS"/>
+    <keyword type="macro" name="OSINFO_MICRO_VERSION" link="Libosinfo-osinfo-version.html#OSINFO-MICRO-VERSION:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_CONFIG_PARAM_POLICY_NONE" link="OsinfoInstallConfigParam.html#OSINFO-INSTALL-CONFIG-PARAM-POLICY-NONE:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED" link="OsinfoInstallConfigParam.html#OSINFO-INSTALL-CONFIG-PARAM-POLICY-REQUIRED:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL" link="OsinfoInstallConfigParam.html#OSINFO-INSTALL-CONFIG-PARAM-POLICY-OPTIONAL:CAPS"/>
+    <keyword type="constant" name="OSINFO_PATH_FORMAT_UNIX" link="OsinfoInstallScript.html#OSINFO-PATH-FORMAT-UNIX:CAPS"/>
+    <keyword type="constant" name="OSINFO_PATH_FORMAT_DOS" link="OsinfoInstallScript.html#OSINFO-PATH-FORMAT-DOS:CAPS"/>
+    <keyword type="constant" name="OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE" link="OsinfoInstallScript.html#OSINFO-DEVICE-DRIVER-SIGNING-REQ-NONE:CAPS"/>
+    <keyword type="constant" name="OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT" link="OsinfoInstallScript.html#OSINFO-DEVICE-DRIVER-SIGNING-REQ-STRICT:CAPS"/>
+    <keyword type="constant" name="OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN" link="OsinfoInstallScript.html#OSINFO-DEVICE-DRIVER-SIGNING-REQ-WARN:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_CDROM" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-CDROM:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-DISK:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_FLOPPY" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-FLOPPY:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-INITRD:CAPS"/>
+    <keyword type="constant" name="OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB" link="OsinfoInstallScript.html#OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-WEB:CAPS"/>
+    <keyword type="constant" name="OSINFO_RELEASE_STATUS_RELEASED" link="OsinfoOs.html#OSINFO-RELEASE-STATUS-RELEASED:CAPS"/>
+    <keyword type="constant" name="OSINFO_RELEASE_STATUS_SNAPSHOT" link="OsinfoOs.html#OSINFO-RELEASE-STATUS-SNAPSHOT:CAPS"/>
+    <keyword type="constant" name="OSINFO_RELEASE_STATUS_PRERELEASE" link="OsinfoOs.html#OSINFO-RELEASE-STATUS-PRERELEASE:CAPS"/>
+    <keyword type="constant" name="OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM" link="OsinfoProduct.html#OSINFO-PRODUCT-RELATIONSHIP-DERIVES-FROM:CAPS"/>
+    <keyword type="constant" name="OSINFO_PRODUCT_RELATIONSHIP_UPGRADES" link="OsinfoProduct.html#OSINFO-PRODUCT-RELATIONSHIP-UPGRADES:CAPS"/>
+    <keyword type="constant" name="OSINFO_PRODUCT_RELATIONSHIP_CLONES" link="OsinfoProduct.html#OSINFO-PRODUCT-RELATIONSHIP-CLONES:CAPS"/>
+    <keyword type="constant" name="OSINFO_MEDIA_ERROR_NO_DESCRIPTORS" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR-NO-DESCRIPTORS:CAPS"/>
+    <keyword type="constant" name="OSINFO_MEDIA_ERROR_NO_PVD" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR-NO-PVD:CAPS"/>
+    <keyword type="constant" name="OSINFO_MEDIA_ERROR_NO_SVD" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR-NO-SVD:CAPS"/>
+    <keyword type="constant" name="OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR-INSUFFICIENT-METADATA:CAPS"/>
+    <keyword type="constant" name="OSINFO_MEDIA_ERROR_NOT_BOOTABLE" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR-NOT-BOOTABLE:CAPS"/>
+  </functions>
+</book>

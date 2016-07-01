@@ -15,6 +15,12 @@
       <param name="user-password" policy="optional"/>
       <param name="admin-password" policy="optional"/>
 
+      <!-- This MUST be nonempty. Can we enforce this? -->
+      <param name="user-password" policy="required"/>
+      <param name="admin-password" policy="required"/>
+      <param name="avatar-location" policy="optional"/>
+      <param name="avatar-disk" policy="optional"/>
+
       <!-- Misc -->
       <param name="hostname" policy="optional"/>
       <param name="domain" policy="optional"/>
@@ -36,6 +42,17 @@
             </xsl:when>
             <xsl:otherwise>
               <xsl:text>/dev/vda</xsl:text>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:template>
+
+        <xsl:template name="avatar-disk">
+          <xsl:choose>
+            <xsl:when test="config/avatar-disk != ''">
+              <xsl:value-of select="config/avatar-disk"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:text>/dev/sda</xsl:text>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:template>
@@ -117,34 +134,16 @@ d-i time/zone select <xsl:value-of select="config/l10n-timezone"/>
 
 ## Root
 d-i passwd/root-login boolean true
-<xsl:choose>
-  <xsl:when test="config/admin-password = ''">
-# Real password will be set later
-d-i passwd/root-password password dummyPa55w0rd
-d-i passwd/root-password-again password dummyPa55w0rd
-  </xsl:when>
-  <xsl:otherwise>
 d-i passwd/root-password password <xsl:value-of select="config/admin-password"/>
 d-i passwd/root-password-again password <xsl:value-of select="config/admin-password"/>
-  </xsl:otherwise>
-</xsl:choose>
 
 ## User
 d-i user-setup/allow-password-weak boolean true
 d-i user-setup/encrypt-home boolean false
 d-i passwd/user-fullname string <xsl:call-template name="user-fullname"/>
 d-i passwd/username <xsl:value-of select="config/user-login"/>
-<xsl:choose>
-  <xsl:when test="config/user-password = ''">
-# Real password will be set later
-d-i passwd/user-password password dummyPa55w0rd
-d-i passwd/user-password-again password dummyPa55w0rd
-  </xsl:when>
-  <xsl:otherwise>
 d-i passwd/user-password password <xsl:value-of select="config/user-password"/>
 d-i passwd/user-password-again password <xsl:value-of select="config/user-password"/>
-  </xsl:otherwise>
-</xsl:choose>
 
 
 ### Partitioning
@@ -161,6 +160,7 @@ d-i partman/confirm boolean true
 
 
 ### Apt
+d-i apt-setup/use_mirror boolean true
 d-i apt-setup/security_host string
 d-i apt-setup/services-select multiselect
 d-i apt-setup/volatile_host string
@@ -168,7 +168,7 @@ d-i apt-setup/security_host string
 
 
 ### Software selection
-tasksel tasksel/first multiselect desktop
+tasksel tasksel/first multiselect desktop ssh-server
 
 ### Install Qemu guest agent
 d-i pkgsel/include string qemu-guest-agent
@@ -187,17 +187,21 @@ d-i grub-installer/bootdev string <xsl:call-template name="target-disk"/>
 ### Cleanup
 d-i finish-install/reboot_in_progress note
 
-<xsl:choose>
-  <xsl:when test="config/admin-password = ''">
-# Delete root password
-d-i preseed/late_command string in-target passwd -d root
-  </xsl:when>
-</xsl:choose>
+### Remove the installation DVD from the apt-get's sources.list
+d-i preseed/late_command string in-target sed -i '/cdrom/d' /etc/apt/sources.list
 
 <xsl:choose>
-  <xsl:when test="config/user-password = ''">
-# Delete user password
-d-i preseed/late_command string in-target passwd -d <xsl:value-of select="config/user-login"/>
+ <xsl:when test="config/avatar-location != ''">
+### Set user avatar
+d-i preseed/late_command string \
+    mkdir /mnt/unattended-media ; \
+    mount <xsl:call-template name="avatar-disk"/> /mnt/unattended-media ; \
+    cp /mnt/unattended-media/<xsl:value-of select="config/avatar-location"/> /target/var/lib/AccountsService/icons/<xsl:value-of select="config/user-login"/> ; \
+    umount /mnt/unattended-media ; \
+    echo "[User]" >> /target/var/lib/AccountsService/users/<xsl:value-of select="config/user-login"/> ; \
+    echo "Language=<xsl:value-of select="config/l10n-language"/>.UTF-8" >> /target/var/lib/AccountsService/users/<xsl:value-of select="config/user-login"/> ;\
+    echo "XSession=gnome" >> /target/var/lib/AccountsService/users/<xsl:value-of select="config/user-login"/> ; \
+    echo "Icon=/var/lib/AccountsService/icons/<xsl:value-of select="config/user-login"/>" >> /target/var/lib/AccountsService/users/<xsl:value-of select="config/user-login"/>
   </xsl:when>
 </xsl:choose>
 

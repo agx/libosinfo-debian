@@ -38,6 +38,7 @@ data/os/debian.org/debian-5.xml.in
 data/os/debian.org/debian-6.xml.in
 data/os/debian.org/debian-7.xml.in
 data/os/debian.org/debian-8.xml.in
+data/os/debian.org/debian-testing.xml.in
 data/os/fedoraproject.org/fedora-1.xml.in
 data/os/fedoraproject.org/fedora-2.xml.in
 data/os/fedoraproject.org/fedora-3.xml.in
@@ -109,6 +110,8 @@ data/os/freebsd.org/freebsd-9.2.xml.in
 data/os/freebsd.org/freebsd-9.3.xml.in
 data/os/freebsd.org/freebsd-10.0.xml.in
 data/os/freebsd.org/freebsd-10.1.xml.in
+data/os/freebsd.org/freebsd-10.2.xml.in
+data/os/freebsd.org/freebsd-10.3.xml.in
 data/os/gnome.org/gnome-3.6.xml.in
 data/os/gnome.org/gnome-3.8.xml.in
 data/os/gnome.org/gnome-continuous-3.10.xml.in
@@ -217,6 +220,8 @@ data/os/opensuse.org/opensuse-12.2.xml.in
 data/os/opensuse.org/opensuse-12.3.xml.in
 data/os/opensuse.org/opensuse-13.1.xml.in
 data/os/opensuse.org/opensuse-13.2.xml.in
+data/os/opensuse.org/opensuse-42.1.xml.in
+data/os/opensuse.org/opensuse-tumbleweed.xml.in
 data/os/opensuse.org/opensuse-factory.xml.in
 data/os/opensuse.org/opensuse-unknown.xml.in
 data/os/oracle.com/solaris-11.xml.in
@@ -268,11 +273,13 @@ data/os/redhat.com/rhel-6.4.xml.in
 data/os/redhat.com/rhel-6.5.xml.in
 data/os/redhat.com/rhel-6.6.xml.in
 data/os/redhat.com/rhel-6.7.xml.in
+data/os/redhat.com/rhel-6.8.xml.in
 data/os/redhat.com/rhel-7.0.xml.in
 data/os/redhat.com/rhel-7.1.xml.in
 data/os/redhat.com/rhel-7.2.xml.in
 data/os/redhat.com/rhel-atomic-7.0.xml.in
 data/os/redhat.com/rhel-atomic-7.1.xml.in
+data/os/redhat.com/rhel-atomic-7.2.xml.in
 data/os/redhat.com/rhl-1.0.xml.in
 data/os/redhat.com/rhl-1.1.xml.in
 data/os/redhat.com/rhl-2.0.xml.in
@@ -304,6 +311,7 @@ data/os/suse.com/sled-11.3.xml.in
 data/os/suse.com/sled-11.4.xml.in
 data/os/suse.com/sled-11.xml.in
 data/os/suse.com/sled-12.xml.in
+data/os/suse.com/sled-12.1.xml.in
 data/os/suse.com/sles-9.xml.in
 data/os/suse.com/sles-10.xml.in
 data/os/suse.com/sles-11.1.xml.in
@@ -312,6 +320,7 @@ data/os/suse.com/sles-11.3.xml.in
 data/os/suse.com/sles-11.4.xml.in
 data/os/suse.com/sles-11.xml.in
 data/os/suse.com/sles-12.xml.in
+data/os/suse.com/sles-12.1.xml.in
 data/os/ubuntu.com/ubuntu-4.10.xml.in
 data/os/ubuntu.com/ubuntu-5.04.xml.in
 data/os/ubuntu.com/ubuntu-5.10.xml.in
@@ -335,6 +344,7 @@ data/os/ubuntu.com/ubuntu-14.04.xml.in
 data/os/ubuntu.com/ubuntu-14.10.xml.in
 data/os/ubuntu.com/ubuntu-15.04.xml.in
 data/os/ubuntu.com/ubuntu-15.10.xml.in
+data/os/ubuntu.com/ubuntu-16.04.xml.in
 data/platform/linux-kvm.org/qemu-kvm-1.0.1.xml.in
 data/platform/linux-kvm.org/qemu-kvm-1.0.xml.in
 data/platform/linux-kvm.org/qemu-kvm-1.1.0.xml.in
