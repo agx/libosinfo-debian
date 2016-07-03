@@ -44,8 +44,6 @@ Description: Library for managing information about operating systems and hyperv
 Package: libosinfo-bin
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Replaces: libosinfo-1.0-0 (<< 0.3.0-3~)
-Breaks: libosinfo-1.0.0 (<< 0.3.0-3~)
 Description: Library for managing information about operating systems and hypervisors
  libosinfo is a GObject based library API for managing information about
  operating systems, hypervisors and the (virtual) hardware devices they
@@ -60,6 +58,8 @@ Description: Library for managing information about operating systems and hyperv
 
 Package: libosinfo-db
 Architecture: any
+Replaces: libosinfo-1.0-0 (<< 0.3.0-3~)
+Breaks: libosinfo-1.0.0 (<< 0.3.0-3~)
 Description: Library for managing information about operating systems and hypervisors
  libosinfo is a GObject based library API for managing information about
  operating systems, hypervisors and the (virtual) hardware devices they
