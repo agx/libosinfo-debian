@@ -1,3 +1,15 @@
+libosinfo (0.3.1-2) unstable; urgency=medium
+
+  [ Michael Biebl ]
+  * [e95a02d] Move Breaks/Replaces to libosinfo-db (Closes: #829423)
+
+  [ Guido Günther ]
+  * [5418a86] programs and tests are GPLv2 licensed
+  * [5ea9df4] Bump debhelper dependency to 9 to multiarch
+  * [1448876] Make libosinfo-db arch any
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 03 Jul 2016 10:28:45 +0200
+
 libosinfo (0.3.1-1) unstable; urgency=medium
 
   * [9abe446] New upstream version 0.3.1
