@@ -1,3 +1,11 @@
+libosinfo (0.3.1-3) unstable; urgency=medium
+
+  * [070f0f7] Unbreak build on arch != amd64.
+    The hardcoded path is no good if we use dh_install --fail-missing
+    afterwards. (Closes: #829495)
+
+ -- Guido Günther <agx@sigxcpu.org>  Sun, 03 Jul 2016 23:52:26 +0200
+
 libosinfo (0.3.1-2) unstable; urgency=medium
 
   [ Michael Biebl ]
