@@ -57,7 +57,7 @@ Description: Library for managing information about operating systems and hyperv
  This package contains the runtime files.
 
 Package: libosinfo-db
-Architecture: any
+Architecture: all
 Replaces: libosinfo-1.0-0 (<< 0.3.0-3~)
 Breaks: libosinfo-1.0.0 (<< 0.3.0-3~)
 Description: Library for managing information about operating systems and hypervisors
