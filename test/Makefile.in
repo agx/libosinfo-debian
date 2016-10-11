@@ -95,6 +95,7 @@ check_PROGRAMS = test-entity$(EXEEXT) test-device$(EXEEXT) \
 	test-db$(EXEEXT) test-loader$(EXEEXT) test-isodetect$(EXEEXT) \
 	test-mediauris$(EXEEXT) test-treeuris$(EXEEXT) \
 	test-install-script$(EXEEXT)
+TESTS = $(check_PROGRAMS)
 subdir = test
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
@@ -588,6 +589,7 @@ LIBOBJS = @LIBOBJS@
 LIBOSINFO_MAJOR_VERSION = @LIBOSINFO_MAJOR_VERSION@
 LIBOSINFO_MICRO_VERSION = @LIBOSINFO_MICRO_VERSION@
 LIBOSINFO_MINOR_VERSION = @LIBOSINFO_MINOR_VERSION@
+LIBOSINFO_SONUM = @LIBOSINFO_SONUM@
 LIBOSINFO_VERSION = @LIBOSINFO_VERSION@
 LIBOSINFO_VERSION_INFO = @LIBOSINFO_VERSION_INFO@
 LIBOSINFO_VERSION_NUMBER = @LIBOSINFO_VERSION_NUMBER@
@@ -693,8 +695,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = isodata dbdata $(TEST_SCRIPT_FILES) test-lib.sh \
-	install-script.xsl $(NULL)
+EXTRA_DIST = isodata dbdata test-lib.sh install-script.xsl $(NULL)
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GLIB_LIBS) \
@@ -765,12 +766,6 @@ test_treeuris_SOURCES = test-treeuris.c
 test_install_script_LDADD = $(COMMON_LDADD)
 test_install_script_CFLAGS = $(COMMON_CFLAGS)
 test_install_script_SOURCES = test-install-script.c
-TEST_SCRIPT_FILES = \
-	test-xml-validate
-
-TESTS = $(check_PROGRAMS) \
-	$(TEST_SCRIPT_FILES)
-
 TESTS_ENVIRONMENT = \
 	abs_top_builddir=$(lv_abs_top_builddir)			\
 	abs_top_srcdir=`cd '$(top_srcdir)'; pwd`		\
@@ -1496,13 +1491,6 @@ test-install-script.log: test-install-script$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test-xml-validate.log: test-xml-validate
-	@p='test-xml-validate'; \
-	b='test-xml-validate'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
 .test.log:
 	@p='$<'; \
 	$(am__set_b); \
@@ -1676,7 +1664,6 @@ uninstall-am:
 
 .PRECIOUS: Makefile
 
-	$(NULL)
 
 valgrind:
 	$(MAKE) check VG="libtool --mode=execute valgrind --quiet --tool=memcheck --leak-check=full --leak-resolution=high --num-callers=20 --suppressions=osinfo.suppression"
