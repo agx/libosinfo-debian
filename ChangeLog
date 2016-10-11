@@ -1,4 +1,156 @@
+2016-10-07  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 1.0.0
+
+	Refresh PO files from zanata
+
+	Revert "Fix mingw DLL version after bump to 1.0.0"
+	This reverts commit dd68d8ccb0abb9cab7324da1b3a706dbf158870b.
+
+	This is not required after
+
+	  commit 8ec2de1ff44e47d189386cb5e83d26521fc76f29
+	  Author: Daniel P. Berrange <berrange@redhat.com>
+	  Date:   Wed Aug 10 10:09:17 2016 +0100
+
+	    configure: fix accidental break in soname
+
+2016-08-11  Daniel P. Berrange  <berrange@redhat.com>
+
+	spec: fix path to test-suite.log - its in the test subdir
+
+2016-08-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	spec: preserve error exit code on test failure
+
+	spec: display test results on failure
+	autotools hides detailed test output by default, so we must
+	cat test-suite.log on failure to actually see what went
+	wrong.
+
+	configure: fix accidental break in soname
+	The change in version from 0.3.0 to 1.0.0 triggered a latent
+	bug in our code which sets the library soname. This meant we
+	created libosinfo-1.0.so.1 instead of libosinfo-1.0.so.0
+
+	Pull in the fix from libvirt which is where the original logic
+	was copied from.
+
+	Remove database files
+	Remove the database files and add a dependency on the
+	osinfo-db RPM
+
+	loader: update to comply with new database install location
+	The new database locations are
+
+	  - System location
+
+	    This is determined by the env variable
+
+	      $OSINFO_SYSTEM_DIR
+
+	    If not set, then defaults to /usr/share/osinfo
+
+	    This location is intended for use by operating system
+	    distributors to install the initial data set via a
+	    package management system like RPM or Deb
+
+	  - Local location
+
+	    This is determined by the env variable
+
+	      $OSINFO_LOCAL_DIR
+
+	    If not set, then defaults to /etc/osinfo
+
+	    This location is intended for use by local system
+	    administrators to install custom local data that
+	    should be available to all users on a host
+
+	  - User location
+
+	    This is determined by the env variable
+
+	      $OSINFO_USER_DIR
+
+	    If not set, then defaults to $XDG_CONFIG_HOME/osinfo
+
+	    If that is not set, then defaults to $HOME/.config/osinfo
+
+	    This location is intended for use by unprivileged users
+	    wishing to install local data for use by their applications
+
+	Adapt to use those, but include temporary support for looking
+	at the legacy local & user directory locations, and the
+	OSINFO_DATA_DIR env variable for back-compat.
+
+2016-07-18  Daniel P. Berrange  <berrange@redhat.com>
+
+	Remove osinfo-db-validate tool
+	Remove the osinfo-db-validate tool which is now available
+	via osinfo-db-tools. Add a RPM dep on osinfo-db-tools to
+	pull it in for upgradability.
+
+	Assume availability of gobject introspection during RPM build
+	The gobject introspection support is available for all
+	currently targetted platforms, so remove RPM conditionals.
+
+	Fix mingw DLL version after bump to 1.0.0
+
+2016-07-08  Daniel P. Berrange  <berrange@redhat.com>
+
+	fedora: record when virtio devices were made available
+	We currently only record virtio-net, virtio-blk data against
+	Fedora. virtio-9p, virtio-balloon and virtio-console were
+	also all available in Fedora 9 kernels, with virtio-rng
+	added in Fedora 10 and virtio-scsi in Fedora 17.
+
+	The virtio-1.0 devices all appeared in Fedora 23 guest
+	kernels
+
+	Add missing virtio PCI devices
+	We were missing virtio-rng and virtio-scsi, as well as
+	all the virtio 1.0 device variants, which have different
+	PCI IDS
+
+	The pci.ids file lists the following known devices
+
+		1000  Virtio network device
+		1001  Virtio block device
+		1002  Virtio memory balloon
+		1003  Virtio console
+		1004  Virtio SCSI
+		1005  Virtio RNG
+		1009  Virtio filesystem
+		1041  Virtio network device
+		1042  Virtio block device
+		1043  Virtio console
+		1044  Virtio RNG
+		1045  Virtio memory balloon
+		1048  Virtio SCSI
+		1049  Virtio filesystem
+		1050  Virtio GPU
+		1052  Virtio input
+
+	Of which, only 1001, 1001, 1002 and 1009 were recorded in
+	libosinfo. They would have appeared via pci.ids file loading,
+	but they would have lacked friendly names.
+
+2016-07-05  Marc-André Lureau  <marcandre.lureau@redhat.com>
+
+	fedora: Add F24 info & testcases
+	Fedora 24 with virtio-gpu support.
+
+2016-07-04  Marc-André Lureau  <marcandre.lureau@gmail.com>
+
+	device: add virtio-gpu
+	virtio-gpu is a non-legacy device, so device_id is always 0x10 + 0x1040.
+
 2016-07-01  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post-release version bump to 1.0.0
+	Bump major version to reflect that that we're splitting up
+	the codebase in next release
 
 	Update NEWS for 0.3.1 release
 

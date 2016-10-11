@@ -88,8 +88,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-bin_PROGRAMS = osinfo-detect$(EXEEXT) osinfo-db-validate$(EXEEXT) \
-	osinfo-query$(EXEEXT) osinfo-install-script$(EXEEXT)
+bin_PROGRAMS = osinfo-detect$(EXEEXT) osinfo-query$(EXEEXT) \
+	osinfo-install-script$(EXEEXT)
 subdir = tools
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gtk-doc.m4 \
@@ -109,19 +109,15 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
-am_osinfo_db_validate_OBJECTS = osinfo-db-validate.$(OBJEXT)
-osinfo_db_validate_OBJECTS = $(am_osinfo_db_validate_OBJECTS)
+am_osinfo_detect_OBJECTS = osinfo-detect.$(OBJEXT)
+osinfo_detect_OBJECTS = $(am_osinfo_detect_OBJECTS)
 am__DEPENDENCIES_1 =
-osinfo_db_validate_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+osinfo_detect_DEPENDENCIES = $(am__DEPENDENCIES_1) \
 	$(am__DEPENDENCIES_1) $(top_builddir)/osinfo/libosinfo-1.0.la
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
 am__v_lt_0 = --silent
 am__v_lt_1 = 
-am_osinfo_detect_OBJECTS = osinfo-detect.$(OBJEXT)
-osinfo_detect_OBJECTS = $(am_osinfo_detect_OBJECTS)
-osinfo_detect_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(top_builddir)/osinfo/libosinfo-1.0.la
 am_osinfo_install_script_OBJECTS = osinfo-install-script.$(OBJEXT)
 osinfo_install_script_OBJECTS = $(am_osinfo_install_script_OBJECTS)
 osinfo_install_script_DEPENDENCIES = $(am__DEPENDENCIES_1) \
@@ -164,9 +160,9 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(osinfo_db_validate_SOURCES) $(osinfo_detect_SOURCES) \
-	$(osinfo_install_script_SOURCES) $(osinfo_query_SOURCES)
-DIST_SOURCES = $(osinfo_db_validate_SOURCES) $(osinfo_detect_SOURCES) \
+SOURCES = $(osinfo_detect_SOURCES) $(osinfo_install_script_SOURCES) \
+	$(osinfo_query_SOURCES)
+DIST_SOURCES = $(osinfo_detect_SOURCES) \
 	$(osinfo_install_script_SOURCES) $(osinfo_query_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
@@ -297,6 +293,7 @@ LIBOBJS = @LIBOBJS@
 LIBOSINFO_MAJOR_VERSION = @LIBOSINFO_MAJOR_VERSION@
 LIBOSINFO_MICRO_VERSION = @LIBOSINFO_MICRO_VERSION@
 LIBOSINFO_MINOR_VERSION = @LIBOSINFO_MINOR_VERSION@
+LIBOSINFO_SONUM = @LIBOSINFO_SONUM@
 LIBOSINFO_VERSION = @LIBOSINFO_VERSION@
 LIBOSINFO_VERSION_INFO = @LIBOSINFO_VERSION_INFO@
 LIBOSINFO_VERSION_NUMBER = @LIBOSINFO_VERSION_NUMBER@
@@ -412,18 +409,11 @@ AM_CFLAGS = $(GOBJECT_CFLAGS) \
 	    -I$(top_srcdir) \
             $(NULL)
 
-man1_MANS = osinfo-db-validate.1 osinfo-detect.1 osinfo-query.1 osinfo-install-script.1
+man1_MANS = osinfo-detect.1 osinfo-query.1 osinfo-install-script.1
 CLEANFILES = $(man1_MANS)
 POD2MAN = pod2man -c "Virtualization Support" -r "$(PACKAGE)-$(VERSION)"
 osinfo_detect_SOURCES = osinfo-detect.c
 osinfo_detect_LDADD = $(GOBJECT_LIBS)		\
-		      $(GIO_LIBS)		\
-		      $(GLIB_LIBS)		\
-		      $(LIBXML_LIBS)		\
-		      $(top_builddir)/osinfo/libosinfo-1.0.la
-
-osinfo_db_validate_SOURCES = osinfo-db-validate.c
-osinfo_db_validate_LDADD = $(GOBJECT_LIBS)	\
 		      $(GIO_LIBS)		\
 		      $(GLIB_LIBS)		\
 		      $(LIBXML_LIBS)		\
@@ -525,10 +515,6 @@ clean-binPROGRAMS:
 	echo " rm -f" $$list; \
 	rm -f $$list
 
-osinfo-db-validate$(EXEEXT): $(osinfo_db_validate_OBJECTS) $(osinfo_db_validate_DEPENDENCIES) $(EXTRA_osinfo_db_validate_DEPENDENCIES) 
-	@rm -f osinfo-db-validate$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(osinfo_db_validate_OBJECTS) $(osinfo_db_validate_LDADD) $(LIBS)
-
 osinfo-detect$(EXEEXT): $(osinfo_detect_OBJECTS) $(osinfo_detect_DEPENDENCIES) $(EXTRA_osinfo_detect_DEPENDENCIES) 
 	@rm -f osinfo-detect$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(osinfo_detect_OBJECTS) $(osinfo_detect_LDADD) $(LIBS)
@@ -547,7 +533,6 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osinfo-db-validate.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osinfo-detect.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osinfo-install-script.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/osinfo-query.Po@am__quote@
