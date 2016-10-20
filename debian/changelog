@@ -1,3 +1,13 @@
+libosinfo (1.0.0-1) experimental; urgency=medium
+
+  * [ec1ceb9] New upstream version 1.0.0
+  * [49b298c] Update README.source
+  * [aa221ba] Drop libosinfo-db package and use the now split out osinfo-db
+  * [de23113] Disable internal test suite until we have osinfo-db in the
+    archive
+
+ -- Guido Günther <agx@sigxcpu.org>  Thu, 20 Oct 2016 14:58:58 +0200
+
 libosinfo (0.3.1-5) unstable; urgency=medium
 
   * [93359f7] Fix a typo in the replaces line.
