@@ -31,6 +31,8 @@ override_dh_auto_configure:
 		--enable-gtk-doc \
 		$(NULL)
 
+override_dh_auto_test:
+
 override_dh_auto_clean:
 	[ ! -f Makefile ] || dh_auto_clean
 
