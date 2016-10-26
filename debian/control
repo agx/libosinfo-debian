@@ -60,8 +60,8 @@ Description: Library for managing information about operating systems and hyperv
 Package: libosinfo-l10n
 Architecture: all
 Depends: ${misc:Depends}
-Replaces: libosinfo-db-1.0-0 (<< 1.0.0~)
-Breaks: libosinfo-db-1.0-0 (<< 1.0.0~)
+Replaces: libosinfo-db (<< 1.0.0~)
+Breaks: libosinfo-db (<< 1.0.0~)
 Description: Translations for libosinfo
  libosinfo is a GObject based library API for managing information about
  operating systems, hypervisors and the (virtual) hardware devices they
