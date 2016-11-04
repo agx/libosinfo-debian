@@ -18,7 +18,11 @@ Build-Depends: autoconf,
  libxml2-dev,
  libxml2-utils,
  libxslt-dev,
- valac (>= 0.20)
+ valac (>= 0.20),
+# for test-isodetect
+ osinfo-db,
+ pciutils,
+ usbutils,
 Standards-Version: 3.9.8
 Homepage: https://libosinfo.org/
 Vcs-Git: https://anonscm.debian.org/git/pkg-libvirt/libosinfo.git
