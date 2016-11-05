@@ -1,0 +1,21 @@
+From: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Sat, 5 Nov 2016 13:58:29 +0100
+Subject: loader: Fix typo in error message
+
+---
+ osinfo/osinfo_loader.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/osinfo/osinfo_loader.c b/osinfo/osinfo_loader.c
+index 46bc633..dba567f 100644
+--- a/osinfo/osinfo_loader.c
++++ b/osinfo/osinfo_loader.c
+@@ -2288,7 +2288,7 @@ static GFile *osinfo_loader_get_system_path(void)
+         static gboolean warned = FALSE;
+         if (!warned) {
+             g_printerr(_("$OSINFO_DATA_DIR is deprecated, please "
+-                         "use $OSINFO_SYSTEM_DIR intead. Support "
++                         "use $OSINFO_SYSTEM_DIR instead. Support "
+                          "for $OSINFO_DATA_DIR will be removed "
+                          "in a future release\n"));
+             warned = TRUE;
