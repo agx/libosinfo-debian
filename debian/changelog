@@ -1,3 +1,16 @@
+libosinfo (1.0.0-2) unstable; urgency=medium
+
+  * Upload to unstable
+  * [292a8ab] Fix Breaks/Replaces.
+    Thanks to Andreas Beckmann (Closes: #842060)
+  * [a979083] Re-enable test suite.  We have osinfo-db in the archive now. Add
+    necessary build-deps for that.
+  * [059a0b6] Turn on all hardening flags
+  * [1b3d04b] loader: Fix typo in error message
+  * [e5e2fb8] d/control: Improve description a bit
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 05 Nov 2016 14:08:20 +0100
+
 libosinfo (1.0.0-1) experimental; urgency=medium
 
   * [ec1ceb9] New upstream version 1.0.0
