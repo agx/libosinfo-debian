@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OsinfoDeviceDriver: Libosinfo Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libosinfo Reference Manual">
 <link rel="up" href="ch01.html" title="Libosinfo">
 <link rel="prev" href="OsinfoDeviceLinkList.html" title="OsinfoDeviceLinkList">
@@ -34,21 +34,21 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="OsinfoDeviceDriver.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
 </colgroup>
 <tbody>
 <tr>
-<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoDeviceDriver.html#osinfo-device-driver-get-architecture" title="osinfo_device_driver_get_architecture ()">osinfo_device_driver_get_architecture</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoDeviceDriver.html#osinfo-device-driver-get-location" title="osinfo_device_driver_get_location ()">osinfo_device_driver_get_location</a> <span class="c_punctuation">()</span>
@@ -56,7 +56,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoDeviceDriver.html#osinfo-device-driver-get-pre-installable" title="osinfo_device_driver_get_pre_installable ()">osinfo_device_driver_get_pre_installable</a> <span class="c_punctuation">()</span>
@@ -64,7 +64,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<span class="returnvalue">GList</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoDeviceDriver.html#osinfo-device-driver-get-files" title="osinfo_device_driver_get_files ()">osinfo_device_driver_get_files</a> <span class="c_punctuation">()</span>
@@ -80,7 +80,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoDeviceDriver.html#osinfo-device-driver-get-signed" title="osinfo_device_driver_get_signed ()">osinfo_device_driver_get_signed</a> <span class="c_punctuation">()</span>
@@ -91,7 +91,7 @@
 </div>
 <div class="refsect1">
 <a name="OsinfoDeviceDriver.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -126,7 +126,7 @@
 </div>
 <div class="refsect1">
 <a name="OsinfoDeviceDriver.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+<pre class="screen">    GObject
     <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
         <span class="lineart">╰──</span> OsinfoDeviceDriver
 </pre>
@@ -140,13 +140,13 @@ operating system.</p>
 <a name="OsinfoDeviceDriver.functions_details"></a><h2>Functions</h2>
 <div class="refsect2">
 <a name="osinfo-device-driver-get-architecture"></a><h3>osinfo_device_driver_get_architecture ()</h3>
-<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 osinfo_device_driver_get_architecture (<em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
 <p>Retrieves the target hardware architecture of <em class="parameter"><code>driver</code></em>
 .</p>
 <div class="refsect3">
 <a name="osinfo-device-driver-get-architecture.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -168,13 +168,13 @@ osinfo_device_driver_get_architecture (<em class="parameter"><code><a class="lin
 <hr>
 <div class="refsect2">
 <a name="osinfo-device-driver-get-location"></a><h3>osinfo_device_driver_get_location ()</h3>
-<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 osinfo_device_driver_get_location (<em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
 <p>Retrieves the location of the <em class="parameter"><code>driver</code></em>
  as a URL.</p>
 <div class="refsect3">
 <a name="osinfo-device-driver-get-location.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -196,12 +196,12 @@ osinfo_device_driver_get_location (<em class="parameter"><code><a class="link" h
 <hr>
 <div class="refsect2">
 <a name="osinfo-device-driver-get-pre-installable"></a><h3>osinfo_device_driver_get_pre_installable ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 osinfo_device_driver_get_pre_installable
                                (<em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-device-driver-get-pre-installable.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -223,13 +223,13 @@ is pre-installable, FALSE otherwise.</p>
 <hr>
 <div class="refsect2">
 <a name="osinfo-device-driver-get-files"></a><h3>osinfo_device_driver_get_files ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<pre class="programlisting"><span class="returnvalue">GList</span> *
 osinfo_device_driver_get_files (<em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
 <p>Retrieves the names of driver files under the location returned by
 <a class="link" href="OsinfoDeviceDriver.html#osinfo-device-driver-get-location" title="osinfo_device_driver_get_location ()"><span class="type">osinfo_device_driver_get_location</span></a>.</p>
 <div class="refsect3">
 <a name="osinfo-device-driver-get-files.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -255,7 +255,7 @@ osinfo_device_driver_get_files (<em class="parameter"><code><a class="link" href
 osinfo_device_driver_get_devices (<em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-device-driver-get-devices.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -277,13 +277,13 @@ osinfo_device_driver_get_devices (<em class="parameter"><code><a class="link" hr
 <hr>
 <div class="refsect2">
 <a name="osinfo-device-driver-get-signed"></a><h3>osinfo_device_driver_get_signed ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 osinfo_device_driver_get_signed (<em class="parameter"><code><a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver"><span class="type">OsinfoDeviceDriver</span></a> *driver</code></em>);</pre>
 <p>Some OS vendors recommend or require device drivers to be signed by them
 before these device drivers could be installed on their OS.</p>
 <div class="refsect3">
 <a name="osinfo-device-driver-get-signed.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">

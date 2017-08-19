@@ -2,13 +2,13 @@
 
 Summary: A library for managing OS information for virtualization
 Name: libosinfo
-Version: 1.0.0
+Version: 1.1.0
 Release: 1%{?dist}%{?extra_release}
 License: LGPLv2+
 Group: Development/Libraries
-Source: https://fedorahosted.org/releases/l/i/%{name}/%{name}-%{version}.tar.gz
+Source: https://releases.pagure.io/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-URL: http://libosinfo.org/
+URL: https://libosinfo.org/
 BuildRequires: intltool
 BuildRequires: glib2-devel
 BuildRequires: check-devel
@@ -20,6 +20,7 @@ BuildRequires: libsoup-devel
 BuildRequires: /usr/bin/pod2man
 BuildRequires: hwdata
 BuildRequires: gobject-introspection-devel
+BuildRequires: osinfo-db
 Requires: hwdata
 Requires: osinfo-db
 Requires: osinfo-db-tools
@@ -75,7 +76,7 @@ rm -f %{buildroot}%{_libdir}/*.la
 %check
 if ! make check
 then
-  cat test/test-suite.log || true
+  cat tests/test-suite.log || true
   exit 1
 fi
 

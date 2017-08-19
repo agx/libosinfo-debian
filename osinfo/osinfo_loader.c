@@ -1050,6 +1050,8 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
     xmlChar *installer = xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER);
     xmlChar *installer_reboots =
             xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_REBOOTS);
+    xmlChar *eject_after_install =
+            xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL);
     const OsinfoEntityKey keys[] = {
         { OSINFO_MEDIA_PROP_URL, G_TYPE_STRING },
         { OSINFO_MEDIA_PROP_KERNEL, G_TYPE_STRING },
@@ -1080,6 +1082,13 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
                                 OSINFO_MEDIA_PROP_INSTALLER_REBOOTS,
                                 (gchar *)installer_reboots);
         xmlFree(installer_reboots);
+    }
+
+    if (eject_after_install) {
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL,
+                                (gchar *)eject_after_install);
+        xmlFree(eject_after_install);
     }
 
     gint nnodes = osinfo_loader_nodeset("./variant", loader, ctxt, &nodes, err);
@@ -2118,9 +2127,6 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
         tmp++;
     }
 
-    if (lerr)
-        goto cleanup;
-
     /* Phase 2: load data from non-native locations, filtering based
      * on overrides from native locations */
     tmp = dirs;
@@ -2142,14 +2148,12 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
         }
 
         if (lerr) {
-            break;
+            g_propagate_error(err, lerr);
+            goto cleanup;
         }
 
         tmp++;
     }
-
-    if (lerr)
-        goto cleanup;
 
     /* Phase 3: load combined set of files from native locations */
     g_hash_table_iter_init(&iter, allentries);
@@ -2288,7 +2292,7 @@ static GFile *osinfo_loader_get_system_path(void)
         static gboolean warned = FALSE;
         if (!warned) {
             g_printerr(_("$OSINFO_DATA_DIR is deprecated, please "
-                         "use $OSINFO_SYSTEM_DIR intead. Support "
+                         "use $OSINFO_SYSTEM_DIR instead. Support "
                          "for $OSINFO_DATA_DIR will be removed "
                          "in a future release\n"));
             warned = TRUE;

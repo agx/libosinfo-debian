@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [1.0.0], [libosinfo@redhat.com])
+AC_INIT([libosinfo], [1.1.0], [libosinfo@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -160,6 +160,10 @@ case $host in
 esac
 AM_CONDITIONAL([WITH_LINUX], [test "$with_linux" = "yes"])
 
+AC_PATH_PROG([PERL], [perl])
+if test -z "$PERL"; then
+  AC_MSG_ERROR([Failed to find perl.])
+fi
 
 GOBJECT_INTROSPECTION_CHECK([0.9.7])
 
@@ -198,7 +202,8 @@ AC_SUBST(COVERAGE_CFLAGS)
 AC_SUBST(COVERAGE_LDFLAGS)
 
 
-USB_ID_FILES="/usr/share/usb.ids /usr/share/misc/usb.ids /usr/share/hwdata/usb.ids"
+USB_ID_FILES="/usr/share/usb.ids /usr/share/misc/usb.ids \
+              /usr/share/hwdata/usb.ids /usr/local/share/usbids/usb.ids"
 
 AC_ARG_WITH(usb-ids-path,
               [AC_HELP_STRING([--with-usb-ids-path],
@@ -235,7 +240,8 @@ else
 fi
 
 
-PCI_ID_FILES="/usr/share/pci.ids /usr/share/misc/pci.ids /usr/share/hwdata/pci.ids"
+PCI_ID_FILES="/usr/share/pci.ids /usr/share/misc/pci.ids \
+              /usr/share/hwdata/pci.ids /usr/local/share/pciids/pci.ids"
 
 AC_ARG_WITH(pci-ids-path,
               [AC_HELP_STRING([--with-pci-ids-path],
@@ -284,7 +290,7 @@ AC_CONFIG_FILES([
 	osinfo/libosinfo-1.0.pc
 	osinfo/osinfo_version.h
 	tools/Makefile
-	test/Makefile
+	tests/Makefile
 	docs/Makefile
 	docs/reference/Makefile
 	examples/Makefile

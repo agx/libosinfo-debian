@@ -146,8 +146,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(girdir)" \
 	"$(DESTDIR)$(libosinfo_1_0_includedir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 am__DEPENDENCIES_1 =
-am_libosinfo_1_0_la_OBJECTS =  \
-	libosinfo_1_0_la-osinfo_avatar_format.lo \
+am__objects_1 = libosinfo_1_0_la-osinfo_avatar_format.lo \
 	libosinfo_1_0_la-osinfo_datamap.lo \
 	libosinfo_1_0_la-osinfo_datamaplist.lo \
 	libosinfo_1_0_la-osinfo_entity.lo \
@@ -184,6 +183,8 @@ am_libosinfo_1_0_la_OBJECTS =  \
 	libosinfo_1_0_la-osinfo_treelist.lo \
 	libosinfo_1_0_la-osinfo_db.lo \
 	libosinfo_1_0_la-osinfo_loader.lo
+am__objects_2 =
+am_libosinfo_1_0_la_OBJECTS = $(am__objects_1) $(am__objects_2)
 nodist_libosinfo_1_0_la_OBJECTS =  \
 	libosinfo_1_0_la-osinfo_enum_types.lo
 libosinfo_1_0_la_OBJECTS = $(am_libosinfo_1_0_la_OBJECTS) \
@@ -370,6 +371,7 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PERL = @PERL@
 PKG_CONFIG = @PKG_CONFIG@
 PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
 PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
@@ -529,7 +531,7 @@ nodist_libosinfo_1_0_include_HEADERS = \
   osinfo_enum_types.h			\
   $(NULL)
 
-libosinfo_1_0_la_SOURCES = \
+libosinfo_c_files = \
   osinfo_avatar_format.c		\
   osinfo_datamap.c			\
   osinfo_datamaplist.c			\
@@ -542,16 +544,13 @@ libosinfo_1_0_la_SOURCES = \
   osinfo_devicelinklist.c		\
   osinfo_devicelinkfilter.c		\
   osinfo_device_driver.c		\
-  osinfo_device_driver_private.h	\
   osinfo_device_driverlist.c		\
   osinfo_install_config.c		\
   osinfo_install_config_param.c		\
   osinfo_install_config_paramlist.c	\
   osinfo_install_script.c		\
-  osinfo_install_script_private.h	\
   osinfo_install_scriptlist.c		\
   osinfo_product.c			\
-  osinfo_product_private.h		\
   osinfo_productfilter.c		\
   osinfo_productlist.c			\
   osinfo_platform.c			\
@@ -563,7 +562,6 @@ libosinfo_1_0_la_SOURCES = \
   osinfo_deployment.c			\
   osinfo_deploymentlist.c		\
   osinfo_media.c			\
-  osinfo_media_private.h		\
   osinfo_medialist.c			\
   osinfo_resources.c			\
   osinfo_resourceslist.c		\
@@ -571,7 +569,19 @@ libosinfo_1_0_la_SOURCES = \
   osinfo_treelist.c			\
   osinfo_db.c				\
   osinfo_loader.c			\
+  $(NULL)
+
+libosinfo_private_header_files = \
+  osinfo_device_driver_private.h	\
+  osinfo_install_script_private.h	\
+  osinfo_product_private.h		\
+  osinfo_media_private.h		\
   ignore-value.h			\
+  $(NULL)
+
+libosinfo_1_0_la_SOURCES = \
+  $(libosinfo_c_files)			\
+  $(libosinfo_private_header_files)	\
   $(NULL)
 
 nodist_libosinfo_1_0_la_SOURCES = \
@@ -584,7 +594,7 @@ CLEANFILES = $(am__append_3)
 @HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_PACKAGES = gobject-2.0 gio-2.0 libxml-2.0 libxslt
 @HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_EXPORT_PACKAGES = libosinfo-1.0
 @HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_LIBS = libosinfo-1.0.la
-@HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_FILES = $(libosinfo_1_0_include_HEADERS) $(nodist_libosinfo_1_0_include_HEADERS) $(libosinfo_1_0_la_SOURCES) $(nodist_libosinfo_1_0_la_SOURCES)
+@HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_FILES = $(libosinfo_1_0_include_HEADERS) $(nodist_libosinfo_1_0_include_HEADERS) $(libosinfo_c_files) $(nodist_libosinfo_1_0_la_SOURCES)
 @HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_CFLAGS = $(libosinfo_1_0_la_CFLAGS)
 @HAVE_INTROSPECTION_TRUE@Libosinfo_1_0_gir_SCANNERFLAGS = --identifier-prefix=Osinfo --symbol-prefix=osinfo --c-include="osinfo/osinfo.h"
 @HAVE_INTROSPECTION_TRUE@girdir = $(datadir)/gir-1.0
@@ -1371,10 +1381,10 @@ uninstall-am: uninstall-girDATA uninstall-libLTLIBRARIES \
 @USE_VERSION_DEFS_TRUE@	mv $@-tmp $@
 
 osinfo_enum_types.h: $(libosinfo_1_0_include_HEADERS) osinfo_enum_types.h.template
-	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.h.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $@
+	$(AM_V_GEN) ( LC_ALL= LANG=C LC_CTYPE=en_US.UTF-8 $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.h.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $@
 
 osinfo_enum_types.c: $(OSINFO_HEADER_FILES) osinfo_enum_types.c.template osinfo_enum_types.h
-	$(AM_V_GEN) ( $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $@
+	$(AM_V_GEN) ( LC_ALL= LANG=C LC_CTYPE=en_US.UTF-8 $(GLIB_MKENUMS) --template $(srcdir)/osinfo_enum_types.c.template $(libosinfo_1_0_include_HEADERS:%=$(srcdir)/%) ) > $@
 
 # .libs/libosinfo.so is built by libtool as a side-effect of the Makefile
 # rule for libosinfo.la.  However, checking symbols relies on Linux ELF layout

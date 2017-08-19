@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OsinfoFilter: Libosinfo Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libosinfo Reference Manual">
 <link rel="up" href="ch01.html" title="Libosinfo">
 <link rel="prev" href="Libosinfo-osinfo-enum-types.html" title="osinfo_enum_types">
@@ -34,7 +34,7 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="OsinfoFilter.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -74,7 +74,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<span class="returnvalue">GList</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoFilter.html#osinfo-filter-get-constraint-keys" title="osinfo_filter_get_constraint_keys ()">osinfo_filter_get_constraint_keys</a> <span class="c_punctuation">()</span>
@@ -82,7 +82,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<span class="returnvalue">GList</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoFilter.html#osinfo-filter-get-constraint-values" title="osinfo_filter_get_constraint_values ()">osinfo_filter_get_constraint_values</a> <span class="c_punctuation">()</span>
@@ -90,7 +90,7 @@
 </tr>
 <tr>
 <td class="function_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<span class="returnvalue">gboolean</span>
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoFilter.html#osinfo-filter-matches" title="osinfo_filter_matches ()">osinfo_filter_matches</a> <span class="c_punctuation">()</span>
@@ -101,7 +101,7 @@
 </div>
 <div class="refsect1">
 <a name="OsinfoFilter.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+<pre class="screen">    GObject
     <span class="lineart">╰──</span> OsinfoFilter
         <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceLinkFilter.html" title="OsinfoDeviceLinkFilter">OsinfoDeviceLinkFilter</a>
         <span class="lineart">╰──</span> <a class="link" href="OsinfoProductFilter.html" title="OsinfoProductFilter">OsinfoProductFilter</a>
@@ -130,8 +130,8 @@ osinfo_filter_new (<em class="parameter"><code><span class="type">void</span></c
 <a name="osinfo-filter-add-constraint"></a><h3>osinfo_filter_add_constraint ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 osinfo_filter_add_constraint (<em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>,
-                              <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *propName</code></em>,
-                              <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *propVal</code></em>);</pre>
+                              <em class="parameter"><code>const <span class="type">gchar</span> *propName</code></em>,
+                              <em class="parameter"><code>const <span class="type">gchar</span> *propVal</code></em>);</pre>
 <p>Adds a constraint that requires the entity to have
 a property key <em class="parameter"><code>propName</code></em>
  with a value of <em class="parameter"><code>propVal</code></em>
@@ -142,7 +142,7 @@ If multiple constraints are added for the same
 all property values.</p>
 <div class="refsect3">
 <a name="osinfo-filter-add-constraint.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -173,12 +173,12 @@ all property values.</p>
 <a name="osinfo-filter-clear-constraint"></a><h3>osinfo_filter_clear_constraint ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 osinfo_filter_clear_constraint (<em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>,
-                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *propName</code></em>);</pre>
+                                <em class="parameter"><code>const <span class="type">gchar</span> *propName</code></em>);</pre>
 <p>Remove all filter constraints for the matching property
 name.</p>
 <div class="refsect3">
 <a name="osinfo-filter-clear-constraint.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -207,7 +207,7 @@ osinfo_filter_clear_constraints (<em class="parameter"><code><a class="link" hre
 <p>Remove all filter property constraints</p>
 <div class="refsect3">
 <a name="osinfo-filter-clear-constraints.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -224,12 +224,12 @@ osinfo_filter_clear_constraints (<em class="parameter"><code><a class="link" hre
 <hr>
 <div class="refsect2">
 <a name="osinfo-filter-get-constraint-keys"></a><h3>osinfo_filter_get_constraint_keys ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<pre class="programlisting"><span class="returnvalue">GList</span> *
 osinfo_filter_get_constraint_keys (<em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>);</pre>
 <p>Get a list of all constraint property keys</p>
 <div class="refsect3">
 <a name="osinfo-filter-get-constraint-keys.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -251,13 +251,13 @@ osinfo_filter_get_constraint_keys (<em class="parameter"><code><a class="link" h
 <hr>
 <div class="refsect2">
 <a name="osinfo-filter-get-constraint-values"></a><h3>osinfo_filter_get_constraint_values ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+<pre class="programlisting"><span class="returnvalue">GList</span> *
 osinfo_filter_get_constraint_values (<em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>,
-                                     <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *propName</code></em>);</pre>
+                                     <em class="parameter"><code>const <span class="type">gchar</span> *propName</code></em>);</pre>
 <p>Get a list values for filter constriants with the named key</p>
 <div class="refsect3">
 <a name="osinfo-filter-get-constraint-values.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -286,13 +286,13 @@ osinfo_filter_get_constraint_values (<em class="parameter"><code><a class="link"
 <hr>
 <div class="refsect2">
 <a name="osinfo-filter-matches"></a><h3>osinfo_filter_matches ()</h3>
-<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+<pre class="programlisting"><span class="returnvalue">gboolean</span>
 osinfo_filter_matches (<em class="parameter"><code><a class="link" href="OsinfoFilter.html" title="OsinfoFilter"><span class="type">OsinfoFilter</span></a> *filter</code></em>,
                        <em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>);</pre>
 <p>Determine of an entity matches a filter</p>
 <div class="refsect3">
 <a name="osinfo-filter-matches.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">

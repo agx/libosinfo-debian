@@ -327,6 +327,7 @@
     <keyword type="struct" name="OsinfoOs" link="OsinfoInstallScript.html#OsinfoOs-struct"/>
     <keyword type="property" name="The “application-id” property" link="OsinfoInstallScript.html#OsinfoMedia--application-id"/>
     <keyword type="property" name="The “architecture” property" link="OsinfoInstallScript.html#OsinfoMedia--architecture"/>
+    <keyword type="property" name="The “eject-after-install” property" link="OsinfoInstallScript.html#OsinfoMedia--eject-after-install"/>
     <keyword type="property" name="The “initrd-path” property" link="OsinfoInstallScript.html#OsinfoMedia--initrd-path"/>
     <keyword type="property" name="The “installer” property" link="OsinfoInstallScript.html#OsinfoMedia--installer"/>
     <keyword type="property" name="The “installer-reboots” property" link="OsinfoInstallScript.html#OsinfoMedia--installer-reboots"/>
@@ -483,6 +484,7 @@
     <keyword type="function" name="osinfo_media_get_live ()" link="OsinfoMedia.html#osinfo-media-get-live"/>
     <keyword type="function" name="osinfo_media_get_installer_reboots ()" link="OsinfoMedia.html#osinfo-media-get-installer-reboots"/>
     <keyword type="function" name="osinfo_media_get_volume_size ()" link="OsinfoMedia.html#osinfo-media-get-volume-size"/>
+    <keyword type="function" name="osinfo_media_get_eject_after_install ()" link="OsinfoMedia.html#osinfo-media-get-eject-after-install"/>
     <keyword type="macro" name="OSINFO_MEDIA_ERROR" link="OsinfoMedia.html#OSINFO-MEDIA-ERROR:CAPS"/>
     <keyword type="enum" name="enum OsinfoMediaError" link="OsinfoMedia.html#OsinfoMediaError"/>
     <keyword type="macro" name="OSINFO_MEDIA_PROP_ARCHITECTURE" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-ARCHITECTURE:CAPS"/>
@@ -501,8 +503,10 @@
     <keyword type="macro" name="OSINFO_MEDIA_PROP_LANG_MAP" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-LANG-MAP:CAPS"/>
     <keyword type="macro" name="OSINFO_MEDIA_PROP_VARIANT" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-VARIANT:CAPS"/>
     <keyword type="macro" name="OSINFO_MEDIA_PROP_VOLUME_SIZE" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-VOLUME-SIZE:CAPS"/>
+    <keyword type="macro" name="OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL" link="OsinfoMedia.html#OSINFO-MEDIA-PROP-EJECT-AFTER-INSTALL:CAPS"/>
     <keyword type="property" name="The “application-id” property" link="OsinfoMedia.html#OsinfoMedia--application-id"/>
     <keyword type="property" name="The “architecture” property" link="OsinfoMedia.html#OsinfoMedia--architecture"/>
+    <keyword type="property" name="The “eject-after-install” property" link="OsinfoMedia.html#OsinfoMedia--eject-after-install"/>
     <keyword type="property" name="The “initrd-path” property" link="OsinfoMedia.html#OsinfoMedia--initrd-path"/>
     <keyword type="property" name="The “installer” property" link="OsinfoMedia.html#OsinfoMedia--installer"/>
     <keyword type="property" name="The “installer-reboots” property" link="OsinfoMedia.html#OsinfoMedia--installer-reboots"/>

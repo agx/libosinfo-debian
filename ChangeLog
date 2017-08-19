@@ -1,4 +1,260 @@
+2017-08-15  Daniel P. Berrange  <berrange@redhat.com>
+
+	Update NEWS for 1.1.0 release
+
+2017-08-14  Daniel P. Berrange  <berrange@redhat.com>
+
+	Unset LC_ALL, as LC_CTYPE doesn't override a previous LC_ALL setting
+
+2017-08-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	Run glib-mkenums in en_US.UTF-8 locale
+	The new python based glib-mkenums crashes if run in the C
+	locale as python is (incorrectly) not 8-bit clean when
+	processing input.
+
+2017-08-03  Pino Toscano  <ptoscano@redhat.com>
+
+	rhel: add RHEL 7.4 test data
+
+2017-08-02  Pino Toscano  <ptoscano@redhat.com>
+
+	tests: make the network tests run
+	Load the default osinfo path, since the osinfo data are no more part of
+	the libosinfo sources.
+
+	The tests still fails though, but this is due to missing paths to ISOs
+	and trees.
+
+	tests: test-mediauris: show status code on failure
+	It helps when debugging failures, to check what is actual error for an
+	URL.
+
+	tests: test-mediauris: skip non-http URLs
+	The test uses libsoup, which supports only HTTP, and not other
+	protocols such as FTP.  Hence, allow only http and https URLs.
+
+	mageia: add Mageia 6 test data
+
+2017-08-02  Roman Bogorodskiy  <bogorodskiy@gmail.com>
+
+	freebsd: add FreeBSD 11.1 isodata
+
+2017-07-13  Guido Günther  <agx@sigxcpu.org>
+
+	test-isodetect: add Debian's arm flavours
+	to avoid "Unknown arch" debug messages
+
+2017-07-12  Guido Günther  <agx@sigxcpu.org>
+
+	test-isodetect: fix parsing of application, system and publisher id
+
+2017-07-12  Pino Toscano  <ptoscano@redhat.com>
+
+	fedora: add Fedora 26 test data
+
+2017-07-11  Guido Günther  <agx@sigxcpu.org>
+
+	tests: add Debian 9.0 test data
+
+2017-05-30  Christophe Fergeau  <cfergeau@redhat.com>
+
+	build: Don't use private headers for gir/vapi generation
+	Using private headers when generating the gir/vapi files mean that they
+	are listing private methods which are not exported by the shared
+	library, as well as types which are not present in public headers, and
+	not meant to be used by external users.
+
+	This was noticed with recent vala.git as it started erroring out on the
+	ProductForeachFlag which is only defined in osinfo_product_private.h
+
+	https://bugzilla.redhat.com/show_bug.cgi?id=1456709
+
+2017-05-03  Pino Toscano  <ptoscano@redhat.com>
+
+	ubuntu: add Ubuntu 17.04 test data
+	Acked-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2017-05-02  Roman Bogorodskiy  <bogorodskiy@gmail.com>
+
+	configure: add (usb|pci).ids locations on FreeBSD
+	Add default locations for usb.ids and pci.ids on FreeBSD,
+	i.e. paths used when installing this from misc/usbids
+	and misc/pciids ports.
+
+	This way users on FreeBSD don't need to explicitly set
+	these paths using --with-(usb|pci)-ids-path flag.
+
+2017-05-02  Daniel P. Berrange  <berrange@redhat.com>
+
+	Move FreeBSD 11 data into tests/ subdir
+
+	Remove trailing whitespace from FreeBSD 11 data files
+
+2017-05-02  Roman Bogorodskiy  <bogorodskiy@gmail.com>
+
+	freebsd: add FreeBSD 11.0 isodata
+
+2017-04-28  Daniel P. Berrange  <berrange@redhat.com>
+
+	Rename test/ to tests/ directory.
+	To simplify libvirt Jenkins CI setup, rename the test directory
+	to tests, so its name matches that used in other virt projects.
+
+2017-04-27  Daniel P. Berrange  <berrange@redhat.com>
+
+	Fix error propagation in DB loader
+	When failing to read the pci/usb ID files we failed to
+	propagate the reported error.
+
+	We also had some dead code which would never be reached
+	due to earlier gotos.
+
+2017-04-24  Daniel P. Berrange  <berrange@redhat.com>
+
+	Remove blank lines at end of file
+
+2017-04-21  Michal Privoznik  <mprivozn@redhat.com>
+
+	gitignore: Ignore tags
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+	docs: Fix couple of warnings
+	Firstly, two functions
+	(osinfo_install_script_has_config_param_{name,list}) don't
+	document their arguments.  Secondly, gtk-doc requires enum
+	documentation to be in one block with no empty lines in it.
+	Then at last, private enums are marked as <private> not <skip>.
+
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2017-04-21  Fabiano Fidêncio  <fabiano@fidencio.org>
+
+	Add 'eject-after-install' parameter to OsinfoMedia
+	If the media is an installer, thus specifies whether the media should be
+	ejected after the installation process. Default value is true.
+
+	This is mainly needed for applications like GNOME Boxes (and maybe
+	virt-install) to be able to decide whether the media should be ejected
+	or not when the final reboot happens during its installation process.
+
+	The latter case may happen when the installer leaves some packages to be
+	installed after rebooting the OS for the last time.
+
+	The issue solved by this patch is a corner-case faced when adding the
+	install scripts for SLES, as during its installation only one reboot is
+	performed (so, installer-reboots attribute doesn't help us) and the media
+	must not be ejected after the reboot in order to finish the installation.
+
+	Acked-by: Daniel P. Berrange <berrange@redhat.com>
+
+2017-04-18  Pino Toscano  <ptoscano@redhat.com>
+
+	centos: add CentOS 6.8 and 6.9 test data
+
+	rhel: add RHEL 6.9 and 7.3 test data
+
+2017-03-20  Guido Günther  <agx@sigxcpu.org>
+
+	Debian: Update Jessie test data
+	Acked-by: Fabiano Fidêncio <fabiano@fidnecio.org>
+
+2017-03-20  Pino Toscano  <ptoscano@redhat.com>
+
+	mageia: add Mageia 4 and 5 test data
+	Acked-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+	ubuntu: add Ubuntu 16.10 test data
+	Acked-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2017-02-23  Roman Bogorodskiy  <bogorodskiy@gmail.com>
+
+	Improve Perl-related routines
+	 * Add a check for the 'perl' program to configure.ac as
+	   $(PERL) is used in various places
+	 * Do not hardcode '/usr/bin/perl' in perl scripts
+	   because on FreeBSD and maybe some other systems it's installed
+	   in a different prefix, so use '/usr/bin/env perl' instead.
+
+2017-02-23  Daniel P. Berrange  <berrange@redhat.com>
+
+	Remove reference to fedorahosted.org in spec files
+
+2017-02-22  Daniel P. Berrange  <berrange@redhat.com>
+
+	Disable -Wunsafe-loop-optimizations warnings
+	This warning option is not reporting broken code. Rather it is merely
+	identifying loops which GCC would not be able to optimize fully when
+	using -funsafe-loop-optimizations.  In GCC 7 this triggers on the
+	loader code
+
+	osinfo_loader.c: In function 'osinfo_loader_process_list':
+	osinfo_loader.c:2127:11: error: missed loop optimization, the loop counter may overflow [-Werror=unsafe-loop-optimizations]
+	     while (tmp && *tmp) {
+	           ^
+
+	The warning just needs to be turned off since the code is not broken,
+	and we don't care about the optimization level
+
+2017-02-07  Charles Arnold  <carnold@suse.com>
+
+	suse: Add SLED-12-SP2 data
+
+	suse: Add SLES-12-SP2 data
+
+	opensuse: Add openSUSE Leap 42.2 data
+
+2017-01-12  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	fedora: Add F25 data
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2016-12-23  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	media: Remove ISO header strings' padding
+	The strings in the ISO header ("volume-id", "system-id", "publisher-id"
+	and "application-id") have a predefined size and are padded with spaces,
+	but nothing in on_{pvd,svd}_read() removes these padding spaces from
+	those strings, which makes osinfo_media_get_volume_id() always return
+	[SOME-ISO-LABEL                  ] rather than the expected
+	[SOME-ISO-LABEL].
+
+	Resolves: rhbz#1408271
+
+	Reported-by: Allan Day <aday@redhat.com>
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2016-12-20  Christophe Fergeau  <cfergeau@redhat.com>
+
+	win10: Add test cases for recent Windows 10 builds
+	Recent Windows 10 builds (build 1607) seem to have dropped the J_ at the
+	beginning of the volume ID.
+	These additional files make sure we've got test cases for this kind of
+	win10 ISOs.
+
+2016-11-06  Guido Günther  <agx@sigxcpu.org>
+
+	loader: Fix typo in error message
+
+	test-isodetect: extend arch table
+	Reduces the output a bit when running under G_MESSAGES_DEBUG.
+
+2016-10-29  Guido Günther  <agx@sigxcpu.org>
+
+	examples: avoid PyGIWarning
+	This fixes
+
+	demo.py:3: PyGIWarning: Libosinfo was imported without specifying a version first. Use gi.require_version('Libosinfo', '1.0') before import
+	to ensure that the right version gets loaded.
+	  from gi.repository import Libosinfo as osinfo;
+
+2016-10-10  Daniel P. Berrange  <berrange@redhat.com>
+
+	Test suite requires osinfo-db to be installed
+
 2016-10-07  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post-release version bump
 
 	Update NEWS for 1.0.0
 
