@@ -1,3 +1,15 @@
+libosinfo (1.1.0-1) unstable; urgency=medium
+
+  * [349b18f] Upstream moved from fedorahosted to pagure
+  * [0dfd210] Use vcs-upstream-tag
+  * [4921ed0] libtool is sufficient no need for libtool-bin.
+    Thanks to Helmut Grohne (Closes: #871703)
+  * [c501be8] Drop loader-Fix-typo-in-error-message.patch: applied upstream
+  * [911d9a3] Bump sumbols
+  * [764448c] Bump standards version
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 19 Aug 2017 23:01:01 +0200
+
 libosinfo (1.0.0-2) unstable; urgency=medium
 
   * Upload to unstable
