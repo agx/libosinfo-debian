@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>OsinfoOs: Libosinfo Reference Manual</title>
-<meta name="generator" content="DocBook XSL Stylesheets V1.78.1">
+<meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libosinfo Reference Manual">
 <link rel="up" href="ch01.html" title="Libosinfo">
 <link rel="prev" href="OsinfoLoader.html" title="OsinfoLoader">
@@ -35,7 +35,7 @@
 </tr></table></div>
 <div class="refsect1">
 <a name="OsinfoOs.functions"></a><h2>Functions</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="functions_return">
 <col class="functions_name">
@@ -90,14 +90,14 @@
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoOs.html#osinfo-os-get-family" title="osinfo_os_get_family ()">osinfo_os_get_family</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
-<td class="function_type">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<td class="function_type">const <span class="returnvalue">gchar</span> *
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoOs.html#osinfo-os-get-distro" title="osinfo_os_get_distro ()">osinfo_os_get_distro</a> <span class="c_punctuation">()</span>
@@ -236,7 +236,7 @@
 </div>
 <div class="refsect1">
 <a name="OsinfoOs.properties"></a><h2>Properties</h2>
-<div class="informaltable"><table border="0">
+<div class="informaltable"><table class="informaltable" border="0">
 <colgroup>
 <col width="150px" class="properties_type">
 <col width="300px" class="properties_name">
@@ -245,13 +245,13 @@
 <tbody>
 <tr>
 <td class="property_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoOs--distro" title="The “distro” property">distro</a></td>
 <td class="property_flags">Read</td>
 </tr>
 <tr>
 <td class="property_type">
-<a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<span class="type">gchar</span> *</td>
 <td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoOs--family" title="The “family” property">family</a></td>
 <td class="property_flags">Read</td>
 </tr>
@@ -260,7 +260,7 @@
 </div>
 <div class="refsect1">
 <a name="OsinfoOs.other"></a><h2>Types and Values</h2>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="name">
 <col class="description">
@@ -287,9 +287,9 @@
 </div>
 <div class="refsect1">
 <a name="OsinfoOs.object-hierarchy"></a><h2>Object Hierarchy</h2>
-<pre class="screen">    <a href="https://developer.gnome.org/gobject/unstable/gobject-Enumeration-and-Flag-Types.html">GEnum</a>
+<pre class="screen">    <a href="/usr/share/gtk-doc/html/gobject/gobject-Enumeration-and-Flag-Types.html">GEnum</a>
     <span class="lineart">╰──</span> OsinfoReleaseStatus
-    <a href="/usr/share/gtk-doc/html/gobjectgobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
+    GObject
     <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
         <span class="lineart">╰──</span> <a class="link" href="OsinfoProduct.html" title="OsinfoProduct">OsinfoProduct</a>
             <span class="lineart">╰──</span> OsinfoOs
@@ -308,11 +308,11 @@ and which are derived from a common ancestry.</p>
 <div class="refsect2">
 <a name="osinfo-os-new"></a><h3>osinfo_os_new ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="returnvalue">OsinfoOs</span></a> *
-osinfo_os_new (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>);</pre>
+osinfo_os_new (<em class="parameter"><code>const <span class="type">gchar</span> *id</code></em>);</pre>
 <p>Create a new operating system entity</p>
 <div class="refsect3">
 <a name="osinfo-os-new.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -340,7 +340,7 @@ osinfo_os_get_devices (<em class="parameter"><code><a class="link" href="OsinfoI
 <p>Get all devices matching a given filter</p>
 <div class="refsect3">
 <a name="osinfo-os-get-devices.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -377,7 +377,7 @@ this function also retrieves devices from all derived and cloned operating
 systems.</p>
 <div class="refsect3">
 <a name="osinfo-os-get-all-devices.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -410,7 +410,7 @@ systems.</p>
 osinfo_os_get_devices_by_property (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
                                    <em class="parameter"><code>const <span class="type">char</span> *property</code></em>,
                                    <em class="parameter"><code>const <span class="type">char</span> *value</code></em>,
-                                   <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> inherited</code></em>);</pre>
+                                   <em class="parameter"><code><span class="type">gboolean</span> inherited</code></em>);</pre>
 <p>A utility function that gets devices found from the list of devices
 <em class="parameter"><code>os</code></em>
  supports, for which the value of <em class="parameter"><code>property</code></em>
@@ -418,7 +418,7 @@ osinfo_os_get_devices_by_property (<em class="parameter"><code><a class="link" h
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-devices-by-property.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -466,7 +466,7 @@ osinfo_os_get_device_links (<em class="parameter"><code><a class="link" href="Os
 matches against the links, not the devices.</p>
 <div class="refsect3">
 <a name="osinfo-os-get-device-links.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -503,7 +503,7 @@ returned <a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink"><
 extra metadata against the link</p>
 <div class="refsect3">
 <a name="osinfo-os-add-device.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -532,14 +532,14 @@ extra metadata against the link</p>
 <hr>
 <div class="refsect2">
 <a name="osinfo-os-get-family"></a><h3>osinfo_os_get_family ()</h3>
-<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 osinfo_os_get_family (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
 <p>Retrieves the generic family the OS <em class="parameter"><code>os</code></em>
  belongs to, based upon its kernel,
 for example linux, winnt, solaris, freebsd etc.</p>
 <div class="refsect3">
 <a name="osinfo-os-get-family.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -561,14 +561,14 @@ for example linux, winnt, solaris, freebsd etc.</p>
 <hr>
 <div class="refsect2">
 <a name="osinfo-os-get-distro"></a><h3>osinfo_os_get_distro ()</h3>
-<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+<pre class="programlisting">const <span class="returnvalue">gchar</span> *
 osinfo_os_get_distro (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
 <p>Retrieves the generic family the OS <em class="parameter"><code>os</code></em>
  belongs to, for example fedora,
 ubuntu, windows, solaris, freebsd etc.</p>
 <div class="refsect3">
 <a name="osinfo-os-get-distro.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -596,7 +596,7 @@ osinfo_os_get_release_status (<em class="parameter"><code><a class="link" href="
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-release-status.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -625,7 +625,7 @@ osinfo_os_get_media_list (<em class="parameter"><code><a class="link" href="Osin
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-media-list.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -655,7 +655,7 @@ osinfo_os_add_media (<em class="parameter"><code><a class="link" href="OsinfoIns
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-add-media.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -685,7 +685,7 @@ osinfo_os_get_tree_list (<em class="parameter"><code><a class="link" href="Osinf
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-tree-list.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -715,7 +715,7 @@ osinfo_os_add_tree (<em class="parameter"><code><a class="link" href="OsinfoInst
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-add-tree.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -745,7 +745,7 @@ osinfo_os_get_variant_list (<em class="parameter"><code><a class="link" href="Os
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-variant-list.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -775,7 +775,7 @@ osinfo_os_add_variant (<em class="parameter"><code><a class="link" href="OsinfoI
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-add-variant.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -805,7 +805,7 @@ osinfo_os_get_minimum_resources (<em class="parameter"><code><a class="link" hre
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-minimum-resources.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -833,7 +833,7 @@ osinfo_os_get_recommended_resources (<em class="parameter"><code><a class="link"
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-recommended-resources.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -863,7 +863,7 @@ osinfo_os_add_minimum_resources (<em class="parameter"><code><a class="link" hre
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-add-minimum-resources.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -895,7 +895,7 @@ osinfo_os_add_recommended_resources (<em class="parameter"><code><a class="link"
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-add-recommended-resources.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -921,10 +921,10 @@ osinfo_os_add_recommended_resources (<em class="parameter"><code><a class="link"
 <a name="osinfo-os-find-install-script"></a><h3>osinfo_os_find_install_script ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="returnvalue">OsinfoInstallScript</span></a> *
 osinfo_os_find_install_script (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>,
-                               <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *profile</code></em>);</pre>
+                               <em class="parameter"><code>const <span class="type">gchar</span> *profile</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-os-find-install-script.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -959,7 +959,7 @@ osinfo_os_find_install_script (<em class="parameter"><code><a class="link" href=
 osinfo_os_get_install_script_list (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *os</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-os-get-install-script-list.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -994,7 +994,7 @@ osinfo_os_get_device_drivers (<em class="parameter"><code><a class="link" href="
 .</p>
 <div class="refsect3">
 <a name="osinfo-os-get-device-drivers.parameters"></a><h4>Parameters</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="150px" class="parameters_name">
 <col class="parameters_description">
@@ -1045,7 +1045,7 @@ osinfo_os_add_device_driver (<em class="parameter"><code><a class="link" href="O
 <a name="OsinfoReleaseStatus"></a><h3>enum OsinfoReleaseStatus</h3>
 <div class="refsect3">
 <a name="OsinfoReleaseStatus.members"></a><h4>Members</h4>
-<div class="informaltable"><table width="100%" border="0">
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
 <col width="300px" class="enum_members_name">
 <col class="enum_members_description">
@@ -1085,7 +1085,7 @@ beta pre-releases of Fedora etc.</p>
 <a name="OsinfoOs.property-details"></a><h2>Property Details</h2>
 <div class="refsect2">
 <a name="OsinfoOs--distro"></a><h3>The <code class="literal">“distro”</code> property</h3>
-<pre class="programlisting">  “distro”                   <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “distro”                   <span class="type">gchar</span> *</pre>
 <p>The generic distro this OS belongs to, for example fedora, windows,
 solaris, freebsd etc.</p>
 <p>Flags: Read</p>
@@ -1094,7 +1094,7 @@ solaris, freebsd etc.</p>
 <hr>
 <div class="refsect2">
 <a name="OsinfoOs--family"></a><h3>The <code class="literal">“family”</code> property</h3>
-<pre class="programlisting">  “family”                   <a href="/usr/share/gtk-doc/html/glibglib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<pre class="programlisting">  “family”                   <span class="type">gchar</span> *</pre>
 <p>The generic family this OS belongs to, based upon its kernel,
 for example linux, winnt, solaris, freebsd etc.</p>
 <p>Flags: Read</p>

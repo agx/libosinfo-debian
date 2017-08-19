@@ -156,7 +156,8 @@ enum {
     PROP_INSTALLER_REBOOTS,
     PROP_OS,
     PROP_LANGUAGES,
-    PROP_VOLUME_SIZE
+    PROP_VOLUME_SIZE,
+    PROP_EJECT_AFTER_INSTALL
 };
 
 static void
@@ -234,6 +235,11 @@ osinfo_media_get_property(GObject    *object,
     case PROP_VOLUME_SIZE:
         g_value_set_int64(value,
                           osinfo_media_get_volume_size(media));
+        break;
+
+    case PROP_EJECT_AFTER_INSTALL:
+        g_value_set_boolean(value,
+                            osinfo_media_get_eject_after_install(media));
         break;
 
     default:
@@ -332,6 +338,12 @@ osinfo_media_set_property(GObject      *object,
                                       g_value_get_int64(value));
         break;
 
+    case PROP_EJECT_AFTER_INSTALL:
+        osinfo_entity_set_param_boolean(OSINFO_ENTITY(media),
+                                        OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL,
+                                        g_value_get_boolean(value));
+
+        break;
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -574,6 +586,24 @@ osinfo_media_class_init(OsinfoMediaClass *klass)
                                G_PARAM_READWRITE |
                                G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_VOLUME_SIZE, pspec);
+
+    /**
+     * OsinfoMedia:eject-after-install:
+     *
+     * Whether the media should be ejected after the installation process.
+     *
+     * Some distros need their media to not be ejected after the final reboot
+     * during its installation process as some packages are installed after the
+     * reboot (which may cause the media to be ejected, depending on the
+     * application).
+     */
+    pspec = g_param_spec_boolean("eject-after-install",
+                                 "EjectAfterInstall",
+                                 _("Whether the media should be ejected after the installtion process"),
+                                 TRUE /* default value */,
+                                 G_PARAM_READWRITE |
+                                 G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_EJECT_AFTER_INSTALL, pspec);
 }
 
 static void
@@ -712,6 +742,7 @@ static void on_svd_read(GObject *source,
 
 
     data->svd.system[MAX_SYSTEM - 1] = 0;
+    g_strchomp(data->svd.system);
 
     if (strncmp(BOOTABLE_TAG, data->svd.system, sizeof(BOOTABLE_TAG)) != 0) {
         g_set_error(&error,
@@ -803,9 +834,16 @@ static void on_pvd_read(GObject *source,
     }
 
     data->pvd.volume[MAX_VOLUME - 1] = 0;
+    g_strchomp(data->pvd.volume);
+
     data->pvd.system[MAX_SYSTEM - 1] = 0;
+    g_strchomp(data->pvd.system);
+
     data->pvd.publisher[MAX_PUBLISHER - 1] = 0;
+    g_strchomp(data->pvd.publisher);
+
     data->pvd.application[MAX_APPLICATION - 1] = 0;
+    g_strchomp(data->pvd.application);
 
     if (is_str_empty(data->pvd.volume)) {
         g_set_error(&error,
@@ -1259,6 +1297,20 @@ gint64 osinfo_media_get_volume_size(OsinfoMedia *media)
 
     return osinfo_entity_get_param_value_int64_with_default
         (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_VOLUME_SIZE, -1);
+}
+
+/**
+ * osinfo_media_get_eject_after_install:
+ * @media: an #OsinfoMedia instance
+ *
+ * Whether @media should ejected after the installation procces.
+ *
+ * Returns: #TRUE if media should be ejected, #FALSE otherwise
+ */
+gboolean osinfo_media_get_eject_after_install(OsinfoMedia *media)
+{
+    return osinfo_entity_get_param_value_boolean_with_default
+        (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL, TRUE);
 }
 
 /*

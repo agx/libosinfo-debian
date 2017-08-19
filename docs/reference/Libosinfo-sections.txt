@@ -699,6 +699,7 @@ OSINFO_MEDIA_PROP_LANG_REGEX
 OSINFO_MEDIA_PROP_LANG_MAP
 OSINFO_MEDIA_PROP_VARIANT
 OSINFO_MEDIA_PROP_VOLUME_SIZE
+OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL
 osinfo_media_new
 osinfo_media_create_from_location
 osinfo_media_create_from_location_async
@@ -718,6 +719,7 @@ osinfo_media_get_installer
 osinfo_media_get_live
 osinfo_media_get_installer_reboots
 osinfo_media_get_volume_size
+osinfo_media_get_eject_after_install
 <SUBSECTION Standard>
 OSINFO_IS_MEDIA
 OSINFO_IS_MEDIA_CLASS
