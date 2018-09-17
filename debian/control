@@ -25,8 +25,8 @@ Build-Depends: autoconf,
  usbutils,
 Standards-Version: 4.0.0
 Homepage: https://libosinfo.org/
-Vcs-Git: https://anonscm.debian.org/git/pkg-libvirt/libosinfo.git
-Vcs-Browser: https://anonscm.debian.org/git/pkg-libvirt/libosinfo.git
+Vcs-Git: https://salsa.debian.org/libvirt-team/libosinfo.git
+Vcs-Browser: https://salsa.debian.org/libvirt-team/libosinfo
 
 Package: libosinfo-1.0-0
 Architecture: any
