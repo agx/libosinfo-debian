@@ -22,8 +22,8 @@
 #include <config.h>
 
 #include <stdlib.h>
+#include <string.h>
 #include <osinfo/osinfo.h>
-#include <check.h>
 
 struct ISOInfo {
     gchar *shortid;
@@ -308,6 +308,46 @@ static GList *load_isos(const gchar *vendor, GError **error)
     return ret;
 }
 
+static GList *load_vendors(GError **error)
+{
+    GFile *dir = g_file_new_for_path(SRCDIR "/tests/isodata");
+    GFileEnumerator *children = g_file_enumerate_children(dir,
+                                                          "standard::*",
+                                                          G_FILE_QUERY_INFO_NONE,
+                                                          NULL,
+                                                          error);
+    GFileInfo *childinfo;
+    GList *ret = NULL;
+
+    if (!children)
+        return NULL;
+
+    while ((childinfo = g_file_enumerator_next_file(children, NULL, error)) != NULL) {
+        if (g_file_info_get_file_type(childinfo) != G_FILE_TYPE_DIRECTORY) {
+            g_object_unref(childinfo);
+            continue;
+        }
+
+        ret = g_list_prepend(ret, g_strdup(g_file_info_get_name(childinfo)));
+
+        g_object_unref(childinfo);
+    }
+
+    if (error && *error)
+        goto error;
+
+ cleanup:
+    g_object_unref(children);
+    g_object_unref(dir);
+
+    return ret;
+
+ error:
+    g_list_free_full(ret, g_free);
+    ret = NULL;
+    goto cleanup;
+}
+
 
 static void test_langs(struct ISOInfo *info)
 {
@@ -321,15 +361,13 @@ static void test_langs(struct ISOInfo *info)
     langs = osinfo_media_get_languages(info->media);
 
     for (it = langs; it != NULL; it = it->next) {
-        fail_unless(g_hash_table_contains(info->langs, it->data),
-                    "%s not a known language for ISO %s",
-                    it->data, info->filename);
+        g_test_message("checking ISO %s, language %s",
+                       info->filename, (const char *)it->data);
+        g_assert_true(g_hash_table_contains(info->langs, it->data));
         g_hash_table_remove(info->langs, it->data);
     }
     g_list_free(langs);
-    fail_unless(g_hash_table_size(info->langs) == 0,
-                "some languages were not identified on ISO %s",
-                info->filename);
+    g_assert_cmpint(g_hash_table_size(info->langs), ==, 0);
 }
 
 static void test_one(const gchar *vendor)
@@ -340,15 +378,15 @@ static void test_one(const gchar *vendor)
     GList *tmp;
     GError *error = NULL;
 
-    fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
-    fail_unless(OSINFO_IS_DB(db), "Db is not a DB");
+    g_assert_true(OSINFO_IS_LOADER(loader));
+    g_assert_true(OSINFO_IS_DB(db));
 
     osinfo_loader_process_default_path(loader, &error);
-    fail_unless(error == NULL, error ? error->message : "none");
+    g_assert_no_error(error);
 
     isos = load_isos(vendor, &error);
 
-    fail_unless(isos != NULL, "ISOs must not be NULL");
+    g_assert_nonnull(isos);
 
     tmp = isos;
     while (tmp) {
@@ -356,14 +394,16 @@ static void test_one(const gchar *vendor)
         gboolean matched = osinfo_db_identify_media(db, info->media);
         OsinfoOs *os;
 
-        fail_unless(matched, "ISO %s was not matched by OS %s",
+        g_test_message("checking OS %s for ISO %s",
+                       info->shortid, info->filename);
+        if (!matched) {
+            g_error("ISO %s was not matched by OS %s",
                     info->filename, info->shortid);
+        }
 
         g_object_get(info->media, "os", &os, NULL);
         const gchar *shortid = osinfo_product_get_short_id(OSINFO_PRODUCT(os));
-        fail_unless(g_str_equal(shortid, info->shortid),
-                    "ISO %s matched OS %s instead of expected %s",
-                    info->filename, shortid, info->shortid);
+        g_assert_cmpstr(shortid, ==, info->shortid);
         g_object_unref(G_OBJECT(os));
         test_langs(info);
 
@@ -376,123 +416,23 @@ static void test_one(const gchar *vendor)
     g_object_unref(loader);
 }
 
-START_TEST(test_fedora)
+int
+main(int argc, char *argv[])
 {
-    test_one("fedora");
-}
-END_TEST
+    g_test_init(&argc, &argv, NULL);
 
-START_TEST(test_rhel)
-{
-    test_one("rhel");
-}
-END_TEST
+    GList *vendors = load_vendors(NULL);
+    GList *it;
+    for (it = vendors; it != NULL; it = it->next) {
+        char *vendor = (char *)it->data;
+        char *test_path = g_strdup_printf("/isodetect/%s", vendor);
 
-START_TEST(test_ubuntu)
-{
-    test_one("ubuntu");
-}
-END_TEST
+        g_test_add_data_func_full(test_path, vendor, (GTestDataFunc)test_one, g_free);
 
-START_TEST(test_debian)
-{
-    test_one("debian");
-}
-END_TEST
+        g_free(test_path);
 
-START_TEST(test_windows)
-{
-    test_one("windows");
-}
-END_TEST
-
-START_TEST(test_freebsd)
-{
-    test_one("freebsd");
-}
-END_TEST
-
-START_TEST(test_openbsd)
-{
-    test_one("openbsd");
-}
-END_TEST
-
-START_TEST(test_opensuse)
-{
-    test_one("opensuse");
-}
-END_TEST
-
-START_TEST(test_centos)
-{
-    test_one("centos");
-}
-END_TEST
-
-START_TEST(test_gnome)
-{
-    test_one("gnome");
-}
-END_TEST
-
-START_TEST(test_altlinux)
-{
-    test_one("altlinux");
-}
-END_TEST
-
-START_TEST(test_mageia)
-{
-    test_one("mageia");
-}
-END_TEST
-
-START_TEST(test_sles)
-{
-    test_one("sles");
-}
-END_TEST
-
-START_TEST(test_sled)
-{
-    test_one("sled");
-}
-END_TEST
-
-static Suite *
-list_suite(void)
-{
-    Suite *s = suite_create("List");
-    TCase *tc = tcase_create("Core");
-    tcase_set_timeout(tc, 20);
-
-    tcase_add_test(tc, test_fedora);
-    tcase_add_test(tc, test_rhel);
-    tcase_add_test(tc, test_ubuntu);
-    tcase_add_test(tc, test_debian);
-    tcase_add_test(tc, test_windows);
-    tcase_add_test(tc, test_freebsd);
-    tcase_add_test(tc, test_openbsd);
-    tcase_add_test(tc, test_opensuse);
-    tcase_add_test(tc, test_centos);
-    tcase_add_test(tc, test_gnome);
-    tcase_add_test(tc, test_altlinux);
-    tcase_add_test(tc, test_mageia);
-    tcase_add_test(tc, test_sles);
-    tcase_add_test(tc, test_sled);
-    suite_add_tcase(s, tc);
-    return s;
-}
-
-int main(void)
-{
-    int number_failed;
-    Suite *s = list_suite();
-    SRunner *sr = srunner_create(s);
-
-    /* Make sure we catch unexpected g_warning() */
-    g_log_set_always_fatal(G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
+    }
+    g_list_free(vendors);
 
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();
@@ -506,11 +446,7 @@ int main(void)
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all(sr, CK_ENV);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
-
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    return g_test_run();
 }
 /*
  * Local variables:

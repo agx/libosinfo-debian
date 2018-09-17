@@ -8,7 +8,7 @@
 <link rel="up" href="ch01.html" title="Libosinfo">
 <link rel="prev" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig">
 <link rel="next" href="OsinfoInstallConfigParamList.html" title="OsinfoInstallConfigParamList">
-<meta name="generator" content="GTK-Doc V1.25 (XML mode)">
+<meta name="generator" content="GTK-Doc V1.28 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body bgcolor="white" text="black" link="#0000FF" vlink="#840084" alink="#0000FF">
@@ -196,7 +196,7 @@ osinfo_install_config_param_new (<em class="parameter"><code>const <span class="
 </div>
 <div class="refsect3">
 <a name="osinfo-install-config-param-new.returns"></a><h4>Returns</h4>
-<p> the new configuration parameter. </p>
+<p>the new configuration parameter. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
 </div>
@@ -204,7 +204,7 @@ osinfo_install_config_param_new (<em class="parameter"><code>const <span class="
 <div class="refsect2">
 <a name="osinfo-install-config-param-get-name"></a><h3>osinfo_install_config_param_get_name ()</h3>
 <pre class="programlisting">const <span class="returnvalue">gchar</span> *
-osinfo_install_config_param_get_name (<em class="parameter"><code>const <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
+osinfo_install_config_param_get_name (<em class="parameter"><code><a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-install-config-param-get-name.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -222,7 +222,7 @@ osinfo_install_config_param_get_name (<em class="parameter"><code>const <a class
 </div>
 <div class="refsect3">
 <a name="osinfo-install-config-param-get-name.returns"></a><h4>Returns</h4>
-<p> the name of the configuration parameter. </p>
+<p>the name of the configuration parameter. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 </div>
@@ -231,7 +231,7 @@ osinfo_install_config_param_get_name (<em class="parameter"><code>const <a class
 <a name="osinfo-install-config-param-get-policy"></a><h3>osinfo_install_config_param_get_policy ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoInstallConfigParam.html#OsinfoInstallConfigParamPolicy" title="enum OsinfoInstallConfigParamPolicy"><span class="returnvalue">OsinfoInstallConfigParamPolicy</span></a>
 osinfo_install_config_param_get_policy
-                               (<em class="parameter"><code>const <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-install-config-param-get-policy.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -249,7 +249,7 @@ osinfo_install_config_param_get_policy
 </div>
 <div class="refsect3">
 <a name="osinfo-install-config-param-get-policy.returns"></a><h4>Returns</h4>
-<p> the policy of the configuration parameter. </p>
+<p>the policy of the configuration parameter. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
 </div>
@@ -258,7 +258,7 @@ osinfo_install_config_param_get_policy
 <a name="osinfo-install-config-param-is-required"></a><h3>osinfo_install_config_param_is_required ()</h3>
 <pre class="programlisting"><span class="returnvalue">gboolean</span>
 osinfo_install_config_param_is_required
-                               (<em class="parameter"><code>const <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-install-config-param-is-required.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -276,7 +276,7 @@ osinfo_install_config_param_is_required
 </div>
 <div class="refsect3">
 <a name="osinfo-install-config-param-is-required.returns"></a><h4>Returns</h4>
-<p> TRUE if the config_param is required.
+<p>TRUE if the config_param is required.
 FALSE otherwise. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -286,7 +286,7 @@ FALSE otherwise. </p>
 <a name="osinfo-install-config-param-is-optional"></a><h3>osinfo_install_config_param_is_optional ()</h3>
 <pre class="programlisting"><span class="returnvalue">gboolean</span>
 osinfo_install_config_param_is_optional
-                               (<em class="parameter"><code>const <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
 <div class="refsect3">
 <a name="osinfo-install-config-param-is-optional.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -304,7 +304,7 @@ osinfo_install_config_param_is_optional
 </div>
 <div class="refsect3">
 <a name="osinfo-install-config-param-is-optional.returns"></a><h4>Returns</h4>
-<p> TRUE if the config_param is optional.
+<p>TRUE if the config_param is optional.
 FALSE otherwise. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
@@ -350,7 +350,7 @@ or NULL to disable transformations for this parameter</p></td>
 <a name="osinfo-install-config-param-get-value-map"></a><h3>osinfo_install_config_param_get_value_map ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoDatamap.html" title="OsinfoDatamap"><span class="returnvalue">OsinfoDatamap</span></a> *
 osinfo_install_config_param_get_value_map
-                               (<em class="parameter"><code>const <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -443,6 +443,6 @@ configuration parameter</p>
 </div>
 </div>
 <div class="footer">
-<hr>Generated by GTK-Doc V1.25</div>
+<hr>Generated by GTK-Doc V1.28</div>
 </body>
 </html>

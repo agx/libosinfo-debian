@@ -16,28 +16,31 @@ check_PROGRAMS = \
 	test-db \
 	test-loader \
 	test-isodetect \
+	test-install-script \
+	test-os-resources \
+        $(NULL)
+
+if HAVE_CURL
+check_PROGRAMS += \
 	test-mediauris \
 	test-treeuris \
-	test-install-script \
-        $(NULL)
+	$(NULL)
+endif
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GLIB_LIBS) \
 	$(GOBJECT_LIBS) \
-	$(SOUP_LIBS) \
-	$(CHECK_LIBS) \
 	../osinfo/libosinfo-1.0.la
 COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
 	$(GLIB_CFLAGS) \
 	$(GOBJECT_CFLAGS) \
-	$(SOUP_CFLAGS) \
 	-I$(top_srcdir) \
 	-DSRCDIR="\"$(abs_top_srcdir)\"" \
 	-DBUILDDIR="\"$(abs_top_builddir)\"" \
-	$(CHECK_CFLAGS)
+	$(NULL)
 
 test_entity_LDADD = $(COMMON_LDADD)
 test_entity_CFLAGS = $(COMMON_CFLAGS)
@@ -95,17 +98,23 @@ test_isodetect_LDADD = $(COMMON_LDADD)
 test_isodetect_CFLAGS = $(COMMON_CFLAGS)
 test_isodetect_SOURCES = test-isodetect.c
 
-test_mediauris_LDADD = $(COMMON_LDADD)
-test_mediauris_CFLAGS = $(COMMON_CFLAGS)
+if HAVE_CURL
+test_mediauris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
+test_mediauris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
 test_mediauris_SOURCES = test-mediauris.c
 
-test_treeuris_LDADD = $(COMMON_LDADD)
-test_treeuris_CFLAGS = $(COMMON_CFLAGS)
+test_treeuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
+test_treeuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
 test_treeuris_SOURCES = test-treeuris.c
+endif
 
 test_install_script_LDADD = $(COMMON_LDADD)
 test_install_script_CFLAGS = $(COMMON_CFLAGS)
 test_install_script_SOURCES = test-install-script.c
+
+test_os_resources_LDADD = $(COMMON_LDADD)
+test_os_resources_CFLAGS = $(COMMON_CFLAGS)
+test_os_resources_SOURCES = test-os-resources.c
 
 TESTS = $(check_PROGRAMS) \
 	$(NULL)

@@ -2,8 +2,8 @@
 
 Summary: A library for managing OS information for virtualization
 Name: libosinfo
-Version: 1.1.0
-Release: 1%{?dist}%{?extra_release}
+Version: 1.2.0
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Development/Libraries
 Source: https://releases.pagure.io/%{name}/%{name}-%{version}.tar.gz
@@ -11,12 +11,11 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: https://libosinfo.org/
 BuildRequires: intltool
 BuildRequires: glib2-devel
-BuildRequires: check-devel
 BuildRequires: libxml2-devel >= 2.6.0
 BuildRequires: libxslt-devel >= 1.0.0
 BuildRequires: vala
 BuildRequires: vala-tools
-BuildRequires: libsoup-devel
+BuildRequires: libcurl-devel
 BuildRequires: /usr/bin/pod2man
 BuildRequires: hwdata
 BuildRequires: gobject-introspection-devel

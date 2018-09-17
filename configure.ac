@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [1.1.0], [libosinfo@redhat.com])
+AC_INIT([libosinfo], [1.2.0], [libosinfo@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -40,10 +40,6 @@ m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 GLIB_MINIMUM_VERSION="2.36"
 GLIB_ENCODED_VERSION="GLIB_VERSION_2_36"
 
-# Keep these two definitions in agreement.
-SOUP_MINIMUM_VERSION="2.42"
-SOUP_ENCODED_VERSION="SOUP_VERSION_2_42"
-
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])
 
@@ -53,12 +49,6 @@ GLIB_CFLAGS="$GLIB_CFLAGS -DGLIB_VERSION_MAX_ALLOWED=$GLIB_ENCODED_VERSION"
 AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
-PKG_CHECK_MODULES([SOUP], [libsoup-2.4 >= $SOUP_MINIMUM_VERSION])
-SOUP_CFLAGS="$SOUP_CFLAGS -DSOUP_VERSION_MIN_REQUIRED=$SOUP_ENCODED_VERSION"
-SOUP_CFLAGS="$SOUP_CFLAGS -DSOUP_VERSION_MAX_ALLOWED=$SOUP_ENCODED_VERSION"
-AC_SUBST(SOUP_CFLAGS)
-AC_SUBST(SOUP_LIBS)
-
 GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
 
 AC_ARG_ENABLE([tests],
@@ -66,8 +56,14 @@ AC_ARG_ENABLE([tests],
         [], [enable_tests=yes])
 
 if test "x$enable_tests" != "xno" ; then
-  PKG_CHECK_MODULES([CHECK], [check])
+  have_curl=no
+  PKG_CHECK_MODULES([CURL], [libcurl], [have_curl=yes], [:])
+  AC_SUBST(CURL_CFLAGS)
+  AC_SUBST(CURL_LIBS)
 fi
+AM_CONDITIONAL([HAVE_CURL],[test "x$have_curl" = "xyes"])
+
+AM_CONDITIONAL([ENABLE_TESTS],[test "x$enable_tests" = "xyes"])
 
 LIBOSINFO_MAJOR_VERSION=`echo $VERSION | awk -F. '{print $1}'`
 LIBOSINFO_MINOR_VERSION=`echo $VERSION | awk -F. '{print $2}'`

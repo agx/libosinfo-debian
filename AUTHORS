@@ -13,6 +13,7 @@ Previous maintainers:
 Patches contributed by:
 
 Alexey Shabalin <a.shabalin@gmail.com>
+Andrea Bolognani <abologna@redhat.com>
 Andreas Henriksson <andreas@fatal.se>
 Andrew Stormont <andyjstormont@gmail.com>
 Arjun Roy <arroy@redhat.com>
@@ -20,10 +21,14 @@ Charles Arnold <carnold@suse.com>
 Christophe Fergeau <cfergeau@redhat.com>
 Cole Robinson <crobinso@redhat.com>
 Daniel P. Berrange <berrange@redhat.com>
+Daniel P. Berrangé <berrange@redhat.com>
 David Zeuthen <davidz@redhat.com>
+Debarshi Ray <debarshir@gnome.org>
 Eric Blake <eblake@redhat.com>
 Fabiano Fidêncio <fabiano@fidencio.org>
 Fabiano Fidêncio <fidencio@redhat.com>
+Felipe Borges <felipe10borges@gmail.com>
+Felipe Borges <felipeborges@gnome.org>
 Giuseppe Scrivano <gscrivan@redhat.com>
 Guido Günther <agx@sigxcpu.org>
 Jasper Lievisse Adriaanse <jasper@humppa.nl>
@@ -36,6 +41,9 @@ Marc-André Lureau <marcandre.lureau@redhat.com>
 Marcus Karlsson <mk@acc.umu.se>
 Matthew Booth <mbooth@redhat.com>
 Michal Privoznik <mprivozn@redhat.com>
+Natanael Copa <ncopa@alpinelinux.org>
+Pavel Hrdina <phrdina@redhat.com>
+Pierre-Alain TORET <pierre-alain.toret@protonmail.com>
 Pino Toscano <ptoscano@redhat.com>
 Programmingkid <programmingkidx@gmail.com>
 Rick Kerkhof <rick.2889@gmail.com>
@@ -44,10 +52,12 @@ Ryan Lortie <desrt@desrt.ca>
 Satoru Satoh <ssato@redhat.com>
 T A Mahadevan <ta.mahadevan@gmail.com>
 Victor Toso <victortoso@redhat.com>
+Vincent <vincent.dao@asianux.com>
 Vladimir Beneš <vbenes@redhat.com>
 Wanlong Gao <gaowanlong@cn.fujitsu.com>
 Yuri Chornoivan <yurchor@ukr.net>
 Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+Zeeshan Ali <zeeshan@kinvolk.io>
 Zeeshan Ali <zeeshanak@gnome.org>
 
   ...send patches to get your name here...
