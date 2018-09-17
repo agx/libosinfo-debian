@@ -2,7 +2,7 @@
 
 Name: mingw-libosinfo
 Version: @VERSION@
-Release: 1%{?dist}%{?extra_release}
+Release: 1%{?dist}
 Summary: MinGW Windows port of a library for managing OS information for virtualization
 License: LGPLv2+
 Group: Development/Libraries
@@ -26,8 +26,6 @@ BuildRequires: mingw32-libxml2
 BuildRequires: mingw64-libxml2
 BuildRequires: mingw32-libxslt
 BuildRequires: mingw64-libxslt
-BuildRequires: mingw32-libsoup
-BuildRequires: mingw64-libsoup
 
 BuildRequires: pkgconfig
 

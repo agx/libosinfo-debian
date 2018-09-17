@@ -1,4 +1,403 @@
+2018-06-20  Daniel P. Berrangé  <berrange@redhat.com>
+
+	Update NEWS for 1.2.0 release
+
+2018-06-12  Fabiano Fidêncio  <fabiano@fidencio.org>
+
+	silverblue: Move isodata to its own folder
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2018-06-07  Fabiano Fidêncio  <fabiano@fidencio.org>
+
+	syms: Add missing "global" on 0.2.[7-10] versions
+	Reported-by: Michal Privoznik <mprivozn@redhat.com>
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+	syms: Fix identation of 0.2.13 symbols
+	When adding the symbols for LIBOSINFO_0.2.13 I mistakenly added the
+	symbols not respecting default identation used (1 tab) and ended up
+	using 4 spaces instead.
+
+	Reviewed-by: Michal Privoznik <mprivozn@redhat.com>
+
+2018-05-31  Fabiano Fidêncio  <fabiano@fidencio.org>
+
+	opensuse: Add Leap 15.0 isodata
+	Reviewed-by: Christophe Fergeau <cfergeau@redhat.com>
+
+	tests: Add test-os-resources
+	test-os-resources has been written to avoid bug as having minimum
+	resources greater than the recommended resources in osinfo-db.
+
+	This problem was exposed by RHEL/CentOS data files, which caused some
+	really bad UI effect in clientes using those two attributes (as GNOME
+	Boxes).
+
+	Reviewed-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2018-05-14  Fabiano Fidêncio  <fabiano@fidencio.org>
+
+	fedora: Add f28 isodata
+	Reviewed-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2018-05-12  Pierre-Alain TORET  <pierre-alain.toret@protonmail.com>
+
+	netbsd: Add NetBSD 7.1.2 isodata
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-05-12  Andrea Bolognani  <abologna@redhat.com>
+
+	tools: Fix compilation with Clang 6
+	Clang 6 doesn't like the way the last item in a GOptionEntry
+	array is initialized:
+
+	  ../../tools/osinfo-install-script.c:87:12: error: missing field
+	  'short_name' initializer [-Werror,-Wmissing-field-initializers]
+	      { NULL }
+	             ^
+	  1 error generated.
+	  gmake[2]: *** [Makefile:540: osinfo-install-script.o] Error 1
+	  gmake[2]: *** Waiting for unfinished jobs....
+	  ../../tools/osinfo-detect.c:104:12: error: missing field
+	  'short_name' initializer [-Werror,-Wmissing-field-initializers]
+	      { NULL }
+	             ^
+	  1 error generated.
+	  gmake[2]: *** [Makefile:540: osinfo-detect.o] Error 1
+
+	Fix the issue by using the { 0 } initializer instead.
+
+	Reviewed-by: Eric Blake <eblake@redhat.com>
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-05-10  Andrea Bolognani  <abologna@redhat.com>
+
+	autogen: Don't hardcode --enable-gtk-doc
+	The usual behavior is for configure to detect the availability
+	of gtk-doc, along with other optional features, and only enable
+	it if found.
+
+	Hardcoding it this way is causing issues for MinGW builds,
+	where pkg-config is looking in the MinGW-specific paths and
+	can't locate the native gtk-doc.pc file, thus concluding
+	gtk-doc must not be present and aborting the build altogether
+	instead of simply skipping API reference generation.
+
+	Both 'make distcheck' (through the DISTCHECK_CONFIGURE_FLAGS
+	variable) and the prepare-release.sh script are already
+	enforcing the availability of gtk-doc when preparing releases,
+	so it's safe to use the default behavior for regular builds.
+
+2018-05-08  Daniel P. Berrangé  <berrange@redhat.com>
+
+	configure: fix HAVE_CURL conditional on Win32
+	AM_CONDITIONAL lines must always be executed, but HAVE_CURL was inside
+	an "if ...", which caused configure to fail when run on Win32.
+
+2018-05-08  Andrea Bolognani  <abologna@redhat.com>
+
+	spec: Drop %{extra_release}
+	It was mainly meant to be used for automatic builds through
+	Test::AutoBuild, so it can be removed now.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	prepare-release: Drop references to Test::AutoBuild
+	They are misleading, and no longer relevant anyway.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	maint: Rename autobuild.sh to prepare-release.sh
+	The script was originally used by the Test::AutoBuild
+	project to perform periodic automatic builds; however, that
+	effort has been abandoned a long time ago, and these days
+	libosinfo CI builds are happening on the Jenkins-based
+	CentOS CI environment under the libvirt umbrella[1], where
+	build recipes are maintained separately from the projects
+	themselves.
+
+	The script is still used to prepare releases, so it can't
+	be dropped from the repository: rename it so that its
+	purpose is more clearly communicated instead.
+
+	[1] https://ci.centos.org/view/libvirt/
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2018-05-04  Andrea Bolognani  <abologna@redhat.com>
+
+	rhel: Fix isodata for RHEL 7.5 on ppc64le
+	There is a spurious empty line at the end of the file that
+	causes 'make syntax-check' to fail with:
+
+	  [...]
+	  tests/isodata/rhel/rhel7.5/RHEL-7.5-20180322.0-Server-ppc64le-dvd1.iso.txt
+	  maint.mk: empty line(s) or no newline at EOF
+	  make: *** [maint.mk:927: sc_prohibit_empty_lines_at_EOF] Error 1
+
+	Get rid of it to solve the issue.
+
+	See also
+
+	  https://ci.centos.org/view/libvirt/job/libosinfo-master-syntax-check/123/
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2018-05-02  Felipe Borges  <felipe10borges@gmail.com>
+
+	rhel: Add RHEL 7.5 isodata
+	Reviewed-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2018-04-23  Fabiano Fidêncio  <fabiano@fidencio.org>
+
+	tumbleweed: Add "Kubic DVD/USB Stick" isodata
+	Reviewed-by: Charles Arnold <carnold@suse.com>
+
+	tumbleweed: Add "Network Image" isodata
+	Reviewed-by: Charles Arnold <carnold@suse.com>
+
+	opensuse-42.3: Add "Network Image" isodata
+	Reviewed-by: Charles Arnold <carnold@suse.com>
+
+2018-04-10  Christophe Fergeau  <cfergeau@redhat.com>
+
+	loader: Fix leak in osinfo_loader_find_files()
+	'tmp' is used to iterate over the list of files, so it will be NULL at
+	the end of the iteration, and g_list_free() will be a no-op.
+	The initial list is stored in 'children', so free that instead.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2018-04-10  Pierre-Alain TORET  <pierre-alain.toret@protonmail.com>
+
+	openbsd: add OpenBSD 6.3 isodata
+
+2018-04-10  Natanael Copa  <ncopa@alpinelinux.org>
+
+	alpinelinux: add Alpine Linux isodata
+
+2018-04-10  Vincent  <vincent.dao@asianux.com>
+
+	asianux: add Asianux isodata
+
+2018-03-18  Daniel P. Berrangé  <berrange@redhat.com>
+
+	loader: process files in alphabetical order
+	Currently when loading DB files we process them in whatever order
+	readdir() returns them in, which is often inode order. This makes the
+	order of loading files non-deterministic across installs, and if there
+	are ambiguities in the data, we can in turn get different results.
+	eg ISO images match different OS entries depending on load order.
+
+	Alphabetically sorting the files doesn't remove any ambiguity that
+	may exist, but at least gives us consistent results on every host.
+
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-03-18  Pierre-Alain TORET  <pierre-alain.toret@protonmail.com>
+
+	fedora27: Add Atomic Workstation isodata
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-03-11  Pierre-Alain TORET  <pierre-alain.toret@protonmail.com>
+
+	fedora: add Fedora 27 isodata
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-03-11  Charles Arnold  <carnold@suse.com>
+
+	sles: add SLE12 SP3 ISO Information
+	Add SLE12 SP3 ISO Information
+
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-03-11  Felipe Borges  <felipeborges@gnome.org>
+
+	windows: add win2k16 test data
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+	pop_os: add Pop!_OS test data
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-03-11  Christophe Fergeau  <cfergeau@redhat.com>
+
+	tests: Remove calls to g_log_set_always_fatal()
+	All tests call that method because they want g_warning() to be fatal.
+	Since the switch to GTest, this is no longer necessary as this is the
+	default  behaviour.
+
+	Reviewed-by: Fabiano Fidêncio <fabiano@fidencio.org>
+
+2018-02-23  Daniel P. Berrangé  <berrange@redhat.com>
+
+	m4: turn off -Wfunction-cast-type warning flag from gcc8
+	GCC 8 adds -Wfunction-cast-type to -Wextra, but this breaks when using
+	G_DEFINE_TYPE which does so called "bad" function casts.
+
+2018-02-19  Christophe Fergeau  <cfergeau@redhat.com>
+
+	test-isodetect: Iterate over all isodata/ subdirs
+	When adding support for a new vendor, test-isodetect.c needs to be
+	updated to list it, which is too easy to forget.
+	This commit iterates over subdirs in tests/isodata/ and uses these as
+	the vendors to test for. This means no further modification of
+	test-isodetect.c is needed when adding a new vendor.
+
+2018-02-16  Christophe Fergeau  <cfergeau@redhat.com>
+
+	NetBSD: add NetBSD 6.x and 7.x tests isodata
+	Based on a patch from Vicente Chaves de Melo <vchaves@ymail.com>
+
+2018-02-15  Felipe Borges  <felipeborges@gnome.org>
+
+	opensuse: add OpenSUSE Leap 42.3 test data
+
+2018-02-14  Felipe Borges  <felipeborges@gnome.org>
+
+	freedos: add freedos 1.2 test data
+
+2018-01-15  Christophe Fergeau  <cfergeau@redhat.com>
+
+	test-isodetect: Improve error message on detection failures
+	Since the switch to the GTest framework, when the test suite fails to
+	identify an ISO, the error message is:
+	ERROR:test-isodetect.c:359:test_one: 'matched' should be TRUE
+	while it used to be the much more explicit:
+	ERROR **: ISO alpine-extended-3.7.0_rc2-x86_64.iso.txt was not matched by OS alpinelinux3.7
+
+	This commit readds the explicit message on this particular failure.
+
+2017-12-04  Daniel P. Berrange  <berrange@redhat.com>
+
+	Refresh translations from zanata
+
+2017-11-29  Pino Toscano  <ptoscano@redhat.com>
+
+	ubuntu: add Ubuntu 17.10 test data
+
+2017-11-22  Zeeshan Ali  <zeeshan@kinvolk.io>
+
+	Drop redundant 'const' keyword from object parameters
+	Use of 'const' parameter on object parameters is redundant, inconsistent
+	(both internally and against other GObject libraries) and currently breaks
+	the low-level Rust binding generator:
+
+	https://github.com/gtk-rs/glib/pull/249
+
+2017-11-06  Christophe Fergeau  <cfergeau@redhat.com>
+
+	tests: Add test case for Windows 10 1709 builds
+	These are currently missing from osinfo-db
+
+
+	https://bugzilla.redhat.com/show_bug.cgi?id=1509387
+
+2017-11-06  Debarshi Ray  <debarshir@gnome.org>
+
+	Marginally simplify the code to create and run a GMainLoop
+	Even though g_main_loop_new accepts a is_running parameter, it isn't
+	very important since g_main_loop_run will set it to TRUE anyway. There
+	is no requirement that it should be set before calling g_main_loop_run.
+	The vast majority of GMainLoop users simply ignore the is_running
+	parameter unless they are doing something out of the ordinary.
+
+2017-11-01  Pavel Hrdina  <phrdina@redhat.com>
+
+	tests: get the curl response code every time (more)
+	This failed on FreeBSD with following error:
+
+	../../tests/test-treeuris.c:47:13: error: variable 'response_code' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+
+	tests: get the curl response code every time
+	This failed on FreeBSD with following error:
+
+	../../tests/test-mediauris.c:47:13: error: variable 'response_code' is used uninitialized whenever 'if' condition is false [-Werror,-Wsometimes-uninitialized]
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+2017-10-20  Roman Bogorodskiy  <bogorodskiy@gmail.com>
+
+	freebsd: Add FreeBSD 10.4 isodata
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2017-10-19  Pino Toscano  <ptoscano@redhat.com>
+
+	tests: convert from check to the GLib testing framework
+	GLib has shipped a testing framework for many years already, so we can
+	make use of it, replacing the external "check".
+
+	The conversion only switches framework without changing the structure of
+	the tests, making use of the more appropriate assertion in the various
+	places.
+
+	build: make curl optional, and only for tests
+	Look for curl only when the tests are enabled, and as optional build
+	dependency.  If curl is missing, then the two network tests are not
+	built.  Also, limit the use of curl CFLAGS/LIBS only for the tests that
+	really need it.
+
+	As side result, it is possible to drop the curl BuildRequires from the
+	mingw spec, as it builds with --enable-tests=no.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+	build: fix disabling of tests
+	Actually use the result of the configure switch --enable-tests, enabling
+	or disabling the tests accordingly.
+
+	Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+
+2017-10-18  Pierre-Alain TORET  <pierre-alain.toret@protonmail.com>
+
+	openbsd: add OpenBSD 5.9 isodata
+
+2017-10-16  Pierre-Alain TORET  <pierre-alain.toret@protonmail.com>
+
+	openbsd: add OpenBSD 6.2 isodata
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+	openbsd: add OpenBSD 6.1 isodata
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+	openbsd: add OpenBSD 6.0 isodata
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+2017-10-16  Pino Toscano  <ptoscano@redhat.com>
+
+	tests: test-mediauris: raise timeout to 5 minutes
+	With the growing amount of distros in osinfo-db, the test takes more
+	and more time to complete, hitting the 2 minutes timeout in case of any
+	network hiccup (or simply when a server takes more time to reply).
+
+	Hence, raise the timeout to 5 minutes, which ought to be enough now.
+
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+	Revert "tests: test-mediauris: skip non-http URLs"
+	Now that test-mediauris uses libcurl, it can handle protocols different
+	than http(s), like ftp, just fine.
+
+	This reverts commit 4c9c7185475a9739af51a9fc680e5b8a97055467.
+
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
+	Switch from libsoup to libcurl
+	libsoup is used to check the validity of URLs in distributions in
+	osinfo-db; OTOH it supports only HTTP(S), so this limits the checks to
+	that protocol.
+
+	To overcome this limitation, switch to libcurl: while it requires
+	slightly more code to do the same task, it provides a bit more
+	flexibility, and support for other protocols.  No version check is
+	performed, since the APIs used are old enough.
+
+	Adapt also the README, and the packaging files.
+
+	Acked-by: Christophe Fergeau <cfergeau@redhat.com>
+
 2017-08-15  Daniel P. Berrange  <berrange@redhat.com>
+
+	Post-release version bump
 
 	Update NEWS for 1.1.0 release
 

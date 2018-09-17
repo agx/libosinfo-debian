@@ -21,13 +21,11 @@
 
 #include <config.h>
 
-#include <config.h>
 #include <stdlib.h>
 #include <osinfo/osinfo.h>
-#include <check.h>
-#include <libsoup/soup.h>
+#include <curl/curl.h>
 
-static void test_tree(OsinfoTreeList *treelist, GError **error, SoupSession *session)
+static void test_tree(OsinfoTreeList *treelist, GError **error, CURL *curl)
 {
     GList *treeel = NULL, *tmp;
 
@@ -35,30 +33,32 @@ static void test_tree(OsinfoTreeList *treelist, GError **error, SoupSession *ses
     while (tmp) {
         OsinfoTree *tree = tmp->data;
         const gchar *url = osinfo_tree_get_url(tree);
-        SoupMessage *msg;
-        guint status;
+        CURLcode res;
+        long response_code;
 
         if (url == NULL || g_str_equal(url, "")) {
             tmp = tmp->next;
             continue;
         }
 
-        g_print("%s\n", url);
-        msg = soup_message_new("HEAD", url);
-        status = soup_session_send_message(session, msg);
+        g_test_message("%s", url);
+        curl_easy_setopt(curl, CURLOPT_URL, url);
+        res = curl_easy_perform(curl);
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &response_code);
 
-        fail_unless(SOUP_STATUS_IS_SUCCESSFUL(status), "Failed HEAD on %s", url);
+        g_test_message("res=%d, %s; code=%ld", res, curl_easy_strerror(res), response_code);
+        g_assert_cmpint(res, ==, CURLE_OK);
 
-        g_object_unref(msg);
         tmp = tmp->next;
     }
 
     g_list_free(treeel);
 }
 
-START_TEST(test_uris)
+static void
+test_uris(void)
 {
-    SoupSession *session;
+    CURL *curl;
     OsinfoLoader *loader = osinfo_loader_new();
     OsinfoDb *db = osinfo_loader_get_db(loader);
     GError *error = NULL;
@@ -66,22 +66,24 @@ START_TEST(test_uris)
     GList *osel = NULL, *tmp;
     const gchar *debugstr;
 
-    session = soup_session_new();
+    curl = curl_easy_init();
+    curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 60L);
+    curl_easy_setopt(curl, CURLOPT_TCP_KEEPALIVE, 1L);
+    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
 
     if ((debugstr = g_getenv("LIBOSINFO_TEST_DEBUG"))) {
-        SoupLogger *logger;
         int debug_level = atoi(debugstr);
 
-        logger = soup_logger_new(debug_level, -1);
-        soup_session_add_feature(session, SOUP_SESSION_FEATURE(logger));
-        g_object_unref(logger);
+        curl_easy_setopt(curl, CURLOPT_VERBOSE, debug_level > 0 ? 1L : 0L);
     }
 
-    fail_unless(OSINFO_IS_LOADER(loader), "Loader is not a LOADER");
-    fail_unless(OSINFO_IS_DB(db), "Db is not a DB");
+    g_assert_true(OSINFO_IS_LOADER(loader));
+    g_assert_true(OSINFO_IS_DB(db));
 
     osinfo_loader_process_default_path(loader, &error);
-    fail_unless(error == NULL, error ? error->message : "none");
+    g_assert_no_error(error);
 
     oslist = osinfo_db_get_os_list(db);
     tmp = osel = osinfo_list_get_elements(OSINFO_LIST(oslist));
@@ -89,13 +91,15 @@ START_TEST(test_uris)
         OsinfoOs *os = tmp->data;
         OsinfoTreeList *treelist = osinfo_os_get_tree_list(os);
 
-        test_tree(treelist, &error, session);
+        test_tree(treelist, &error, curl);
 
-        fail_unless(error == NULL, error ? error->message : "none");
+        g_assert_no_error(error);
 
         g_object_unref(treelist);
         tmp = tmp->next;
     }
+
+    curl_easy_cleanup(curl);
 
     g_list_free(osel);
     if (oslist)
@@ -103,35 +107,23 @@ START_TEST(test_uris)
 
     g_object_unref(loader);
 }
-END_TEST
 
 
 
-static Suite *
-list_suite(void)
+int
+main(int argc, char *argv[])
 {
-    Suite *s = suite_create("List");
-    TCase *tc = tcase_create("Core");
-    tcase_set_timeout(tc, 120);
+    int ret;
 
-    tcase_add_test(tc, test_uris);
-    suite_add_tcase(s, tc);
-    return s;
-}
+    g_test_init(&argc, &argv, NULL);
 
-int main(void)
-{
-    int number_failed;
-    Suite *s = list_suite();
-    SRunner *sr = srunner_create(s);
-
-    /* Make sure we catch unexpected g_warning() */
-    g_log_set_always_fatal(G_LOG_LEVEL_ERROR | G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
+    g_test_add_func("/treeuris/uris", test_uris);
 
     if (!g_getenv("LIBOSINFO_NETWORK_TESTS"))
         return 77; /* Skip */
 
     /* Upfront so we don't confuse valgrind */
+    curl_global_init(CURL_GLOBAL_ALL);
     osinfo_entity_get_type();
     osinfo_db_get_type();
     osinfo_device_get_type();
@@ -143,11 +135,11 @@ int main(void)
     osinfo_oslist_get_type();
     osinfo_filter_get_type();
 
-    srunner_run_all(sr, CK_ENV);
-    number_failed = srunner_ntests_failed(sr);
-    srunner_free(sr);
+    ret = g_test_run();
 
-    return (number_failed == 0) ? EXIT_SUCCESS : EXIT_FAILURE;
+    curl_global_cleanup();
+
+    return ret;
 }
 /*
  * Local variables:
