@@ -19,7 +19,7 @@ Build-Depends: autoconf,
  libxslt-dev,
  valac (>= 0.20),
 # for test-isodetect
- osinfo-db,
+ osinfo-db (>= 0.20190411),
  pciutils,
  usbutils,
 Standards-Version: 4.2.1
