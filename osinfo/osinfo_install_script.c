@@ -64,6 +64,8 @@ enum {
     PROP_PRODUCT_KEY_FORMAT,
     PROP_PATH_FORMAT,
     PROP_AVATAR_FORMAT,
+    PROP_PREFERRED_INJECTION_METHOD,
+    PROP_INSTALLATION_SOURCE
 };
 
 typedef struct _OsinfoInstallScriptGenerateData OsinfoInstallScriptGenerateData;
@@ -103,6 +105,16 @@ osinfo_install_script_set_property(GObject    *object,
             osinfo_entity_set_param(OSINFO_ENTITY(script),
                                     OSINFO_INSTALL_SCRIPT_PROP_PROFILE,
                                     data);
+        break;
+
+    case PROP_PREFERRED_INJECTION_METHOD:
+        osinfo_install_script_set_preferred_injection_method(script,
+                                                             g_value_get_flags(value));
+        break;
+
+    case PROP_INSTALLATION_SOURCE:
+        osinfo_install_script_set_installation_source(script,
+                                                      g_value_get_enum(value));
         break;
 
     default:
@@ -149,6 +161,16 @@ osinfo_install_script_get_property(GObject    *object,
     case PROP_AVATAR_FORMAT:
         g_value_set_object(value,
                            osinfo_install_script_get_avatar_format(script));
+        break;
+
+    case PROP_PREFERRED_INJECTION_METHOD:
+        g_value_set_flags(value,
+                          osinfo_install_script_get_preferred_injection_method(script));
+        break;
+
+    case PROP_INSTALLATION_SOURCE:
+        g_value_set_enum(value,
+                         osinfo_install_script_get_installation_source(script));
         break;
 
     default:
@@ -252,6 +274,29 @@ osinfo_install_script_class_init(OsinfoInstallScriptClass *klass)
                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_AVATAR_FORMAT,
+                                    pspec);
+
+    pspec = g_param_spec_flags("preferred-injection-method",
+                               "Preferred Injection Method",
+                               _("The preferred injection method"),
+                               OSINFO_TYPE_INSTALL_SCRIPT_INJECTION_METHOD,
+                               OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK, /* default value */
+                               G_PARAM_READABLE |
+                               G_PARAM_WRITABLE |
+                               G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_PREFERRED_INJECTION_METHOD,
+                                    pspec);
+
+    pspec = g_param_spec_enum("installation-source",
+                              "Installation Source",
+                              _("The installation source to be used"),
+                              OSINFO_TYPE_INSTALL_SCRIPT_INSTALLATION_SOURCE,
+                              OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA,
+                              G_PARAM_READABLE |
+                              G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_INSTALLATION_SOURCE,
                                     pspec);
 
     g_type_class_add_private(klass, sizeof(OsinfoInstallScriptPrivate));
@@ -581,22 +626,22 @@ static xsltStylesheetPtr osinfo_install_script_load_template(const gchar *uri,
     /* Set up a parser context so we can catch the details of XML errors. */
     pctxt = xmlNewParserCtxt();
     if (!pctxt || !pctxt->sax) {
-        g_set_error(error, 0, 0, "%s",
-                    _("Unable to create XML parser context"));
+        g_set_error_literal(error, OSINFO_ERROR, 0,
+                            _("Unable to create XML parser context"));
         goto cleanup;
     }
 
     if (!(doc = xmlCtxtReadDoc(pctxt, BAD_CAST template, uri, NULL,
                                XML_PARSE_NOENT | XML_PARSE_NONET |
                                XML_PARSE_NOWARNING))) {
-        g_set_error(error, 0, 0, "%s",
-                    _("Unable to read XSL template"));
+        g_set_error_literal(error, OSINFO_ERROR, 0,
+                            _("Unable to read XSL template"));
         goto cleanup;
     }
 
     if (!(xslt = xsltParseStylesheetDoc(doc))) {
-        g_set_error(error, 0, 0, "%s",
-                    _("Unable to parse XSL template"));
+        g_set_error_literal(error, OSINFO_ERROR, 0,
+                            _("Unable to parse XSL template"));
         goto cleanup;
     }
 
@@ -656,6 +701,25 @@ osinfo_install_script_get_param_value_list(OsinfoInstallScript *script,
     return values;
 }
 
+static void propagate_libxml_error(GError **error, const char *format, ...) G_GNUC_PRINTF(2, 3);
+
+static void propagate_libxml_error(GError **error, const char *format, ...)
+{
+    xmlErrorPtr err = xmlGetLastError();
+    char *prefix;
+    va_list ap;
+
+    va_start(ap, format);
+    prefix = g_strdup_vprintf(format, ap);
+    va_end(ap);
+
+    if (err == NULL) {
+        g_set_error_literal(error, OSINFO_ERROR, 0, prefix);
+    } else {
+        g_set_error(error, OSINFO_ERROR, 0, "%s: %s", prefix, err->message);
+    }
+    g_free(prefix);
+}
 
 static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript *script,
                                                             OsinfoEntity *entity,
@@ -668,22 +732,17 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
     GList *tmp1;
 
     if (!(node = xmlNewDocNode(NULL, NULL, (xmlChar*)name, NULL))) {
-        xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, _("Unable to create XML node '%s': '%s'"),
-                    name, err ? err->message : "");
+        propagate_libxml_error(error, _("Unable to create XML node '%s'"), name);
         goto error;
     }
 
     if (!(data = xmlNewDocRawNode(NULL, NULL, (const xmlChar*)"id",
                                   (const xmlChar*)osinfo_entity_get_id(entity)))) {
-        xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, _("Unable to create XML node 'id': '%s'"),
-                    err ? err->message : "");
+        propagate_libxml_error(error, _("Unable to create XML node 'id'"));
         goto error;
     }
     if (!(xmlAddChild(node, data))) {
-        xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, _("Unable to add XML child '%s'"), err ? err->message : "");
+        propagate_libxml_error(error, _("Unable to add XML child"));
         goto error;
     }
     data = NULL;
@@ -704,14 +763,12 @@ static xmlNodePtr osinfo_install_script_generate_entity_xml(OsinfoInstallScript 
         while (tmp2) {
             if (!(data = xmlNewDocRawNode(NULL, NULL, (const xmlChar*)tmp1->data,
                                           (const xmlChar*)tmp2->data))) {
-                xmlErrorPtr err = xmlGetLastError();
-                g_set_error(error, 0, 0, _("Unable to create XML node '%s': '%s'"),
-                            (const gchar *)tmp1->data, err ? err->message : "");
+                propagate_libxml_error(error, _("Unable to create XML node '%s'"),
+                                       (const gchar *)tmp1->data);
                 goto error;
             }
             if (!(xmlAddChild(node, data))) {
-                xmlErrorPtr err = xmlGetLastError();
-                g_set_error(error, 0, 0, _("Unable to add XML child '%s'"), err ? err->message : "");
+                propagate_libxml_error(error, _("Unable to add XML child"));
                 goto error;
             }
             data = NULL;
@@ -757,8 +814,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
                                                            error)))
         goto error;
     if (!(xmlAddChild(root, node))) {
-        xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
+        propagate_libxml_error(error, _("Unable to set XML root"));
         goto error;
     }
 
@@ -768,8 +824,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
                                                            error)))
         goto error;
     if (!(xmlAddChild(root, node))) {
-        xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
+        propagate_libxml_error(error, _("Unable to set XML root"));
         goto error;
     }
 
@@ -780,8 +835,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
                                                                error)))
             goto error;
         if (!(xmlAddChild(root, node))) {
-            xmlErrorPtr err = xmlGetLastError();
-            g_set_error(error, 0, 0, _("Unable to set 'media' node: '%s'"), err ? err->message : "");
+            propagate_libxml_error(error, _("Unable to set 'media' node"));
             goto error;
         }
     }
@@ -792,8 +846,7 @@ static xmlDocPtr osinfo_install_script_generate_config_xml(OsinfoInstallScript *
                                                            error)))
         goto error;
     if (!(xmlAddChild(root, node))) {
-        xmlErrorPtr err = xmlGetLastError();
-        g_set_error(error, 0, 0, _("Unable to set XML root '%s'"), err ? err->message : "");
+        propagate_libxml_error(error, _("Unable to set XML root"));
         goto error;
     }
 
@@ -816,17 +869,17 @@ static gchar *osinfo_install_script_apply_xslt(xsltStylesheetPtr ss,
     int len;
 
     if (!(ctxt = xsltNewTransformContext(ss, doc))) {
-        g_set_error(error, 0, 0, "%s", _("Unable to create XSL transform context"));
+        g_set_error_literal(error, OSINFO_ERROR, 0, _("Unable to create XSL transform context"));
         goto cleanup;
     }
 
     if (!(docOut = xsltApplyStylesheetUser(ss, doc, NULL, NULL, NULL, ctxt))) {
-        g_set_error(error, 0, 0, "%s", _("Unable to apply XSL transform context"));
+        g_set_error_literal(error, OSINFO_ERROR, 0, _("Unable to apply XSL transform context"));
         goto cleanup;
     }
 
     if (xsltSaveResultToString(&xsltResult, &len, docOut, ss) < 0) {
-        g_set_error(error, 0, 0, "%s", _("Unable to convert XSL output to string"));
+        g_set_error_literal(error, OSINFO_ERROR, 0, _("Unable to convert XSL output to string"));
         goto cleanup;
     }
     ret = g_strdup((gchar *)xsltResult);
@@ -1757,6 +1810,106 @@ gboolean osinfo_install_script_get_needs_internet(OsinfoInstallScript *script)
          FALSE);
 }
 
+/**
+ * osinfo_install_script_set_preferred_injection_method:
+ * @script: the install script
+ * @method: one of the injection methods:
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_CDROM,
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK,
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_FLOPPY,
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD,
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB
+ *
+ * Set the preferred injection method to be used with the @script
+ */
+void osinfo_install_script_set_preferred_injection_method(OsinfoInstallScript *script,
+                                                          OsinfoInstallScriptInjectionMethod method)
+{
+    GFlagsClass *flags_class;
+    guint i;
+
+    flags_class = g_type_class_ref(OSINFO_TYPE_INSTALL_SCRIPT_INJECTION_METHOD);
+    for (i = 0; i < flags_class->n_values; i++) {
+        if ((flags_class->values[i].value & method) != 0) {
+            osinfo_entity_set_param(OSINFO_ENTITY(script),
+                                    OSINFO_INSTALL_SCRIPT_PROP_PREFERRED_INJECTION_METHOD,
+                                    flags_class->values[i].value_nick);
+            break;
+        }
+    }
+    g_type_class_unref(flags_class);
+}
+
+/**
+ * osinfo_install_script_get_preferred_injection_method:
+ * @script: the install script
+ *
+ * Returns: the preferred injection method for the script. If none is set and
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK is supported,
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK is returned, otherwise
+ * OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD is returned.
+ */
+OsinfoInstallScriptInjectionMethod
+osinfo_install_script_get_preferred_injection_method(OsinfoInstallScript *script)
+{
+    GFlagsClass *flags_class;
+    GFlagsValue *value;
+    const gchar *nick;
+    guint supported_methods;
+
+    nick = osinfo_entity_get_param_value(OSINFO_ENTITY(script),
+            OSINFO_INSTALL_SCRIPT_PROP_PREFERRED_INJECTION_METHOD);
+
+    if (nick == NULL) {
+        supported_methods = osinfo_install_script_get_injection_methods(script);
+        if ((supported_methods & OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK) != 0)
+            return OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK;
+        else if ((supported_methods & OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD) != 0)
+            return OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD;
+        else
+            return OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK;
+    }
+
+    flags_class = g_type_class_ref(OSINFO_TYPE_INSTALL_SCRIPT_INJECTION_METHOD);
+    value = g_flags_get_value_by_nick(flags_class, nick);
+    g_type_class_unref(flags_class);
+
+    return value->value;
+}
+
+/**
+ * osinfo_install_script_set_installation_source:
+ * @script: the install script
+ * @source: one of the installation sources:
+ * OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA,
+ * OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK
+ *
+ * Set the installation source to be used with the @script.
+ */
+void osinfo_install_script_set_installation_source(OsinfoInstallScript *script,
+                                                   OsinfoInstallScriptInstallationSource source)
+{
+    osinfo_entity_set_param_enum(OSINFO_ENTITY(script),
+            OSINFO_INSTALL_SCRIPT_PROP_INSTALLATION_SOURCE,
+            source,
+            OSINFO_TYPE_INSTALL_SCRIPT_INSTALLATION_SOURCE);
+}
+
+/**
+ * osinfo_install_script_get_installation_source:
+ * @script: the install script
+ *
+ * Returns: the installation source to be used with the script. If none is set, it defaults to
+ * OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA.
+ */
+OsinfoInstallScriptInstallationSource
+osinfo_install_script_get_installation_source(OsinfoInstallScript *script)
+{
+    return osinfo_entity_get_param_value_enum(OSINFO_ENTITY(script),
+            OSINFO_INSTALL_SCRIPT_PROP_INSTALLATION_SOURCE,
+            OSINFO_TYPE_INSTALL_SCRIPT_INSTALLATION_SOURCE,
+            OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA);
+}
 
 /*
  * Local variables:

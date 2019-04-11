@@ -577,6 +577,13 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
             const gchar *os_application = osinfo_media_get_application_id(os_media);
             gint64 os_vol_size = osinfo_media_get_volume_size(os_media);
 
+            if (os_volume == NULL &&
+                os_system == NULL &&
+                os_publisher == NULL &&
+                os_application == NULL &&
+                os_vol_size <= 0)
+                continue;
+
             if (os_vol_size <= 0)
                 os_vol_size = media_vol_size;
 
@@ -635,6 +642,9 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
     const gchar *initrd_path;
     const gchar *arch;
     const gchar *url;
+    gint i;
+    gboolean installer_script;
+    OsinfoInstallScriptList *install_script_list;
     GList *variants, *node;
 
     set_languages_for_media(db, media, matched_media);
@@ -678,6 +688,23 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
                      "eject-after-install", eject_after_install,
                      NULL);
     }
+    installer_script = osinfo_entity_get_param_value_boolean_with_default(OSINFO_ENTITY(matched_media),
+                                                                          OSINFO_MEDIA_PROP_INSTALLER_SCRIPT,
+                                                                          TRUE);
+    g_object_set(G_OBJECT(media),
+                 "installer-script", installer_script,
+                 NULL);
+    install_script_list = osinfo_media_get_install_script_list(matched_media);
+    if (install_script_list != NULL &&
+        osinfo_list_get_length(OSINFO_LIST(install_script_list)) > 0) {
+        for (i = 0; i < osinfo_list_get_length(OSINFO_LIST(install_script_list)); i++) {
+            OsinfoInstallScript *script;
+
+            script = OSINFO_INSTALL_SCRIPT(osinfo_list_get_nth(OSINFO_LIST(install_script_list), i));
+            osinfo_media_add_install_script(media, script);
+        }
+    }
+
     if (os != NULL)
         osinfo_media_set_os(media, os);
 }
@@ -758,10 +785,18 @@ OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
 
         for (tree_iter = trees; tree_iter; tree_iter = tree_iter->next) {
             OsinfoTree *os_tree = OSINFO_TREE(tree_iter->data);
-            const gchar *os_family = osinfo_tree_get_treeinfo_family(os_tree);
-            const gchar *os_variant = osinfo_tree_get_treeinfo_variant(os_tree);
-            const gchar *os_version = osinfo_tree_get_treeinfo_version(os_tree);
-            const gchar *os_arch = osinfo_tree_get_treeinfo_arch(os_tree);
+            const gchar *os_family;
+            const gchar *os_variant;
+            const gchar *os_version;
+            const gchar *os_arch;
+
+            if (!osinfo_tree_has_treeinfo(os_tree))
+                continue;
+
+            os_family = osinfo_tree_get_treeinfo_family(os_tree);
+            os_variant = osinfo_tree_get_treeinfo_variant(os_tree);
+            os_version = osinfo_tree_get_treeinfo_version(os_tree);
+            os_arch = osinfo_tree_get_treeinfo_arch(os_tree);
 
             if (match_regex(os_family, tree_family) &&
                 match_regex(os_variant, tree_variant) &&

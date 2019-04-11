@@ -38,6 +38,7 @@
 #include "ignore-value.h"
 #include "osinfo_install_script_private.h"
 #include "osinfo_device_driver_private.h"
+#include "osinfo_resources_private.h"
 
 #ifndef USB_IDS
 #define USB_IDS PKG_DATA_DIR "/usb.ids"
@@ -144,8 +145,26 @@ OsinfoLoader *osinfo_loader_new(void)
     return g_object_new(OSINFO_TYPE_LOADER, NULL);
 }
 
-#define OSINFO_ERROR(err, msg)                                          \
-    g_set_error_literal((err), g_quark_from_static_string("libosinfo"), 0, (msg));
+/**
+ * osinfo_error_quark:
+ *
+ * Gets a #GQuark representing the string "libosinfo"
+ *
+ * Returns: the #GQuark representing the string.
+ **/
+GQuark
+osinfo_error_quark(void)
+{
+    static GQuark quark = 0;
+
+    if (!quark)
+        quark = g_quark_from_static_string("libosinfo");
+
+    return quark;
+}
+
+#define OSINFO_LOADER_SET_ERROR(err, msg)                                        \
+    g_set_error_literal((err), OSINFO_ERROR, 0, (msg));
 
 static gboolean error_is_set(GError **error)
 {
@@ -191,7 +210,7 @@ osinfo_loader_nodeset(const char *xpath,
     if (obj == NULL)
         return 0;
     if (obj->type != XPATH_NODESET) {
-        g_set_error(err, g_quark_from_static_string("libosinfo"), 0,
+        g_set_error(err, OSINFO_ERROR, 0,
                     _("Expected a nodeset in XPath query %s"), xpath);
         xmlXPathFreeObject(obj);
         return -1;
@@ -272,7 +291,7 @@ osinfo_loader_boolean(const char *xpath,
             break;
         }
         if (node->children->type != XML_TEXT_NODE) {
-            OSINFO_ERROR(err, _("Expected a text node attribute value"));
+            OSINFO_LOADER_SET_ERROR(err, _("Expected a text node attribute value"));
             goto cleanup;
         }
 
@@ -313,14 +332,12 @@ osinfo_loader_doc(const char *xpath,
 
     if (!(buf = xmlBufferCreate())) {
         xmlXPathFreeObject(obj);
-        g_set_error(err, 0, 0, "%s",
-                    "Cannot allocate buffer");
+        OSINFO_LOADER_SET_ERROR(err, "Cannot allocate buffer");
         return NULL;
     }
     if (xmlNodeDump(buf, NULL, obj->nodesetval->nodeTab[0], 0, 1) < 0) {
         xmlXPathFreeObject(obj);
-        g_set_error(err, 0, 0, "%s",
-                    "Cannot format stylesheet");
+        OSINFO_LOADER_SET_ERROR(err, "Cannot format stylesheet");
     }
     ret = g_strdup((char *)buf->content);
 
@@ -417,7 +434,7 @@ static void osinfo_loader_entity(OsinfoLoader *loader,
 
         if (!param->children ||
             param->children->type != XML_TEXT_NODE) {
-            OSINFO_ERROR(err, _("Expected a text node attribute value"));
+            OSINFO_LOADER_SET_ERROR(err, _("Expected a text node attribute value"));
             goto cleanup;
         }
 
@@ -506,6 +523,7 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
     gchar *reldir;
     gboolean extension;
     gsize i;
+    gboolean ret = FALSE;
 
     if (!relpath)
         return TRUE;
@@ -536,19 +554,17 @@ static gboolean osinfo_loader_check_id(const gchar *relpath,
     g_free(suffix);
 
     if (!g_str_equal(extension ? reldir : relpath, name)) {
-        g_warning("Entity %s should be in file %s not %s",
+        g_warning("Entity %s must be in file %s not %s",
                   id, name, extension ? reldir : relpath);
-        g_free(reldir);
-        g_free(name);
-        return TRUE; /* In future switch to FALSE to refuse
-                      * to load non-compliant named files.
-                      * Need a period of grace for backcompat
-                      * first though... Switch ETA Jan 2017
-                      */
+        goto cleanup;
     }
+
+    ret = TRUE;
+
+ cleanup:
     g_free(reldir);
     g_free(name);
-    return TRUE;
+    return ret;
 }
 
 
@@ -571,7 +587,7 @@ static void osinfo_loader_device(OsinfoLoader *loader,
         { NULL, G_TYPE_INVALID }
     };
     if (!id) {
-        OSINFO_ERROR(err, _("Missing device id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing device id property"));
         return;
     }
     if (!osinfo_loader_check_id(relpath, "device", id)) {
@@ -606,7 +622,7 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
         };
         gchar *id = (gchar *)xmlGetProp(related[i], BAD_CAST "id");
         if (!id) {
-            OSINFO_ERROR(err, _("Missing device link id property"));
+            OSINFO_LOADER_SET_ERROR(err, _("Missing device link id property"));
             goto cleanup;
         }
         OsinfoDevice *dev = osinfo_loader_get_device(loader, id);
@@ -619,6 +635,15 @@ static void osinfo_loader_device_link(OsinfoLoader *loader,
             devlink = osinfo_os_add_device(OSINFO_OS(entity), dev);
         } else if (OSINFO_IS_DEPLOYMENT(entity)) {
             devlink = osinfo_deployment_add_device(OSINFO_DEPLOYMENT(entity), dev);
+        }
+
+        gchar *supported = (gchar *)xmlGetProp(related[i],
+                                               BAD_CAST OSINFO_DEVICELINK_PROP_SUPPORTED);
+        if (supported != NULL) {
+            osinfo_entity_set_param_boolean(OSINFO_ENTITY(devlink),
+                                            OSINFO_DEVICELINK_PROP_SUPPORTED,
+                                            g_str_equal(supported, "false") ? FALSE : TRUE);
+            xmlFree(supported);
         }
 
         xmlNodePtr saved = ctxt->node;
@@ -656,7 +681,7 @@ static void osinfo_loader_product_relshp(OsinfoLoader *loader,
 
         gchar *id = (gchar *) xmlGetProp(it, BAD_CAST "id");
         if (!id) {
-            OSINFO_ERROR(err, _("Missing product upgrades id property"));
+            OSINFO_LOADER_SET_ERROR(err, _("Missing product upgrades id property"));
             goto cleanup;
         }
         OsinfoProduct *relproduct;
@@ -729,7 +754,7 @@ static void osinfo_loader_platform(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     if (!id) {
-        OSINFO_ERROR(err, _("Missing platform id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing platform id property"));
         return;
     }
     if (!osinfo_loader_check_id(relpath, "platform", id)) {
@@ -763,7 +788,7 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
 {
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
     if (!id) {
-        OSINFO_ERROR(err, _("Missing deployment id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing deployment id property"));
         return;
     }
     if (!osinfo_loader_check_id(relpath, "deployment", id)) {
@@ -773,7 +798,7 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
 
     gchar *osid = osinfo_loader_string("string(./os/@id)", loader, ctxt, err);
     if (!osid && 0) {
-        OSINFO_ERROR(err, _("Missing deployment os id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing deployment os id property"));
         xmlFree(id);
         return;
     }
@@ -783,7 +808,7 @@ static void osinfo_loader_deployment(OsinfoLoader *loader,
     gchar *platformid = osinfo_loader_string("string(./platform/@id)", loader,
                                              ctxt, err);
     if (!platformid) {
-        OSINFO_ERROR(err, _("Missing deployment platform id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing deployment platform id property"));
         xmlFree(id);
         return;
     }
@@ -822,7 +847,7 @@ static void osinfo_loader_datamap(OsinfoLoader *loader,
     gchar *id = (gchar *)xmlGetProp(root, BAD_CAST "id");
 
     if (!id) {
-        OSINFO_ERROR(err, _("Missing os id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing os id property"));
         return;
     }
     if (!osinfo_loader_check_id(relpath, "datamap", id)) {
@@ -946,7 +971,7 @@ static void osinfo_loader_install_script(OsinfoLoader *loader,
     GFlagsClass *flags_class;
 
     if (!id) {
-        OSINFO_ERROR(err, _("Missing install script id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing install script id property"));
         return;
     }
 
@@ -1052,6 +1077,8 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
             xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_REBOOTS);
     xmlChar *eject_after_install =
             xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL);
+    xmlChar *installer_script =
+            xmlGetProp(root, BAD_CAST OSINFO_MEDIA_PROP_INSTALLER_SCRIPT);
     const OsinfoEntityKey keys[] = {
         { OSINFO_MEDIA_PROP_URL, G_TYPE_STRING },
         { OSINFO_MEDIA_PROP_KERNEL, G_TYPE_STRING },
@@ -1091,6 +1118,13 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
         xmlFree(eject_after_install);
     }
 
+    if (installer_script) {
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_INSTALLER_SCRIPT,
+                                (gchar *)installer_script);
+        xmlFree(installer_script);
+    }
+
     gint nnodes = osinfo_loader_nodeset("./variant", loader, ctxt, &nodes, err);
     if (error_is_set(err)) {
         g_object_unref(media);
@@ -1115,22 +1149,22 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
     for (i = 0; i < nnodes; i++) {
         if (!nodes[i]->children ||
             nodes[i]->children->type != XML_TEXT_NODE ||
-            (strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_VOLUME_ID) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_SYSTEM_ID) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_PUBLISHER_ID) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_APPLICATION_ID) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_LANG) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_MEDIA_PROP_VOLUME_SIZE) != 0))
+            (!g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_MEDIA_PROP_VOLUME_ID) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_MEDIA_PROP_SYSTEM_ID) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_MEDIA_PROP_PUBLISHER_ID) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_MEDIA_PROP_APPLICATION_ID) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_MEDIA_PROP_LANG) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_MEDIA_PROP_VOLUME_SIZE)))
             continue;
 
-        if (strcmp((const gchar *)nodes[i]->name,
-                   OSINFO_MEDIA_PROP_LANG) == 0) {
+        if (g_str_equal((const gchar *)nodes[i]->name,
+                        OSINFO_MEDIA_PROP_LANG)) {
             gchar *regex = (gchar *)xmlGetProp(nodes[i], BAD_CAST "regex");
             if (g_strcmp0(regex, "true") == 0) {
                 gchar *datamap;
@@ -1154,6 +1188,32 @@ static OsinfoMedia *osinfo_loader_media(OsinfoLoader *loader,
                                     (const gchar *)nodes[i]->name,
                                     (const gchar *)nodes[i]->children->content);
         }
+    }
+
+    g_free(nodes);
+
+    nnodes = osinfo_loader_nodeset("./installer/script", loader, ctxt, &nodes,
+                                   err);
+    if (error_is_set(err)) {
+        g_object_unref(media);
+        return NULL;
+    }
+
+    for (i = 0; i < nnodes; i++) {
+        OsinfoInstallScript *script;
+        gchar *scriptid;
+
+        scriptid = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
+        if (scriptid == NULL) {
+            OSINFO_LOADER_SET_ERROR(err, _("Missing Media install script property"));
+            g_object_unref(media);
+            return NULL;
+        }
+
+        script = osinfo_loader_get_install_script(loader, scriptid);
+        xmlFree(scriptid);
+
+        osinfo_media_add_install_script(media, script);
     }
 
     g_free(nodes);
@@ -1190,28 +1250,32 @@ static OsinfoTree *osinfo_loader_tree(OsinfoLoader *loader,
         return NULL;
     }
 
+    osinfo_entity_set_param_boolean(OSINFO_ENTITY(tree),
+                                    OSINFO_TREE_PROP_HAS_TREEINFO,
+                                    nnodes == 0 ? FALSE : TRUE);
+
     for (i = 0; i < nnodes; i++) {
         if (!nodes[i]->children ||
             nodes[i]->children->type != XML_TEXT_NODE)
             continue;
 
-        if (strcmp((const gchar *)nodes[i]->name,
-                   OSINFO_TREE_PROP_TREEINFO_FAMILY + sizeof("treeinfo-")) == 0)
+        if (g_str_equal((const gchar *)nodes[i]->name,
+                        OSINFO_TREE_PROP_TREEINFO_FAMILY + strlen("treeinfo-")))
             osinfo_entity_set_param(OSINFO_ENTITY(tree),
                                     OSINFO_TREE_PROP_TREEINFO_FAMILY,
                                     (const gchar *)nodes[i]->children->content);
-        else if (strcmp((const gchar *)nodes[i]->name,
-                        OSINFO_TREE_PROP_TREEINFO_VARIANT + sizeof("treeinfo-")) == 0)
+        else if (g_str_equal((const gchar *)nodes[i]->name,
+                             OSINFO_TREE_PROP_TREEINFO_VARIANT + strlen("treeinfo-")))
             osinfo_entity_set_param(OSINFO_ENTITY(tree),
                                     OSINFO_TREE_PROP_TREEINFO_VARIANT,
                                     (const gchar *)nodes[i]->children->content);
-        else if (strcmp((const gchar *)nodes[i]->name,
-                        OSINFO_TREE_PROP_TREEINFO_VERSION + sizeof("treeinfo-")) == 0)
+        else if (g_str_equal((const gchar *)nodes[i]->name,
+                             OSINFO_TREE_PROP_TREEINFO_VERSION + strlen("treeinfo-")))
             osinfo_entity_set_param(OSINFO_ENTITY(tree),
                                     OSINFO_TREE_PROP_TREEINFO_VERSION,
                                     (const gchar *)nodes[i]->children->content);
-        else if (strcmp((const gchar *)nodes[i]->name,
-                        OSINFO_TREE_PROP_TREEINFO_ARCH + sizeof("treeinfo-")) == 0)
+        else if (g_str_equal((const gchar *)nodes[i]->name,
+                             OSINFO_TREE_PROP_TREEINFO_ARCH + strlen("treeinfo-")))
             osinfo_entity_set_param(OSINFO_ENTITY(tree),
                                     OSINFO_TREE_PROP_TREEINFO_ARCH,
                                     (const gchar *)nodes[i]->children->content);
@@ -1220,6 +1284,39 @@ static OsinfoTree *osinfo_loader_tree(OsinfoLoader *loader,
     g_free(nodes);
 
     return tree;
+}
+
+static OsinfoImage *osinfo_loader_image(OsinfoLoader *loader,
+                                        xmlXPathContextPtr ctxt,
+                                        xmlNodePtr root,
+                                        const gchar *id,
+                                        GError **err)
+{
+    const OsinfoEntityKey keys[] = {
+        { OSINFO_IMAGE_PROP_URL, G_TYPE_STRING },
+        { NULL, G_TYPE_INVALID }
+    };
+
+    gchar *arch = (gchar *)xmlGetProp(root,
+                                      BAD_CAST OSINFO_IMAGE_PROP_ARCHITECTURE);
+    gchar *format = (gchar *)xmlGetProp(root,
+                                        BAD_CAST OSINFO_IMAGE_PROP_FORMAT);
+    gchar *cloud_init = (gchar *)xmlGetProp(root,
+                                            BAD_CAST OSINFO_IMAGE_PROP_CLOUD_INIT);
+    OsinfoImage *image = osinfo_image_new(id, arch, format);
+    xmlFree(arch);
+    xmlFree(format);
+
+    osinfo_loader_entity(loader, OSINFO_ENTITY(image), keys, ctxt, root, err);
+    if (cloud_init) {
+        osinfo_entity_set_param(OSINFO_ENTITY(image),
+                                OSINFO_IMAGE_PROP_CLOUD_INIT,
+                                (gchar *)cloud_init);
+
+        xmlFree(cloud_init);
+    }
+
+    return image;
 }
 
 static OsinfoOsVariant *osinfo_loader_os_variant(OsinfoLoader *loader,
@@ -1253,25 +1350,29 @@ static OsinfoResources *osinfo_loader_resources(OsinfoLoader *loader,
     guint i;
 
     gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    gchar *inherit_str = (gchar *)xmlGetProp(root, BAD_CAST "inherit");
     gchar *node_path = g_strjoin("/", ".", name, "*", NULL);
     gint nnodes = osinfo_loader_nodeset(node_path, loader, ctxt, &nodes, err);
+    gboolean inherit = inherit_str != NULL && g_str_equal(inherit_str, "true");
     g_free(node_path);
-    if (error_is_set(err) || nnodes < 1)
+    g_free(inherit_str);
+    if (error_is_set(err) || (!inherit && nnodes < 1))
         goto EXIT;
 
     resources = osinfo_resources_new(id, arch);
+    osinfo_resources_set_inherit(resources, inherit);
 
     for (i = 0; i < nnodes; i++) {
         if (!nodes[i]->children ||
             nodes[i]->children->type != XML_TEXT_NODE ||
-            (strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_RESOURCES_PROP_CPU) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_RESOURCES_PROP_N_CPUS) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_RESOURCES_PROP_RAM) != 0 &&
-             strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_RESOURCES_PROP_STORAGE) != 0))
+            (!g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_RESOURCES_PROP_CPU) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_RESOURCES_PROP_N_CPUS) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_RESOURCES_PROP_RAM) &&
+             !g_str_equal((const gchar *)nodes[i]->name,
+                          OSINFO_RESOURCES_PROP_STORAGE)))
             continue;
 
         osinfo_entity_set_param(OSINFO_ENTITY(resources),
@@ -1309,6 +1410,22 @@ static void osinfo_loader_resources_list(OsinfoLoader *loader,
 
     if (resources != NULL)
         osinfo_os_add_recommended_resources(os, resources);
+
+    g_clear_object(&resources);
+    resources = osinfo_loader_resources(loader, ctxt, root, id, "maximum", err);
+    if (error_is_set(err))
+        goto EXIT;
+
+    if (resources != NULL)
+        osinfo_os_add_maximum_resources(os, resources);
+
+    g_clear_object(&resources);
+    resources = osinfo_loader_resources(loader, ctxt, root, id, "network-install", err);
+    if (error_is_set(err))
+        goto EXIT;
+
+    if (resources != NULL)
+        osinfo_os_add_network_install_resources(os, resources);
 
 EXIT:
     g_clear_object(&resources);
@@ -1367,13 +1484,13 @@ static OsinfoDeviceDriver *osinfo_loader_driver(OsinfoLoader *loader,
     for (i = 0; i < nnodes; i++) {
         if (nodes[i]->children &&
             nodes[i]->children->type == XML_TEXT_NODE &&
-            (strcmp((const gchar *)nodes[i]->name,
-                    OSINFO_DEVICE_DRIVER_PROP_FILE) == 0)) {
+            (g_str_equal((const gchar *)nodes[i]->name,
+                         OSINFO_DEVICE_DRIVER_PROP_FILE))) {
             osinfo_entity_add_param(OSINFO_ENTITY(driver),
                                     (const gchar *)nodes[i]->name,
                                     (const gchar *)nodes[i]->children->content);
-        } else if (strcmp((const gchar *)nodes[i]->name,
-                          OSINFO_DEVICE_DRIVER_PROP_DEVICE) == 0) {
+        } else if (g_str_equal((const gchar *)nodes[i]->name,
+                               OSINFO_DEVICE_DRIVER_PROP_DEVICE)) {
             xmlChar *device_id = xmlGetProp(nodes[i], BAD_CAST "id");
             OsinfoDevice *device = osinfo_loader_get_device(loader,
                                                             (gchar *)device_id);
@@ -1408,7 +1525,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     };
 
     if (!id) {
-        OSINFO_ERROR(err, _("Missing os id property"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing os id property"));
         return;
     }
     if (!osinfo_loader_check_id(relpath, "os", id)) {
@@ -1472,6 +1589,26 @@ static void osinfo_loader_os(OsinfoLoader *loader,
 
     g_free(nodes);
 
+    nnodes = osinfo_loader_nodeset("./image", loader, ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0; i < nnodes; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        gchar *image_id = g_strdup_printf("%s:%u", id, i);
+        OsinfoImage *image = osinfo_loader_image(loader, ctxt, nodes[i], image_id, err);
+        g_free(image_id);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            goto cleanup;
+
+        osinfo_os_add_image(os, image);
+        g_object_unref(G_OBJECT(image));
+    }
+
+    g_free(nodes);
+
     nnodes = osinfo_loader_nodeset("./variant", loader, ctxt, &nodes, err);
     if (error_is_set(err))
         goto cleanup;
@@ -1523,7 +1660,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
     for (i = 0; i < nnodes; i++) {
         gchar *scriptid = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
         if (!scriptid) {
-            OSINFO_ERROR(err, _("Missing OS install script property"));
+            OSINFO_LOADER_SET_ERROR(err, _("Missing OS install script property"));
             goto cleanup;
         }
         OsinfoInstallScript *script;
@@ -1587,7 +1724,7 @@ static void osinfo_loader_root(OsinfoLoader *loader,
     xmlNodePtr it;
 
     if (!xmlStrEqual(root->name, BAD_CAST "libosinfo")) {
-        OSINFO_ERROR(err, _("Incorrect root element"));
+        OSINFO_LOADER_SET_ERROR(err, _("Incorrect root element"));
         return;
     }
 
@@ -1634,7 +1771,7 @@ catchXMLError(void *ctx, const char *msg ATTRIBUTE_UNUSED, ...)
             gchar *xmlmsg = g_strdup_printf("at line %d: %s",
                                             ctxt->lastError.line,
                                             ctxt->lastError.message);
-            OSINFO_ERROR(ctxt->_private, xmlmsg);
+            OSINFO_LOADER_SET_ERROR(ctxt->_private, xmlmsg);
             g_free(xmlmsg);
         }
     }
@@ -1654,7 +1791,7 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
     /* Set up a parser context so we can catch the details of XML errors. */
     pctxt = xmlNewParserCtxt();
     if (!pctxt || !pctxt->sax) {
-        OSINFO_ERROR(err, _("Unable to construct parser context"));
+        OSINFO_LOADER_SET_ERROR(err, _("Unable to construct parser context"));
         goto cleanup;
     }
 
@@ -1676,7 +1813,7 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
     root = xmlDocGetRootElement(xml);
 
     if (!root) {
-        OSINFO_ERROR(err, _("Missing root XML element"));
+        OSINFO_LOADER_SET_ERROR(err, _("Missing root XML element"));
         goto cleanup;
     }
 
@@ -1898,8 +2035,7 @@ static void osinfo_loader_entity_files_free(OsinfoLoaderEntityFiles *files)
 {
     if (!files)
         return;
-    g_list_foreach(files->extensions, (GFunc)g_object_unref, NULL);
-    g_list_free(files->extensions);
+    g_list_free_full(files->extensions, g_object_unref);
     if (files->master)
         g_object_unref(files->master);
     g_free(files);
@@ -2062,7 +2198,7 @@ static void osinfo_loader_find_files(OsinfoLoader *loader,
         g_object_unref(ents);
         g_list_free(children);
     } else {
-        OSINFO_ERROR(&error, "Unexpected file type");
+        OSINFO_LOADER_SET_ERROR(&error, "Unexpected file type");
         g_propagate_error(err, error);
     }
 }

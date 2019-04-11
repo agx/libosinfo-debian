@@ -2,14 +2,14 @@
 
 Summary: A library for managing OS information for virtualization
 Name: libosinfo
-Version: 1.2.0
+Version: 1.4.0
 Release: 1%{?dist}
 License: LGPLv2+
 Group: Development/Libraries
 Source: https://releases.pagure.io/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: https://libosinfo.org/
-BuildRequires: intltool
+BuildRequires: gettext-devel
 BuildRequires: glib2-devel
 BuildRequires: libxml2-devel >= 2.6.0
 BuildRequires: libxslt-devel >= 1.0.0

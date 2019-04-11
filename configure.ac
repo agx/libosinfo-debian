@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [1.2.0], [libosinfo@redhat.com])
+AC_INIT([libosinfo], [1.4.0], [libosinfo@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -11,11 +11,11 @@ AC_PROG_LN_S
 LT_INIT([shared disable-static win32-dll])
 
 LIBOSINFO_COMPILE_WARNINGS
-GNOME_MAINTAINER_MODE_DEFINES
 AM_MAINTAINER_MODE([enable])
 
 # i18 support
-IT_PROG_INTLTOOL(0.40.0)
+AM_GNU_GETTEXT_VERSION([0.19.8])
+AM_GNU_GETTEXT([external])
 
 GETTEXT_PACKAGE=AC_PACKAGE_NAME
 AC_SUBST(GETTEXT_PACKAGE)
@@ -37,8 +37,8 @@ m4_if(m4_version_compare([2.61a.100],
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 # Keep these two definitions in agreement.
-GLIB_MINIMUM_VERSION="2.36"
-GLIB_ENCODED_VERSION="GLIB_VERSION_2_36"
+GLIB_MINIMUM_VERSION="2.38"
+GLIB_ENCODED_VERSION="GLIB_VERSION_2_38"
 
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])

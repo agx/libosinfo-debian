@@ -6,7 +6,9 @@ check_PROGRAMS = \
 	test-device \
 	test-list \
 	test-devicelist \
+	test-devicelinklist \
 	test-filter \
+	test-media \
 	test-product \
 	test-os \
 	test-oslist \
@@ -17,13 +19,15 @@ check_PROGRAMS = \
 	test-loader \
 	test-isodetect \
 	test-install-script \
-	test-os-resources \
+	test-image \
+	test-imagelist \
         $(NULL)
 
 if HAVE_CURL
 check_PROGRAMS += \
 	test-mediauris \
 	test-treeuris \
+	test-imageuris \
 	$(NULL)
 endif
 
@@ -31,7 +35,7 @@ COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GLIB_LIBS) \
 	$(GOBJECT_LIBS) \
-	../osinfo/libosinfo-1.0.la
+	../osinfo/libosinfo-impl.la
 COMMON_CFLAGS = \
 	$(WARN_CFLAGS) \
 	$(COVERAGE_CFLAGS) \
@@ -74,9 +78,17 @@ test_list_LDADD = $(COMMON_LDADD)
 test_list_CFLAGS = $(COMMON_CFLAGS)
 test_list_SOURCES = test-list.c
 
+test_media_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
+test_media_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
+test_media_SOURCES = test-media.c
+
 test_devicelist_LDADD = $(COMMON_LDADD)
 test_devicelist_CFLAGS = $(COMMON_CFLAGS)
 test_devicelist_SOURCES = test-devicelist.c
+
+test_devicelinklist_LDADD = $(COMMON_LDADD)
+test_devicelinklist_CFLAGS = $(COMMON_CFLAGS)
+test_devicelinklist_SOURCES = test-devicelinklist.c
 
 test_platformlist_LDADD = $(COMMON_LDADD)
 test_platformlist_CFLAGS = $(COMMON_CFLAGS)
@@ -101,20 +113,28 @@ test_isodetect_SOURCES = test-isodetect.c
 if HAVE_CURL
 test_mediauris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
 test_mediauris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-test_mediauris_SOURCES = test-mediauris.c
+test_mediauris_SOURCES = test-mediauris.c test-uris-common.c test-uris-common.h
 
 test_treeuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
 test_treeuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-test_treeuris_SOURCES = test-treeuris.c
+test_treeuris_SOURCES = test-treeuris.c test-uris-common.c test-uris-common.h
+
+test_imageuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
+test_imageuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
+test_imageuris_SOURCES = test-imageuris.c test-uris-common.c test-uris-common.h
 endif
 
 test_install_script_LDADD = $(COMMON_LDADD)
 test_install_script_CFLAGS = $(COMMON_CFLAGS)
 test_install_script_SOURCES = test-install-script.c
 
-test_os_resources_LDADD = $(COMMON_LDADD)
-test_os_resources_CFLAGS = $(COMMON_CFLAGS)
-test_os_resources_SOURCES = test-os-resources.c
+test_image_LDADD = $(COMMON_LDADD)
+test_image_CFLAGS = $(COMMON_CFLAGS)
+test_image_SOURCES = test-image.c
+
+test_imagelist_LDADD = $(COMMON_LDADD)
+test_imagelist_CFLAGS = $(COMMON_CFLAGS)
+test_imagelist_SOURCES = test-imagelist.c
 
 TESTS = $(check_PROGRAMS) \
 	$(NULL)

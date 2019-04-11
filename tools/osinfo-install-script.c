@@ -14,8 +14,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * with this program. If not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *   Daniel P. Berrange <berrange@redhat.com>
@@ -31,6 +30,7 @@
 static const gchar *profile = "jeos";
 static const gchar *output_dir;
 static const gchar *prefix;
+static const gchar *source = "media";
 
 static gboolean list_config = FALSE;
 static gboolean list_profile = FALSE;
@@ -49,7 +49,7 @@ static gboolean handle_config(const gchar *option_name G_GNUC_UNUSED,
     gsize len;
 
     if (!(val = strchr(value, '='))) {
-        g_set_error(error, 0, 0,
+        g_set_error(error, OSINFO_ERROR, 0,
                     _("Expected configuration key=value"));
         return FALSE;
     }
@@ -73,6 +73,8 @@ static GOptionEntry entries[] =
       N_("Install script output directory"), NULL, },
     { "prefix", 'P', 0, G_OPTION_ARG_STRING, (void*)&prefix,
       N_("The output filename prefix"), NULL, },
+    { "installation-source", 's', 0, G_OPTION_ARG_STRING, (void*)&source,
+      N_("The installation source to be used with the script"), NULL, },
     { "config", 'c', 0, G_OPTION_ARG_CALLBACK,
       handle_config,
       N_("Set configuration parameter"), "key=value" },
@@ -251,6 +253,13 @@ static gboolean generate_script(OsinfoOs *os, OsinfoMedia *media)
 
     for (tmp = l; tmp != NULL; tmp = tmp->next) {
         OsinfoInstallScript *script = tmp->data;
+        OsinfoInstallScriptInstallationSource installation_source;
+
+        installation_source = g_str_equal(source, "network") ?
+                OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK :
+                OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA;
+        osinfo_install_script_set_installation_source(script,
+                                                      installation_source);
 
         if (prefix)
             osinfo_install_script_set_output_prefix(script, prefix);
@@ -306,7 +315,7 @@ gint main(gint argc, gchar **argv)
     bindtextdomain(GETTEXT_PACKAGE, LOCALEDIR);
     bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
 
-    config = osinfo_install_config_new("http://libosinfo.fedorahosted.org/config");
+    config = osinfo_install_config_new("https://libosinfo.org/config");
 
     context = g_option_context_new(_("- Generate an OS install script"));
     g_option_context_add_main_entries(context, entries, GETTEXT_PACKAGE);
@@ -429,6 +438,11 @@ By default a script will be generated for a C<JEOS> style install.
 
 Choose the installation script profile. Defaults to C<jeos>, but
 can also be C<desktop>, or a site specific profile name
+
+=item B<--installation-source=NAME>
+
+Set the installation source to be used with the installation
+script. Defaults to C<media>, but can also be C<network>.
 
 =item B<--config=key=value>
 
