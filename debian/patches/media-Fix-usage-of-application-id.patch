@@ -1,0 +1,34 @@
+From: =?utf-8?q?Fabiano_Fid=C3=AAncio?= <fidencio@redhat.com>
+Date: Mon, 1 Apr 2019 22:40:48 +0200
+Subject: media: Fix usage of application id
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+Christophe Fergeau pointed this issue out during the review of 6d789033e
+and, even though, the bogus code ended up merged (sorry, mea culpa
+here!).
+
+Signed-off-by: Fabiano Fidêncio <fidencio@redhat.com>
+Reviewed-by: Cole Robinson <crobinso@redhat.com>
+---
+ osinfo/osinfo_media.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/osinfo/osinfo_media.c b/osinfo/osinfo_media.c
+index efd5794..f9c06eb 100644
+--- a/osinfo/osinfo_media.c
++++ b/osinfo/osinfo_media.c
+@@ -830,10 +830,10 @@ create_from_location_async_data(CreateFromLocationAsyncData *data)
+         osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
+                                 data->publisher);
+-    if (!is_str_empty(data->pvd.application))
++    if (!is_str_empty(data->application))
+         osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                 OSINFO_MEDIA_PROP_APPLICATION_ID,
+-                                data->pvd.application);
++                                data->application);
+ 
+     index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
+     vol_size = ((gint64) data->pvd.volume_space_size[index]) *
