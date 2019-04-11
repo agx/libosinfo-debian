@@ -12,8 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * with this program. If not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *   Daniel P. Berrange <berrange@redhat.com>
@@ -44,6 +43,14 @@ static void free_iso(struct ISOInfo *info)
     if (info->langs)
         g_hash_table_unref(info->langs);
     g_free(info);
+}
+
+/* void* wrapper for free_iso, so it can be used where a void* parameter
+ * is required (e.g. g_list_free_full), with no need for casts.
+ */
+static void free_iso_void(void *info)
+{
+    free_iso((struct ISOInfo *)info);
 }
 
 static gboolean load_langs(GFile *file, struct ISOInfo *info, GError **error)
@@ -106,6 +113,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
     info->langs = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
     if (strstr(name, "amd64") ||
              strstr(name, "x64") ||
+             strstr(name, "X64") ||
              strstr(name, "x86_64") ||
              strstr(name, "64bit") ||
              strstr(name, "64-bit"))
@@ -114,6 +122,7 @@ static struct ISOInfo *load_iso(GFile *file, const gchar *shortid, const gchar *
              strstr(name, "i586") ||
              strstr(name, "i686") ||
              strstr(name, "x86") ||
+             strstr(name, "X86") ||
              strstr(name, "32bit") ||
              strstr(name, "32-bit"))
         arch = "i386";
@@ -242,8 +251,7 @@ static GList *load_distro(GFile *dir, const gchar *shortid, GError **error) {
     return ret;
 
  error:
-    g_list_foreach(ret, (GFunc)free_iso, NULL);
-    g_list_free(ret);
+    g_list_free_full(ret, free_iso_void);
     ret = NULL;
     goto cleanup;
 }
@@ -288,8 +296,7 @@ static GList *load_distros(GFile *dir, GError **error)
     return ret;
 
  error:
-    g_list_foreach(ret, (GFunc)free_iso, NULL);
-    g_list_free(ret);
+    g_list_free_full(ret, free_iso_void);
     ret = NULL;
     goto cleanup;
 }
@@ -388,8 +395,7 @@ static void test_one(const gchar *vendor)
 
     g_assert_nonnull(isos);
 
-    tmp = isos;
-    while (tmp) {
+    for (tmp = isos; tmp; tmp = tmp->next) {
         struct ISOInfo *info  = tmp->data;
         gboolean matched = osinfo_db_identify_media(db, info->media);
         OsinfoOs *os;
@@ -397,8 +403,10 @@ static void test_one(const gchar *vendor)
         g_test_message("checking OS %s for ISO %s",
                        info->shortid, info->filename);
         if (!matched) {
-            g_error("ISO %s was not matched by OS %s",
-                    info->filename, info->shortid);
+            g_printerr("ISO %s was not matched by OS %s\n/isodetect/%s: ",
+                       info->filename, info->shortid, vendor);
+            g_test_fail();
+            continue;
         }
 
         g_object_get(info->media, "os", &os, NULL);
@@ -406,12 +414,9 @@ static void test_one(const gchar *vendor)
         g_assert_cmpstr(shortid, ==, info->shortid);
         g_object_unref(G_OBJECT(os));
         test_langs(info);
-
-        tmp = tmp->next;
     }
 
-    g_list_foreach(isos, (GFunc)free_iso, NULL);
-    g_list_free(isos);
+    g_list_free_full(isos, free_iso_void);
 
     g_object_unref(loader);
 }
@@ -420,6 +425,7 @@ int
 main(int argc, char *argv[])
 {
     g_test_init(&argc, &argv, NULL);
+    g_test_set_nonfatal_assertions();
 
     GList *vendors = load_vendors(NULL);
     GList *it;

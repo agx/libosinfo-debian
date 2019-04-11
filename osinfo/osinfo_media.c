@@ -39,6 +39,34 @@
 
 #define PVD_OFFSET 0x00008000
 #define BOOTABLE_TAG "EL TORITO SPECIFICATION"
+#define PPC_BOOTINFO "/ppc/bootinfo.txt"
+
+enum {
+    DIRECTORY_RECORD_FLAG_EXISTENCE       = 1 << 0,
+    DIRECTORY_RECORD_FLAG_DIRECTORY       = 1 << 1,
+    DIRECTORY_RECORD_FLAG_ASSOCIATED_FILE = 1 << 2,
+    DIRECTORY_RECORD_FLAG_RECORD          = 1 << 3,
+    DIRECTORY_RECORD_FLAG_PROTECTION      = 1 << 4,
+    DIRECTORY_RECORD_FLAG_RESERVED5       = 1 << 5,
+    DIRECTORY_RECORD_FLAG_RESERVED6       = 1 << 6,
+    DIRECTORY_RECORD_FLAG_MULTIEXTENT     = 1 << 7
+};
+
+typedef struct _DirectoryRecord DirectoryRecord;
+
+struct __attribute__((packed)) _DirectoryRecord {
+    guint8 length;
+    guint8 ignored;
+    guint32 extent_location[2];
+    guint32 extent_size[2];
+    guint8 ignored2[7];
+    guint8 flags;
+    guint8 ignored3[6];
+    guint8 filename_length;
+    gchar filename[1];
+};
+
+G_STATIC_ASSERT(sizeof(struct _DirectoryRecord) == 34);
 
 typedef struct _PrimaryVolumeDescriptor PrimaryVolumeDescriptor;
 
@@ -50,19 +78,20 @@ struct _PrimaryVolumeDescriptor {
     guint32 volume_space_size[2];
     guint8 ignored3[40];
     guint16 logical_blk_size[2];
-    guint8 ignored4[186];
+    guint8 ignored4[24];
+    guint8 root_directory_entry[33];
+    guint8 ignored5[129];
     gchar  publisher[MAX_PUBLISHER]; /* Publisher ID */
-    guint8 ignored5[128];
+    guint8 ignored6[128];
     gchar  application[MAX_APPLICATION]; /* Application ID */
-    guint8 ignored6[1346];
+    guint8 ignored7[1346];
 };
 
 /* the PrimaryVolumeDescriptor struct must exactly 2048 bytes long
  * since we expect the supplementary volume descriptor to be right
- * after it. The magic declaration below ensures we get a compilatin
- * error if its size is not correct
+ * after it.
  */
-char dummy[sizeof(struct _PrimaryVolumeDescriptor) == 2048 ? 1 : -1];
+G_STATIC_ASSERT(sizeof(struct _PrimaryVolumeDescriptor) == 2048);
 
 typedef struct _SupplementaryVolumeDescriptor SupplementaryVolumeDescriptor;
 
@@ -70,6 +99,32 @@ struct _SupplementaryVolumeDescriptor {
     guint8 ignored[7];
     gchar  system[MAX_SYSTEM]; /* System ID */
 };
+
+typedef struct _SearchPPCBootinfoAsyncData SearchPPCBootinfoAsyncData;
+struct _SearchPPCBootinfoAsyncData {
+    GTask *res;
+
+    PrimaryVolumeDescriptor *pvd;
+    guint8 *extent;
+
+    gchar **filepath;
+    gsize filepath_index;
+    gsize filepath_index_max;
+
+    gsize offset;
+    gsize length;
+};
+
+static void search_ppc_bootinfo_async_data_free(SearchPPCBootinfoAsyncData *data)
+{
+    g_object_unref(data->res);
+
+    g_strfreev(data->filepath);
+    g_free(data->extent);
+
+    g_slice_free(SearchPPCBootinfoAsyncData, data);
+
+}
 
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
@@ -82,6 +137,11 @@ struct _CreateFromLocationAsyncData {
 
     gsize offset;
     gsize length;
+
+    gchar *volume;
+    gchar *system;
+    gchar *application;
+    gchar *publisher;
 };
 
 static void create_from_location_async_data_free
@@ -89,6 +149,10 @@ static void create_from_location_async_data_free
 {
    g_object_unref(data->file);
    g_object_unref(data->res);
+   g_free(data->volume);
+   g_free(data->system);
+   g_free(data->application);
+   g_free(data->publisher);
 
    g_slice_free(CreateFromLocationAsyncData, data);
 }
@@ -138,6 +202,7 @@ G_DEFINE_TYPE(OsinfoMedia, osinfo_media, OSINFO_TYPE_ENTITY);
 struct _OsinfoMediaPrivate
 {
     GWeakRef os;
+    OsinfoInstallScriptList *scripts;
 };
 
 enum {
@@ -157,7 +222,8 @@ enum {
     PROP_OS,
     PROP_LANGUAGES,
     PROP_VOLUME_SIZE,
-    PROP_EJECT_AFTER_INSTALL
+    PROP_EJECT_AFTER_INSTALL,
+    PROP_INSTALLER_SCRIPT
 };
 
 static void
@@ -240,6 +306,11 @@ osinfo_media_get_property(GObject    *object,
     case PROP_EJECT_AFTER_INSTALL:
         g_value_set_boolean(value,
                             osinfo_media_get_eject_after_install(media));
+        break;
+
+    case PROP_INSTALLER_SCRIPT:
+        g_value_set_boolean(value,
+                            osinfo_media_supports_installer_script(media));
         break;
 
     default:
@@ -342,8 +413,14 @@ osinfo_media_set_property(GObject      *object,
         osinfo_entity_set_param_boolean(OSINFO_ENTITY(media),
                                         OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL,
                                         g_value_get_boolean(value));
-
         break;
+
+    case PROP_INSTALLER_SCRIPT:
+        osinfo_entity_set_param_boolean(OSINFO_ENTITY(media),
+                                        OSINFO_MEDIA_PROP_INSTALLER_SCRIPT,
+                                        g_value_get_boolean(value));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -354,6 +431,10 @@ osinfo_media_set_property(GObject      *object,
 static void
 osinfo_media_finalize(GObject *object)
 {
+    OsinfoMedia *media = OSINFO_MEDIA(object);
+
+    g_object_unref(media->priv->scripts);
+
     /* Chain up to the parent class */
     G_OBJECT_CLASS(osinfo_media_parent_class)->finalize(object);
 }
@@ -604,6 +685,22 @@ osinfo_media_class_init(OsinfoMediaClass *klass)
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_EJECT_AFTER_INSTALL, pspec);
+
+    /**
+     * OsinfoMedia:installer-script:
+     *
+     * Whether the media supports installation via an install-script.
+     *
+     * Some distros provide a few different medias and not all the medias support
+     * installation via an install script.
+     */
+    pspec = g_param_spec_boolean("installer-script",
+                                 "InstallerScript",
+                                 _("Whether the media should be used for an installation using install scripts"),
+                                 TRUE /* default value */,
+                                 G_PARAM_READWRITE |
+                                 G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_INSTALLER_SCRIPT, pspec);
 }
 
 static void
@@ -611,6 +708,7 @@ osinfo_media_init(OsinfoMedia *media)
 {
     media->priv = OSINFO_MEDIA_GET_PRIVATE(media);
     g_weak_ref_init(&media->priv->os, NULL);
+    media->priv->scripts = osinfo_install_scriptlist_new();
 }
 
 OsinfoMedia *osinfo_media_new(const gchar *id,
@@ -696,18 +794,276 @@ static gboolean is_str_empty(const gchar *str) {
     return ret;
 }
 
+static void set_non_bootable_media_error(GError **error)
+{
+    g_set_error(error,
+                OSINFO_MEDIA_ERROR,
+                OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
+                _("Install media is not bootable"));
+}
+
+static OsinfoMedia *
+create_from_location_async_data(CreateFromLocationAsyncData *data)
+{
+    OsinfoMedia *media;
+    gchar *uri;
+    guint64 vol_size;
+    guint8 index;
+
+    uri = g_file_get_uri(data->file);
+    media = g_object_new(OSINFO_TYPE_MEDIA,
+                         "id", uri,
+                         NULL);
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                            OSINFO_MEDIA_PROP_URL,
+                            uri);
+    g_free(uri);
+    if (!is_str_empty(data->volume))
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_VOLUME_ID,
+                                data->volume);
+    if (!is_str_empty(data->system))
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_SYSTEM_ID,
+                                data->system);
+    if (!is_str_empty(data->publisher))
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_PUBLISHER_ID,
+                                data->publisher);
+    if (!is_str_empty(data->pvd.application))
+        osinfo_entity_set_param(OSINFO_ENTITY(media),
+                                OSINFO_MEDIA_PROP_APPLICATION_ID,
+                                data->pvd.application);
+
+    index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
+    vol_size = ((gint64) data->pvd.volume_space_size[index]) *
+               data->pvd.logical_blk_size[index];
+    osinfo_entity_set_param_int64(OSINFO_ENTITY(media),
+                                  OSINFO_MEDIA_PROP_VOLUME_SIZE,
+                                  vol_size);
+
+    return media;
+}
+
+static gboolean check_directory_record_entry_flags(guint8 flags,
+                                                   gboolean is_dir)
+{
+    if (is_dir)
+        return (flags & DIRECTORY_RECORD_FLAG_DIRECTORY) != 0;
+
+    return (flags & DIRECTORY_RECORD_FLAG_DIRECTORY) == 0;
+}
+
+static void on_directory_record_extent_read(GObject *source,
+                                            GAsyncResult *res,
+                                            gpointer user_data)
+{
+    GInputStream *stream = G_INPUT_STREAM(source);
+    SearchPPCBootinfoAsyncData *data;
+    DirectoryRecord *dr;
+    gsize offset;
+    gssize ret;
+    gboolean is_dir;
+    guint8 index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
+    GError *error = NULL;
+
+    data = (SearchPPCBootinfoAsyncData *)user_data;
+
+    ret = g_input_stream_read_finish(stream, res, &error);
+    if (ret < 0) {
+        g_prefix_error(&error,
+                       _("Failed to read \"%s\" directory record extent: "),
+                       data->filepath[data->filepath_index]);
+        goto cleanup;
+    }
+
+    if (ret == 0) {
+        g_set_error(&error,
+                    OSINFO_MEDIA_ERROR,
+                    OSINFO_MEDIA_ERROR_NO_DIRECTORY_RECORD_EXTENT,
+                    _("No \"%s\" directory record extent"),
+                    data->filepath[data->filepath_index]);
+        goto cleanup;
+    }
+
+    data->offset += ret;
+    if (data->offset < data->length) {
+        g_input_stream_read_async(stream,
+                                  ((gchar *)data->extent + data->offset),
+                                  data->length - data->offset,
+                                  g_task_get_priority(data->res),
+                                  g_task_get_cancellable(data->res),
+                                  on_directory_record_extent_read,
+                                  data);
+        return;
+    }
+
+
+    is_dir = data->filepath_index < data->filepath_index_max - 1;
+    offset = 0;
+
+    do {
+        gboolean check;
+
+        dr = (DirectoryRecord *)&data->extent[offset];
+        if (dr->length == 0) {
+            offset++;
+            continue;
+        }
+
+        check = check_directory_record_entry_flags(dr->flags, is_dir);
+        if (check &&
+            strncmp(data->filepath[data->filepath_index], dr->filename, strlen(data->filepath[data->filepath_index])) == 0) {
+            data->filepath_index++;
+            break;
+        }
+
+        offset += dr->length;
+    } while (offset < data->length);
+
+    if (offset >= data->length) {
+        set_non_bootable_media_error(&error);
+        goto cleanup;
+    }
+
+    /* It just means that we walked through all the filepath entries and we
+     * found the file we're looking for! Just return TRUE! */
+    if (data->filepath_index == data->filepath_index_max)
+        goto cleanup;
+
+    if (!g_seekable_seek(G_SEEKABLE(stream),
+                         dr->extent_location[index]  * data->pvd->logical_blk_size[index],
+                         G_SEEK_SET,
+                         g_task_get_cancellable(data->res),
+                         &error))
+        goto cleanup;
+
+    data->offset = 0;
+    data->length = dr->extent_size[index];
+
+    g_free(data->extent);
+    data->extent = g_malloc0(data->length);
+    g_input_stream_read_async(stream,
+                              data->extent,
+                              data->length,
+                              g_task_get_priority(data->res),
+                              g_task_get_cancellable(data->res),
+                              on_directory_record_extent_read,
+                              data);
+    return;
+
+ cleanup:
+    if (error != NULL)
+        g_task_return_error(data->res, error);
+    else
+        g_task_return_boolean(data->res, TRUE);
+
+    search_ppc_bootinfo_async_data_free(data);
+}
+
+static void search_ppc_bootinfo_async(GInputStream *stream,
+                                      PrimaryVolumeDescriptor *pvd,
+                                      gint priority,
+                                      GCancellable *cancellable,
+                                      GAsyncReadyCallback callback,
+                                      gpointer user_data)
+{
+    SearchPPCBootinfoAsyncData *data;
+    DirectoryRecord *root_directory_entry = NULL;
+    GError *error = NULL;
+    guint8 index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
+
+    g_return_if_fail(G_IS_INPUT_STREAM(stream));
+    g_return_if_fail(pvd != NULL);
+
+    data = g_slice_new0(SearchPPCBootinfoAsyncData);
+    data->pvd = pvd;
+    data->res = g_task_new(stream,
+                           cancellable,
+                           callback,
+                           user_data);
+    g_task_set_priority(data->res, priority);
+
+    root_directory_entry = (DirectoryRecord *)&data->pvd->root_directory_entry;
+
+    if (!g_seekable_seek(G_SEEKABLE(stream),
+                         root_directory_entry->extent_location[index] * data->pvd->logical_blk_size[index],
+                         G_SEEK_SET,
+                         g_task_get_cancellable(data->res),
+                         &error))
+        goto cleanup;
+
+    data->offset = 0;
+    data->length = root_directory_entry->extent_size[index];
+    data->extent = g_malloc0(root_directory_entry->extent_size[index]);
+
+    data->filepath = g_strsplit(PPC_BOOTINFO, "/", -1);
+    /* As the path starts with "/", we can just ignore the first element of the
+     * split entry. */
+    data->filepath_index = 1;
+    data->filepath_index_max = g_strv_length(data->filepath);
+
+    g_input_stream_read_async(stream,
+                              data->extent,
+                              data->length,
+                              g_task_get_priority(data->res),
+                              g_task_get_cancellable(data->res),
+                              on_directory_record_extent_read,
+                              data);
+    return;
+
+ cleanup:
+    g_task_return_error(data->res, error);
+    search_ppc_bootinfo_async_data_free(data);
+}
+
+static gboolean search_ppc_bootinfo_finish(GAsyncResult *res,
+                                           GError **error)
+{
+    GTask *task = G_TASK(res);
+
+    g_return_val_if_fail(error == NULL || *error == NULL, FALSE);
+
+    return g_task_propagate_boolean(task, error);
+}
+
+static void search_ppc_bootinfo_callback(GObject *source,
+                                         GAsyncResult *res,
+                                         gpointer user_data)
+{
+    OsinfoMedia *media = NULL;
+    GInputStream *stream = G_INPUT_STREAM(source);
+    GError *error = NULL;
+    CreateFromLocationAsyncData *data;
+    gboolean ret;
+
+    data = (CreateFromLocationAsyncData *)user_data;
+
+    ret = search_ppc_bootinfo_finish(res, &error);
+    if (!ret)
+        goto cleanup;
+
+    media = create_from_location_async_data(data);
+
+ cleanup:
+    if (error != NULL)
+        g_task_return_error(data->res, error);
+    else
+        g_task_return_pointer(data->res, media, g_object_unref);
+
+    g_object_unref(stream);
+    create_from_location_async_data_free(data);
+}
+
 static void on_svd_read(GObject *source,
                          GAsyncResult *res,
                          gpointer user_data)
 {
     OsinfoMedia *media = NULL;
     GInputStream *stream = G_INPUT_STREAM(source);
-    gchar *uri;
     GError *error = NULL;
     CreateFromLocationAsyncData *data;
     gssize ret;
-    guint8 index;
-    gint64 vol_size;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
@@ -717,14 +1073,14 @@ static void on_svd_read(GObject *source,
     if (ret < 0) {
         g_prefix_error(&error,
                        _("Failed to read supplementary volume descriptor: "));
-        goto EXIT;
+        goto cleanup;
     }
     if (ret == 0) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NO_SVD,
                     _("Supplementary volume descriptor was truncated"));
-        goto EXIT;
+        goto cleanup;
     }
 
     data->offset += ret;
@@ -744,47 +1100,27 @@ static void on_svd_read(GObject *source,
     g_strchomp(data->svd.system);
 
     if (strncmp(BOOTABLE_TAG, data->svd.system, sizeof(BOOTABLE_TAG)) != 0) {
-        g_set_error(&error,
-                    OSINFO_MEDIA_ERROR,
-                    OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
-                    _("Install media is not bootable"));
-
-        goto EXIT;
+        /*
+         * In case we reached this point, there are basically 2 alternatives:
+         * - the media is a PPC media and we should check for the existence of
+         *   "/ppc/bootinfo.txt" file
+         * - the media is not bootable.
+         *
+         * Let's check for the existence of the "/ppc/bootinfo.txt" file and,
+         * only after that, return whether the media is bootable or not.
+         */
+        search_ppc_bootinfo_async(stream,
+                                  &data->pvd,
+                                  g_task_get_priority(data->res),
+                                  g_task_get_cancellable(data->res),
+                                  search_ppc_bootinfo_callback,
+                                  data);
+        return;
     }
 
-    uri = g_file_get_uri(data->file);
-    media = g_object_new(OSINFO_TYPE_MEDIA,
-                         "id", uri,
-                         NULL);
-    osinfo_entity_set_param(OSINFO_ENTITY(media),
-                            OSINFO_MEDIA_PROP_URL,
-                            uri);
-    g_free(uri);
-    if (!is_str_empty(data->pvd.volume))
-        osinfo_entity_set_param(OSINFO_ENTITY(media),
-                                OSINFO_MEDIA_PROP_VOLUME_ID,
-                                data->pvd.volume);
-    if (!is_str_empty(data->pvd.system))
-        osinfo_entity_set_param(OSINFO_ENTITY(media),
-                                OSINFO_MEDIA_PROP_SYSTEM_ID,
-                                data->pvd.system);
-    if (!is_str_empty(data->pvd.publisher))
-        osinfo_entity_set_param(OSINFO_ENTITY(media),
-                                OSINFO_MEDIA_PROP_PUBLISHER_ID,
-                                data->pvd.publisher);
-    if (!is_str_empty(data->pvd.application))
-        osinfo_entity_set_param(OSINFO_ENTITY(media),
-                                OSINFO_MEDIA_PROP_APPLICATION_ID,
-                                data->pvd.application);
+    media = create_from_location_async_data(data);
 
-    index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
-    vol_size = ((gint64) data->pvd.volume_space_size[index]) *
-               data->pvd.logical_blk_size[index];
-    osinfo_entity_set_param_int64(OSINFO_ENTITY(media),
-                                  OSINFO_MEDIA_PROP_VOLUME_SIZE,
-                                  vol_size);
-
-EXIT:
+ cleanup:
     if (error != NULL)
         g_task_return_error(data->res, error);
     else
@@ -810,14 +1146,14 @@ static void on_pvd_read(GObject *source,
                                      &error);
     if (ret < 0) {
         g_prefix_error(&error, _("Failed to read primary volume descriptor: "));
-        goto ON_ERROR;
+        goto error;
     }
     if (ret == 0) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_NO_PVD,
                     _("Primary volume descriptor was truncated"));
-        goto ON_ERROR;
+        goto error;
     }
 
     data->offset += ret;
@@ -832,25 +1168,25 @@ static void on_pvd_read(GObject *source,
         return;
     }
 
-    data->pvd.volume[MAX_VOLUME - 1] = 0;
-    g_strchomp(data->pvd.volume);
+    data->volume = g_strndup(data->pvd.volume, MAX_VOLUME);
+    g_strchomp(data->volume);
 
-    data->pvd.system[MAX_SYSTEM - 1] = 0;
-    g_strchomp(data->pvd.system);
+    data->system = g_strndup(data->pvd.system, MAX_SYSTEM);
+    g_strchomp(data->system);
 
-    data->pvd.publisher[MAX_PUBLISHER - 1] = 0;
-    g_strchomp(data->pvd.publisher);
+    data->publisher = g_strndup(data->pvd.publisher, MAX_PUBLISHER);
+    g_strchomp(data->publisher);
 
-    data->pvd.application[MAX_APPLICATION - 1] = 0;
-    g_strchomp(data->pvd.application);
+    data->application = g_strndup(data->pvd.application, MAX_APPLICATION);
+    g_strchomp(data->application);
 
-    if (is_str_empty(data->pvd.volume)) {
+    if (is_str_empty(data->volume)) {
         g_set_error(&error,
                     OSINFO_MEDIA_ERROR,
                     OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA,
                     _("Insufficient metadata on installation media"));
 
-        goto ON_ERROR;
+        goto error;
     }
 
     data->offset = 0;
@@ -865,7 +1201,8 @@ static void on_pvd_read(GObject *source,
                               data);
     return;
 
-ON_ERROR:
+ error:
+    g_object_unref(stream);
     g_task_return_error(data->res, error);
     create_from_location_async_data_free(data);
 }
@@ -888,6 +1225,7 @@ static void on_location_skipped(GObject *source,
                         OSINFO_MEDIA_ERROR,
                         OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
                         _("No volume descriptors"));
+        g_object_unref(stream);
         g_task_return_error(data->res, error);
         create_from_location_async_data_free(data);
 
@@ -1310,6 +1648,72 @@ gboolean osinfo_media_get_eject_after_install(OsinfoMedia *media)
 {
     return osinfo_entity_get_param_value_boolean_with_default
         (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL, TRUE);
+}
+
+/**
+ * osinfo_media_supports_installer_script:
+ * @media: an #OsinfoMedia instance
+ *
+ * Whether @media supports installation using install scripts.
+ *
+ * Returns: #TRUE if install-scripts are supported by the media,
+ * #FALSE otherwise
+ */
+gboolean osinfo_media_supports_installer_script(OsinfoMedia *media)
+{
+    OsinfoOs *os;
+    OsinfoInstallScriptList *list;
+    gboolean ret;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), FALSE);
+
+    os = osinfo_media_get_os(media);
+    list = osinfo_os_get_install_script_list(os);
+
+    if (osinfo_list_get_length(OSINFO_LIST(list)) == 0 &&
+        osinfo_list_get_length(OSINFO_LIST(media->priv->scripts)) == 0) {
+        ret = FALSE;
+        goto cleanup;
+    }
+
+    ret = osinfo_entity_get_param_value_boolean_with_default
+            (OSINFO_ENTITY(media), OSINFO_MEDIA_PROP_INSTALLER_SCRIPT, TRUE);
+
+ cleanup:
+    g_object_unref(list);
+    g_object_unref(os);
+
+    return ret;
+}
+
+/**
+ * osinfo_media_add_install_script:
+ * @media: an #OsinfoMedia instance
+ * @script: an #OsinfoInstallScript instance
+ *
+ * Adds an @script to the specified @media
+ */
+void osinfo_media_add_install_script(OsinfoMedia *media, OsinfoInstallScript *script)
+{
+    g_return_if_fail(OSINFO_IS_MEDIA(media));
+
+    osinfo_list_add(OSINFO_LIST(media->priv->scripts), OSINFO_ENTITY(script));
+}
+
+/**
+ * osinfo_media_get_install_script_list:
+ * @media: an #OsinfoMedia instance
+ *
+ * Returns: (transfer full): a list of the install scripts for the specified media
+ */
+OsinfoInstallScriptList *osinfo_media_get_install_script_list(OsinfoMedia *media)
+{
+    OsinfoList *new_list;
+
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+    new_list = osinfo_list_new_copy(OSINFO_LIST(media->priv->scripts));
+
+    return OSINFO_INSTALL_SCRIPTLIST(new_list);
 }
 
 /*

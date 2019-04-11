@@ -3,8 +3,14 @@
 
 Current maintainers:
 
-  Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+  Christophe Fergeau <cfergeau@redhat.com>
+  Cole Robinson <crobinso@redhat.com>
   Daniel P. Berrange <berrange@redhat.com>
+  Fabiano Fidêncio <fidencio@redhat.com>
+  Guido Günther <agx@sigxcpu.org>
+  Marc-André Lureau <marcandre.lureau@redhat.com>
+  Pino Toscano <ptoscano@redhat.com>
+  Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
 
 Previous maintainers:
 
@@ -13,6 +19,7 @@ Previous maintainers:
 Patches contributed by:
 
 Alexey Shabalin <a.shabalin@gmail.com>
+Alexey Shabalin <shaba@altlinux.org>
 Andrea Bolognani <abologna@redhat.com>
 Andreas Henriksson <andreas@fatal.se>
 Andrew Stormont <andyjstormont@gmail.com>
@@ -27,6 +34,7 @@ Debarshi Ray <debarshir@gnome.org>
 Eric Blake <eblake@redhat.com>
 Fabiano Fidêncio <fabiano@fidencio.org>
 Fabiano Fidêncio <fidencio@redhat.com>
+Felipe Borges <feborges@redhat.com>
 Felipe Borges <felipe10borges@gmail.com>
 Felipe Borges <felipeborges@gnome.org>
 Giuseppe Scrivano <gscrivan@redhat.com>
@@ -39,6 +47,7 @@ Marc Deslauriers <marc.deslauriers@ubuntu.com>
 Marc-André Lureau <marcandre.lureau@gmail.com>
 Marc-André Lureau <marcandre.lureau@redhat.com>
 Marcus Karlsson <mk@acc.umu.se>
+Martin Blanchard <tchaik@gmx.com>
 Matthew Booth <mbooth@redhat.com>
 Michal Privoznik <mprivozn@redhat.com>
 Natanael Copa <ncopa@alpinelinux.org>
@@ -51,9 +60,12 @@ Roman Bogorodskiy <bogorodskiy@gmail.com>
 Ryan Lortie <desrt@desrt.ca>
 Satoru Satoh <ssato@redhat.com>
 T A Mahadevan <ta.mahadevan@gmail.com>
+Vera Cholasta <vbudikov@redhat.com>
+Vicente Chaves de Melo <vchaves@ymail.com>
 Victor Toso <victortoso@redhat.com>
 Vincent <vincent.dao@asianux.com>
 Vladimir Beneš <vbenes@redhat.com>
+Věra Cholasta <vbudikov@redhat.com>
 Wanlong Gao <gaowanlong@cn.fujitsu.com>
 Yuri Chornoivan <yurchor@ukr.net>
 Zeeshan Ali (Khattak) <zeeshanak@gnome.org>

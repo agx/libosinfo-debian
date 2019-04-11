@@ -34,6 +34,8 @@
 #include <osinfo/osinfo_tree.h>
 #include <osinfo/osinfo_resources.h>
 #include <osinfo/osinfo_resourceslist.h>
+#include <osinfo/osinfo_image.h>
+#include <osinfo/osinfo_imagelist.h>
 
 #ifndef __OSINFO_OS_H__
 #define __OSINFO_OS_H__
@@ -89,11 +91,14 @@ struct _OsinfoOsClass
  * development snapshots of GNOME and nightly build ISOs of Fedora etc.
  * @OSINFO_RELEASE_STATUS_PRERELEASE: A pre-release. For example, alpha and
  * beta pre-releases of Fedora etc.
+ * @OSINFO_RELEASE_STATUS_ROLLING: A rolling version of an OS and thus with no
+ * actual releases. For example, Gentoo, Arch Linux, etc.
  */
 typedef enum {
     OSINFO_RELEASE_STATUS_RELEASED,
     OSINFO_RELEASE_STATUS_SNAPSHOT,
-    OSINFO_RELEASE_STATUS_PRERELEASE
+    OSINFO_RELEASE_STATUS_PRERELEASE,
+    OSINFO_RELEASE_STATUS_ROLLING
 } OsinfoReleaseStatus;
 
 GType osinfo_os_get_type(void);
@@ -107,6 +112,7 @@ OsinfoDeviceList *osinfo_os_get_devices_by_property(OsinfoOs *os,
                                                     const char *value,
                                                     gboolean inherited);
 OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *filter);
+OsinfoDeviceLinkList *osinfo_os_get_all_device_links(OsinfoOs *os, OsinfoFilter *filter);
 
 OsinfoDeviceLink *osinfo_os_add_device(OsinfoOs *os, OsinfoDevice *dev);
 const gchar *osinfo_os_get_family(OsinfoOs *os);
@@ -116,12 +122,18 @@ OsinfoMediaList *osinfo_os_get_media_list(OsinfoOs *os);
 void osinfo_os_add_media(OsinfoOs *os, OsinfoMedia *media);
 OsinfoTreeList *osinfo_os_get_tree_list(OsinfoOs *os);
 void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree);
+OsinfoImageList *osinfo_os_get_image_list(OsinfoOs *os);
+void osinfo_os_add_image(OsinfoOs *os, OsinfoImage *image);
 OsinfoOsVariantList *osinfo_os_get_variant_list(OsinfoOs *os);
 void osinfo_os_add_variant(OsinfoOs *os, OsinfoOsVariant *variant);
+OsinfoResourcesList *osinfo_os_get_network_install_resources(OsinfoOs *os);
 OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os);
 OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os);
+OsinfoResourcesList *osinfo_os_get_maximum_resources(OsinfoOs *os);
+void osinfo_os_add_network_install_resources(OsinfoOs *os, OsinfoResources *resources);
 void osinfo_os_add_minimum_resources(OsinfoOs *os, OsinfoResources *resources);
 void osinfo_os_add_recommended_resources(OsinfoOs *os, OsinfoResources *resources);
+void osinfo_os_add_maximum_resources(OsinfoOs *os, OsinfoResources *resources);
 
 OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile);
 OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os);

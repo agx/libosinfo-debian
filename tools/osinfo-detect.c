@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * with this program. If not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *   Zeeshan Ali <zeenix@redhat.com>
@@ -54,9 +53,9 @@ static gboolean parse_format_str(const gchar *option_name,
                                  gpointer data,
                                  GError **error)
 {
-    if (strcmp(value, FORMAT_STR_ENV) == 0)
+    if (g_str_equal(value, FORMAT_STR_ENV))
         format = OUTPUT_FORMAT_ENV;
-    else if (strcmp(value, FORMAT_STR_PLAIN) == 0)
+    else if (g_str_equal(value, FORMAT_STR_PLAIN))
         format = OUTPUT_FORMAT_PLAIN;
     else {
         g_set_error(error,
@@ -75,9 +74,9 @@ static gboolean parse_type_str(const gchar *option_name,
                                gpointer data,
                                GError **error)
 {
-    if (strcmp(value, TYPE_STR_MEDIA) == 0)
+    if (g_str_equal(value, TYPE_STR_MEDIA))
         type = URL_TYPE_MEDIA;
-    else if (strcmp(value, TYPE_STR_TREE) == 0)
+    else if (g_str_equal(value, TYPE_STR_TREE))
         type = URL_TYPE_TREE;
     else {
         g_set_error(error,

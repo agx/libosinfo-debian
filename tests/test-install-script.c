@@ -12,8 +12,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License along
- * with this program; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+ * with this program. If not, see <http://www.gnu.org/licenses/>
  *
  * Authors:
  *   Daniel P. Berrange <berrange@redhat.com>
@@ -299,6 +298,51 @@ test_script_datamap(void)
     g_main_loop_unref(loop);
 }
 
+static void
+test_preferred_injection_method(void)
+{
+    OsinfoLoader *loader;
+    OsinfoDb *db;
+    OsinfoInstallScript *script;
+
+    loader = osinfo_loader_new();
+    osinfo_loader_process_path(loader, SRCDIR "/tests/dbdata", &error);
+    g_assert_no_error(error);
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
+    script = osinfo_db_get_install_script(db, "http://example.com/libosinfo/test-install-script");
+    g_assert_nonnull(script);
+
+    g_assert_true(osinfo_install_script_get_preferred_injection_method(script) == OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK);
+    osinfo_install_script_set_preferred_injection_method(script, OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD);
+    g_assert_true(osinfo_install_script_get_preferred_injection_method(script) == OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD);
+
+    g_object_unref(db);
+}
+
+static void
+test_installation_source(void)
+{
+    OsinfoLoader *loader;
+    OsinfoDb *db;
+    OsinfoInstallScript *script;
+
+    loader = osinfo_loader_new();
+    osinfo_loader_process_path(loader, SRCDIR "/tests/dbdata", &error);
+    g_assert_no_error(error);
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
+    script = osinfo_db_get_install_script(db, "http://example.com/libosinfo/test-install-script");
+    g_assert_nonnull(script);
+
+    g_assert_true(osinfo_install_script_get_installation_source(script) == OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA);
+    osinfo_install_script_set_installation_source(script, OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK);
+    g_assert_true(osinfo_install_script_get_installation_source(script) == OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK);
+
+    g_object_unref(db);
+}
 
 int
 main(int argc, char *argv[])
@@ -308,6 +352,8 @@ main(int argc, char *argv[])
     g_test_add_func("/install-script/script_file", test_script_file);
     g_test_add_func("/install-script/script_data", test_script_data);
     g_test_add_func("/install-script/script_datamap", test_script_datamap);
+    g_test_add_func("/install-script/preferred_injection_method", test_preferred_injection_method);
+    g_test_add_func("/install-script/installation_source", test_installation_source);
 
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();

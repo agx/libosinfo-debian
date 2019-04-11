@@ -27,6 +27,7 @@
 #include <osinfo/osinfo.h>
 #include "osinfo_media_private.h"
 #include "osinfo/osinfo_product_private.h"
+#include "osinfo/osinfo_resources_private.h"
 #include <glib/gi18n-lib.h>
 
 G_DEFINE_TYPE(OsinfoOs, osinfo_os, OSINFO_TYPE_PRODUCT);
@@ -52,9 +53,12 @@ struct _OsinfoOsPrivate
 
     OsinfoMediaList *medias;
     OsinfoTreeList *trees;
+    OsinfoImageList *images;
     OsinfoOsVariantList *variants;
+    OsinfoResourcesList *network_install;
     OsinfoResourcesList *minimum;
     OsinfoResourcesList *recommended;
+    OsinfoResourcesList *maximum;
 
     OsinfoInstallScriptList *scripts;
 
@@ -74,11 +78,6 @@ enum {
 };
 
 static void osinfo_os_finalize(GObject *object);
-
-static void osinfo_device_link_free(gpointer data, gpointer opaque G_GNUC_UNUSED)
-{
-    g_object_unref(OSINFO_DEVICELINK(data));
-}
 
 static void
 osinfo_os_get_property(GObject    *object,
@@ -112,13 +111,15 @@ osinfo_os_finalize(GObject *object)
 {
     OsinfoOs *os = OSINFO_OS(object);
 
-    g_list_foreach(os->priv->deviceLinks, osinfo_device_link_free, NULL);
-    g_list_free(os->priv->deviceLinks);
+    g_list_free_full(os->priv->deviceLinks, g_object_unref);
     g_object_unref(os->priv->medias);
     g_object_unref(os->priv->trees);
+    g_object_unref(os->priv->images);
     g_object_unref(os->priv->variants);
+    g_object_unref(os->priv->network_install);
     g_object_unref(os->priv->minimum);
     g_object_unref(os->priv->recommended);
+    g_object_unref(os->priv->maximum);
 
     g_object_unref(os->priv->scripts);
 
@@ -181,9 +182,12 @@ osinfo_os_init(OsinfoOs *os)
     os->priv->deviceLinks = NULL;
     os->priv->medias = osinfo_medialist_new();
     os->priv->trees = osinfo_treelist_new();
+    os->priv->images = osinfo_imagelist_new();
     os->priv->variants = osinfo_os_variantlist_new();
+    os->priv->network_install = osinfo_resourceslist_new();
     os->priv->minimum = osinfo_resourceslist_new();
     os->priv->recommended = osinfo_resourceslist_new();
+    os->priv->maximum = osinfo_resourceslist_new();
     os->priv->scripts = osinfo_install_scriptlist_new();
     os->priv->device_drivers = osinfo_device_driverlist_new();
 }
@@ -204,16 +208,34 @@ OsinfoOs *osinfo_os_new(const gchar *id)
 }
 
 
-/**
- * osinfo_os_get_devices:
- * @os: an operating system
- * @filter: (allow-none)(transfer none): an optional device property filter
- *
- * Get all devices matching a given filter
- *
- * Returns: (transfer full): A list of devices
- */
-OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
+static gboolean
+add_entity_to_list_check(OsinfoEntity *ent1, /* OsinfoDeviceLink */
+                         OsinfoEntity *ent2, /* OsinfoDevice or OsinfoDevice Link */
+                         OsinfoFilter *filter,
+                         gboolean include_unsupported)
+{
+    gboolean ret = FALSE;
+    gboolean unsupported = FALSE;
+
+    if (filter == NULL || osinfo_filter_matches(filter, ent2))
+        ret = TRUE;
+
+    if (!osinfo_entity_get_param_value_boolean_with_default(ent1,
+                                                            OSINFO_DEVICELINK_PROP_SUPPORTED,
+                                                            TRUE))
+        unsupported = TRUE;
+
+    if (ret && unsupported && !include_unsupported)
+        ret = FALSE;
+
+    return ret;
+}
+
+
+static OsinfoDeviceList *
+osinfo_os_get_devices_internal(OsinfoOs *os,
+                               OsinfoFilter *filter,
+                               gboolean include_unsupported)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
@@ -226,13 +248,32 @@ OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
     while (tmp) {
         OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
         OsinfoDevice *dev = osinfo_devicelink_get_target(devlink);
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(dev)))
+
+        if (add_entity_to_list_check(OSINFO_ENTITY(devlink),
+                                     OSINFO_ENTITY(dev),
+                                     filter,
+                                     include_unsupported))
             osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(dev));
 
         tmp = tmp->next;
     }
 
     return newList;
+}
+
+
+/**
+ * osinfo_os_get_devices:
+ * @os: an operating system
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all devices matching a given filter
+ *
+ * Returns: (transfer full): A list of devices
+ */
+OsinfoDeviceList *osinfo_os_get_devices(OsinfoOs *os, OsinfoFilter *filter)
+{
+    return osinfo_os_get_devices_internal(os, filter, FALSE);
 }
 
 struct GetAllDevicesData {
@@ -248,14 +289,21 @@ static void get_all_devices_cb(OsinfoProduct *product, gpointer user_data)
 
     g_return_if_fail(OSINFO_IS_OS(product));
 
-    devices = osinfo_os_get_devices(OSINFO_OS(product),
-                                    foreach_data->filter);
+    devices = osinfo_os_get_devices_internal(OSINFO_OS(product),
+                                             foreach_data->filter,
+                                             TRUE);
     tmp_list = osinfo_list_new_union(OSINFO_LIST(foreach_data->devices),
                                      OSINFO_LIST(devices));
     g_object_unref(foreach_data->devices);
     g_object_unref(devices);
     foreach_data->devices = OSINFO_DEVICELIST(tmp_list);
 }
+
+
+static OsinfoDeviceLinkList *
+osinfo_os_get_all_device_links_internal(OsinfoOs *os,
+                                        OsinfoFilter *filter,
+                                        gboolean include_unsupported);
 
 
 /**
@@ -275,6 +323,13 @@ OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
         .filter = filter,
         .devices = osinfo_devicelist_new()
     };
+    OsinfoDeviceLinkList *devlinks;
+    OsinfoDeviceLinkList *unsupported_devlinks;
+    OsinfoDeviceList *unsupported_devs;
+    OsinfoDeviceList *new_list;
+    OsinfoFilter *unsupported_filter;
+    GList *list, *unsupported_list;
+    GList *it;
 
     osinfo_product_foreach_related(OSINFO_PRODUCT(os),
                                    OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM |
@@ -282,7 +337,39 @@ OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
                                    get_all_devices_cb,
                                    &foreach_data);
 
-    return foreach_data.devices;
+    devlinks = osinfo_os_get_all_device_links_internal(os, filter, TRUE);
+
+    unsupported_filter = osinfo_filter_new();
+    osinfo_filter_add_constraint(unsupported_filter,
+                                 OSINFO_DEVICELINK_PROP_SUPPORTED,
+                                 "false");
+
+    unsupported_devlinks = OSINFO_DEVICELINKLIST
+        (osinfo_list_new_filtered(OSINFO_LIST(devlinks), unsupported_filter));
+
+    unsupported_devs = osinfo_devicelinklist_get_devices(unsupported_devlinks, NULL);
+
+    list = osinfo_list_get_elements(OSINFO_LIST(foreach_data.devices));
+    unsupported_list = osinfo_list_get_elements(OSINFO_LIST(unsupported_devs));
+
+    new_list = osinfo_devicelist_new();
+    for (it = list; it != NULL; it = it->next) {
+        OsinfoDevice *dev = OSINFO_DEVICE(it->data);
+        if (g_list_find(unsupported_list, dev))
+            continue;
+
+        osinfo_list_add(OSINFO_LIST(new_list), OSINFO_ENTITY(dev));
+    }
+
+    g_list_free(list);
+    g_list_free(unsupported_list);
+    g_object_unref(devlinks);
+    g_object_unref(unsupported_devlinks);
+    g_object_unref(unsupported_devs);
+    g_object_unref(unsupported_filter);
+    g_object_unref(foreach_data.devices);
+
+    return new_list;
 }
 
 /**
@@ -318,17 +405,11 @@ OsinfoDeviceList *osinfo_os_get_devices_by_property(OsinfoOs *os,
     return devices;
 }
 
-/**
- * osinfo_os_get_device_links:
- * @os: an operating system
- * @filter: (allow-none)(transfer none): an optional device property filter
- *
- * Get all devices matching a given filter. The filter
- * matches against the links, not the devices.
- *
- * Returns: (transfer full): A list of device links
- */
-OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *filter)
+
+static OsinfoDeviceLinkList *
+osinfo_os_get_device_links_internal(OsinfoOs *os,
+                                    OsinfoFilter *filter,
+                                    gboolean include_unsupported)
 {
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
     g_return_val_if_fail(!filter || OSINFO_IS_FILTER(filter), NULL);
@@ -341,7 +422,10 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
     while (tmp) {
         OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(tmp->data);
 
-        if (!filter || osinfo_filter_matches(filter, OSINFO_ENTITY(devlink)))
+        if (add_entity_to_list_check(OSINFO_ENTITY(devlink),
+                                     OSINFO_ENTITY(devlink),
+                                     filter,
+                                     include_unsupported))
             osinfo_list_add(OSINFO_LIST(newList), OSINFO_ENTITY(devlink));
 
         tmp = tmp->next;
@@ -350,6 +434,103 @@ OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *fil
     return newList;
 }
 
+
+/**
+ * osinfo_os_get_device_links:
+ * @os: an operating system
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all devices matching a given filter. The filter
+ * matches against the links, not the devices.
+ *
+ * Returns: (transfer full): A list of device links
+ */
+OsinfoDeviceLinkList *osinfo_os_get_device_links(OsinfoOs *os, OsinfoFilter *filter)
+{
+    return osinfo_os_get_device_links_internal(os, filter, FALSE);
+}
+
+
+struct GetAllDeviceLinksData {
+    OsinfoFilter *filter;
+    OsinfoDeviceLinkList *device_links;
+};
+
+static void get_all_device_links_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoDeviceLinkList *device_links;
+    OsinfoList *tmp_list;
+    struct GetAllDeviceLinksData *foreach_data;
+
+    g_return_if_fail(OSINFO_IS_OS(product));
+
+    foreach_data = (struct GetAllDeviceLinksData *)user_data;
+    device_links = osinfo_os_get_device_links_internal(OSINFO_OS(product),
+                                                       foreach_data->filter,
+                                                       TRUE);
+    tmp_list = osinfo_list_new_union(OSINFO_LIST(foreach_data->device_links),
+                                     OSINFO_LIST(device_links));
+    g_object_unref(foreach_data->device_links);
+    g_object_unref(device_links);
+    foreach_data->device_links = OSINFO_DEVICELINKLIST(tmp_list);
+}
+
+static OsinfoDeviceLinkList *
+osinfo_os_get_all_device_links_internal(OsinfoOs *os,
+                                        OsinfoFilter *filter,
+                                        gboolean include_unsupported)
+{
+    struct GetAllDeviceLinksData foreach_data = {
+        .filter = filter,
+        .device_links = osinfo_devicelinklist_new()
+    };
+    OsinfoDeviceLinkList *devlinks;
+    GList *list, *it;
+
+    osinfo_product_foreach_related(OSINFO_PRODUCT(os),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_CLONES,
+                                   get_all_device_links_cb,
+                                   &foreach_data);
+
+    if (include_unsupported)
+        return foreach_data.device_links;
+
+    devlinks = osinfo_devicelinklist_new();
+
+    list = osinfo_list_get_elements(OSINFO_LIST(foreach_data.device_links));
+    for (it = list; it != NULL; it = it->next) {
+        OsinfoDeviceLink *devlink = OSINFO_DEVICELINK(it->data);
+
+        if (!osinfo_entity_get_param_value_boolean_with_default(OSINFO_ENTITY(devlink),
+                                                                OSINFO_DEVICELINK_PROP_SUPPORTED,
+                                                                TRUE))
+            continue;
+
+        osinfo_list_add(OSINFO_LIST(devlinks), OSINFO_ENTITY(devlink));
+    }
+
+    g_object_unref(foreach_data.device_links);
+    g_list_free(list);
+
+    return devlinks;
+}
+
+/**
+ * osinfo_os_get_all_device_links:
+ * @os: an operating system
+ * @filter: (allow-none)(transfer none): an optional device property filter
+ *
+ * Get all devicelinks matching a given filter but unlike
+ * osinfo_os_get_device_links this function also retrieves devices from all
+ * derived and cloned operating systems.
+ *
+ * Returns: (transfer full): A list of OsinfoDeviceLink
+ */
+OsinfoDeviceLinkList *osinfo_os_get_all_device_links(OsinfoOs *os, OsinfoFilter *filter)
+{
+    return osinfo_os_get_all_device_links_internal(os, filter, FALSE);
+}
 
 /**
  * osinfo_os_add_device:
@@ -495,6 +676,40 @@ void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree)
 }
 
 /**
+ * osinfo_os_get_image_list:
+ * @os: an operating system
+ *
+ * Get all installed images associated with operating system @os.
+ *
+ * Returns: (transfer full): A list of images
+ */
+OsinfoImageList *osinfo_os_get_image_list(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoImageList *newList = osinfo_imagelist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->images));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_add_image:
+ * @os: an operating system
+ * @image: (transfer none): the image to add
+ *
+ * Adds an installed image @image to operating system @os.
+ */
+void osinfo_os_add_image(OsinfoOs *os, OsinfoImage *image)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_IMAGE(image));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->images), OSINFO_ENTITY(image));
+}
+
+/**
  * osinfo_os_get_variant_list:
  * @os: an operating system
  *
@@ -528,6 +743,127 @@ void osinfo_os_add_variant(OsinfoOs *os, OsinfoOsVariant *variant)
     osinfo_list_add(OSINFO_LIST(os->priv->variants), OSINFO_ENTITY(variant));
 }
 
+struct GetAllResourcesData {
+    OsinfoOs *os;
+    OsinfoResourcesList *resourceslist;
+    OsinfoResourcesList *(*get_resourceslist)(OsinfoOs *);
+};
+
+static void get_all_resources_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoResourcesList *resourceslist;
+    struct GetAllResourcesData *foreach_data = (struct GetAllResourcesData *)user_data;
+    gint original_resourceslist_len;
+    gint resourceslist_len;
+    gint i;
+
+    g_return_if_fail(OSINFO_IS_OS(product));
+
+    if (OSINFO_OS(product) == foreach_data->os)
+        return;
+
+    original_resourceslist_len = osinfo_list_get_length(OSINFO_LIST(foreach_data->resourceslist));
+
+    resourceslist = foreach_data->get_resourceslist(OSINFO_OS(product));
+    resourceslist_len = osinfo_list_get_length(OSINFO_LIST(resourceslist));
+
+    for (i = 0; i < original_resourceslist_len; i++) {
+        OsinfoResources *original_resources;
+        const gchar *original_arch;
+        gint original_n_cpus;
+        gint64 original_cpu;
+        gint64 original_ram;
+        gint64 original_storage;
+        gint j;
+
+        original_resources = OSINFO_RESOURCES(osinfo_list_get_nth(OSINFO_LIST(foreach_data->resourceslist), i));
+
+        if (!osinfo_resources_get_inherit(original_resources))
+            continue;
+
+        original_arch = osinfo_resources_get_architecture(original_resources);
+        original_n_cpus = osinfo_resources_get_n_cpus(original_resources);
+        original_cpu = osinfo_resources_get_cpu(original_resources);
+        original_ram = osinfo_resources_get_ram(original_resources);
+        original_storage = osinfo_resources_get_storage(original_resources);
+
+        for (j = 0; j < resourceslist_len; j++) {
+            OsinfoResources *resources;
+            const gchar *arch;
+            gint n_cpus;
+            gint64 cpu;
+            gint64 ram;
+            gint64 storage;
+
+            resources = OSINFO_RESOURCES(osinfo_list_get_nth(OSINFO_LIST(resourceslist), j));
+            arch = osinfo_resources_get_architecture(resources);
+            n_cpus = osinfo_resources_get_n_cpus(resources);
+            cpu = osinfo_resources_get_cpu(resources);
+            ram = osinfo_resources_get_ram(resources);
+            storage = osinfo_resources_get_storage(resources);
+
+            if (!g_str_equal(original_arch, arch))
+                continue;
+
+            if (original_n_cpus == -1)
+                osinfo_resources_set_n_cpus(original_resources, n_cpus);
+
+            if (original_cpu == -1)
+                osinfo_resources_set_cpu(original_resources, cpu);
+
+            if (original_ram == -1)
+                osinfo_resources_set_ram(original_resources, ram);
+
+            if (original_storage == -1)
+                osinfo_resources_set_storage(original_resources, storage);
+        }
+    }
+
+    g_object_unref(resourceslist);
+}
+
+
+static OsinfoResourcesList *
+osinfo_os_get_resources_internal(OsinfoOs *os,
+                                 OsinfoResourcesList *(*get_resourceslist)(OsinfoOs *))
+{
+    struct GetAllResourcesData foreach_data = {
+        .os = os,
+        .resourceslist = get_resourceslist(os),
+        .get_resourceslist = get_resourceslist
+    };
+
+    osinfo_product_foreach_related(OSINFO_PRODUCT(os),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_CLONES,
+                                   get_all_resources_cb,
+                                   &foreach_data);
+
+    return foreach_data.resourceslist;
+}
+
+/**
+ * osinfo_os_get_minimum_resources_without_inheritance:
+ * @os: an operating system
+ *
+ * Get the list of minimum required resources for the operating system @os.
+ *
+ * Mind that this method is *private*!
+ *
+ * Returns: (transfer full): A list of resources
+ */
+static OsinfoResourcesList *
+osinfo_os_get_minimum_resources_without_inheritance(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoResourcesList *newList = osinfo_resourceslist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->minimum));
+
+    return newList;
+}
+
 /**
  * osinfo_os_get_minimum_resources:
  * @os: an operating system
@@ -538,11 +874,66 @@ void osinfo_os_add_variant(OsinfoOs *os, OsinfoOsVariant *variant)
  */
 OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os)
 {
+    return osinfo_os_get_resources_internal
+            (os, osinfo_os_get_minimum_resources_without_inheritance);
+}
+
+/**
+ * osinfo_os_get_maximum_resources_without_inheritance:
+ * @os: an operating system
+ *
+ * Get the list of maximum resources for the operating system @os.
+ *
+ * Mind that this method is *private*!
+ *
+ * Returns: (transfer full): A list of resources
+ */
+static OsinfoResourcesList *
+osinfo_os_get_maximum_resources_without_inheritance(OsinfoOs *os)
+{
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
 
     OsinfoResourcesList *newList = osinfo_resourceslist_new();
 
-    osinfo_list_add_all(OSINFO_LIST(newList), OSINFO_LIST(os->priv->minimum));
+    osinfo_list_add_all(OSINFO_LIST(newList),
+                        OSINFO_LIST(os->priv->maximum));
+
+    return newList;
+}
+
+/**
+ * osinfo_os_get_maximum_resources:
+ * @os: an operating system
+ *
+ * Get the list of maximum resources for the operating system @os.
+ *
+ * Returns: (transfer full): A list of resources
+ */
+OsinfoResourcesList *osinfo_os_get_maximum_resources(OsinfoOs *os)
+{
+    return osinfo_os_get_resources_internal
+            (os, osinfo_os_get_maximum_resources_without_inheritance);
+}
+
+/**
+ * osinfo_os_get_recommended_resources_without_inheritance:
+ * @os: an operating system
+ *
+ * Get the list of recommended resources for the operating system @os.
+ *
+ * Mind that this method is *private*!
+ *
+ * Returns: (transfer full): A list of resources
+ */
+static OsinfoResourcesList *
+osinfo_os_get_recommended_resources_without_inheritance(OsinfoOs *os)
+{
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    OsinfoResourcesList *newList = osinfo_resourceslist_new();
+
+    osinfo_list_add_all(OSINFO_LIST(newList),
+                        OSINFO_LIST(os->priv->recommended));
 
     return newList;
 }
@@ -557,14 +948,47 @@ OsinfoResourcesList *osinfo_os_get_minimum_resources(OsinfoOs *os)
  */
 OsinfoResourcesList *osinfo_os_get_recommended_resources(OsinfoOs *os)
 {
+    return osinfo_os_get_resources_internal
+            (os, osinfo_os_get_recommended_resources_without_inheritance);
+}
+
+/**
+ * osinfo_os_get_network_install_resources_without_inheritance:
+ * @os: an operating system
+ *
+ * Get the list of resources needed for network installing an operating system
+ * @os.
+ *
+ * Mind that this method is *private*!
+ *
+ * Returns: (transfer full): A list of resources
+ */
+static OsinfoResourcesList *
+osinfo_os_get_network_install_resources_without_inheritance(OsinfoOs *os)
+{
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
 
     OsinfoResourcesList *newList = osinfo_resourceslist_new();
 
     osinfo_list_add_all(OSINFO_LIST(newList),
-                        OSINFO_LIST(os->priv->recommended));
+                        OSINFO_LIST(os->priv->network_install));
 
     return newList;
+}
+
+/**
+ * osinfo_os_get_network_install_resources:
+ * @os: an operating system
+ *
+ * Get the list of resources needed for network installing an operating system
+ * @os.
+ *
+ * Returns: (transfer full): A list of resources
+ */
+OsinfoResourcesList *osinfo_os_get_network_install_resources(OsinfoOs *os)
+{
+    return osinfo_os_get_resources_internal
+            (os, osinfo_os_get_network_install_resources_without_inheritance);
 }
 
 /**
@@ -600,27 +1024,72 @@ void osinfo_os_add_recommended_resources(OsinfoOs *os,
 }
 
 /**
+ * osinfo_os_add_maximum_resources:
+ * @os: an operating system
+ * @resources: (transfer none): the resources to add
+ *
+ * Adds @resources to list of maximum resources of operating system @os.
+ */
+void osinfo_os_add_maximum_resources(OsinfoOs *os,
+                                     OsinfoResources *resources)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_RESOURCES(resources));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->maximum),
+                    OSINFO_ENTITY(resources));
+}
+
+/**
+ * osinfo_os_add_network_install_resources:
+ * @os: an operating system
+ * @resources: (transfer none): the resources to add
+ *
+ * Adds @resources to list of resources needed for network installing an
+ * operating system @os.
+ */
+void osinfo_os_add_network_install_resources(OsinfoOs *os,
+                                     OsinfoResources *resources)
+{
+    g_return_if_fail(OSINFO_IS_OS(os));
+    g_return_if_fail(OSINFO_IS_RESOURCES(resources));
+
+    osinfo_list_add(OSINFO_LIST(os->priv->network_install),
+                    OSINFO_ENTITY(resources));
+}
+
+/**
  * osinfo_os_find_install_script:
  * @os:      an operating system
- * @profile: the install script profile
+ * @profile: the install script profile that must be either
+ * OSINFO_INSTALL_SCRIPT_PROFILE_DESKTOP or OSINFO_INSTALL_SCRIPT_PROFILE_JEOS
  *
- * Returns: (transfer full): A new #OsinfoInstallScript for the @os @profile
+ * Returns: (transfer none): A new #OsinfoInstallScript for the @os @profile
  */
 OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile)
 {
+    GList *scripts;
+    GList *tmp;
+    OsinfoInstallScript *script = NULL;
+
     g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
-    GList *scripts = osinfo_list_get_elements(OSINFO_LIST(os));
-    GList *tmp = scripts;
+    g_return_val_if_fail(profile != NULL, NULL);
+
+    scripts = osinfo_list_get_elements(OSINFO_LIST(os->priv->scripts));
+    tmp = scripts;
 
     while (tmp) {
-        OsinfoInstallScript *script = tmp->data;
+        script = tmp->data;
         if (g_str_equal(profile, osinfo_install_script_get_profile(script)))
-            return script;
+            break;
 
         tmp = tmp->next;
+        script = NULL;
     }
 
-    return NULL;
+    g_list_free(scripts);
+
+    return script;
 }
 
 

@@ -110,6 +110,7 @@ enum {
     PROP_KERNEL_PATH,
     PROP_INITRD_PATH,
     PROP_BOOT_ISO_PATH,
+    PROP_HAS_TREEINFO,
 };
 
 static void
@@ -164,6 +165,11 @@ osinfo_tree_get_property(GObject *object,
     case PROP_BOOT_ISO_PATH:
         g_value_set_string(value,
                            osinfo_tree_get_boot_iso_path(tree));
+        break;
+
+    case PROP_HAS_TREEINFO:
+        g_value_set_boolean(value,
+                            osinfo_tree_has_treeinfo(tree));
         break;
 
     default:
@@ -235,6 +241,12 @@ osinfo_tree_set_property(GObject      *object,
         osinfo_entity_set_param(OSINFO_ENTITY(tree),
                                 OSINFO_TREE_PROP_BOOT_ISO,
                                 g_value_get_string(value));
+        break;
+
+    case PROP_HAS_TREEINFO:
+        osinfo_entity_set_param_boolean(OSINFO_ENTITY(tree),
+                                        OSINFO_TREE_PROP_HAS_TREEINFO,
+                                        g_value_get_boolean(value));
         break;
 
     default:
@@ -380,6 +392,18 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_BOOT_ISO_PATH, pspec);
 
+    /**
+     * OsinfoTree:has-treeinfo
+     *
+     * Whether the tree has treeinfo or not
+     */
+    pspec = g_param_spec_boolean("has-treeinfo",
+                                 "HasTreeinfo",
+                                 _("Whether the tree has treeinfo"),
+                                 TRUE /* default value */,
+                                 G_PARAM_READWRITE |
+                                 G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_HAS_TREEINFO, pspec);
 }
 
 static void
@@ -471,6 +495,13 @@ static gboolean is_str_empty(const gchar *str) {
     return ret;
 }
 
+static gboolean is_unknown_group_or_key_error(const GError *error)
+{
+    return (g_error_matches(error, G_KEY_FILE_ERROR,
+                            G_KEY_FILE_ERROR_KEY_NOT_FOUND) ||
+            g_error_matches(error, G_KEY_FILE_ERROR,
+                            G_KEY_FILE_ERROR_GROUP_NOT_FOUND));
+}
 
 static OsinfoTree *load_keyinfo(const gchar *location,
                                 const gchar *content,
@@ -492,44 +523,51 @@ static OsinfoTree *load_keyinfo(const gchar *location,
                                    G_KEY_FILE_NONE, error))
         goto cleanup;
 
-    if (!(family = g_key_file_get_string(file, "general", "family", error)) &&
-        (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-         (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-        goto cleanup;
+    if (!(family = g_key_file_get_string(file, "general", "family", error))) {
+        if (!is_unknown_group_or_key_error(*error))
+            goto cleanup;
+        g_clear_error(error);
+    }
 
-    if (!(variant = g_key_file_get_string(file, "general", "variant", error)) &&
-        (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-         (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-        goto cleanup;
+    if (!(variant = g_key_file_get_string(file, "general", "variant", error))) {
+        if (!is_unknown_group_or_key_error(*error))
+            goto cleanup;
+        g_clear_error(error);
+    }
 
-    if (!(version = g_key_file_get_string(file, "general", "version", error)) &&
-        (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-         (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-        goto cleanup;
+    if (!(version = g_key_file_get_string(file, "general", "version", error))) {
+        if (!is_unknown_group_or_key_error(*error))
+            goto cleanup;
+        g_clear_error(error);
+    }
 
-    if (!(arch = g_key_file_get_string(file, "general", "arch", error)) &&
-        (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-         (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-        goto cleanup;
+    if (!(arch = g_key_file_get_string(file, "general", "arch", error))) {
+        if (!is_unknown_group_or_key_error(*error))
+            goto cleanup;
+        g_clear_error(error);
+    }
 
 
     if (arch) {
         group = g_strdup_printf("images-%s", arch);
 
-        if (!(kernel = g_key_file_get_string(file, group, "kernel", error)) &&
-            (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-             (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-            goto cleanup;
+        if (!(kernel = g_key_file_get_string(file, group, "kernel", error))) {
+            if (!is_unknown_group_or_key_error(*error))
+                goto cleanup;
+            g_clear_error(error);
+        }
 
-        if (!(initrd = g_key_file_get_string(file, group, "initrd", error)) &&
-            (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-             (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-            goto cleanup;
+        if (!(initrd = g_key_file_get_string(file, group, "initrd", error))) {
+            if (!is_unknown_group_or_key_error(*error))
+                goto cleanup;
+            g_clear_error(error);
+        }
 
-        if (!(bootiso = g_key_file_get_string(file, group, "boot.iso", error)) &&
-            (*error && (*error)->code != G_KEY_FILE_ERROR_KEY_NOT_FOUND &&
-             (*error)->code != G_KEY_FILE_ERROR_GROUP_NOT_FOUND))
-            goto cleanup;
+        if (!(bootiso = g_key_file_get_string(file, group, "boot.iso", error))) {
+            if (!is_unknown_group_or_key_error(*error))
+                goto cleanup;
+            g_clear_error(error);
+        }
     }
 
     tree = osinfo_tree_new(location, arch ? arch : "i386");
@@ -832,6 +870,20 @@ const gchar *osinfo_tree_get_initrd_path(OsinfoTree *tree)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(tree),
                                          OSINFO_TREE_PROP_INITRD);
+}
+
+/**
+ * osinfo_tree_has_treeinfo:
+ * @tree: an #OsinfoTree instance
+ *
+ * Return whether a tree has treeinfo or not.
+ *
+ * Returns: TRUE if the tree has treeinfo. FALSE otherwise.
+ */
+gboolean osinfo_tree_has_treeinfo(OsinfoTree *tree)
+{
+    return osinfo_entity_get_param_value_boolean(OSINFO_ENTITY(tree),
+                                                 OSINFO_TREE_PROP_HAS_TREEINFO);
 }
 
 /*

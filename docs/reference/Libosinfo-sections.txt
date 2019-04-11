@@ -238,6 +238,7 @@ osinfo_device_driverlist_get_type
 <FILE>osinfo_devicelink</FILE>
 <TITLE>OsinfoDeviceLink</TITLE>
 OSINFO_DEVICELINK_PROP_DRIVER
+OSINFO_DEVICELINK_PROP_SUPPORTED
 osinfo_devicelink_new
 osinfo_devicelink_get_target
 osinfo_devicelink_get_driver
@@ -348,6 +349,7 @@ osinfo_entity_get_type
 OSINFO_TYPE_DEVICE_DRIVER_SIGNING_REQ
 OSINFO_TYPE_INSTALL_CONFIG_PARAM_POLICY
 OSINFO_TYPE_INSTALL_SCRIPT_INJECTION_METHOD
+OSINFO_TYPE_INSTALL_SCRIPT_INSTALLATION_SOURCE
 OSINFO_TYPE_MEDIA_ERROR
 OSINFO_TYPE_PATH_FORMAT
 OSINFO_TYPE_PRODUCT_RELATIONSHIP
@@ -355,6 +357,7 @@ OSINFO_TYPE_RELEASE_STATUS
 osinfo_device_driver_signing_req_get_type
 osinfo_install_config_param_policy_get_type
 osinfo_install_script_injection_method_get_type
+osinfo_install_script_installation_source_get_type
 osinfo_media_error_get_type
 osinfo_path_format_get_type
 osinfo_product_relationship_get_type
@@ -381,6 +384,46 @@ OsinfoFilter
 OsinfoFilterClass
 OsinfoFilterPrivate
 osinfo_filter_get_type
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_image</FILE>
+<TITLE>OsinfoImage</TITLE>
+OSINFO_IMAGE_PROP_ARCHITECTURE
+OSINFO_IMAGE_PROP_FORMAT
+OSINFO_IMAGE_PROP_URL
+OSINFO_IMAGE_PROP_CLOUD_INIT
+osinfo_image_new
+osinfo_image_get_architecture
+osinfo_image_get_format
+osinfo_image_get_url
+osinfo_image_get_cloud_init
+<SUBSECTION Standard>
+OSINFO_IMAGE
+OSINFO_IMAGE_CLASS
+OSINFO_IMAGE_GET_CLASS
+OSINFO_IS_IMAGE
+OSINFO_TYPE_IMAGE
+OsinfoImage
+OsinfoImageClass
+OsinfoImagePrivate
+osinfo_image_get_type
+</SECTION>
+
+<SECTION>
+<FILE>osinfo_imagelist</FILE>
+<TITLE>OsinfoImageList</TITLE>
+osinfo_imagelist_new
+<SUBSECTION Standard>
+OSINFO_IMAGELIST
+OSINFO_IMAGELIST_CLASS
+OSINFO_IMAGELIST_GET_CLASS
+OSINFO_IS_IMAGELIST
+OSINFO_TYPE_IMAGELIST
+OsinfoImageList
+OsinfoImageListClass
+OsinfoImageListPrivate
+osinfo_imagelist_get_type
 </SECTION>
 
 <SECTION>
@@ -527,9 +570,12 @@ OSINFO_INSTALL_SCRIPT_PROP_NEEDS_INTERNET
 OSINFO_INSTALL_SCRIPT_PROP_PRE_INSTALL_DRIVERS_SIGNING_REQ
 OSINFO_INSTALL_SCRIPT_PROP_POST_INSTALL_DRIVERS_SIGNING_REQ
 OSINFO_INSTALL_SCRIPT_PROP_INJECTION_METHOD
+OSINFO_INSTALL_SCRIPT_PROP_PREFERRED_INJECTION_METHOD
+OSINFO_INSTALL_SCRIPT_PROP_INSTALLATION_SOURCE
 OsinfoPathFormat
 OsinfoDeviceDriverSigningReq
 OsinfoInstallScriptInjectionMethod
+OsinfoInstallScriptInstallationSource
 osinfo_install_script_new
 osinfo_install_script_new_uri
 osinfo_install_script_new_data
@@ -568,6 +614,10 @@ osinfo_install_script_get_pre_install_drivers_signing_req
 osinfo_install_script_get_post_install_drivers_signing_req
 osinfo_install_script_get_injection_methods
 osinfo_install_script_get_needs_internet
+osinfo_install_script_set_preferred_injection_method
+osinfo_install_script_get_preferred_injection_method
+osinfo_install_script_set_installation_source
+osinfo_install_script_get_installation_source
 OsinfoMedia
 OsinfoOs
 <SUBSECTION Standard>
@@ -640,6 +690,8 @@ osinfo_list_get_type
 <SECTION>
 <FILE>osinfo_loader</FILE>
 <TITLE>OsinfoLoader</TITLE>
+OSINFO_ERROR
+osinfo_error_quark
 osinfo_loader_new
 osinfo_loader_get_db
 osinfo_loader_process_path
@@ -683,6 +735,7 @@ OSINFO_MEDIA_PROP_LANG_MAP
 OSINFO_MEDIA_PROP_VARIANT
 OSINFO_MEDIA_PROP_VOLUME_SIZE
 OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL
+OSINFO_MEDIA_PROP_INSTALLER_SCRIPT
 osinfo_media_new
 osinfo_media_create_from_location
 osinfo_media_create_from_location_async
@@ -703,6 +756,9 @@ osinfo_media_get_live
 osinfo_media_get_installer_reboots
 osinfo_media_get_volume_size
 osinfo_media_get_eject_after_install
+osinfo_media_supports_installer_script
+osinfo_media_add_install_script
+osinfo_media_get_install_script_list
 <SUBSECTION Standard>
 OSINFO_IS_MEDIA
 OSINFO_MEDIA
@@ -753,6 +809,7 @@ osinfo_os_get_devices
 osinfo_os_get_all_devices
 osinfo_os_get_devices_by_property
 osinfo_os_get_device_links
+osinfo_os_get_all_device_links
 osinfo_os_add_device
 osinfo_os_get_family
 osinfo_os_get_distro
@@ -761,12 +818,18 @@ osinfo_os_get_media_list
 osinfo_os_add_media
 osinfo_os_get_tree_list
 osinfo_os_add_tree
+osinfo_os_get_image_list
+osinfo_os_add_image
 osinfo_os_get_variant_list
 osinfo_os_add_variant
+osinfo_os_get_network_install_resources
 osinfo_os_get_minimum_resources
 osinfo_os_get_recommended_resources
+osinfo_os_get_maximum_resources
+osinfo_os_add_network_install_resources
 osinfo_os_add_minimum_resources
 osinfo_os_add_recommended_resources
+osinfo_os_add_maximum_resources
 osinfo_os_find_install_script
 osinfo_os_get_install_script_list
 osinfo_os_add_install_script
@@ -998,6 +1061,12 @@ osinfo_resources_get_type
 </SECTION>
 
 <SECTION>
+<FILE>osinfo_resources_private</FILE>
+osinfo_resources_set_inherit
+osinfo_resources_get_inherit
+</SECTION>
+
+<SECTION>
 <FILE>osinfo_resourceslist</FILE>
 <TITLE>OsinfoResourcesList</TITLE>
 osinfo_resourceslist_new
@@ -1031,12 +1100,14 @@ OSINFO_TREE_PROP_TREEINFO_ARCH
 OSINFO_TREE_PROP_BOOT_ISO
 OSINFO_TREE_PROP_KERNEL
 OSINFO_TREE_PROP_INITRD
+OSINFO_TREE_PROP_HAS_TREEINFO
 osinfo_tree_new
 osinfo_tree_create_from_location
 osinfo_tree_create_from_location_async
 osinfo_tree_create_from_location_finish
 osinfo_tree_get_architecture
 osinfo_tree_get_url
+osinfo_tree_has_treeinfo
 osinfo_tree_get_treeinfo_family
 osinfo_tree_get_treeinfo_variant
 osinfo_tree_get_treeinfo_version

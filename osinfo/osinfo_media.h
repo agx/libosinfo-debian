@@ -52,7 +52,8 @@ typedef enum {
     OSINFO_MEDIA_ERROR_NO_PVD,
     OSINFO_MEDIA_ERROR_NO_SVD,
     OSINFO_MEDIA_ERROR_INSUFFICIENT_METADATA,
-    OSINFO_MEDIA_ERROR_NOT_BOOTABLE
+    OSINFO_MEDIA_ERROR_NOT_BOOTABLE,
+    OSINFO_MEDIA_ERROR_NO_DIRECTORY_RECORD_EXTENT
 } OsinfoMediaError;
 
 /*
@@ -91,6 +92,7 @@ typedef struct _OsinfoMediaPrivate OsinfoMediaPrivate;
 #define OSINFO_MEDIA_PROP_VARIANT        "variant"
 #define OSINFO_MEDIA_PROP_VOLUME_SIZE    "volume-size"
 #define OSINFO_MEDIA_PROP_EJECT_AFTER_INSTALL "eject-after-install"
+#define OSINFO_MEDIA_PROP_INSTALLER_SCRIPT "installer-script"
 
 /* object */
 struct _OsinfoMedia
@@ -142,6 +144,9 @@ gboolean osinfo_media_get_live(OsinfoMedia *media);
 gint osinfo_media_get_installer_reboots(OsinfoMedia *media);
 gint64 osinfo_media_get_volume_size(OsinfoMedia *media);
 gboolean osinfo_media_get_eject_after_install(OsinfoMedia *media);
+gboolean osinfo_media_supports_installer_script(OsinfoMedia *media);
+void osinfo_media_add_install_script(OsinfoMedia *media, OsinfoInstallScript *install_script);
+OsinfoInstallScriptList *osinfo_media_get_install_script_list(OsinfoMedia *media);
 
 #endif /* __OSINFO_MEDIA_H__ */
 /*
