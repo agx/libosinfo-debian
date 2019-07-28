@@ -244,6 +244,14 @@
 </tr>
 <tr>
 <td class="function_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-command-line-for-tree" title="osinfo_install_script_generate_command_line_for_tree ()">osinfo_install_script_generate_command_line_for_tree</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
 <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 </td>
 <td class="function_name">
@@ -369,6 +377,54 @@
 <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-get-installation-source" title="osinfo_install_script_get_installation_source ()">osinfo_install_script_get_installation_source</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-tree-async" title="osinfo_install_script_generate_for_tree_async ()">osinfo_install_script_generate_for_tree_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-tree-finish" title="osinfo_install_script_generate_for_tree_finish ()">osinfo_install_script_generate_for_tree_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-tree" title="osinfo_install_script_generate_for_tree ()">osinfo_install_script_generate_for_tree</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-tree-async" title="osinfo_install_script_generate_output_for_tree_async ()">osinfo_install_script_generate_output_for_tree_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/gio/GFile.html#GFile-struct"><span class="returnvalue">GFile</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-tree-finish" title="osinfo_install_script_generate_output_for_tree_finish ()">osinfo_install_script_generate_output_for_tree_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/gio/GFile.html#GFile-struct"><span class="returnvalue">GFile</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-tree" title="osinfo_install_script_generate_output_for_tree ()">osinfo_install_script_generate_output_for_tree</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -484,6 +540,77 @@
 </tr>
 <tr>
 <td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoOs--kernel-url-argument" title="The “kernel-url-argument” property">kernel-url-argument</a></td>
+<td class="property_flags">Read</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--architecture" title="The “architecture” property">architecture</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--boot-iso-path" title="The “boot-iso-path” property">boot-iso-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--has-treeinfo" title="The “has-treeinfo” property">has-treeinfo</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--initrd-path" title="The “initrd-path” property">initrd-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--kernel-path" title="The “kernel-path” property">kernel-path</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--os" title="The “os” property">os</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--treeinfo-arch" title="The “treeinfo-arch” property">treeinfo-arch</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--treeinfo-family" title="The “treeinfo-family” property">treeinfo-family</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--treeinfo-variant" title="The “treeinfo-variant” property">treeinfo-variant</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--treeinfo-version" title="The “treeinfo-version” property">treeinfo-version</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</td>
+<td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree--url" title="The “url” property">url</a></td>
+<td class="property_flags">Read / Write</td>
+</tr>
+<tr>
+<td class="property_type">
 <a class="link" href="OsinfoAvatarFormat.html" title="OsinfoAvatarFormat"><span class="type">OsinfoAvatarFormat</span></a> *</td>
 <td class="property_name"><a class="link" href="OsinfoInstallScript.html#OsinfoInstallScript--avatar-format" title="The “avatar-format” property">avatar-format</a></td>
 <td class="property_flags">Read</td>
@@ -530,7 +657,7 @@
 </tbody>
 </table></div>
 </div>
-<a name="OsinfoMedia"></a><a name="OsinfoOs"></a><div class="refsect1">
+<a name="OsinfoMedia"></a><a name="OsinfoOs"></a><a name="OsinfoTree"></a><div class="refsect1">
 <a name="OsinfoInstallScript.other"></a><h2>Types and Values</h2>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
 <colgroup>
@@ -626,6 +753,10 @@
 <td class="datatype_keyword"> </td>
 <td class="function_name"><a class="link" href="OsinfoInstallScript.html#OsinfoOs-struct" title="OsinfoOs">OsinfoOs</a></td>
 </tr>
+<tr>
+<td class="datatype_keyword"> </td>
+<td class="function_name"><a class="link" href="OsinfoInstallScript.html#OsinfoTree-struct" title="OsinfoTree">OsinfoTree</a></td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -642,7 +773,8 @@
         <span class="lineart">├──</span> OsinfoInstallScript
         <span class="lineart">├──</span> <a class="link" href="OsinfoProduct.html" title="OsinfoProduct">OsinfoProduct</a>
         <span class="lineart">│</span>   <span class="lineart">╰──</span> OsinfoOs
-        <span class="lineart">╰──</span> OsinfoMedia
+        <span class="lineart">├──</span> OsinfoMedia
+        <span class="lineart">╰──</span> OsinfoTree
 </pre>
 </div>
 <div class="refsect1">
@@ -699,6 +831,7 @@ osinfo_install_script_new_uri (<em class="parameter"><code>const <a href="/usr/s
 <p>an new install script. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -740,6 +873,7 @@ osinfo_install_script_new_data (<em class="parameter"><code>const <a href="/usr/
 <p>an new install script. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -747,6 +881,23 @@ osinfo_install_script_new_data (<em class="parameter"><code>const <a href="/usr/
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_script_get_template_uri
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+<p>Returns the stylesheet URI used to construct the install script.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-get-template-uri.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -754,12 +905,49 @@ osinfo_install_script_get_template_uri
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_script_get_template_data
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+<p>Returns the stylesheet data used to construct the install script.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-get-template-data.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-install-script-get-profile"></a><h3>osinfo_install_script_get_profile ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_script_get_profile (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+<p>Returns a string representing the install script profile that's going to be
+used.</p>
+<p>The values supported are "jeos" for minimal installations and "desktop" for
+workstation/desktop installations.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-get-profile.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -775,7 +963,7 @@ instance passed to script generation methods.</p>
 <p>@ - any character
 % - alphabet</p>
 <div class="refsect2">
-<a name="id-1.2.21.10.8.7"></a><h3>- numeric character</h3>
+<a name="id-1.2.23.11.8.7"></a><h3>- numeric character</h3>
 <p>$ - alphanumeric character</p>
 <p>All other characters represent themselves.</p>
 <p>For example in case of installer for Microsoft Windows XP, you'll get
@@ -803,6 +991,7 @@ and 23.</p>
 <p>Product key format mask, or NULL. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -811,6 +1000,30 @@ and 23.</p>
 osinfo_install_script_set_output_prefix
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *prefix</code></em>);</pre>
+<p>Mind that not all installers support any name for the installer scripts.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-set-output-prefix.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>prefix</p></td>
+<td class="parameter_description"><p>a prefix to be added to the file generated</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -818,6 +1031,26 @@ osinfo_install_script_set_output_prefix
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_script_get_output_prefix
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-script-get-output-prefix.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-get-output-prefix.returns"></a><h4>Returns</h4>
+<p> the prefix of the file generated</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -849,6 +1082,7 @@ functionality by set the expected filename's prefix using
 <p>the output script filename. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -878,6 +1112,7 @@ particular name to work.</p>
 <p>the expected script filename. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -909,6 +1144,7 @@ this method to retrieve those restrictions in the form of an
 format of avatar. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -968,6 +1204,7 @@ you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-gen
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1008,6 +1245,7 @@ osinfo_install_script_generate_finish (<em class="parameter"><code><a class="lin
 <p>the generated script, or NULL on error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1060,9 +1298,12 @@ osinfo_install_script_generate (<em class="parameter"><code><a class="link" href
 <a name="osinfo-install-script-generate.returns"></a><h4>Returns</h4>
 <p>the script as string.</p>
 <p>If you are generating the script for a specific media, it is recommended
-that you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-media" title="osinfo_install_script_generate_for_media ()"><code class="function">osinfo_install_script_generate_for_media()</code></a> instead. </p>
+that you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-media" title="osinfo_install_script_generate_for_media ()"><code class="function">osinfo_install_script_generate_for_media()</code></a> instead.</p>
+<p>If you are generating the script for a specific tree, it is recommended
+that you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-tree" title="osinfo_install_script_generate_for_tree ()"><code class="function">osinfo_install_script_generate_for_tree()</code></a> in instead. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1130,6 +1371,7 @@ will be written</p></td>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1171,6 +1413,7 @@ osinfo_install_script_generate_output_finish
 <p>a file containing the script, or NULL on error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1230,9 +1473,12 @@ will be written</p></td>
 <a name="osinfo-install-script-generate-output.returns"></a><h4>Returns</h4>
 <p>a file containing the script</p>
 <p>If you are generating the script for a specific media, it is recommended
-that you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-media" title="osinfo_install_script_generate_output_for_media ()"><code class="function">osinfo_install_script_generate_output_for_media()</code></a> instead. </p>
+that you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-media" title="osinfo_install_script_generate_output_for_media ()"><code class="function">osinfo_install_script_generate_output_for_media()</code></a> instead.</p>
+<p>If you are generating the script for a specific tree, it is recommended
+that you use <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-tree" title="osinfo_install_script_generate_output_for_tree ()"><code class="function">osinfo_install_script_generate_output_for_tree()</code></a> instead. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1579,6 +1825,9 @@ the OS in order to pass the needed commandline to it.</p>
 <p>If you are generating the command line for a specific media, it is
 recommended that you use
 <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-command-line-for-media" title="osinfo_install_script_generate_command_line_for_media ()"><code class="function">osinfo_install_script_generate_command_line_for_media()</code></a> instead.</p>
+<p>If you are generating the command line for a specific tree, it is
+recommended that you use
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-command-line-for-tree" title="osinfo_install_script_generate_command_line_for_tree ()"><code class="function">osinfo_install_script_generate_command_line_for_tree()</code></a> instead.</p>
 <div class="refsect3">
 <a name="osinfo-install-script-generate-command-line.parameters"></a><h4>Parameters</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -1611,6 +1860,7 @@ recommended that you use
 <p>The generated command line string, NULL otherwise. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.7</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1660,6 +1910,56 @@ the OS in order to pass the needed commandline to it.</p>
 <p>The generated command line string, NULL otherwise. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.12</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-command-line-for-tree"></a><h3>osinfo_install_script_generate_command_line_for_tree ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_script_generate_command_line_for_tree
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<p>Some install scripts need to pass a command line to the kernel, Such install
+scripts belong to OSs that provide paths to the kernel and initrd files that
+can be used to directly boot
+(http://wiki.qemu.org/download/qemu-doc.html<span class="type">direct_005flinux_005fboot</span>)
+the OS in order to pass the needed commandline to it.</p>
+<p>The tree <em class="parameter"><code>tree</code></em>
+ must have been identified successfully using
+<a class="link" href="OsinfoDb.html#osinfo-db-identify-tree" title="osinfo_db_identify_tree ()"><code class="function">osinfo_db_identify_tree()</code></a> before calling this function.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-command-line-for-tree.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>the tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install script config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-command-line-for-tree.returns"></a><h4>Returns</h4>
+<p>The generated command line string, NULL otherwise. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -1668,6 +1968,33 @@ the OS in order to pass the needed commandline to it.</p>
 osinfo_install_script_has_config_param
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
                                 <em class="parameter"><code><a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a> *config_param</code></em>);</pre>
+<p>Returns whether the <em class="parameter"><code>script</code></em>
+ has the <em class="parameter"><code>config_param</code></em>
+ searched or not.</p>
+<p>This code assumes that the 'id' and 'name' entity properties are the same.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-has-config-param.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>config_param</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam"><span class="type">OsinfoInstallConfigParam</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1676,6 +2003,32 @@ osinfo_install_script_has_config_param
 osinfo_install_script_has_config_param_name
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+<p>Returns whether the <em class="parameter"><code>script</code></em>
+ has a configuration parameter matching <em class="parameter"><code>name</code></em>
+ or not.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-has-config-param-name.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>name</p></td>
+<td class="parameter_description"><p>the configuration parameter name</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1710,9 +2063,12 @@ osinfo_install_script_get_config_param
 <div class="refsect3">
 <a name="osinfo-install-script-get-config-param.returns"></a><h4>Returns</h4>
 <p>the sought config param, if exists.
-NULL otherwise. </p>
+NULL otherwise.</p>
+<p>This code assumes that the 'id' and 'name' entity properties are
+the same. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1744,6 +2100,7 @@ list of valid <a class="link" href="OsinfoInstallConfigParam.html" title="Osinfo
 <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#g-list-free"><code class="function">g_list_free()</code></a> when done. The elements are owned by libosinfo. </p>
 <p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> OsinfoInstallScript]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1774,12 +2131,36 @@ osinfo_install_script_get_config_params
 parameters. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-install-script-get-path-format"></a><h3>osinfo_install_script_get_path_format ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoInstallScript.html#OsinfoPathFormat" title="enum OsinfoPathFormat"><span class="returnvalue">OsinfoPathFormat</span></a>
 osinfo_install_script_get_path_format (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+<p>Returns the path format to be used for the files and disks which will
+be used during the installation.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-get-path-format.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-get-path-format.returns"></a><h4>Returns</h4>
+<p> the path format to be used. OSINFO_PATH_FORMAT_UNIX is the
+default option.</p>
+</div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1810,6 +2191,7 @@ available during actual installation.</p>
 <a name="osinfo-install-script-get-can-pre-install-drivers.returns"></a><h4>Returns</h4>
 <p> TRUE if install script supports pre-installable drivers, FALSE otherwise.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1817,6 +2199,29 @@ available during actual installation.</p>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 osinfo_install_script_get_can_post_install_drivers
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
+<p>Whether install script can install drivers at the very end of installation
+This can be used for installing devices which the OS in question does not
+have out of the box support.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-get-can-post-install-drivers.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-get-can-post-install-drivers.returns"></a><h4>Returns</h4>
+<p> TRUE if install script supports post-installable drivers, FALSE otherwise.</p>
+</div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1846,6 +2251,7 @@ this function retrieves the requirement about signed status of drivers.</p>
 <p>. </p>
 <p><span class="annotation">[<acronym title="Override the parsed C type with given type."><span class="acronym">type</span></acronym> OsinfoDeviceDriverSigningReq]</span></p>
 </div>
+<p class="since">Since: 0.2.6</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1875,6 +2281,7 @@ function retrieves the requirement about signed status of drivers.</p>
 <p>. </p>
 <p><span class="annotation">[<acronym title="Override the parsed C type with given type."><span class="acronym">type</span></acronym> OsinfoDeviceDriverSigningReq]</span></p>
 </div>
+<p class="since">Since: 0.2.6</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1904,6 +2311,7 @@ osinfo_install_script_get_injection_methods
 supported methods for install script injection. </p>
 <p><span class="annotation">[<acronym title="Override the parsed C type with given type."><span class="acronym">type</span></acronym> OsinfoInstallScriptInjectionMethod]</span></p>
 </div>
+<p class="since">Since: 0.2.10</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1932,6 +2340,7 @@ osinfo_install_script_get_needs_internet
 <p> TRUE if script needs an internet connection, FALSE otherwise
 internet connection.</p>
 </div>
+<p class="since">Since: 0.2.11</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1969,6 +2378,7 @@ OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB</p></td>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 1.3.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1998,6 +2408,7 @@ OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK is supported,
 OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK is returned, otherwise
 OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD is returned.</p>
 </div>
+<p class="since">Since: 1.3.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2005,7 +2416,7 @@ OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD is returned.</p>
 <pre class="programlisting"><span class="returnvalue">void</span>
 osinfo_install_script_set_installation_source
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
-                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoInstallScriptInstallationSource" title="enum OsinfoInstallScriptInstallationSource"><span class="type">OsinfoInstallScriptInstallationSource</span></a> installer</code></em>);</pre>
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoInstallScriptInstallationSource" title="enum OsinfoInstallScriptInstallationSource"><span class="type">OsinfoInstallScriptInstallationSource</span></a> source</code></em>);</pre>
 <p>Set the installation source to be used with the <em class="parameter"><code>script</code></em>
 .</p>
 <div class="refsect3">
@@ -2032,6 +2443,7 @@ OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK</p></td>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 1.3.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2059,6 +2471,336 @@ osinfo_install_script_get_installation_source
 <p> the installation source to be used with the script. If none is set, it defaults to
 OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA.</p>
 </div>
+<p class="since">Since: 1.3.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-for-tree-async"></a><h3>osinfo_install_script_generate_for_tree_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_script_generate_for_tree_async
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Asynchronous variant of <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-tree" title="osinfo_install_script_generate_for_tree ()"><code class="function">osinfo_install_script_generate_for_tree()</code></a>. From the
+callback, call <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-for-tree-finish" title="osinfo_install_script_generate_for_tree_finish ()"><code class="function">osinfo_install_script_generate_for_tree_finish()</code></a> to
+conclude this call and get the generated script.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-for-tree-async.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>the tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install script config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>Function to call when result of this call is ready</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>The user data to pass to <em class="parameter"><code>callback</code></em>
+, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-for-tree-finish"></a><h3>osinfo_install_script_generate_for_tree_finish ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_script_generate_for_tree_finish
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *res</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-for-tree-finish.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>res</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>the location where to story any error, or NULL</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-for-tree-finish.returns"></a><h4>Returns</h4>
+<p>the generated script, or NULL or error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-for-tree"></a><h3>osinfo_install_script_generate_for_tree ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_script_generate_for_tree
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Creates an install script. The tree <em class="parameter"><code>tree</code></em>
+ must have been identified
+successfully using <a class="link" href="OsinfoDb.html#osinfo-db-identify-tree" title="osinfo_db_identify_tree ()"><code class="function">osinfo_db_identify_tree()</code></a> before calling this function.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-for-tree.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>the tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install script config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>The location where to store any error, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-for-tree.returns"></a><h4>Returns</h4>
+<p>the script as string. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-output-for-tree-async"></a><h3>osinfo_install_script_generate_output_for_tree_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_script_generate_output_for_tree_async
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *output_dir</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Asynchronous variant of <a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-tree" title="osinfo_install_script_generate_output_for_tree ()"><code class="function">osinfo_install_script_generate_output_for_tree()</code></a>.
+From the callback, call
+<a class="link" href="OsinfoInstallScript.html#osinfo-install-script-generate-output-for-tree-finish" title="osinfo_install_script_generate_output_for_tree_finish ()"><code class="function">osinfo_install_script_generate_output_for_tree_finish()</code></a> to conclude this
+call and get the generated file.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-output-for-tree-async.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>the tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install script config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>output_dir</p></td>
+<td class="parameter_description"><p>the directory where the file containing the output script
+will be written</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>Function to call when result of this call is ready</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>The user data to pass to <em class="parameter"><code>callback</code></em>
+, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-output-for-tree-finish"></a><h3>osinfo_install_script_generate_output_for_tree_finish ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gio/GFile.html#GFile-struct"><span class="returnvalue">GFile</span></a> *
+osinfo_install_script_generate_output_for_tree_finish
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *res</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-output-for-tree-finish.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>res</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>the location where to store any error, or NULL</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-output-for-tree-finish.returns"></a><h4>Returns</h4>
+<p>a file containing the script, or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-script-generate-output-for-tree"></a><h3>osinfo_install_script_generate_output_for_tree ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/gio/GFile.html#GFile-struct"><span class="returnvalue">GFile</span></a> *
+osinfo_install_script_generate_output_for_tree
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoTree"><span class="type">OsinfoTree</span></a> *tree</code></em>,
+                                <em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GFile.html#GFile-struct"><span class="type">GFile</span></a> *output_dir</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Creates an install script that is written to the returned file.</p>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-output-for-tree.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>script</p></td>
+<td class="parameter_description"><p>the install script</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tree</p></td>
+<td class="parameter_description"><p>the tree</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install script config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>output_dir</p></td>
+<td class="parameter_description"><p>the directory where the file containing the output script
+will be written</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>The location where to store any error, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-script-generate-output-for-tree.returns"></a><h4>Returns</h4>
+<p>a file containing the script. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.6.0</p>
 </div>
 </div>
 <div class="refsect1">
@@ -2202,38 +2944,23 @@ OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA.</p>
 <tbody>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-DEVICE-DRIVER-SIGNING-REQ-NONE:CAPS"></a>OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE</p></td>
-<td class="enum_member_description">
-<p>Script do not require device drivers
-to be signed.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-DEVICE-DRIVER-SIGNING-REQ-STRICT:CAPS"></a>OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT</p></td>
-<td class="enum_member_description">
-<p>Script must only be given signed
-device drivers. Some scripts will allow overriding this requirement through
-<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-driver-signing" title="osinfo_install_config_set_driver_signing ()"><span class="type">osinfo_install_config_set_driver_signing</span></a> function. You can query if a
-script supports this by checking if
-<a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-DRIVER-SIGNING:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING"><span class="type">OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING</span></a> configuration parameter is used
-by the script in question (or other scripts in the same profile).</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-DEVICE-DRIVER-SIGNING-REQ-WARN:CAPS"></a>OSINFO_DEVICE_DRIVER_SIGNING_REQ_WARN</p></td>
-<td class="enum_member_description">
-<p>A warning will be issued by OS
-installer if device drivers are not signed and most probably require user
-input (and thus breaking unattended installation). See
-<a class="link" href="OsinfoInstallScript.html#OSINFO-DEVICE-DRIVER-SIGNING-REQ-STRICT:CAPS"><span class="type">OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT</span></a> on how this warning can be disabled
-for some scripts.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.6</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2249,47 +2976,33 @@ for some scripts.</p>
 <tbody>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-CDROM:CAPS"></a>OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_CDROM</p></td>
-<td class="enum_member_description">
-<p>Support injection of the
-installation script trough a CD-ROM.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-DISK:CAPS"></a>OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK</p></td>
-<td class="enum_member_description">
-<p>Support injection of the
-installation script trough a disk.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-FLOPPY:CAPS"></a>OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_FLOPPY</p></td>
-<td class="enum_member_description">
-<p>Support injection of the
-installation script trough a floppy disk.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-INITRD:CAPS"></a>OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_INITRD</p></td>
-<td class="enum_member_description">
-<p>Support injection of the
-installation script trough the initrd.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-SCRIPT-INJECTION-METHOD-WEB:CAPS"></a>OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB</p></td>
-<td class="enum_member_description">
-<p>Support injection of the
-installation script from the web.</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.10</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2316,6 +3029,7 @@ installation script from the web.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 1.3.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -2326,6 +3040,11 @@ installation script from the web.</p>
 <div class="refsect2">
 <a name="OsinfoOs-struct"></a><h3>OsinfoOs</h3>
 <pre class="programlisting">typedef struct _OsinfoOs OsinfoOs;</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree-struct"></a><h3>OsinfoTree</h3>
+<pre class="programlisting">typedef struct _OsinfoTree OsinfoTree;</pre>
 </div>
 </div>
 <div class="refsect1">
@@ -2495,6 +3214,105 @@ solaris, freebsd etc.</p>
 <p>The generic family this OS belongs to, based upon its kernel,
 for example linux, winnt, solaris, freebsd etc.</p>
 <p>Flags: Read</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoOs--kernel-url-argument"></a><h3>The <code class="literal">“kernel-url-argument”</code> property</h3>
+<pre class="programlisting">  “kernel-url-argument”      <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The argument to be passed to kernel command line when performing a
+tree based installation of this OS.</p>
+<p>Flags: Read</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--architecture"></a><h3>The <code class="literal">“architecture”</code> property</h3>
+<pre class="programlisting">  “architecture”             <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The target hardware architecture of this tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--boot-iso-path"></a><h3>The <code class="literal">“boot-iso-path”</code> property</h3>
+<pre class="programlisting">  “boot-iso-path”            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The path to the boot ISO in the install tree</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--has-treeinfo"></a><h3>The <code class="literal">“has-treeinfo”</code> property</h3>
+<pre class="programlisting">  “has-treeinfo”             <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a></pre>
+<p>Whether the tree has treeinfo or not</p>
+<p>Flags: Read / Write</p>
+<p>Default value: FALSE</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--initrd-path"></a><h3>The <code class="literal">“initrd-path”</code> property</h3>
+<pre class="programlisting">  “initrd-path”              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The path to the initrd image in the install tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--kernel-path"></a><h3>The <code class="literal">“kernel-path”</code> property</h3>
+<pre class="programlisting">  “kernel-path”              <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The path to the kernel image in the install tree.</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--os"></a><h3>The <code class="literal">“os”</code> property</h3>
+<pre class="programlisting">  “os”                       <a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="type">OsinfoOs</span></a> *</pre>
+<p>Os information for the current tree. For tree stored in an
+<span class="type">OsinfoDB</span>, it will be filled when the database is loaded, otherwise
+the property will be filled after a successful call to
+<a class="link" href="OsinfoDb.html#osinfo-db-identify-tree" title="osinfo_db_identify_tree ()"><code class="function">osinfo_db_identify_tree()</code></a>.</p>
+<p>Flags: Read / Write</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--treeinfo-arch"></a><h3>The <code class="literal">“treeinfo-arch”</code> property</h3>
+<pre class="programlisting">  “treeinfo-arch”            <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The treeinfo arch</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--treeinfo-family"></a><h3>The <code class="literal">“treeinfo-family”</code> property</h3>
+<pre class="programlisting">  “treeinfo-family”          <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The treeinfo family</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--treeinfo-variant"></a><h3>The <code class="literal">“treeinfo-variant”</code> property</h3>
+<pre class="programlisting">  “treeinfo-variant”         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The treeinfo variant</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--treeinfo-version"></a><h3>The <code class="literal">“treeinfo-version”</code> property</h3>
+<pre class="programlisting">  “treeinfo-version”         <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The treeinfo version</p>
+<p>Flags: Read / Write</p>
+<p>Default value: NULL</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoTree--url"></a><h3>The <code class="literal">“url”</code> property</h3>
+<pre class="programlisting">  “url”                      <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *</pre>
+<p>The URL to this tree.</p>
+<p>Flags: Read / Write</p>
 <p>Default value: NULL</p>
 </div>
 <hr>

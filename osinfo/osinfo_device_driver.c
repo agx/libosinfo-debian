@@ -98,6 +98,8 @@ OsinfoDeviceDriver *osinfo_device_driver_new(const gchar *id)
  * Retrieves the target hardware architecture of @driver.
  *
  * Returns: (transfer none): the hardware architecture.
+ *
+ * Since: 0.2.2
  */
 const gchar *osinfo_device_driver_get_architecture(OsinfoDeviceDriver *driver)
 {
@@ -112,6 +114,8 @@ const gchar *osinfo_device_driver_get_architecture(OsinfoDeviceDriver *driver)
  * Retrieves the location of the @driver as a URL.
  *
  * Returns: (transfer none): the location of the driver.
+ *
+ * Since: 0.2.2
  */
 const gchar *osinfo_device_driver_get_location(OsinfoDeviceDriver *driver)
 {
@@ -127,6 +131,8 @@ const gchar *osinfo_device_driver_get_location(OsinfoDeviceDriver *driver)
  * #osinfo_device_driver_get_location.
  *
  * Returns: (transfer container) (element-type utf8): The list of driver files.
+ *
+ * Since: 0.2.2
  */
 GList *osinfo_device_driver_get_files(OsinfoDeviceDriver *driver)
 {
@@ -139,6 +145,8 @@ GList *osinfo_device_driver_get_files(OsinfoDeviceDriver *driver)
  * @driver: an #OsinfoDeviceDriver instance
  *
  * Returns: TRUE if @driver is pre-installable, FALSE otherwise.
+ *
+ * Since: 0.2.2
  */
 gboolean osinfo_device_driver_get_pre_installable(OsinfoDeviceDriver *driver)
 {
@@ -152,6 +160,8 @@ gboolean osinfo_device_driver_get_pre_installable(OsinfoDeviceDriver *driver)
  * @driver: an #OsinfoDeviceDriver instance
  *
  * Returns: (transfer none): The list of devices supported by this driver.
+ *
+ * Since: 0.2.2
  */
 OsinfoDeviceList *osinfo_device_driver_get_devices(OsinfoDeviceDriver *driver)
 {
@@ -178,6 +188,8 @@ void osinfo_device_driver_add_device(OsinfoDeviceDriver *driver,
  * before these device drivers could be installed on their OS.
  *
  * Returns: TRUE if @driver is signed, FALSE otherwise.
+ *
+ * Since: 0.2.6
  */
 gboolean osinfo_device_driver_get_signed(OsinfoDeviceDriver *driver)
 {
@@ -185,11 +197,3 @@ gboolean osinfo_device_driver_get_signed(OsinfoDeviceDriver *driver)
                 (OSINFO_ENTITY(driver),
                  OSINFO_DEVICE_DRIVER_PROP_SIGNED);
 }
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

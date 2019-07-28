@@ -75,6 +75,7 @@ enum {
 
     PROP_FAMILY,
     PROP_DISTRO,
+    PROP_KERNEL_URL_ARGUMENT,
 };
 
 static void osinfo_os_finalize(GObject *object);
@@ -98,6 +99,11 @@ osinfo_os_get_property(GObject    *object,
             g_value_set_string(value,
                                 osinfo_entity_get_param_value(entity,
                                                                "distro"));
+            break;
+        case PROP_KERNEL_URL_ARGUMENT:
+            g_value_set_string(value,
+                               osinfo_entity_get_param_value(entity,
+                                                             OSINFO_OS_PROP_KERNEL_URL_ARGUMENT));
             break;
         default:
             /* We don't have any other property... */
@@ -171,6 +177,22 @@ osinfo_os_class_init(OsinfoOsClass *klass)
                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass,
                                     PROP_DISTRO,
+                                    pspec);
+
+    /**
+     * OsinfoOs:kernel-url-argument:
+     *
+     * The argument to be passed to kernel command line when performing a
+     * tree based installation of this OS.
+     */
+    pspec = g_param_spec_string("kernel-url-argument",
+                                "KernelURLArgument",
+                                _("Kernel URL Argument"),
+                                NULL /* default value */,
+                                G_PARAM_READABLE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass,
+                                    PROP_KERNEL_URL_ARGUMENT,
                                     pspec);
 }
 
@@ -316,6 +338,8 @@ osinfo_os_get_all_device_links_internal(OsinfoOs *os,
  * systems.
  *
  * Returns: (transfer full): A list of devices
+ *
+ * Since: 0.0.5
  */
 OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
 {
@@ -384,6 +408,8 @@ OsinfoDeviceList *osinfo_os_get_all_devices(OsinfoOs *os, OsinfoFilter *filter)
  * @os supports, for which the value of @property is @value.
  *
  * Returns: (transfer full): The found devices
+ *
+ * Since: 0.0.6
  */
 OsinfoDeviceList *osinfo_os_get_devices_by_property(OsinfoOs *os,
                                                     const gchar *property,
@@ -526,6 +552,8 @@ osinfo_os_get_all_device_links_internal(OsinfoOs *os,
  * derived and cloned operating systems.
  *
  * Returns: (transfer full): A list of OsinfoDeviceLink
+ *
+ * Since: 1.3.0
  */
 OsinfoDeviceLinkList *osinfo_os_get_all_device_links(OsinfoOs *os, OsinfoFilter *filter)
 {
@@ -594,6 +622,8 @@ const gchar *osinfo_os_get_distro(OsinfoOs *os)
  * Use this to determine the release status of the @os.
  *
  * Returns: (type OsinfoReleaseStatus): release status of @os.
+ *
+ * Since: 0.2.9
  */
 int osinfo_os_get_release_status(OsinfoOs *os)
 {
@@ -673,6 +703,7 @@ void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree)
     g_return_if_fail(OSINFO_IS_TREE(tree));
 
     osinfo_list_add(OSINFO_LIST(os->priv->trees), OSINFO_ENTITY(tree));
+    osinfo_tree_set_os(tree, os);
 }
 
 /**
@@ -682,6 +713,8 @@ void osinfo_os_add_tree(OsinfoOs *os, OsinfoTree *tree)
  * Get all installed images associated with operating system @os.
  *
  * Returns: (transfer full): A list of images
+ *
+ * Since: 1.3.0
  */
 OsinfoImageList *osinfo_os_get_image_list(OsinfoOs *os)
 {
@@ -700,6 +733,8 @@ OsinfoImageList *osinfo_os_get_image_list(OsinfoOs *os)
  * @image: (transfer none): the image to add
  *
  * Adds an installed image @image to operating system @os.
+ *
+ * Since: 1.3.0
  */
 void osinfo_os_add_image(OsinfoOs *os, OsinfoImage *image)
 {
@@ -707,6 +742,7 @@ void osinfo_os_add_image(OsinfoOs *os, OsinfoImage *image)
     g_return_if_fail(OSINFO_IS_IMAGE(image));
 
     osinfo_list_add(OSINFO_LIST(os->priv->images), OSINFO_ENTITY(image));
+    osinfo_image_set_os(image, os);
 }
 
 /**
@@ -716,6 +752,8 @@ void osinfo_os_add_image(OsinfoOs *os, OsinfoImage *image)
  * Gets all known variants of operating system @os.
  *
  * Returns: (transfer full): A list of variants
+ *
+ * Since: 0.2.9
  */
 OsinfoOsVariantList *osinfo_os_get_variant_list(OsinfoOs *os)
 {
@@ -734,6 +772,8 @@ OsinfoOsVariantList *osinfo_os_get_variant_list(OsinfoOs *os)
  * @variant: (transfer none): the variant to add
  *
  * Adds a variant @variant to operating system @os.
+ *
+ * Since: 0.2.9
  */
 void osinfo_os_add_variant(OsinfoOs *os, OsinfoOsVariant *variant)
 {
@@ -908,6 +948,8 @@ osinfo_os_get_maximum_resources_without_inheritance(OsinfoOs *os)
  * Get the list of maximum resources for the operating system @os.
  *
  * Returns: (transfer full): A list of resources
+ *
+ * Since: 1.3.0
  */
 OsinfoResourcesList *osinfo_os_get_maximum_resources(OsinfoOs *os)
 {
@@ -984,6 +1026,8 @@ osinfo_os_get_network_install_resources_without_inheritance(OsinfoOs *os)
  * @os.
  *
  * Returns: (transfer full): A list of resources
+ *
+ * Since: 1.3.0
  */
 OsinfoResourcesList *osinfo_os_get_network_install_resources(OsinfoOs *os)
 {
@@ -1029,6 +1073,8 @@ void osinfo_os_add_recommended_resources(OsinfoOs *os,
  * @resources: (transfer none): the resources to add
  *
  * Adds @resources to list of maximum resources of operating system @os.
+ *
+ * Since: 1.3.0
  */
 void osinfo_os_add_maximum_resources(OsinfoOs *os,
                                      OsinfoResources *resources)
@@ -1047,6 +1093,8 @@ void osinfo_os_add_maximum_resources(OsinfoOs *os,
  *
  * Adds @resources to list of resources needed for network installing an
  * operating system @os.
+ *
+ * Since: 1.3.0
  */
 void osinfo_os_add_network_install_resources(OsinfoOs *os,
                                      OsinfoResources *resources)
@@ -1065,6 +1113,8 @@ void osinfo_os_add_network_install_resources(OsinfoOs *os,
  * OSINFO_INSTALL_SCRIPT_PROFILE_DESKTOP or OSINFO_INSTALL_SCRIPT_PROFILE_JEOS
  *
  * Returns: (transfer none): A new #OsinfoInstallScript for the @os @profile
+ *
+ * Since: 0.2.0
  */
 OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *profile)
 {
@@ -1098,6 +1148,8 @@ OsinfoInstallScript *osinfo_os_find_install_script(OsinfoOs *os, const gchar *pr
  * @os: an operating system
  *
  * Returns: (transfer full): a list of the install scripts for the specified os
+ *
+ * Since: 0.2.0
  */
 OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os)
 {
@@ -1110,6 +1162,15 @@ OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os)
 }
 
 
+/**
+ * osinfo_os_add_install_script:
+ * @os: an operating system
+ * @script: (transfer none): the install script to add
+ *
+ * Adds @script to the list of scripts of operating system @os.
+ *
+ * Since: 0.2.0
+ */
 void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script)
 {
     g_return_if_fail(OSINFO_IS_OS(os));
@@ -1124,6 +1185,8 @@ void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script)
  * Gets list of all available device drivers for OS @os.
  *
  * Returns: (transfer none): A list of device drivers
+ *
+ * Since: 0.2.2
  */
 OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os)
 {
@@ -1132,6 +1195,15 @@ OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os)
     return os->priv->device_drivers;
 }
 
+/**
+ * osinfo_os_add_device_driver:
+ * @os: an operating system
+ * @driver: (transfer none): the device driver to add
+ *
+ * Adds @driver to the list of device drivers of operating system @os.
+ *
+ * Since: 0.2.2
+ */
 void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver)
 {
     g_return_if_fail(OSINFO_IS_OS(os));
@@ -1141,10 +1213,47 @@ void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver)
                     OSINFO_ENTITY(driver));
 }
 
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
+struct GetKernelURLArgumentData {
+    const gchar *kernel_url_arg;
+};
+
+static void get_kernel_url_argument_cb(OsinfoProduct *product, gpointer user_data)
+{
+    OsinfoOs *os = OSINFO_OS(product);
+    struct GetKernelURLArgumentData *foreach_data = user_data;
+
+    g_return_if_fail(OSINFO_IS_OS(os));
+
+    if (foreach_data->kernel_url_arg != NULL)
+        return;
+
+    foreach_data->kernel_url_arg =
+            osinfo_entity_get_param_value(OSINFO_ENTITY(os),
+                                          OSINFO_OS_PROP_KERNEL_URL_ARGUMENT);
+}
+
+/**
+ * osinfo_os_get_kernel_url_argument:
+ * @os: an operating system
+ *
+ * Gets the argument expected to be passed to the kernel command line when
+ * performing a tree based installation.
+ *
+ * Returns: (transfer none): the kernel url argument, if present. Otherwise,
+ * NULL.
  */
+const gchar *osinfo_os_get_kernel_url_argument(OsinfoOs *os)
+{
+    struct GetKernelURLArgumentData foreach_data = {
+        .kernel_url_arg = NULL
+    };
+    g_return_val_if_fail(OSINFO_IS_OS(os), NULL);
+
+    osinfo_product_foreach_related(OSINFO_PRODUCT(os),
+                                   OSINFO_PRODUCT_FOREACH_FLAG_DERIVES_FROM |
+                                   OSINFO_PRODUCT_FOREACH_FLAG_CLONES,
+                                   get_kernel_url_argument_cb,
+                                   &foreach_data);
+
+    return foreach_data.kernel_url_arg;
+}

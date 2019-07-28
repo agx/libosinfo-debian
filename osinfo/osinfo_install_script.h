@@ -41,6 +41,7 @@
 
 typedef struct _OsinfoOs        OsinfoOs;
 typedef struct _OsinfoMedia     OsinfoMedia;
+typedef struct _OsinfoTree      OsinfoTree;
 typedef struct _OsinfoInstallScript        OsinfoInstallScript;
 typedef struct _OsinfoInstallScriptClass   OsinfoInstallScriptClass;
 typedef struct _OsinfoInstallScriptPrivate OsinfoInstallScriptPrivate;
@@ -95,6 +96,7 @@ typedef enum {
 
 /**
  * OsinfoDeviceDriverSigningReq:
+ * Since: 0.2.6
  * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_NONE: Script do not require device drivers
  * to be signed.
  * @OSINFO_DEVICE_DRIVER_SIGNING_REQ_STRICT: Script must only be given signed
@@ -117,6 +119,7 @@ typedef enum {
 
 /**
  * OsinfoInstallScriptInjectionMethod:
+ * Since: 0.2.10
  * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_CDROM: Support injection of the
  * installation script trough a CD-ROM.
  * @OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_DISK: Support injection of the
@@ -136,6 +139,14 @@ typedef enum {
     OSINFO_INSTALL_SCRIPT_INJECTION_METHOD_WEB    = 1 << 4,
 } OsinfoInstallScriptInjectionMethod;
 
+/**
+ * OsinfoInstallScriptInstallationSource:
+ * Since: 1.3.0
+ * @OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA: A media will be used as
+ * the installation source.
+ * @OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK: A network method will
+ * be used as installation source.
+ */
 typedef enum {
     OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_MEDIA,
     OSINFO_INSTALL_SCRIPT_INSTALLATION_SOURCE_NETWORK
@@ -241,6 +252,9 @@ gchar *osinfo_install_script_generate_command_line(OsinfoInstallScript *script,
 gchar *osinfo_install_script_generate_command_line_for_media(OsinfoInstallScript *script,
                                                              OsinfoMedia *media,
                                                              OsinfoInstallConfig *config);
+gchar *osinfo_install_script_generate_command_line_for_tree(OsinfoInstallScript *script,
+                                                            OsinfoTree *tree,
+                                                            OsinfoInstallConfig *config);
 
 gboolean osinfo_install_script_has_config_param(OsinfoInstallScript *script, OsinfoInstallConfigParam *config_param);
 
@@ -267,14 +281,39 @@ void osinfo_install_script_set_preferred_injection_method(OsinfoInstallScript *s
 OsinfoInstallScriptInjectionMethod osinfo_install_script_get_preferred_injection_method(OsinfoInstallScript *script);
 
 void osinfo_install_script_set_installation_source(OsinfoInstallScript *script,
-                                                   OsinfoInstallScriptInstallationSource installer);
+                                                   OsinfoInstallScriptInstallationSource source);
 OsinfoInstallScriptInstallationSource osinfo_install_script_get_installation_source(OsinfoInstallScript *script);
 
+void osinfo_install_script_generate_for_tree_async(OsinfoInstallScript *script,
+                                                   OsinfoTree *tree,
+                                                   OsinfoInstallConfig *config,
+                                                   GCancellable *cancellable,
+                                                   GAsyncReadyCallback callback,
+                                                   gpointer user_data);
+gchar *osinfo_install_script_generate_for_tree_finish(OsinfoInstallScript *script,
+                                                      GAsyncResult *res,
+                                                      GError **error);
+gchar *osinfo_install_script_generate_for_tree(OsinfoInstallScript *script,
+                                               OsinfoTree *tree,
+                                               OsinfoInstallConfig *config,
+                                               GCancellable *cancellable,
+                                               GError **error);
+
+void osinfo_install_script_generate_output_for_tree_async(OsinfoInstallScript *script,
+                                                          OsinfoTree *tree,
+                                                          OsinfoInstallConfig *config,
+                                                          GFile *output_dir,
+                                                          GCancellable *cancellable,
+                                                          GAsyncReadyCallback callback,
+                                                          gpointer user_data);
+GFile *osinfo_install_script_generate_output_for_tree_finish(OsinfoInstallScript *script,
+                                                             GAsyncResult *res,
+                                                             GError **error);
+GFile *osinfo_install_script_generate_output_for_tree(OsinfoInstallScript *script,
+                                                      OsinfoTree *tree,
+                                                      OsinfoInstallConfig *config,
+                                                      GFile *output_dir,
+                                                      GCancellable *cancellable,
+                                                      GError **error);
+
 #endif /* __OSINFO_INSTALL_SCRIPT_H__ */
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

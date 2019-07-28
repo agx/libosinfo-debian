@@ -568,6 +568,47 @@ LIBOSINFO_1.4.0 {
 	osinfo_media_get_install_script_list;
 } LIBOSINFO_1.3.0;
 
+LIBOSINFO_1.5.0 {
+    global:
+	osinfo_image_get_os;
+	osinfo_image_get_os_variants;
+	osinfo_image_set_os;
+
+	osinfo_install_config_get_installation_url;
+	osinfo_install_config_set_installation_url;
+
+	osinfo_product_get_short_id_list;
+
+	osinfo_tree_get_os;
+	osinfo_tree_get_os_variants;
+	osinfo_tree_set_os;
+} LIBOSINFO_1.4.0;
+
+LIBOSINFO_1.6.0 {
+    global:
+	osinfo_db_identify_tree;
+
+	osinfo_install_script_generate_command_line_for_tree;
+
+	osinfo_install_script_generate_for_tree;
+	osinfo_install_script_generate_for_tree_async;
+	osinfo_install_script_generate_for_tree_finish;
+
+	osinfo_install_script_generate_output_for_tree;
+	osinfo_install_script_generate_output_for_tree_async;
+	osinfo_install_script_generate_output_for_tree_finish;
+
+	osinfo_media_create_from_location_with_flags;
+	osinfo_media_create_from_location_with_flags_async;
+	osinfo_media_create_from_location_with_flags_finish;
+	osinfo_media_detect_flags_get_type;
+	osinfo_media_is_bootable;
+
+	osinfo_os_get_kernel_url_argument;
+
+	osinfo_tree_error_get_type;
+} LIBOSINFO_1.5.0;
+
 /* Symbols in next release...
 
   LIBOSINFO_0.0.2 {

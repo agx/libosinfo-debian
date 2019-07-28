@@ -175,6 +175,8 @@ osinfo_avatar_format_init(OsinfoAvatarFormat *avatar)
  *
  * Returns: (transfer full): the necessary information to create an avatar for
  *                           an user
+ *
+ * Since: 0.2.8
  */
 OsinfoAvatarFormat *
 osinfo_avatar_format_new(void)
@@ -187,6 +189,8 @@ osinfo_avatar_format_new(void)
  * @avatar: the avatar info
  *
  * Returns: (transfer container) (element-type utf8): the required mime-types of the avatar.
+ *
+ * Since: 0.2.2
  */
 GList *
 osinfo_avatar_format_get_mime_types(OsinfoAvatarFormat *avatar)
@@ -200,6 +204,8 @@ osinfo_avatar_format_get_mime_types(OsinfoAvatarFormat *avatar)
  * @avatar: the avatar info
  *
  * Returns: the required width (in pixels) of the avatar, or -1.
+ *
+ * Since: 0.2.2
  */
 gint
 osinfo_avatar_format_get_width(OsinfoAvatarFormat *avatar)
@@ -213,6 +219,8 @@ osinfo_avatar_format_get_width(OsinfoAvatarFormat *avatar)
  * @avatar: the avatar info
  *
  * Returns: the required height (in pixels) of the avatar, or -1.
+ *
+ * Since: 0.2.2
  */
 gint
 osinfo_avatar_format_get_height(OsinfoAvatarFormat *avatar)
@@ -226,6 +234,8 @@ osinfo_avatar_format_get_height(OsinfoAvatarFormat *avatar)
  * @avatar: the avatar info
  *
  * Returns: Whether alpha channel is supported in the avatar.
+ *
+ * Since: 0.2.2
  */
 gboolean
 osinfo_avatar_format_get_alpha(OsinfoAvatarFormat *avatar)
@@ -233,11 +243,3 @@ osinfo_avatar_format_get_alpha(OsinfoAvatarFormat *avatar)
     return osinfo_entity_get_param_value_boolean_with_default
                 (OSINFO_ENTITY(avatar), OSINFO_AVATAR_FORMAT_PROP_ALPHA, TRUE);
 }
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

@@ -62,6 +62,7 @@ typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 #define OSINFO_OS_PROP_FAMILY                 "family"
 #define OSINFO_OS_PROP_DISTRO                 "distro"
 #define OSINFO_OS_PROP_RELEASE_STATUS         "release-status"
+#define OSINFO_OS_PROP_KERNEL_URL_ARGUMENT    "kernel-url-argument"
 
 /* object */
 struct _OsinfoOs
@@ -85,12 +86,14 @@ struct _OsinfoOsClass
 
 /**
  * OsinfoReleaseStatus:
+ * Since: 0.2.9
  * @OSINFO_RELEASE_STATUS_RELEASED: A released OS.
  * @OSINFO_RELEASE_STATUS_SNAPSHOT: A continuous integration snapshot and not
  * an actual released product yet. For example, gnome-continuous images for
  * development snapshots of GNOME and nightly build ISOs of Fedora etc.
  * @OSINFO_RELEASE_STATUS_PRERELEASE: A pre-release. For example, alpha and
  * beta pre-releases of Fedora etc.
+ * Since: 1.4.0
  * @OSINFO_RELEASE_STATUS_ROLLING: A rolling version of an OS and thus with no
  * actual releases. For example, Gentoo, Arch Linux, etc.
  */
@@ -142,11 +145,6 @@ void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script);
 OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os);
 void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver);
 
+const gchar *osinfo_os_get_kernel_url_argument(OsinfoOs *os);
+
 #endif /* __OSINFO_OS_H__ */
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

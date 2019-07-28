@@ -1,4 +1,4 @@
-AC_INIT([libosinfo], [1.4.0], [libosinfo@redhat.com])
+AC_INIT([libosinfo], [1.6.0], [libosinfo@redhat.com])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([m4])
 AM_INIT_AUTOMAKE([1.11.1 foreign color-tests tar-ustar])
@@ -37,11 +37,12 @@ m4_if(m4_version_compare([2.61a.100],
 m4_ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
 
 # Keep these two definitions in agreement.
-GLIB_MINIMUM_VERSION="2.38"
-GLIB_ENCODED_VERSION="GLIB_VERSION_2_38"
+GLIB_MINIMUM_VERSION="2.44"
+GLIB_ENCODED_VERSION="GLIB_VERSION_2_44"
 
 PKG_CHECK_MODULES([LIBXML], [libxml-2.0 >= 2.6.0])
 PKG_CHECK_MODULES([LIBXSLT], [libxslt >= 1.0.0])
+PKG_CHECK_MODULES([LIBSOUP], [libsoup-2.4])
 
 PKG_CHECK_MODULES([GLIB], [glib-2.0 >= $GLIB_MINIMUM_VERSION gobject-2.0 gio-2.0])
 GLIB_CFLAGS="$GLIB_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=$GLIB_ENCODED_VERSION"
@@ -54,14 +55,6 @@ GTK_DOC_CHECK([1.10],[--flavour no-tmpl])
 AC_ARG_ENABLE([tests],
         AS_HELP_STRING([--enable-tests], [enable test suite]),
         [], [enable_tests=yes])
-
-if test "x$enable_tests" != "xno" ; then
-  have_curl=no
-  PKG_CHECK_MODULES([CURL], [libcurl], [have_curl=yes], [:])
-  AC_SUBST(CURL_CFLAGS)
-  AC_SUBST(CURL_LIBS)
-fi
-AM_CONDITIONAL([HAVE_CURL],[test "x$have_curl" = "xyes"])
 
 AM_CONDITIONAL([ENABLE_TESTS],[test "x$enable_tests" = "xyes"])
 

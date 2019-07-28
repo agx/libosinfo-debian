@@ -107,9 +107,12 @@ OsinfoOs *osinfo_db_guess_os_from_media(OsinfoDb *db,
 gboolean osinfo_db_identify_media(OsinfoDb *db,
                                   OsinfoMedia *media);
 
+G_DEPRECATED_FOR(osinfo_db_identify_tree)
 OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
                                        OsinfoTree *tree,
                                        OsinfoTree **matched_tree);
+gboolean osinfo_db_identify_tree(OsinfoDb *db,
+                                 OsinfoTree *tree);
 
 // Get me all unique values for property "vendor" among operating systems
 GList *osinfo_db_unique_values_for_property_in_os(OsinfoDb *db, const gchar *propName);
@@ -131,10 +134,3 @@ OsinfoPlatformList *osinfo_db_unique_values_for_platform_relationship(OsinfoDb *
 
 
 #endif /* __OSINFO_DB_H__ */
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

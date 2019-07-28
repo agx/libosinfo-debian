@@ -261,6 +261,8 @@ OsinfoDeployment *osinfo_db_get_deployment(OsinfoDb *db, const gchar *id)
  * @id: the unique operating system identifier
  *
  * Returns: (transfer none): the install datamap, or NULL if none is found
+ *
+ * Since: 0.2.3
  */
 OsinfoDatamap *osinfo_db_get_datamap(OsinfoDb *db, const gchar *id)
 {
@@ -277,6 +279,8 @@ OsinfoDatamap *osinfo_db_get_datamap(OsinfoDb *db, const gchar *id)
  * @id: the unique operating system identifier
  *
  * Returns: (transfer none): the install script, or NULL if none is found
+ *
+ * Since: 0.2.0
  */
 OsinfoInstallScript *osinfo_db_get_install_script(OsinfoDb *db, const gchar *id)
 {
@@ -400,6 +404,8 @@ OsinfoDeploymentList *osinfo_db_get_deployment_list(OsinfoDb *db)
  * @db: the database
  *
  * Returns: (transfer full): the list of install datamaps
+ *
+ * Since: 0.2.3
  */
 OsinfoDatamapList *osinfo_db_get_datamap_list(OsinfoDb *db)
 {
@@ -417,6 +423,8 @@ OsinfoDatamapList *osinfo_db_get_datamap_list(OsinfoDb *db)
  * @db: the database
  *
  * Returns: (transfer full): the list of install scripts
+ *
+ * Since: 0.2.0
  */
 OsinfoInstallScriptList *osinfo_db_get_install_script_list(OsinfoDb *db)
 {
@@ -494,6 +502,7 @@ void osinfo_db_add_deployment(OsinfoDb *db, OsinfoDeployment *deployment)
  * @db: the database
  * @datamap: (transfer none): an install datamap
  *
+ * Since: 0.2.3
  */
 void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap)
 {
@@ -509,6 +518,7 @@ void osinfo_db_add_datamap(OsinfoDb *db, OsinfoDatamap *datamap)
  * @db: the database
  * @script: (transfer none): an install script
  *
+ * Since: 0.2.0
  */
 void osinfo_db_add_install_script(OsinfoDb *db, OsinfoInstallScript *script)
 {
@@ -537,13 +547,12 @@ static gint media_volume_compare(gconstpointer a, gconstpointer b)
         return 1;
 }
 
-static OsinfoOs *
-osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
-                                       OsinfoMedia *media,
-                                       OsinfoMedia **matched_media)
+static gboolean compare_media(OsinfoMedia *media,
+                              GList *oss,
+                              OsinfoOs **ret_os,
+                              OsinfoMedia **matched,
+                              GList **fallback_oss)
 {
-    OsinfoOs *ret = NULL;
-    GList *oss = NULL;
     GList *os_iter;
     const gchar *media_volume;
     const gchar *media_system;
@@ -551,16 +560,12 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
     const gchar *media_application;
     gint64 media_vol_size;
 
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
-    g_return_val_if_fail(media != NULL, NULL);
-
     media_volume = osinfo_media_get_volume_id(media);
     media_system = osinfo_media_get_system_id(media);
     media_publisher = osinfo_media_get_publisher_id(media);
     media_application = osinfo_media_get_application_id(media);
     media_vol_size = osinfo_media_get_volume_size(media);
 
-    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
     for (os_iter = oss; os_iter; os_iter = os_iter->next) {
         OsinfoOs *os = OSINFO_OS(os_iter->data);
         OsinfoMediaList *media_list = osinfo_os_get_media_list(os);
@@ -571,6 +576,7 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
 
         for (media_iter = medias; media_iter; media_iter = media_iter->next) {
             OsinfoMedia *os_media = OSINFO_MEDIA(media_iter->data);
+            const gchar *os_arch = osinfo_media_get_architecture(os_media);
             const gchar *os_volume = osinfo_media_get_volume_id(os_media);
             const gchar *os_system = osinfo_media_get_system_id(os_media);
             const gchar *os_publisher = osinfo_media_get_publisher_id(os_media);
@@ -584,6 +590,13 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
                 os_vol_size <= 0)
                 continue;
 
+            if (fallback_oss != NULL) {
+                if (g_str_equal(os_arch, "all")) {
+                    *fallback_oss = g_list_prepend(*fallback_oss, os);
+                    continue;
+                }
+            }
+
             if (os_vol_size <= 0)
                 os_vol_size = media_vol_size;
 
@@ -592,9 +605,9 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
                 match_regex(os_system, media_system) &&
                 match_regex(os_publisher, media_publisher) &&
                 os_vol_size == media_vol_size) {
-                ret = os;
-                if (matched_media != NULL)
-                    *matched_media = os_media;
+                *ret_os = os;
+                if (matched != NULL)
+                    *matched = os_media;
                 break;
             }
         }
@@ -602,11 +615,34 @@ osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
         g_list_free(medias);
         g_object_unref(media_list);
 
-        if (ret)
-            break;
+        if (*ret_os)
+            return TRUE;
     }
 
+    return FALSE;
+}
+
+static OsinfoOs *
+osinfo_db_guess_os_from_media_internal(OsinfoDb *db,
+                                       OsinfoMedia *media,
+                                       OsinfoMedia **matched_media)
+{
+    OsinfoOs *ret = NULL;
+    GList *oss = NULL;
+    GList *fallback_oss = NULL;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(media != NULL, NULL);
+
+    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
+    if (compare_media(media, oss, &ret, matched_media, &fallback_oss))
+        goto end;
+
+    compare_media(media, fallback_oss, &ret, matched_media, NULL);
+
+ end:
     g_list_free(oss);
+    g_list_free(fallback_oss);
 
     return ret;
 }
@@ -722,6 +758,8 @@ static void fill_media(OsinfoDb *db, OsinfoMedia *media,
  * properties will be set.
  *
  * Returns: TRUE if @media was found in @db, FALSE otherwise
+ *
+ * Since: 0.2.3
  */
 gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
 {
@@ -742,6 +780,102 @@ gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
     return TRUE;
 }
 
+static gboolean compare_tree(OsinfoTree *tree,
+                             GList *oss,
+                             OsinfoOs **ret_os,
+                             OsinfoTree **matched,
+                             GList **fallback_oss)
+{
+    GList *os_iter;
+    const gchar *treeinfo_family;
+    const gchar *treeinfo_variant;
+    const gchar *treeinfo_version;
+    const gchar *treeinfo_arch;
+
+    treeinfo_family = osinfo_tree_get_treeinfo_family(tree);
+    treeinfo_variant = osinfo_tree_get_treeinfo_variant(tree);
+    treeinfo_version = osinfo_tree_get_treeinfo_version(tree);
+    treeinfo_arch = osinfo_tree_get_treeinfo_arch(tree);
+
+    for (os_iter = oss; os_iter; os_iter = os_iter->next) {
+        OsinfoOs *os = OSINFO_OS(os_iter->data);
+        OsinfoTreeList *tree_list = osinfo_os_get_tree_list(os);
+        GList *trees = osinfo_list_get_elements(OSINFO_LIST(tree_list));
+        GList *tree_iter;
+        gboolean found = FALSE;
+
+        for (tree_iter = trees; tree_iter; tree_iter = tree_iter->next) {
+            OsinfoTree *os_tree = OSINFO_TREE(tree_iter->data);
+            const gchar *os_tree_arch = NULL;
+            const gchar *os_treeinfo_family;
+            const gchar *os_treeinfo_variant;
+            const gchar *os_treeinfo_version;
+            const gchar *os_treeinfo_arch;
+
+            if (!osinfo_tree_has_treeinfo(os_tree))
+                continue;
+
+            os_tree_arch = osinfo_tree_get_architecture(os_tree);
+            if (fallback_oss != NULL) {
+                if (g_str_equal(os_tree_arch, "all")) {
+                    *fallback_oss = g_list_prepend(*fallback_oss, os);
+                    continue;
+                }
+            }
+
+            os_treeinfo_family = osinfo_tree_get_treeinfo_family(os_tree);
+            os_treeinfo_variant = osinfo_tree_get_treeinfo_variant(os_tree);
+            os_treeinfo_version = osinfo_tree_get_treeinfo_version(os_tree);
+            os_treeinfo_arch = osinfo_tree_get_treeinfo_arch(os_tree);
+
+            if (match_regex(os_treeinfo_family, treeinfo_family) &&
+                match_regex(os_treeinfo_variant, treeinfo_variant) &&
+                match_regex(os_treeinfo_version, treeinfo_version) &&
+                match_regex(os_treeinfo_arch, treeinfo_arch)) {
+                *ret_os = os;
+                if (matched != NULL) {
+                    *matched = os_tree;
+                    osinfo_tree_set_os(*matched, *ret_os);
+                    found = TRUE;
+                }
+                break;
+            }
+        }
+
+        g_list_free(trees);
+        g_object_unref(tree_list);
+
+        if (found)
+            return TRUE;
+    }
+
+    return FALSE;
+}
+
+static OsinfoOs *
+osinfo_db_guess_os_from_tree_internal(OsinfoDb *db,
+                                      OsinfoTree *tree,
+                                      OsinfoTree **matched_tree)
+{
+    OsinfoOs *ret = NULL;
+    GList *oss = NULL;
+    GList *fallback_oss = NULL;
+
+    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
+    g_return_val_if_fail(tree != NULL, NULL);
+
+    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
+    if (compare_tree(tree, oss, &ret, matched_tree, &fallback_oss))
+        goto end;
+
+    compare_tree(tree, fallback_oss, &ret, matched_tree, NULL);
+
+ end:
+    g_list_free(oss);
+    g_list_free(fallback_oss);
+
+    return ret;
+}
 
 /**
  * osinfo_db_guess_os_from_tree:
@@ -753,72 +887,120 @@ gboolean osinfo_db_identify_media(OsinfoDb *db, OsinfoMedia *media)
  * Guess operating system given an #OsinfoTree object.
  *
  * Returns: (transfer none): the operating system, or NULL if guessing failed
+ * Deprecated: 1.6.0: Use osinfo_db_identify_tree() instead.
  */
 OsinfoOs *osinfo_db_guess_os_from_tree(OsinfoDb *db,
                                        OsinfoTree *tree,
                                        OsinfoTree **matched_tree)
 {
-    OsinfoOs *ret = NULL;
-    GList *oss = NULL;
-    GList *os_iter;
-    const gchar *tree_family;
-    const gchar *tree_variant;
-    const gchar *tree_version;
-    const gchar *tree_arch;
+    return osinfo_db_guess_os_from_tree_internal(db, tree, matched_tree);
+}
 
-    g_return_val_if_fail(OSINFO_IS_DB(db), NULL);
-    g_return_val_if_fail(tree != NULL, NULL);
+static void fill_tree(OsinfoDb *db, OsinfoTree *tree,
+                      OsinfoTree *matched_tree,
+                      OsinfoOs *os)
+{
+    const gchar *id;
+    const gchar *kernel_path;
+    const gchar *initrd_path;
+    const gchar *boot_iso_path;
+    const gchar *arch;
+    const gchar *url;
+    gboolean has_treeinfo;
+    GList *variants, *node;
 
-    tree_family = osinfo_tree_get_treeinfo_family(tree);
-    tree_variant = osinfo_tree_get_treeinfo_variant(tree);
-    tree_version = osinfo_tree_get_treeinfo_version(tree);
-    tree_arch = osinfo_tree_get_treeinfo_arch(tree);
+    id = osinfo_entity_get_id(OSINFO_ENTITY(matched_tree));
+    g_object_set(G_OBJECT(tree), "id", id, NULL);
 
-    oss = osinfo_list_get_elements(OSINFO_LIST(db->priv->oses));
-    for (os_iter = oss; os_iter; os_iter = os_iter->next) {
-        OsinfoOs *os = OSINFO_OS(os_iter->data);
-        OsinfoTreeList *tree_list = osinfo_os_get_tree_list(os);
-        GList *trees = osinfo_list_get_elements(OSINFO_LIST(tree_list));
-        GList *tree_iter;
+    arch = osinfo_tree_get_architecture(matched_tree);
+    if (arch != NULL)
+        g_object_set(G_OBJECT(tree), "architecture", arch, NULL);
+    url = osinfo_tree_get_url(matched_tree);
+    if (url != NULL)
+        g_object_set(G_OBJECT(tree), "url", url, NULL);
+    variants = osinfo_entity_get_param_value_list(OSINFO_ENTITY(matched_tree),
+                                                  "variant");
+    for (node = variants; node != NULL; node = node->next)
+        osinfo_entity_add_param(OSINFO_ENTITY(tree),
+                                "variant",
+                                (gchar *) node->data);
+    g_list_free(variants);
+    kernel_path = osinfo_tree_get_kernel_path(matched_tree);
+    if (kernel_path != NULL)
+        g_object_set(G_OBJECT(tree), "kernel", kernel_path, NULL);
 
-        //trees = g_list_sort(trees, tree_family_compare);
+    initrd_path = osinfo_tree_get_initrd_path(matched_tree);
+    if (initrd_path != NULL)
+        g_object_set(G_OBJECT(tree), "initrd", initrd_path, NULL);
 
-        for (tree_iter = trees; tree_iter; tree_iter = tree_iter->next) {
-            OsinfoTree *os_tree = OSINFO_TREE(tree_iter->data);
-            const gchar *os_family;
-            const gchar *os_variant;
-            const gchar *os_version;
-            const gchar *os_arch;
+    boot_iso_path = osinfo_tree_get_boot_iso_path(matched_tree);
+    if (boot_iso_path != NULL)
+        g_object_set(G_OBJECT(tree), "boot-iso", boot_iso_path, NULL);
 
-            if (!osinfo_tree_has_treeinfo(os_tree))
-                continue;
+    has_treeinfo = osinfo_tree_has_treeinfo(matched_tree);
+    if (has_treeinfo) {
+        const gchar *treeinfo_family;
+        const gchar *treeinfo_variant;
+        const gchar *treeinfo_version;
+        const gchar *treeinfo_arch;
 
-            os_family = osinfo_tree_get_treeinfo_family(os_tree);
-            os_variant = osinfo_tree_get_treeinfo_variant(os_tree);
-            os_version = osinfo_tree_get_treeinfo_version(os_tree);
-            os_arch = osinfo_tree_get_treeinfo_arch(os_tree);
+        treeinfo_family = osinfo_tree_get_treeinfo_family(matched_tree);
+        if (treeinfo_family != NULL)
+            g_object_set(G_OBJECT(tree), "treeinfo-family", treeinfo_family, NULL);
 
-            if (match_regex(os_family, tree_family) &&
-                match_regex(os_variant, tree_variant) &&
-                match_regex(os_version, tree_version) &&
-                match_regex(os_arch, tree_arch)) {
-                ret = os;
-                if (matched_tree != NULL)
-                    *matched_tree = os_tree;
-                break;
-            }
-        }
+        treeinfo_variant = osinfo_tree_get_treeinfo_variant(matched_tree);
+        if (treeinfo_variant != NULL)
+            g_object_set(G_OBJECT(tree), "treeinfo-variant", treeinfo_variant, NULL);
 
-        g_list_free(trees);
-        g_object_unref(tree_list);
+        treeinfo_version = osinfo_tree_get_treeinfo_version(matched_tree);
+        if (treeinfo_version != NULL)
+            g_object_set(G_OBJECT(tree), "treeinfo-version", treeinfo_version, NULL);
 
-        if (ret)
-            break;
+        treeinfo_arch = osinfo_tree_get_treeinfo_arch(matched_tree);
+        if (treeinfo_arch != NULL)
+            g_object_set(G_OBJECT(tree), "treeinfo-arch", treeinfo_arch, NULL);
+
+        g_object_set(G_OBJECT(tree), "has-treeinfo", TRUE, NULL);
     }
 
-    g_list_free(oss);
+    if (os != NULL)
+        osinfo_tree_set_os(tree, os);
+}
 
-    return ret;
+/**
+ * osinfo_db_identify_tree:
+ * @db: an #OsinfoDb database
+ * @tree: the installation tree
+ * data
+ *
+ * Try to match a newly created @tree with a tree description from @db.
+ * If found, @tree will be filled with the corresponding information
+ * stored in @db. In particular, after a call to osinfo_db_identify_tree(), if
+ * the tree could be identified, its OsinfoEntify::id and OsinfoMedia::os
+ * properties will be set.
+ *
+ * Returns: TRUE if @tree was found in @db, FALSE otherwise
+ *
+ * Since: 1.6.0
+ */
+gboolean osinfo_db_identify_tree(OsinfoDb *db,
+                                 OsinfoTree *tree)
+{
+    OsinfoTree *matched_tree;
+    OsinfoOs *matched_os;
+
+    g_return_val_if_fail(OSINFO_IS_TREE(tree), FALSE);
+    g_return_val_if_fail(OSINFO_IS_DB(db), FALSE);
+
+    matched_os = osinfo_db_guess_os_from_tree_internal(db, tree,
+                                                       &matched_tree);
+    if (matched_os == NULL) {
+        return FALSE;
+    }
+
+    fill_tree(db, tree, matched_tree, matched_os);
+
+    return TRUE;
 }
 
 struct osinfo_db_populate_values_args {
@@ -1011,10 +1193,3 @@ OsinfoPlatformList *osinfo_db_unique_values_for_platform_relationship(OsinfoDb *
 
     return newList;
 }
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

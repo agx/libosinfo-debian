@@ -35,6 +35,20 @@ osinfo_tree_error_quark (void) G_GNUC_CONST;
 
 #define OSINFO_TREE_ERROR (osinfo_tree_error_quark ())
 
+/**
+ * OsinfoTreeError:
+ * Since: 1.6.0
+ * @OSINFO_TREE_ERROR_NO_TREEINFO: No treeinfo found;
+ * @OSINFO_TREE_ERROR_NOT_SUPPORTED_PROTOCOL: The URL protocol is not supported.
+ *
+ * #GError codes used for errors in the #OSINFO_TREE_ERROR domain, during
+ * reading the treeinfo from a URI.
+ */
+typedef enum {
+    OSINFO_TREE_ERROR_NO_TREEINFO,
+    OSINFO_TREE_ERROR_NOT_SUPPORTED_PROTOCOL
+} OsinfoTreeError;
+
 
 /*
  * Type macros.
@@ -62,6 +76,7 @@ typedef struct _OsinfoTreePrivate OsinfoTreePrivate;
 #define OSINFO_TREE_PROP_KERNEL           "kernel"
 #define OSINFO_TREE_PROP_INITRD           "initrd"
 #define OSINFO_TREE_PROP_HAS_TREEINFO     "has-treeinfo"
+#define OSINFO_TREE_PROP_VARIANT          "variant"
 
 
 /* object */
@@ -109,13 +124,9 @@ const gchar *osinfo_tree_get_treeinfo_arch(OsinfoTree *tree);
 const gchar *osinfo_tree_get_boot_iso_path(OsinfoTree *tree);
 const gchar *osinfo_tree_get_kernel_path(OsinfoTree *tree);
 const gchar *osinfo_tree_get_initrd_path(OsinfoTree *tree);
+OsinfoOs *osinfo_tree_get_os(OsinfoTree *tree);
+void osinfo_tree_set_os(OsinfoTree *tree, OsinfoOs *os);
+OsinfoOsVariantList *osinfo_tree_get_os_variants(OsinfoTree *tree);
 /* XXX Xen kernel/initrd paths ? */
 
 #endif /* __OSINFO_TREE_H__ */
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

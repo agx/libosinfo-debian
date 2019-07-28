@@ -5,17 +5,16 @@ Name: libosinfo
 Version: @VERSION@
 Release: 1%{?dist}
 License: LGPLv2+
-Group: Development/Libraries
-Source: https://releases.pagure.io/%{name}/%{name}-%{version}.tar.gz
+Source: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 URL: https://libosinfo.org/
+BuildRequires: gcc
 BuildRequires: gettext-devel
 BuildRequires: glib2-devel
 BuildRequires: libxml2-devel >= 2.6.0
 BuildRequires: libxslt-devel >= 1.0.0
+BuildRequires: libsoup-devel
 BuildRequires: vala
-BuildRequires: vala-tools
-BuildRequires: libcurl-devel
 BuildRequires: /usr/bin/pod2man
 BuildRequires: hwdata
 BuildRequires: gobject-introspection-devel
@@ -31,10 +30,12 @@ combination.
 
 %package devel
 Summary: Libraries, includes, etc. to compile with the libosinfo library
-Group: Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Requires: pkgconfig
 Requires: glib2-devel
+# -vala subpackage removed in F30
+Obsoletes: libosinfo-vala < 1.3.0-3
+Provides: libosinfo-vala = %{version}-%{release}
 
 %description devel
 libosinfo is a library that allows virtualization provisioning tools to
@@ -42,18 +43,6 @@ determine the optimal device settings for a hypervisor/operating system
 combination.
 
 Libraries, includes, etc. to compile with the libosinfo library
-
-%package vala
-Summary: Vala bindings
-Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
-
-%description vala
-libosinfo is a library that allows virtualization provisioning tools to
-determine the optimal device settings for a hypervisor/operating system
-combination.
-
-This package provides the Vala bindings for libosinfo library.
 
 %prep
 %setup -q
@@ -87,7 +76,6 @@ rm -fr %{buildroot}
 %postun -p /sbin/ldconfig
 
 %files -f %{name}.lang
-%defattr(-, root, root)
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
 %{_bindir}/osinfo-detect
 %{_bindir}/osinfo-query
@@ -99,7 +87,6 @@ rm -fr %{buildroot}
 %{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
 
 %files devel
-%defattr(-, root, root)
 %doc examples/demo.js
 %doc examples/demo.py
 %{_libdir}/%{name}-1.0.so
@@ -110,8 +97,8 @@ rm -fr %{buildroot}
 %{_datadir}/gir-1.0/Libosinfo-1.0.gir
 %{_datadir}/gtk-doc/html/Libosinfo
 
-%files vala
-%defattr(-, root, root)
+%dir %{_datadir}/vala
+%dir %{_datadir}/vala/vapi
 %{_datadir}/vala/vapi/libosinfo-1.0.vapi
 
 %changelog

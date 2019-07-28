@@ -27,10 +27,12 @@
 
 #include <osinfo/osinfo.h>
 #include "osinfo_media_private.h"
+#include "osinfo_util_private.h"
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
+#include <libsoup/soup.h>
 
 #define MAX_VOLUME 32
 #define MAX_SYSTEM 32
@@ -129,6 +131,9 @@ static void search_ppc_bootinfo_async_data_free(SearchPPCBootinfoAsyncData *data
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
     GFile *file;
+    SoupSession *session;
+    SoupMessage *message;
+    gchar *uri;
 
     GTask *res;
 
@@ -142,19 +147,27 @@ struct _CreateFromLocationAsyncData {
     gchar *system;
     gchar *application;
     gchar *publisher;
+
+    guint flags;
+    gboolean bootable;
 };
 
 static void create_from_location_async_data_free
                                 (CreateFromLocationAsyncData *data)
 {
-   g_object_unref(data->file);
-   g_object_unref(data->res);
-   g_free(data->volume);
-   g_free(data->system);
-   g_free(data->application);
-   g_free(data->publisher);
+    if (data->file != NULL)
+        g_object_unref(data->file);
+    if (data->session != NULL)
+        g_object_unref(data->session);
+    if (data->message != NULL)
+        g_object_unref(data->message);
+    g_object_unref(data->res);
+    g_free(data->volume);
+    g_free(data->system);
+    g_free(data->application);
+    g_free(data->publisher);
 
-   g_slice_free(CreateFromLocationAsyncData, data);
+    g_slice_free(CreateFromLocationAsyncData, data);
 }
 
 typedef struct _CreateFromLocationData CreateFromLocationData;
@@ -745,7 +758,7 @@ static void on_media_create_from_location_ready(GObject *source_object,
  * @error: The location where to store any error, or %NULL
  *
  * Creates a new #OsinfoMedia for installation media at @location. The @location
- * could be any URI that GIO can handle or a local path.
+ * could be a http:// or a https:// URI or a local path.
  *
  * NOTE: Currently this only works for ISO images/devices.
  *
@@ -755,6 +768,33 @@ OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
                                                GCancellable *cancellable,
                                                GError **error)
 {
+    return osinfo_media_create_from_location_with_flags(location,
+                                                        cancellable,
+                                                        OSINFO_MEDIA_DETECT_REQUIRE_BOOTABLE,
+                                                        error);
+}
+
+/**
+ * osinfo_media_create_from_location_with_flags:
+ * @location: the location of an installation media
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @error: The location where to store any error, or %NULL
+ * @flags: An #OsinfoMediaDetectFlag, or 0.
+ *
+ * Creates a new #OsinfoMedia for installation media at @location. The @location
+ * could be a http:// or a https:// URI or a local path.
+ *
+ * NOTE: Currently this only works for ISO images/devices.
+ *
+ * Returns: (transfer full): a new #OsinfoMedia , or NULL on error
+ *
+ * Since: 1.6.0
+ */
+OsinfoMedia *osinfo_media_create_from_location_with_flags(const gchar *location,
+                                                          GCancellable *cancellable,
+                                                          guint flags,
+                                                          GError **error)
+{
     CreateFromLocationData *data;
     OsinfoMedia *ret;
 
@@ -762,16 +802,17 @@ OsinfoMedia *osinfo_media_create_from_location(const gchar *location,
     data->main_loop = g_main_loop_new(g_main_context_get_thread_default(),
                                       FALSE);
 
-    osinfo_media_create_from_location_async(location,
-                                            G_PRIORITY_DEFAULT,
-                                            cancellable,
-                                            on_media_create_from_location_ready,
-                                            data);
+    osinfo_media_create_from_location_with_flags_async(location,
+                                                       G_PRIORITY_DEFAULT,
+                                                       cancellable,
+                                                       on_media_create_from_location_ready,
+                                                       flags,
+                                                       data);
 
     /* Loop till we get a reply (or time out) */
     g_main_loop_run(data->main_loop);
 
-    ret = osinfo_media_create_from_location_finish(data->res, error);
+    ret = osinfo_media_create_from_location_with_flags_finish(data->res, error);
     create_from_location_data_free(data);
 
     return ret;
@@ -806,18 +847,15 @@ static OsinfoMedia *
 create_from_location_async_data(CreateFromLocationAsyncData *data)
 {
     OsinfoMedia *media;
-    gchar *uri;
     guint64 vol_size;
     guint8 index;
 
-    uri = g_file_get_uri(data->file);
     media = g_object_new(OSINFO_TYPE_MEDIA,
-                         "id", uri,
+                         "id", data->uri,
                          NULL);
     osinfo_entity_set_param(OSINFO_ENTITY(media),
                             OSINFO_MEDIA_PROP_URL,
-                            uri);
-    g_free(uri);
+                            data->uri);
     if (!is_str_empty(data->volume))
         osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_VOLUME_ID,
@@ -830,10 +868,10 @@ create_from_location_async_data(CreateFromLocationAsyncData *data)
         osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_PUBLISHER_ID,
                                 data->publisher);
-    if (!is_str_empty(data->pvd.application))
+    if (!is_str_empty(data->application))
         osinfo_entity_set_param(OSINFO_ENTITY(media),
                                 OSINFO_MEDIA_PROP_APPLICATION_ID,
-                                data->pvd.application);
+                                data->application);
 
     index = (G_BYTE_ORDER == G_LITTLE_ENDIAN) ? 0 : 1;
     vol_size = ((gint64) data->pvd.volume_space_size[index]) *
@@ -841,6 +879,10 @@ create_from_location_async_data(CreateFromLocationAsyncData *data)
     osinfo_entity_set_param_int64(OSINFO_ENTITY(media),
                                   OSINFO_MEDIA_PROP_VOLUME_SIZE,
                                   vol_size);
+
+    osinfo_entity_set_param_boolean(OSINFO_ENTITY(media),
+                                    OSINFO_MEDIA_PROP_BOOTABLE,
+                                    data->bootable);
 
     return media;
 }
@@ -913,7 +955,7 @@ static void on_directory_record_extent_read(GObject *source,
 
         check = check_directory_record_entry_flags(dr->flags, is_dir);
         if (check &&
-            strncmp(data->filepath[data->filepath_index], dr->filename, strlen(data->filepath[data->filepath_index])) == 0) {
+            g_ascii_strncasecmp(data->filepath[data->filepath_index], dr->filename, strlen(data->filepath[data->filepath_index])) == 0) {
             data->filepath_index++;
             break;
         }
@@ -1039,9 +1081,20 @@ static void search_ppc_bootinfo_callback(GObject *source,
 
     data = (CreateFromLocationAsyncData *)user_data;
 
+    data->bootable = TRUE;
     ret = search_ppc_bootinfo_finish(res, &error);
-    if (!ret)
-        goto cleanup;
+    if (!ret) {
+        if (g_error_matches(error,
+                            OSINFO_MEDIA_ERROR,
+                            OSINFO_MEDIA_ERROR_NOT_BOOTABLE)) {
+            if ((data->flags & OSINFO_MEDIA_DETECT_REQUIRE_BOOTABLE) != 0) {
+                goto cleanup;
+            } else {
+                g_clear_error(&error);
+                data->bootable = FALSE;
+            }
+        }
+    }
 
     media = create_from_location_async_data(data);
 
@@ -1118,6 +1171,7 @@ static void on_svd_read(GObject *source,
         return;
     }
 
+    data->bootable = TRUE;
     media = create_from_location_async_data(data);
 
  cleanup:
@@ -1248,22 +1302,32 @@ static void on_location_read(GObject *source,
                              GAsyncResult *res,
                              gpointer user_data)
 {
-    GFileInputStream *stream;
+    GInputStream *stream;
     CreateFromLocationAsyncData *data;
     GError *error = NULL;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
-    stream = g_file_read_finish(G_FILE(source), res, &error);
+    if (data->file != NULL) {
+        stream = G_INPUT_STREAM(g_file_read_finish(G_FILE(source), res, &error));
+    } else {
+        stream = soup_session_send_finish(SOUP_SESSION(source), res, &error);
+        if (!SOUP_STATUS_IS_SUCCESSFUL(data->message->status_code) && error == NULL) {
+            g_set_error_literal(&error,
+                                OSINFO_MEDIA_ERROR,
+                                OSINFO_MEDIA_ERROR_NO_DESCRIPTORS,
+                                soup_status_get_phrase(data->message->status_code));
+        }
+    }
     if (error != NULL) {
-        g_prefix_error(&error, _("Failed to open file"));
+        g_prefix_error(&error, _("Failed to open file: "));
         g_task_return_error(data->res, error);
         create_from_location_async_data_free(data);
 
         return;
     }
 
-    g_input_stream_skip_async(G_INPUT_STREAM(stream),
+    g_input_stream_skip_async(stream,
                               PVD_OFFSET,
                               g_task_get_priority(data->res),
                               g_task_get_cancellable(data->res),
@@ -1287,23 +1351,12 @@ void osinfo_media_create_from_location_async(const gchar *location,
                                              GAsyncReadyCallback callback,
                                              gpointer user_data)
 {
-    CreateFromLocationAsyncData *data;
-
-    g_return_if_fail(location != NULL);
-
-    data = g_slice_new0(CreateFromLocationAsyncData);
-    data->res = g_task_new(NULL,
-                           cancellable,
-                           callback,
-                           user_data);
-    g_task_set_priority(data->res, priority);
-
-    data->file = g_file_new_for_commandline_arg(location);
-    g_file_read_async(data->file,
-                      priority,
-                      cancellable,
-                      on_location_read,
-                      data);
+    osinfo_media_create_from_location_with_flags_async(location,
+                                                       priority,
+                                                       cancellable,
+                                                       callback,
+                                                       OSINFO_MEDIA_DETECT_REQUIRE_BOOTABLE,
+                                                       user_data);
 }
 
 /**
@@ -1315,9 +1368,80 @@ void osinfo_media_create_from_location_async(const gchar *location,
  * #osinfo_media_create_from_location_async.
  *
  * Returns: (transfer full): a new #OsinfoMedia , or NULL on error
+ *
+ * Since: 1.6.0
  */
 OsinfoMedia *osinfo_media_create_from_location_finish(GAsyncResult *res,
                                                       GError **error)
+{
+    return osinfo_media_create_from_location_with_flags_finish(res, error);
+}
+
+/**
+ * osinfo_media_create_from_location_with_flags_async:
+ * @location: the location of an installation media
+ * @priority: the I/O priority of the request
+ * @cancellable: (allow-none): a #GCancellable, or %NULL
+ * @callback: Function to call when result of this call is ready
+ * @flags: An #OsinfoMediaDetectFlag, or 0.
+ * @user_data: The user data to pass to @callback, or %NULL
+ *
+ * Asynchronous variant of #osinfo_media_create_from_location_with_flags.
+ *
+ * Since: 1.6.0
+ */
+void osinfo_media_create_from_location_with_flags_async(const gchar *location,
+                                                        gint priority,
+                                                        GCancellable *cancellable,
+                                                        GAsyncReadyCallback callback,
+                                                        guint flags,
+                                                        gpointer user_data)
+{
+    CreateFromLocationAsyncData *data;
+
+    g_return_if_fail(location != NULL);
+
+    data = g_slice_new0(CreateFromLocationAsyncData);
+    data->res = g_task_new(NULL,
+                           cancellable,
+                           callback,
+                           user_data);
+    g_task_set_priority(data->res, priority);
+    data->flags = flags;
+
+    data->uri = g_strdup(location);
+
+    if (osinfo_util_requires_soup(location)) {
+        data->session = soup_session_new();
+        data->message = soup_message_new("GET", location);
+
+        soup_session_send_async(data->session,
+                                data->message,
+                                cancellable,
+                                on_location_read,
+                                data);
+    } else {
+        data->file = g_file_new_for_commandline_arg(location);
+        g_file_read_async(data->file,
+                          priority,
+                          cancellable,
+                          on_location_read,
+                          data);
+    }
+}
+
+/**
+ * osinfo_media_create_from_location_with_flags_finish:
+ * @res: a #GAsyncResult
+ * @error: The location where to store any error, or %NULL
+ *
+ * Finishes an asynchronous media object creation process started with
+ * #osinfo_media_create_from_location_async.
+ *
+ * Returns: (transfer full): a new #OsinfoMedia , or NULL on error
+ */
+OsinfoMedia *osinfo_media_create_from_location_with_flags_finish(GAsyncResult *res,
+                                                                 GError **error)
 {
     GTask *task = G_TASK(res);
 
@@ -1469,6 +1593,8 @@ const gchar *osinfo_media_get_initrd_path(OsinfoMedia *media)
  * Whether @media provides an installer for an OS.
  *
  * Returns: #TRUE if media is installer, #FALSE otherwise
+ *
+ * Since: 0.0.3
  */
 gboolean osinfo_media_get_installer(OsinfoMedia *media)
 {
@@ -1483,6 +1609,8 @@ gboolean osinfo_media_get_installer(OsinfoMedia *media)
  * Whether @media can boot directly an OS without any installations.
  *
  * Returns: #TRUE if media is live, #FALSE otherwise
+ *
+ * Since: 0.0.3
  */
 gboolean osinfo_media_get_live(OsinfoMedia *media)
 {
@@ -1506,6 +1634,8 @@ gboolean osinfo_media_get_live(OsinfoMedia *media)
  *
  * Returns: (transfer none): the number of installer reboots or -1 if media is
  * not an installer
+ *
+ * Since: 0.2.1
  */
 gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
 {
@@ -1521,6 +1651,8 @@ gint osinfo_media_get_installer_reboots(OsinfoMedia *media)
  * @media: an #OsinfoMedia instance
  *
  * Returns: (transfer full): the operating system, or NULL
+ *
+ * Since: 0.2.3
  */
 OsinfoOs *osinfo_media_get_os(OsinfoMedia *media)
 {
@@ -1545,6 +1677,8 @@ void osinfo_media_set_os(OsinfoMedia *media, OsinfoOs *os)
  * Gets the variants of the associated operating system.
  *
  * Returns: (transfer full): the operating system variant, or NULL
+ *
+ * Since: 0.2.9
  */
 OsinfoOsVariantList *osinfo_media_get_os_variants(OsinfoMedia *media)
 {
@@ -1555,7 +1689,11 @@ OsinfoOsVariantList *osinfo_media_get_os_variants(OsinfoMedia *media)
     OsinfoFilter *filter;
 
     g_return_val_if_fail(OSINFO_IS_MEDIA(media), NULL);
+
     os = g_weak_ref_get(&media->priv->os);
+    if (os == NULL)
+        return NULL;
+
     os_variants = osinfo_os_get_variant_list(os);
     g_object_unref(os);
 
@@ -1593,6 +1731,8 @@ OsinfoOsVariantList *osinfo_media_get_os_variants(OsinfoMedia *media)
  * containing the list of the UI languages this media supports. The list
  * must be freed with g_list_free() when no longer needed. If the
  * supported languages are unknown, NULL will be returned.
+ *
+ * Since: 0.2.3
  */
 GList *osinfo_media_get_languages(OsinfoMedia *media)
 {
@@ -1643,6 +1783,8 @@ gint64 osinfo_media_get_volume_size(OsinfoMedia *media)
  * Whether @media should ejected after the installation procces.
  *
  * Returns: #TRUE if media should be ejected, #FALSE otherwise
+ *
+ * Since: 0.2.13
  */
 gboolean osinfo_media_get_eject_after_install(OsinfoMedia *media)
 {
@@ -1658,6 +1800,8 @@ gboolean osinfo_media_get_eject_after_install(OsinfoMedia *media)
  *
  * Returns: #TRUE if install-scripts are supported by the media,
  * #FALSE otherwise
+ *
+ * Since: 1.3.0
  */
 gboolean osinfo_media_supports_installer_script(OsinfoMedia *media)
 {
@@ -1692,6 +1836,8 @@ gboolean osinfo_media_supports_installer_script(OsinfoMedia *media)
  * @script: an #OsinfoInstallScript instance
  *
  * Adds an @script to the specified @media
+ *
+ * Since: 1.4.0
  */
 void osinfo_media_add_install_script(OsinfoMedia *media, OsinfoInstallScript *script)
 {
@@ -1705,6 +1851,8 @@ void osinfo_media_add_install_script(OsinfoMedia *media, OsinfoInstallScript *sc
  * @media: an #OsinfoMedia instance
  *
  * Returns: (transfer full): a list of the install scripts for the specified media
+ *
+ * Since: 1.4.0
  */
 OsinfoInstallScriptList *osinfo_media_get_install_script_list(OsinfoMedia *media)
 {
@@ -1716,10 +1864,18 @@ OsinfoInstallScriptList *osinfo_media_get_install_script_list(OsinfoMedia *media
     return OSINFO_INSTALL_SCRIPTLIST(new_list);
 }
 
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
+/**
+ * osinfo_media_is_bootable:
+ * @media: and #OsinfoMedia instance
+ *
+ * Returns: #TRUE if the @media is bootable. #FALSE otherwise.
+ *
+ * Since: 1.6.0
  */
+gboolean osinfo_media_is_bootable(OsinfoMedia *media)
+{
+    g_return_val_if_fail(OSINFO_IS_MEDIA(media), FALSE);
+
+    return osinfo_entity_get_param_value_boolean(OSINFO_ENTITY(media),
+                                                 OSINFO_MEDIA_PROP_BOOTABLE);
+}

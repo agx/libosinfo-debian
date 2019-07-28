@@ -62,6 +62,8 @@ osinfo_os_variantlist_init(OsinfoOsVariantList *list)
  * Construct a new install_variant list that is initially empty.
  *
  * Returns: (transfer full): an empty install_variant list
+ *
+ * Since: 0.2.9
  */
 OsinfoOsVariantList *osinfo_os_variantlist_new(void)
 {
@@ -69,11 +71,3 @@ OsinfoOsVariantList *osinfo_os_variantlist_new(void)
                         "element-type", OSINFO_TYPE_OS_VARIANT,
                         NULL);
 }
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

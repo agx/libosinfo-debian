@@ -92,6 +92,28 @@ specific data.</p>
 <a name="osinfo-datamap-new"></a><h3>osinfo_datamap_new ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoDatamap.html" title="OsinfoDatamap"><span class="returnvalue">OsinfoDatamap</span></a> *
 osinfo_datamap_new (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *id</code></em>);</pre>
+<p>Construct a new datamapa that is initially empty.</p>
+<div class="refsect3">
+<a name="osinfo-datamap-new.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>id</p></td>
+<td class="parameter_description"><p>the unique identifier</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-datamap-new.returns"></a><h4>Returns</h4>
+<p>an empty datamap. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -100,6 +122,37 @@ osinfo_datamap_new (<em class="parameter"><code>const <a href="/usr/share/gtk-do
 osinfo_datamap_insert (<em class="parameter"><code><a class="link" href="OsinfoDatamap.html" title="OsinfoDatamap"><span class="type">OsinfoDatamap</span></a> *map</code></em>,
                        <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *inval</code></em>,
                        <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *outval</code></em>);</pre>
+<p>Adds the input value and the output value associated to it to
+the <em class="parameter"><code>map</code></em>
+.</p>
+<div class="refsect3">
+<a name="osinfo-datamap-insert.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>map</p></td>
+<td class="parameter_description"><p>the OS datamap</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>inval</p></td>
+<td class="parameter_description"><p>the input value</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>outval</p></td>
+<td class="parameter_description"><p>the output value</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -107,6 +160,31 @@ osinfo_datamap_insert (<em class="parameter"><code><a class="link" href="OsinfoD
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_datamap_lookup (<em class="parameter"><code><a class="link" href="OsinfoDatamap.html" title="OsinfoDatamap"><span class="type">OsinfoDatamap</span></a> *map</code></em>,
                        <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *inval</code></em>);</pre>
+<p>Returns the output value with which <em class="parameter"><code>inval</code></em>
+ is associated to.</p>
+<div class="refsect3">
+<a name="osinfo-datamap-lookup.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>map</p></td>
+<td class="parameter_description"><p>the OS datamap</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>inval</p></td>
+<td class="parameter_description"><p>the input value</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -114,6 +192,31 @@ osinfo_datamap_lookup (<em class="parameter"><code><a class="link" href="OsinfoD
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_datamap_reverse_lookup (<em class="parameter"><code><a class="link" href="OsinfoDatamap.html" title="OsinfoDatamap"><span class="type">OsinfoDatamap</span></a> *map</code></em>,
                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *outval</code></em>);</pre>
+<p>Returns the input value with which <em class="parameter"><code>outval</code></em>
+ is associated to.</p>
+<div class="refsect3">
+<a name="osinfo-datamap-reverse-lookup.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>map</p></td>
+<td class="parameter_description"><p>the OS datamap</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>outval</p></td>
+<td class="parameter_description"><p>the output value</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.3</p>
 </div>
 </div>
 <div class="refsect1">

@@ -46,6 +46,7 @@ typedef struct _OsinfoInstallConfigParamClass   OsinfoInstallConfigParamClass;
 typedef struct _OsinfoInstallConfigParamPrivate OsinfoInstallConfigParamPrivate;
 /**
  * OsinfoInstallConfigParamPolicy:
+ * Since: 0.2.2
  * @OSINFO_INSTALL_CONFIG_PARAM_POLICY_NONE: no policy defined
  * @OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED: config parameter is required
  * @OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL: config parameter may be omitted
@@ -94,10 +95,3 @@ OsinfoDatamap *osinfo_install_config_param_get_value_map(OsinfoInstallConfigPara
 
 
 #endif /* __OSINFO_INSTALL_CONFIG_PARAM_H__ */
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

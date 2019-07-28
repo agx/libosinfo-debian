@@ -26,27 +26,30 @@
 #include <config.h>
 
 #include <osinfo/osinfo.h>
+#include "osinfo_util_private.h"
 #include <gio/gio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <glib/gi18n-lib.h>
+#include <libsoup/soup.h>
 
 typedef struct _CreateFromLocationAsyncData CreateFromLocationAsyncData;
 struct _CreateFromLocationAsyncData {
-    GFile *file;
+    SoupSession *session;
+    SoupMessage *message;
+
+    gchar *content;
     gchar *location;
+    gchar *treeinfo;
 
     GTask *res;
-
-    OsinfoTree *tree;
 };
 
 static void create_from_location_async_data_free(CreateFromLocationAsyncData *data)
 {
-    if (data->tree)
-        g_object_unref(data->tree);
-    g_object_unref(data->file);
-    g_object_unref(data->res);
+    g_clear_object(&data->session);
+    g_clear_object(&data->message);
+    g_clear_object(&data->res);
 
     g_slice_free(CreateFromLocationAsyncData, data);
 }
@@ -66,6 +69,15 @@ static void create_from_location_data_free(CreateFromLocationData *data)
     g_slice_free(CreateFromLocationData, data);
 }
 
+/**
+ * osinfo_tree_error_quark:
+ *
+ * Gets a #GQuark representing the string "osinfo-tree-error"
+ *
+ * Returns: the #GQuark representing the string.
+ *
+ * Since: 0.1.0
+ */
 GQuark
 osinfo_tree_error_quark(void)
 {
@@ -95,7 +107,7 @@ G_DEFINE_TYPE(OsinfoTree, osinfo_tree, OSINFO_TYPE_ENTITY);
 
 struct _OsinfoTreePrivate
 {
-    gboolean unused;
+    GWeakRef os;
 };
 
 enum {
@@ -111,6 +123,7 @@ enum {
     PROP_INITRD_PATH,
     PROP_BOOT_ISO_PATH,
     PROP_HAS_TREEINFO,
+    PROP_OS,
 };
 
 static void
@@ -170,6 +183,10 @@ osinfo_tree_get_property(GObject *object,
     case PROP_HAS_TREEINFO:
         g_value_set_boolean(value,
                             osinfo_tree_has_treeinfo(tree));
+        break;
+
+    case PROP_OS:
+        g_value_take_object(value, osinfo_tree_get_os(tree));
         break;
 
     default:
@@ -249,6 +266,10 @@ osinfo_tree_set_property(GObject      *object,
                                         g_value_get_boolean(value));
         break;
 
+    case PROP_OS:
+        osinfo_tree_set_os(tree, g_value_get_object(value));
+        break;
+
     default:
         /* We don't have any other property... */
         G_OBJECT_WARN_INVALID_PROPERTY_ID(object, property_id, pspec);
@@ -263,6 +284,15 @@ osinfo_tree_finalize(GObject *object)
     G_OBJECT_CLASS(osinfo_tree_parent_class)->finalize(object);
 }
 
+static void osinfo_tree_dispose(GObject *obj)
+{
+    OsinfoTree *tree = OSINFO_TREE(obj);
+
+    g_weak_ref_clear(&tree->priv->os);
+
+    G_OBJECT_CLASS(osinfo_tree_parent_class)->dispose(obj);
+}
+
 /* Init functions */
 static void
 osinfo_tree_class_init(OsinfoTreeClass *klass)
@@ -270,6 +300,7 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     GObjectClass *g_klass = G_OBJECT_CLASS(klass);
     GParamSpec *pspec;
 
+    g_klass->dispose = osinfo_tree_dispose;
     g_klass->finalize = osinfo_tree_finalize;
     g_klass->get_property = osinfo_tree_get_property;
     g_klass->set_property = osinfo_tree_set_property;
@@ -300,58 +331,6 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
                                 G_PARAM_READWRITE |
                                 G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_URL, pspec);
-
-    /**
-     * OsinfoTree:volume-id:
-     *
-     * Expected volume ID (regular expression) for ISO9660 image/device.
-     */
-    pspec = g_param_spec_string("volume-id",
-                                "VolumeID",
-                                _("The expected ISO9660 volume ID"),
-                                NULL /* default value */,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
-
-    /**
-     * OsinfoTree:publisher-id:
-     *
-     * Expected publisher ID (regular expression) for ISO9660 image/device.
-     */
-    pspec = g_param_spec_string("publisher-id",
-                                "PublisherID",
-                                _("The expected ISO9660 publisher ID"),
-                                NULL /* default value */,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property(g_klass, PROP_TREEINFO_VARIANT, pspec);
-
-    /**
-     * OsinfoTree:application-id:
-     *
-     * Expected application ID (regular expression) for ISO9660 image/device.
-     */
-    pspec = g_param_spec_string("application-id",
-                                "ApplicationID",
-                                _("The expected ISO9660 application ID"),
-                                NULL /* default value */,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property(g_klass, PROP_TREEINFO_VERSION, pspec);
-
-    /**
-     * OsinfoTree:system-id:
-     *
-     * Expected system ID (regular expression) for ISO9660 image/device.
-     */
-    pspec = g_param_spec_string("system-id",
-                                "SystemID",
-                                _("The expected ISO9660 system ID"),
-                                NULL /* default value */,
-                                G_PARAM_READWRITE |
-                                G_PARAM_STATIC_STRINGS);
-    g_object_class_install_property(g_klass, PROP_TREEINFO_ARCH, pspec);
 
     /**
      * OsinfoTree:kernel-path:
@@ -400,18 +379,100 @@ osinfo_tree_class_init(OsinfoTreeClass *klass)
     pspec = g_param_spec_boolean("has-treeinfo",
                                  "HasTreeinfo",
                                  _("Whether the tree has treeinfo"),
-                                 TRUE /* default value */,
+                                 FALSE /* default value */,
                                  G_PARAM_READWRITE |
                                  G_PARAM_STATIC_STRINGS);
     g_object_class_install_property(g_klass, PROP_HAS_TREEINFO, pspec);
+
+    /**
+     * OsinfoTree:treeinfo-family
+     *
+     * The treeinfo family
+     */
+    pspec = g_param_spec_string("treeinfo-family",
+                                "TreeInfoFamily",
+                                _("The treeinfo family"),
+                                NULL /* default value */,
+                                G_PARAM_READWRITE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
+
+    /**
+     * OsinfoTree:treeinfo-variant
+     *
+     * The treeinfo variant
+     */
+    pspec = g_param_spec_string("treeinfo-variant",
+                                "TreeInfoVariant",
+                                _("The treeinfo variant"),
+                                NULL /* default value */,
+                                G_PARAM_READWRITE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
+
+    /**
+     * OsinfoTree:treeinfo-version
+     *
+     * The treeinfo version
+     */
+    pspec = g_param_spec_string("treeinfo-version",
+                                "TreeInfoVersion",
+                                _("The treeinfo version"),
+                                NULL /* default value */,
+                                G_PARAM_READWRITE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
+
+    /**
+     * OsinfoTree:treeinfo-arch
+     *
+     * The treeinfo arch
+     */
+    pspec = g_param_spec_string("treeinfo-arch",
+                                "TreeInfoArch",
+                                _("The treeinfo architecture"),
+                                NULL /* default value */,
+                                G_PARAM_READWRITE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_TREEINFO_FAMILY, pspec);
+
+    /**
+     * OsinfoTree:os:
+     *
+     * Os information for the current tree. For tree stored in an
+     * #OsinfoDB, it will be filled when the database is loaded, otherwise
+     * the property will be filled after a successful call to
+     * osinfo_db_identify_tree().
+     */
+    pspec = g_param_spec_object("os",
+                                "Os",
+                                _("Information about the operating system on this tree"),
+                                OSINFO_TYPE_OS,
+                                G_PARAM_READWRITE |
+                                G_PARAM_STATIC_STRINGS);
+    g_object_class_install_property(g_klass, PROP_OS, pspec);
 }
 
 static void
 osinfo_tree_init(OsinfoTree *tree)
 {
     tree->priv = OSINFO_TREE_GET_PRIVATE(tree);
+
+    g_weak_ref_init(&tree->priv->os, NULL);
 }
 
+/**
+ * osinfo_tree_new:
+ *
+ * @id: the id of the tree to be created
+ * @architecture: the architecture of the tree to be created
+ *
+ * Create a new tree entity
+ *
+ * Returns: (trasfer full): A tree entity
+ *
+ * Since: 0.1.0
+ */
 OsinfoTree *osinfo_tree_new(const gchar *id,
                             const gchar *architecture)
 {
@@ -446,11 +507,13 @@ static void on_tree_create_from_location_ready(GObject *source_object,
  * @error: The location where to store any error, or %NULL
  *
  * Creates a new #OsinfoTree for installation tree at @location. The @location
- * could be any URI that GIO can handle or a local path.
+ * could be a http:// or a https:// URI.
  *
  * NOTE: Currently this only works for trees with a .treeinfo file
  *
  * Returns: (transfer full): a new #OsinfoTree , or NULL on error
+ *
+ * Since: 0.1.0
  */
 OsinfoTree *osinfo_tree_create_from_location(const gchar *location,
                                              GCancellable *cancellable,
@@ -617,33 +680,32 @@ static OsinfoTree *load_keyinfo(const gchar *location,
     return tree;
 }
 
+static void
+osinfo_tree_create_from_location_async_helper(CreateFromLocationAsyncData *data,
+                                              const gchar *treeinfo);
 
-static void on_location_read(GObject *source,
-                             GAsyncResult *res,
-                             gpointer user_data)
+static void on_content_read(GObject *source,
+                            GAsyncResult *res,
+                            gpointer user_data)
 {
     CreateFromLocationAsyncData *data;
-    GError *error = NULL;
-    gchar *content = NULL;
     gsize length = 0;
-    OsinfoTree *ret = NULL;
+    GError *error = NULL;
+    OsinfoTree *ret;
 
     data = (CreateFromLocationAsyncData *)user_data;
 
-    if (!g_file_load_contents_finish(G_FILE(source),
-                                     res,
-                                     &content,
-                                     &length,
-                                     NULL,
-                                     &error)) {
-        g_prefix_error(&error, _("Failed to load .treeinfo file: "));
+    if (!g_input_stream_read_all_finish(G_INPUT_STREAM(source),
+                                        res,
+                                        &length,
+                                        &error)) {
+        g_prefix_error(&error, _("Failed to load .treeinfo|treeinfo content: "));
         g_task_return_error(data->res, error);
-        create_from_location_async_data_free(data);
-        return;
+        goto cleanup;
     }
 
     if (!(ret = load_keyinfo(data->location,
-                             content,
+                             data->content,
                              length,
                              &error))) {
         g_prefix_error(&error, _("Failed to process keyinfo file: "));
@@ -655,7 +717,93 @@ static void on_location_read(GObject *source,
 
  cleanup:
     create_from_location_async_data_free(data);
-    g_free(content);
+}
+
+static void on_location_read(GObject *source,
+                             GAsyncResult *res,
+                             gpointer user_data)
+{
+    CreateFromLocationAsyncData *data;
+    GError *error = NULL;
+    GInputStream *stream;
+    goffset content_size;
+
+    data = (CreateFromLocationAsyncData *)user_data;
+
+    stream = soup_session_send_finish(SOUP_SESSION(source),
+                                      res,
+                                      &error);
+    if (stream == NULL ||
+        !SOUP_STATUS_IS_SUCCESSFUL(data->message->status_code)) {
+        /* It means no ".treeinfo" file has been found. Try again, this time
+         * looking for a "treeinfo" file. */
+        if (g_str_equal(data->treeinfo, ".treeinfo")) {
+            osinfo_tree_create_from_location_async_helper(data, "treeinfo");
+            return;
+        }
+
+        if (error == NULL) {
+            g_set_error_literal(&error,
+                                OSINFO_TREE_ERROR,
+                                OSINFO_TREE_ERROR_NO_TREEINFO,
+                                soup_status_get_phrase(data->message->status_code));
+        }
+        g_prefix_error(&error, _("Failed to load .treeinfo|treeinfo file: "));
+        g_task_return_error(data->res, error);
+        create_from_location_async_data_free(data);
+        return;
+    }
+
+    content_size = soup_message_headers_get_content_length(data->message->response_headers);
+    data->content = g_malloc0(content_size);
+
+    g_input_stream_read_all_async(stream,
+                                  data->content,
+                                  content_size,
+                                  g_task_get_priority(data->res),
+                                  g_task_get_cancellable(data->res),
+                                  on_content_read,
+                                  data);
+}
+
+static void
+osinfo_tree_create_from_location_async_helper(CreateFromLocationAsyncData *data,
+                                              const gchar *treeinfo)
+{
+    gchar *location;
+
+    g_return_if_fail(treeinfo != NULL);
+
+    if (!osinfo_util_requires_soup(data->location)) {
+        GError *error = NULL;
+
+        g_set_error_literal(&error,
+                            OSINFO_TREE_ERROR,
+                            OSINFO_TREE_ERROR_NOT_SUPPORTED_PROTOCOL,
+                            _("URL protocol is not supported"));
+
+        g_task_return_error(data->res, error);
+        create_from_location_async_data_free(data);
+        return;
+    }
+
+    location = g_strdup_printf("%s/%s", data->location, treeinfo);
+
+    if (data->session == NULL)
+        data->session = soup_session_new();
+
+    g_clear_object(&data->message);
+    data->message = soup_message_new("GET", location);
+
+    g_free(data->treeinfo);
+    data->treeinfo = g_strdup(treeinfo);
+
+    soup_session_send_async(data->session,
+                            data->message,
+                            g_task_get_cancellable(data->res),
+                            on_location_read,
+                            data);
+    g_free(location);
 }
 
 /**
@@ -667,6 +815,8 @@ static void on_location_read(GObject *source,
  * @user_data: The user data to pass to @callback, or %NULL
  *
  * Asynchronous variant of #osinfo_tree_create_from_location.
+ *
+ * Since: 0.1.0
  */
 void osinfo_tree_create_from_location_async(const gchar *location,
                                             gint priority,
@@ -675,11 +825,6 @@ void osinfo_tree_create_from_location_async(const gchar *location,
                                             gpointer user_data)
 {
     CreateFromLocationAsyncData *data;
-    gchar *treeinfo;
-
-    g_return_if_fail(location != NULL);
-
-    treeinfo = g_strdup_printf("%s/.treeinfo", location);
 
     data = g_slice_new0(CreateFromLocationAsyncData);
     data->res = g_task_new(NULL,
@@ -688,17 +833,9 @@ void osinfo_tree_create_from_location_async(const gchar *location,
                            user_data);
     g_task_set_priority(data->res, priority);
 
-    data->file = g_file_new_for_uri(treeinfo);
     data->location = g_strdup(location);
 
-    /* XXX priority ? */
-    /* XXX probe other things besides just tree info */
-    g_file_load_contents_async(data->file,
-                               cancellable,
-                               on_location_read,
-                               data);
-
-    g_free(treeinfo);
+    osinfo_tree_create_from_location_async_helper(data, ".treeinfo");
 }
 
 
@@ -711,6 +848,8 @@ void osinfo_tree_create_from_location_async(const gchar *location,
  * #osinfo_tree_create_from_location_async.
  *
  * Returns: (transfer full): a new #OsinfoTree , or NULL on error
+ *
+ * Since: 0.1.0
  */
 OsinfoTree *osinfo_tree_create_from_location_finish(GAsyncResult *res,
                                                     GError **error)
@@ -729,6 +868,8 @@ OsinfoTree *osinfo_tree_create_from_location_finish(GAsyncResult *res,
  * Retrieves the target hardware architecture of the OS @tree provides.
  *
  * Returns: (transfer none): the hardware architecture, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_architecture(OsinfoTree *tree)
 {
@@ -754,14 +895,14 @@ const gchar *osinfo_tree_get_url(OsinfoTree *tree)
  * osinfo_tree_get_treeinfo_family:
  * @tree: an #OsinfoTree instance
  *
- * If @tree is an ISO9660 image/device, this function retrieves the expected
- * volume ID.
+ * If @tree has treeinfo, this function retrieves the expected family.
  *
- * Note: In practice, this will usually not be the exact copy of the volume ID
- * string on the ISO image/device but rather a regular expression that matches
- * it.
+ * Note: In practice, this will usually not be the exact copy of the family
+ * but rather a regular expression that matches it.
  *
- * Returns: (transfer none): the volume id, or NULL
+ * Returns: (transfer none): the treeinfo family, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_treeinfo_family(OsinfoTree *tree)
 {
@@ -773,14 +914,14 @@ const gchar *osinfo_tree_get_treeinfo_family(OsinfoTree *tree)
  * osinfo_tree_get_treeinfo_arch:
  * @tree: an #OsinfoTree instance
  *
- * If @tree is an ISO9660 image/device, this function retrieves the expected
- * system ID.
+ * If @tree has treeinfo, this function retrieves the expected architecture.
  *
- * Note: In practice, this will usually not be the exact copy of the system ID
- * string on the ISO image/device but rather a regular expression that matches
- * it.
+ * Note: In practice, this will usually not be the exact copy of the
+ * architecture but rather a regular expression that matches it.
  *
- * Returns: (transfer none): the system id, or NULL
+ * Returns: (transfer none): the treeinfo architecture, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_treeinfo_arch(OsinfoTree *tree)
 {
@@ -792,14 +933,14 @@ const gchar *osinfo_tree_get_treeinfo_arch(OsinfoTree *tree)
  * osinfo_tree_get_treeinfo_variant:
  * @tree: an #OsinfoTree instance
  *
- * If @tree is an ISO9660 image/device, this function retrieves the expected
- * publisher ID.
+ * If @tree has treeinfo, this function retrieves the expected variant.
  *
- * Note: In practice, this will usually not be the exact copy of the publisher
- * ID string on the ISO image/device but rather a regular expression that
- * matches it.
+ * Note: In practice, this will usually not be the exact copy of the variant
+ * but rather a regular expression that matches it.
  *
- * Returns: (transfer none): the publisher id, or NULL
+ * Returns: (transfer none): the treeinfo variant, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_treeinfo_variant(OsinfoTree *tree)
 {
@@ -811,14 +952,14 @@ const gchar *osinfo_tree_get_treeinfo_variant(OsinfoTree *tree)
  * osinfo_tree_get_treeinfo_version:
  * @tree: an #OsinfoTree instance
  *
- * If @tree is an ISO9660 image/device, this function retrieves the expected
- * application ID.
+ * If @tree has treeinfo, this function retrieves the expected version.
  *
- * Note: In practice, this will usually not be the exact copy of the application
- * ID string on the ISO image/device but rather a regular expression that
- * matches it.
+ * Note: In practice, this will usually not be the exact copy of version but
+ * rather a regular expression that matches it.
  *
- * Returns: (transfer none): the application id, or NULL
+ * Returns: (transfer none): the treeinfo version, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_treeinfo_version(OsinfoTree *tree)
 {
@@ -833,6 +974,8 @@ const gchar *osinfo_tree_get_treeinfo_version(OsinfoTree *tree)
  * Retrieves the path to the boot_iso image in the install tree.
  *
  * Returns: (transfer none): the path to boot_iso image, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_boot_iso_path(OsinfoTree *tree)
 {
@@ -849,6 +992,8 @@ const gchar *osinfo_tree_get_boot_iso_path(OsinfoTree *tree)
  * Note: This only applies to installer trees of 'linux' OS family.
  *
  * Returns: (transfer none): the path to kernel image, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_kernel_path(OsinfoTree *tree)
 {
@@ -865,6 +1010,8 @@ const gchar *osinfo_tree_get_kernel_path(OsinfoTree *tree)
  * Note: This only applies to installer trees of 'linux' OS family.
  *
  * Returns: (transfer none): the path to initrd image, or NULL
+ *
+ * Since: 0.1.0
  */
 const gchar *osinfo_tree_get_initrd_path(OsinfoTree *tree)
 {
@@ -879,6 +1026,8 @@ const gchar *osinfo_tree_get_initrd_path(OsinfoTree *tree)
  * Return whether a tree has treeinfo or not.
  *
  * Returns: TRUE if the tree has treeinfo. FALSE otherwise.
+ *
+ * Since: 1.3.0
  */
 gboolean osinfo_tree_has_treeinfo(OsinfoTree *tree)
 {
@@ -886,10 +1035,81 @@ gboolean osinfo_tree_has_treeinfo(OsinfoTree *tree)
                                                  OSINFO_TREE_PROP_HAS_TREEINFO);
 }
 
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
+/**
+ * osinfo_tree_get_os:
+ * @tree: an #OsinfoTree instance
+ *
+ * Returns: (transfer full): the operating system, or NULL
+ *
+ * Since: 1.5.0
  */
+OsinfoOs *osinfo_tree_get_os(OsinfoTree *tree)
+{
+    g_return_val_if_fail(OSINFO_IS_TREE(tree), NULL);
+
+    return g_weak_ref_get(&tree->priv->os);
+}
+
+
+/**
+ * osinfo_tree_set_os
+ * @tree: an #OsinfoTree instance
+ * @os: an #OsinfoOs instance
+ *
+ * Sets the #OsinfoOs associated to the #OsinfoTree instance.
+ *
+ * Since: 1.5.0
+ */
+void osinfo_tree_set_os(OsinfoTree *tree, OsinfoOs *os)
+{
+    g_return_if_fail(OSINFO_IS_TREE(tree));
+
+    g_object_ref(os);
+    g_weak_ref_set(&tree->priv->os, os);
+    g_object_unref(os);
+}
+
+/**
+ * osinfo_tree_get_os_variants:
+ * @tree: an #OsinfoTree instance
+ *
+ * Gets the variants of the associated operating system.
+ *
+ * Returns: (transfer full): the operating system variant, or NULL
+ *
+ * Since: 1.5.0
+ */
+OsinfoOsVariantList *osinfo_tree_get_os_variants(OsinfoTree *tree)
+{
+    OsinfoOs *os;
+    OsinfoOsVariantList *os_variants;
+    OsinfoOsVariantList *tree_variants;
+    GList *ids, *node;
+    OsinfoFilter *filter;
+
+    g_return_val_if_fail(OSINFO_IS_TREE(tree), NULL);
+
+    os = osinfo_tree_get_os(tree);
+    if (os == NULL)
+        return NULL;
+
+    os_variants = osinfo_os_get_variant_list(os);
+    g_object_unref(os);
+
+    ids = osinfo_entity_get_param_value_list(OSINFO_ENTITY(tree),
+                                             OSINFO_TREE_PROP_VARIANT);
+    filter = osinfo_filter_new();
+    tree_variants = osinfo_os_variantlist_new();
+    for (node = ids; node != NULL; node = node->next) {
+        osinfo_filter_clear_constraints(filter);
+        osinfo_filter_add_constraint(filter,
+                                     OSINFO_ENTITY_PROP_ID,
+                                     (const char *) node->data);
+        osinfo_list_add_filtered(OSINFO_LIST(tree_variants),
+                                 OSINFO_LIST(os_variants),
+                                 filter);
+    }
+    g_object_unref(os_variants);
+
+    return tree_variants;
+}

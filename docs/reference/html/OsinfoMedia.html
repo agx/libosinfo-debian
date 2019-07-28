@@ -82,6 +82,30 @@
 </td>
 </tr>
 <tr>
+<td class="function_type">
+<a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="returnvalue">OsinfoMedia</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMedia.html#osinfo-media-create-from-location-with-flags" title="osinfo_media_create_from_location_with_flags ()">osinfo_media_create_from_location_with_flags</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMedia.html#osinfo-media-create-from-location-with-flags-async" title="osinfo_media_create_from_location_with_flags_async ()">osinfo_media_create_from_location_with_flags_async</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="returnvalue">OsinfoMedia</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMedia.html#osinfo-media-create-from-location-with-flags-finish" title="osinfo_media_create_from_location_with_flags_finish ()">osinfo_media_create_from_location_with_flags_finish</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
 <td class="function_type">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 </td>
 <td class="function_name">
@@ -135,6 +159,14 @@
 </td>
 <td class="function_name">
 <a class="link" href="OsinfoMedia.html#osinfo-media-get-initrd-path" title="osinfo_media_get_initrd_path ()">osinfo_media_get_initrd_path</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoMedia.html#osinfo-media-is-bootable" title="osinfo_media_is_bootable ()">osinfo_media_is_bootable</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
 <tr>
@@ -346,6 +378,10 @@
 <td class="function_name"><a class="link" href="OsinfoMedia.html#OsinfoMediaError" title="enum OsinfoMediaError">OsinfoMediaError</a></td>
 </tr>
 <tr>
+<td class="datatype_keyword">enum</td>
+<td class="function_name"><a class="link" href="OsinfoMedia.html#OsinfoMediaDetectFlags" title="enum OsinfoMediaDetectFlags">OsinfoMediaDetectFlags</a></td>
+</tr>
+<tr>
 <td class="define_keyword">#define</td>
 <td class="function_name"><a class="link" href="OsinfoMedia.html#OSINFO-MEDIA-PROP-ARCHITECTURE:CAPS" title="OSINFO_MEDIA_PROP_ARCHITECTURE">OSINFO_MEDIA_PROP_ARCHITECTURE</a></td>
 </tr>
@@ -417,6 +453,10 @@
 <td class="define_keyword">#define</td>
 <td class="function_name"><a class="link" href="OsinfoMedia.html#OSINFO-MEDIA-PROP-INSTALLER-SCRIPT:CAPS" title="OSINFO_MEDIA_PROP_INSTALLER_SCRIPT">OSINFO_MEDIA_PROP_INSTALLER_SCRIPT</a></td>
 </tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoMedia.html#OSINFO-MEDIA-PROP-BOOTABLE:CAPS" title="OSINFO_MEDIA_PROP_BOOTABLE">OSINFO_MEDIA_PROP_BOOTABLE</a></td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -424,6 +464,8 @@
 <a name="OsinfoMedia.object-hierarchy"></a><h2>Object Hierarchy</h2>
 <pre class="screen">    <a href="/usr/share/gtk-doc/html/gobject/gobject-Enumeration-and-Flag-Types.html">GEnum</a>
     <span class="lineart">╰──</span> OsinfoMediaError
+    <a href="/usr/share/gtk-doc/html/gobject/gobject-Enumeration-and-Flag-Types.html">GFlags</a>
+    <span class="lineart">╰──</span> OsinfoMediaDetectFlags
     <a href="/usr/share/gtk-doc/html/gobject/gobject-The-Base-Object-Type.html#GObject-struct">GObject</a>
     <span class="lineart">╰──</span> <a class="link" href="OsinfoEntity.html" title="OsinfoEntity">OsinfoEntity</a>
         <span class="lineart">╰──</span> OsinfoMedia
@@ -458,7 +500,7 @@ osinfo_media_create_from_location (<em class="parameter"><code>const <a href="/u
 <p>Creates a new <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> for installation media at <em class="parameter"><code>location</code></em>
 . The <em class="parameter"><code>location</code></em>
 
-could be any URI that GIO can handle or a local path.</p>
+could be a http:// or a https:// URI or a local path.</p>
 <p>NOTE: Currently this only works for ISO images/devices.</p>
 <div class="refsect3">
 <a name="osinfo-media-create-from-location.parameters"></a><h4>Parameters</h4>
@@ -576,6 +618,154 @@ osinfo_media_create_from_location_finish
 </div>
 <div class="refsect3">
 <a name="osinfo-media-create-from-location-finish.returns"></a><h4>Returns</h4>
+<p>a new <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> , or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-media-create-from-location-with-flags"></a><h3>osinfo_media_create_from_location_with_flags ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="returnvalue">OsinfoMedia</span></a> *
+osinfo_media_create_from_location_with_flags
+                               (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Creates a new <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> for installation media at <em class="parameter"><code>location</code></em>
+. The <em class="parameter"><code>location</code></em>
+
+could be a http:// or a https:// URI or a local path.</p>
+<p>NOTE: Currently this only works for ISO images/devices.</p>
+<div class="refsect3">
+<a name="osinfo-media-create-from-location-with-flags.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>the location of an installation media</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>The location where to store any error, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>flags</p></td>
+<td class="parameter_description"><p>An <span class="type">OsinfoMediaDetectFlag</span>, or 0.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-media-create-from-location-with-flags.returns"></a><h4>Returns</h4>
+<p>a new <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> , or NULL on error. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-media-create-from-location-with-flags-async"></a><h3>osinfo_media_create_from_location_with_flags_async ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_media_create_from_location_with_flags_async
+                               (<em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *location</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> priority</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a> *cancellable</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncReadyCallback"><span class="type">GAsyncReadyCallback</span></a> callback</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#guint"><span class="type">guint</span></a> flags</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gpointer"><span class="type">gpointer</span></a> user_data</code></em>);</pre>
+<p>Asynchronous variant of <a class="link" href="OsinfoMedia.html#osinfo-media-create-from-location-with-flags" title="osinfo_media_create_from_location_with_flags ()"><span class="type">osinfo_media_create_from_location_with_flags</span></a>.</p>
+<div class="refsect3">
+<a name="osinfo-media-create-from-location-with-flags-async.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>location</p></td>
+<td class="parameter_description"><p>the location of an installation media</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>priority</p></td>
+<td class="parameter_description"><p>the I/O priority of the request</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>cancellable</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GCancellable.html#GCancellable-struct"><span class="type">GCancellable</span></a>, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a>. </p></td>
+<td class="parameter_annotations"><span class="annotation">[<acronym title="NULL is OK, both for passing and for returning."><span class="acronym">allow-none</span></acronym>]</span></td>
+</tr>
+<tr>
+<td class="parameter_name"><p>callback</p></td>
+<td class="parameter_description"><p>Function to call when result of this call is ready</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>flags</p></td>
+<td class="parameter_description"><p>An <span class="type">OsinfoMediaDetectFlag</span>, or 0.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>user_data</p></td>
+<td class="parameter_description"><p>The user data to pass to <em class="parameter"><code>callback</code></em>
+, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-media-create-from-location-with-flags-finish"></a><h3>osinfo_media_create_from_location_with_flags_finish ()</h3>
+<pre class="programlisting"><a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="returnvalue">OsinfoMedia</span></a> *
+osinfo_media_create_from_location_with_flags_finish
+                               (<em class="parameter"><code><a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a> *res</code></em>,
+                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Error-Reporting.html#GError"><span class="type">GError</span></a> **error</code></em>);</pre>
+<p>Finishes an asynchronous media object creation process started with
+<a class="link" href="OsinfoMedia.html#osinfo-media-create-from-location-async" title="osinfo_media_create_from_location_async ()"><span class="type">osinfo_media_create_from_location_async</span></a>.</p>
+<div class="refsect3">
+<a name="osinfo-media-create-from-location-with-flags-finish.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>res</p></td>
+<td class="parameter_description"><p>a <a href="/usr/share/gtk-doc/html/gio/GAsyncResult.html#GAsyncResult-struct"><span class="type">GAsyncResult</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>error</p></td>
+<td class="parameter_description"><p>The location where to store any error, or <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#NULL:CAPS"><code class="literal">NULL</code></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-media-create-from-location-with-flags-finish.returns"></a><h4>Returns</h4>
 <p>a new <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> , or NULL on error. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
@@ -822,6 +1012,33 @@ osinfo_media_get_initrd_path (<em class="parameter"><code><a class="link" href="
 </div>
 <hr>
 <div class="refsect2">
+<a name="osinfo-media-is-bootable"></a><h3>osinfo_media_is_bootable ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
+osinfo_media_is_bootable (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> *media</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-media-is-bootable.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>media</p></td>
+<td class="parameter_description"><p>and <a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> instance</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-media-is-bootable.returns"></a><h4>Returns</h4>
+<p> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> if the <em class="parameter"><code>media</code></em>
+is bootable. <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise.</p>
+</div>
+<p class="since">Since: 1.6.0</p>
+</div>
+<hr>
+<div class="refsect2">
 <a name="osinfo-media-get-os"></a><h3>osinfo_media_get_os ()</h3>
 <pre class="programlisting"><a class="link" href="OsinfoInstallScript.html#OsinfoOs"><span class="returnvalue">OsinfoOs</span></a> *
 osinfo_media_get_os (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> *media</code></em>);</pre>
@@ -845,6 +1062,7 @@ osinfo_media_get_os (<em class="parameter"><code><a class="link" href="OsinfoIns
 <p>the operating system, or NULL. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -872,6 +1090,7 @@ osinfo_media_get_os_variants (<em class="parameter"><code><a class="link" href="
 <p>the operating system variant, or NULL. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.9</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -907,6 +1126,7 @@ must be freed with <a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-List
 supported languages are unknown, NULL will be returned. </p>
 <p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
 </div>
+<p class="since">Since: 0.2.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -934,6 +1154,7 @@ osinfo_media_get_installer (<em class="parameter"><code><a class="link" href="Os
 <a name="osinfo-media-get-installer.returns"></a><h4>Returns</h4>
 <p> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> if media is installer, <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</p>
 </div>
+<p class="since">Since: 0.0.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -961,6 +1182,7 @@ osinfo_media_get_live (<em class="parameter"><code><a class="link" href="OsinfoI
 <a name="osinfo-media-get-live.returns"></a><h4>Returns</h4>
 <p> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> if media is live, <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</p>
 </div>
+<p class="since">Since: 0.0.3</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -995,6 +1217,7 @@ number of reboots *alone* is not a reliable method for tracking installation.</p
 not an installer. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1049,6 +1272,7 @@ osinfo_media_get_eject_after_install (<em class="parameter"><code><a class="link
 <a name="osinfo-media-get-eject-after-install.returns"></a><h4>Returns</h4>
 <p> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> if media should be ejected, <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</p>
 </div>
+<p class="since">Since: 0.2.13</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1078,13 +1302,14 @@ osinfo_media_supports_installer_script
 <p> <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#TRUE:CAPS"><span class="type">TRUE</span></a> if install-scripts are supported by the media,
 <a href="/usr/share/gtk-doc/html/glib/glib-Standard-Macros.html#FALSE:CAPS"><span class="type">FALSE</span></a> otherwise</p>
 </div>
+<p class="since">Since: 1.3.0</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-media-add-install-script"></a><h3>osinfo_media_add_install_script ()</h3>
 <pre class="programlisting"><span class="returnvalue">void</span>
 osinfo_media_add_install_script (<em class="parameter"><code><a class="link" href="OsinfoInstallScript.html#OsinfoMedia"><span class="type">OsinfoMedia</span></a> *media</code></em>,
-                                 <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *install_script</code></em>);</pre>
+                                 <em class="parameter"><code><a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript"><span class="type">OsinfoInstallScript</span></a> *script</code></em>);</pre>
 <p>Adds an <em class="parameter"><code>script</code></em>
  to the specified <em class="parameter"><code>media</code></em>
 </p>
@@ -1110,6 +1335,7 @@ osinfo_media_add_install_script (<em class="parameter"><code><a class="link" hre
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 1.4.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1136,6 +1362,7 @@ osinfo_media_get_install_script_list (<em class="parameter"><code><a class="link
 <p>a list of the install scripts for the specified media. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 1.4.0</p>
 </div>
 </div>
 <div class="refsect1">
@@ -1196,12 +1423,35 @@ reading of data from install media location.</p>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-MEDIA-ERROR-NO-DIRECTORY-RECORD-EXTENT:CAPS"></a>OSINFO_MEDIA_ERROR_NO_DIRECTORY_RECORD_EXTENT</p></td>
-<td> </td>
-<td> </td>
+<td class="enum_member_description">
+<p>No directory record extent
+found.</p>
+</td>
+<td class="enum_member_annotations"> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OsinfoMediaDetectFlags"></a><h3>enum OsinfoMediaDetectFlags</h3>
+<div class="refsect3">
+<a name="OsinfoMediaDetectFlags.members"></a><h4>Members</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="300px" class="enum_members_name">
+<col class="enum_members_description">
+<col width="200px" class="enum_members_annotations">
+</colgroup>
+<tbody><tr>
+<td class="enum_member_name"><p><a name="OSINFO-MEDIA-DETECT-REQUIRE-BOOTABLE:CAPS"></a>OSINFO_MEDIA_DETECT_REQUIRE_BOOTABLE</p></td>
+<td> </td>
+<td> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: 1.6.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1309,6 +1559,12 @@ reading of data from install media location.</p>
 <div class="refsect2">
 <a name="OSINFO-MEDIA-PROP-INSTALLER-SCRIPT:CAPS"></a><h3>OSINFO_MEDIA_PROP_INSTALLER_SCRIPT</h3>
 <pre class="programlisting">#define OSINFO_MEDIA_PROP_INSTALLER_SCRIPT "installer-script"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-MEDIA-PROP-BOOTABLE:CAPS"></a><h3>OSINFO_MEDIA_PROP_BOOTABLE</h3>
+<pre class="programlisting">#define OSINFO_MEDIA_PROP_BOOTABLE        "bootable"
 </pre>
 </div>
 </div>

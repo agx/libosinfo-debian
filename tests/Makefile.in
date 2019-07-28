@@ -93,15 +93,9 @@ check_PROGRAMS = test-entity$(EXEEXT) test-device$(EXEEXT) \
 	test-media$(EXEEXT) test-product$(EXEEXT) test-os$(EXEEXT) \
 	test-oslist$(EXEEXT) test-productfilter$(EXEEXT) \
 	test-platform$(EXEEXT) test-platformlist$(EXEEXT) \
-	test-db$(EXEEXT) test-loader$(EXEEXT) test-isodetect$(EXEEXT) \
+	test-db$(EXEEXT) test-loader$(EXEEXT) \
 	test-install-script$(EXEEXT) test-image$(EXEEXT) \
-	test-imagelist$(EXEEXT) $(am__EXEEXT_1)
-@HAVE_CURL_TRUE@am__append_1 = \
-@HAVE_CURL_TRUE@	test-mediauris \
-@HAVE_CURL_TRUE@	test-treeuris \
-@HAVE_CURL_TRUE@	test-imageuris \
-@HAVE_CURL_TRUE@	$(NULL)
-
+	test-imagelist$(EXEEXT) test-tree$(EXEEXT)
 TESTS = $(check_PROGRAMS)
 subdir = tests
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -125,8 +119,6 @@ mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-@HAVE_CURL_TRUE@am__EXEEXT_1 = test-mediauris$(EXEEXT) \
-@HAVE_CURL_TRUE@	test-treeuris$(EXEEXT) test-imageuris$(EXEEXT)
 am_test_db_OBJECTS = test_db-test-db.$(OBJEXT)
 test_db_OBJECTS = $(am_test_db_OBJECTS)
 am__DEPENDENCIES_1 =
@@ -187,18 +179,6 @@ test_imagelist_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(test_imagelist_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
 	$@
-am__test_imageuris_SOURCES_DIST = test-imageuris.c test-uris-common.c \
-	test-uris-common.h
-@HAVE_CURL_TRUE@am_test_imageuris_OBJECTS =  \
-@HAVE_CURL_TRUE@	test_imageuris-test-imageuris.$(OBJEXT) \
-@HAVE_CURL_TRUE@	test_imageuris-test-uris-common.$(OBJEXT)
-test_imageuris_OBJECTS = $(am_test_imageuris_OBJECTS)
-@HAVE_CURL_TRUE@test_imageuris_DEPENDENCIES = $(am__DEPENDENCIES_2) \
-@HAVE_CURL_TRUE@	$(am__DEPENDENCIES_1)
-test_imageuris_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(test_imageuris_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
-	$@
 am_test_install_script_OBJECTS =  \
 	test_install_script-test-install-script.$(OBJEXT)
 test_install_script_OBJECTS = $(am_test_install_script_OBJECTS)
@@ -207,13 +187,6 @@ test_install_script_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(test_install_script_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am_test_isodetect_OBJECTS = test_isodetect-test-isodetect.$(OBJEXT)
-test_isodetect_OBJECTS = $(am_test_isodetect_OBJECTS)
-test_isodetect_DEPENDENCIES = $(am__DEPENDENCIES_2)
-test_isodetect_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(test_isodetect_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
-	$@
 am_test_list_OBJECTS = test_list-test-list.$(OBJEXT)
 test_list_OBJECTS = $(am_test_list_OBJECTS)
 test_list_DEPENDENCIES = $(am__DEPENDENCIES_2)
@@ -228,22 +201,10 @@ test_loader_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_test_media_OBJECTS = test_media-test-media.$(OBJEXT)
 test_media_OBJECTS = $(am_test_media_OBJECTS)
-test_media_DEPENDENCIES = $(am__DEPENDENCIES_2) $(am__DEPENDENCIES_1)
+test_media_DEPENDENCIES = $(am__DEPENDENCIES_2)
 test_media_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(test_media_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-am__test_mediauris_SOURCES_DIST = test-mediauris.c test-uris-common.c \
-	test-uris-common.h
-@HAVE_CURL_TRUE@am_test_mediauris_OBJECTS =  \
-@HAVE_CURL_TRUE@	test_mediauris-test-mediauris.$(OBJEXT) \
-@HAVE_CURL_TRUE@	test_mediauris-test-uris-common.$(OBJEXT)
-test_mediauris_OBJECTS = $(am_test_mediauris_OBJECTS)
-@HAVE_CURL_TRUE@test_mediauris_DEPENDENCIES = $(am__DEPENDENCIES_2) \
-@HAVE_CURL_TRUE@	$(am__DEPENDENCIES_1)
-test_mediauris_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
-	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
-	$(test_mediauris_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o \
-	$@
 am_test_os_OBJECTS = test_os-test-os.$(OBJEXT)
 test_os_OBJECTS = $(am_test_os_OBJECTS)
 test_os_DEPENDENCIES = $(am__DEPENDENCIES_2)
@@ -284,16 +245,11 @@ test_productfilter_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC \
 	$(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link $(CCLD) \
 	$(test_productfilter_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
 	$(LDFLAGS) -o $@
-am__test_treeuris_SOURCES_DIST = test-treeuris.c test-uris-common.c \
-	test-uris-common.h
-@HAVE_CURL_TRUE@am_test_treeuris_OBJECTS =  \
-@HAVE_CURL_TRUE@	test_treeuris-test-treeuris.$(OBJEXT) \
-@HAVE_CURL_TRUE@	test_treeuris-test-uris-common.$(OBJEXT)
-test_treeuris_OBJECTS = $(am_test_treeuris_OBJECTS)
-@HAVE_CURL_TRUE@test_treeuris_DEPENDENCIES = $(am__DEPENDENCIES_2) \
-@HAVE_CURL_TRUE@	$(am__DEPENDENCIES_1)
-test_treeuris_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
-	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(test_treeuris_CFLAGS) \
+am_test_tree_OBJECTS = test_tree-test-tree.$(OBJEXT)
+test_tree_OBJECTS = $(am_test_tree_OBJECTS)
+test_tree_DEPENDENCIES = $(am__DEPENDENCIES_2)
+test_tree_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
+	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(test_tree_CFLAGS) \
 	$(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -318,23 +274,17 @@ am__depfiles_remade = ./$(DEPDIR)/test_db-test-db.Po \
 	./$(DEPDIR)/test_filter-test-filter.Po \
 	./$(DEPDIR)/test_image-test-image.Po \
 	./$(DEPDIR)/test_imagelist-test-imagelist.Po \
-	./$(DEPDIR)/test_imageuris-test-imageuris.Po \
-	./$(DEPDIR)/test_imageuris-test-uris-common.Po \
 	./$(DEPDIR)/test_install_script-test-install-script.Po \
-	./$(DEPDIR)/test_isodetect-test-isodetect.Po \
 	./$(DEPDIR)/test_list-test-list.Po \
 	./$(DEPDIR)/test_loader-test-loader.Po \
 	./$(DEPDIR)/test_media-test-media.Po \
-	./$(DEPDIR)/test_mediauris-test-mediauris.Po \
-	./$(DEPDIR)/test_mediauris-test-uris-common.Po \
 	./$(DEPDIR)/test_os-test-os.Po \
 	./$(DEPDIR)/test_oslist-test-oslist.Po \
 	./$(DEPDIR)/test_platform-test-platform.Po \
 	./$(DEPDIR)/test_platformlist-test-platformlist.Po \
 	./$(DEPDIR)/test_product-test-product.Po \
 	./$(DEPDIR)/test_productfilter-test-productfilter.Po \
-	./$(DEPDIR)/test_treeuris-test-treeuris.Po \
-	./$(DEPDIR)/test_treeuris-test-uris-common.Po
+	./$(DEPDIR)/test_tree-test-tree.Po
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -358,25 +308,22 @@ SOURCES = $(test_db_SOURCES) $(test_device_SOURCES) \
 	$(test_devicelinklist_SOURCES) $(test_devicelist_SOURCES) \
 	$(test_entity_SOURCES) $(test_filter_SOURCES) \
 	$(test_image_SOURCES) $(test_imagelist_SOURCES) \
-	$(test_imageuris_SOURCES) $(test_install_script_SOURCES) \
-	$(test_isodetect_SOURCES) $(test_list_SOURCES) \
+	$(test_install_script_SOURCES) $(test_list_SOURCES) \
 	$(test_loader_SOURCES) $(test_media_SOURCES) \
-	$(test_mediauris_SOURCES) $(test_os_SOURCES) \
-	$(test_oslist_SOURCES) $(test_platform_SOURCES) \
-	$(test_platformlist_SOURCES) $(test_product_SOURCES) \
-	$(test_productfilter_SOURCES) $(test_treeuris_SOURCES)
+	$(test_os_SOURCES) $(test_oslist_SOURCES) \
+	$(test_platform_SOURCES) $(test_platformlist_SOURCES) \
+	$(test_product_SOURCES) $(test_productfilter_SOURCES) \
+	$(test_tree_SOURCES)
 DIST_SOURCES = $(test_db_SOURCES) $(test_device_SOURCES) \
 	$(test_devicelinklist_SOURCES) $(test_devicelist_SOURCES) \
 	$(test_entity_SOURCES) $(test_filter_SOURCES) \
 	$(test_image_SOURCES) $(test_imagelist_SOURCES) \
-	$(am__test_imageuris_SOURCES_DIST) \
-	$(test_install_script_SOURCES) $(test_isodetect_SOURCES) \
-	$(test_list_SOURCES) $(test_loader_SOURCES) \
-	$(test_media_SOURCES) $(am__test_mediauris_SOURCES_DIST) \
+	$(test_install_script_SOURCES) $(test_list_SOURCES) \
+	$(test_loader_SOURCES) $(test_media_SOURCES) \
 	$(test_os_SOURCES) $(test_oslist_SOURCES) \
 	$(test_platform_SOURCES) $(test_platformlist_SOURCES) \
 	$(test_product_SOURCES) $(test_productfilter_SOURCES) \
-	$(am__test_treeuris_SOURCES_DIST)
+	$(test_tree_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -625,8 +572,6 @@ COVERAGE_CFLAGS = @COVERAGE_CFLAGS@
 COVERAGE_LDFLAGS = @COVERAGE_LDFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
-CURL_CFLAGS = @CURL_CFLAGS@
-CURL_LIBS = @CURL_LIBS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
@@ -682,6 +627,8 @@ LIBOSINFO_VERSION = @LIBOSINFO_VERSION@
 LIBOSINFO_VERSION_INFO = @LIBOSINFO_VERSION_INFO@
 LIBOSINFO_VERSION_NUMBER = @LIBOSINFO_VERSION_NUMBER@
 LIBS = @LIBS@
+LIBSOUP_CFLAGS = @LIBSOUP_CFLAGS@
+LIBSOUP_LIBS = @LIBSOUP_LIBS@
 LIBTOOL = @LIBTOOL@
 LIBXML_CFLAGS = @LIBXML_CFLAGS@
 LIBXML_LIBS = @LIBXML_LIBS@
@@ -786,7 +733,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-EXTRA_DIST = isodata dbdata test-lib.sh install-script.xsl $(NULL)
+EXTRA_DIST = dbdata test-lib.sh install-script.xsl $(NULL)
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
 	$(GLIB_LIBS) \
@@ -827,8 +774,8 @@ test_platform_SOURCES = test-platform.c
 test_list_LDADD = $(COMMON_LDADD)
 test_list_CFLAGS = $(COMMON_CFLAGS)
 test_list_SOURCES = test-list.c
-test_media_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-test_media_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
+test_media_LDADD = $(COMMON_LDADD)
+test_media_CFLAGS = $(COMMON_CFLAGS)
 test_media_SOURCES = test-media.c
 test_devicelist_LDADD = $(COMMON_LDADD)
 test_devicelist_CFLAGS = $(COMMON_CFLAGS)
@@ -848,18 +795,6 @@ test_db_SOURCES = test-db.c
 test_loader_LDADD = $(COMMON_LDADD)
 test_loader_CFLAGS = $(COMMON_CFLAGS)
 test_loader_SOURCES = test-loader.c
-test_isodetect_LDADD = $(COMMON_LDADD)
-test_isodetect_CFLAGS = $(COMMON_CFLAGS)
-test_isodetect_SOURCES = test-isodetect.c
-@HAVE_CURL_TRUE@test_mediauris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-@HAVE_CURL_TRUE@test_mediauris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-@HAVE_CURL_TRUE@test_mediauris_SOURCES = test-mediauris.c test-uris-common.c test-uris-common.h
-@HAVE_CURL_TRUE@test_treeuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-@HAVE_CURL_TRUE@test_treeuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-@HAVE_CURL_TRUE@test_treeuris_SOURCES = test-treeuris.c test-uris-common.c test-uris-common.h
-@HAVE_CURL_TRUE@test_imageuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-@HAVE_CURL_TRUE@test_imageuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-@HAVE_CURL_TRUE@test_imageuris_SOURCES = test-imageuris.c test-uris-common.c test-uris-common.h
 test_install_script_LDADD = $(COMMON_LDADD)
 test_install_script_CFLAGS = $(COMMON_CFLAGS)
 test_install_script_SOURCES = test-install-script.c
@@ -869,6 +804,9 @@ test_image_SOURCES = test-image.c
 test_imagelist_LDADD = $(COMMON_LDADD)
 test_imagelist_CFLAGS = $(COMMON_CFLAGS)
 test_imagelist_SOURCES = test-imagelist.c
+test_tree_LDADD = $(COMMON_LDADD)
+test_tree_CFLAGS = $(COMMON_CFLAGS)
+test_tree_SOURCES = test-tree.c
 TESTS_ENVIRONMENT = \
 	abs_top_builddir=$(lv_abs_top_builddir)			\
 	abs_top_srcdir=`cd '$(top_srcdir)'; pwd`		\
@@ -957,17 +895,9 @@ test-imagelist$(EXEEXT): $(test_imagelist_OBJECTS) $(test_imagelist_DEPENDENCIES
 	@rm -f test-imagelist$(EXEEXT)
 	$(AM_V_CCLD)$(test_imagelist_LINK) $(test_imagelist_OBJECTS) $(test_imagelist_LDADD) $(LIBS)
 
-test-imageuris$(EXEEXT): $(test_imageuris_OBJECTS) $(test_imageuris_DEPENDENCIES) $(EXTRA_test_imageuris_DEPENDENCIES) 
-	@rm -f test-imageuris$(EXEEXT)
-	$(AM_V_CCLD)$(test_imageuris_LINK) $(test_imageuris_OBJECTS) $(test_imageuris_LDADD) $(LIBS)
-
 test-install-script$(EXEEXT): $(test_install_script_OBJECTS) $(test_install_script_DEPENDENCIES) $(EXTRA_test_install_script_DEPENDENCIES) 
 	@rm -f test-install-script$(EXEEXT)
 	$(AM_V_CCLD)$(test_install_script_LINK) $(test_install_script_OBJECTS) $(test_install_script_LDADD) $(LIBS)
-
-test-isodetect$(EXEEXT): $(test_isodetect_OBJECTS) $(test_isodetect_DEPENDENCIES) $(EXTRA_test_isodetect_DEPENDENCIES) 
-	@rm -f test-isodetect$(EXEEXT)
-	$(AM_V_CCLD)$(test_isodetect_LINK) $(test_isodetect_OBJECTS) $(test_isodetect_LDADD) $(LIBS)
 
 test-list$(EXEEXT): $(test_list_OBJECTS) $(test_list_DEPENDENCIES) $(EXTRA_test_list_DEPENDENCIES) 
 	@rm -f test-list$(EXEEXT)
@@ -980,10 +910,6 @@ test-loader$(EXEEXT): $(test_loader_OBJECTS) $(test_loader_DEPENDENCIES) $(EXTRA
 test-media$(EXEEXT): $(test_media_OBJECTS) $(test_media_DEPENDENCIES) $(EXTRA_test_media_DEPENDENCIES) 
 	@rm -f test-media$(EXEEXT)
 	$(AM_V_CCLD)$(test_media_LINK) $(test_media_OBJECTS) $(test_media_LDADD) $(LIBS)
-
-test-mediauris$(EXEEXT): $(test_mediauris_OBJECTS) $(test_mediauris_DEPENDENCIES) $(EXTRA_test_mediauris_DEPENDENCIES) 
-	@rm -f test-mediauris$(EXEEXT)
-	$(AM_V_CCLD)$(test_mediauris_LINK) $(test_mediauris_OBJECTS) $(test_mediauris_LDADD) $(LIBS)
 
 test-os$(EXEEXT): $(test_os_OBJECTS) $(test_os_DEPENDENCIES) $(EXTRA_test_os_DEPENDENCIES) 
 	@rm -f test-os$(EXEEXT)
@@ -1009,9 +935,9 @@ test-productfilter$(EXEEXT): $(test_productfilter_OBJECTS) $(test_productfilter_
 	@rm -f test-productfilter$(EXEEXT)
 	$(AM_V_CCLD)$(test_productfilter_LINK) $(test_productfilter_OBJECTS) $(test_productfilter_LDADD) $(LIBS)
 
-test-treeuris$(EXEEXT): $(test_treeuris_OBJECTS) $(test_treeuris_DEPENDENCIES) $(EXTRA_test_treeuris_DEPENDENCIES) 
-	@rm -f test-treeuris$(EXEEXT)
-	$(AM_V_CCLD)$(test_treeuris_LINK) $(test_treeuris_OBJECTS) $(test_treeuris_LDADD) $(LIBS)
+test-tree$(EXEEXT): $(test_tree_OBJECTS) $(test_tree_DEPENDENCIES) $(EXTRA_test_tree_DEPENDENCIES) 
+	@rm -f test-tree$(EXEEXT)
+	$(AM_V_CCLD)$(test_tree_LINK) $(test_tree_OBJECTS) $(test_tree_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -1027,23 +953,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_filter-test-filter.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_image-test-image.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_imagelist-test-imagelist.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_imageuris-test-imageuris.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_imageuris-test-uris-common.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_install_script-test-install-script.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_isodetect-test-isodetect.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_list-test-list.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_loader-test-loader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_media-test-media.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_mediauris-test-mediauris.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_mediauris-test-uris-common.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_os-test-os.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_oslist-test-oslist.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_platform-test-platform.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_platformlist-test-platformlist.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_product-test-product.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_productfilter-test-productfilter.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_treeuris-test-treeuris.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_treeuris-test-uris-common.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/test_tree-test-tree.Po@am__quote@ # am--include-marker
 
 $(am__depfiles_remade):
 	@$(MKDIR_P) $(@D)
@@ -1184,34 +1104,6 @@ test_imagelist-test-imagelist.obj: test-imagelist.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imagelist_CFLAGS) $(CFLAGS) -c -o test_imagelist-test-imagelist.obj `if test -f 'test-imagelist.c'; then $(CYGPATH_W) 'test-imagelist.c'; else $(CYGPATH_W) '$(srcdir)/test-imagelist.c'; fi`
 
-test_imageuris-test-imageuris.o: test-imageuris.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -MT test_imageuris-test-imageuris.o -MD -MP -MF $(DEPDIR)/test_imageuris-test-imageuris.Tpo -c -o test_imageuris-test-imageuris.o `test -f 'test-imageuris.c' || echo '$(srcdir)/'`test-imageuris.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_imageuris-test-imageuris.Tpo $(DEPDIR)/test_imageuris-test-imageuris.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-imageuris.c' object='test_imageuris-test-imageuris.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -c -o test_imageuris-test-imageuris.o `test -f 'test-imageuris.c' || echo '$(srcdir)/'`test-imageuris.c
-
-test_imageuris-test-imageuris.obj: test-imageuris.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -MT test_imageuris-test-imageuris.obj -MD -MP -MF $(DEPDIR)/test_imageuris-test-imageuris.Tpo -c -o test_imageuris-test-imageuris.obj `if test -f 'test-imageuris.c'; then $(CYGPATH_W) 'test-imageuris.c'; else $(CYGPATH_W) '$(srcdir)/test-imageuris.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_imageuris-test-imageuris.Tpo $(DEPDIR)/test_imageuris-test-imageuris.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-imageuris.c' object='test_imageuris-test-imageuris.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -c -o test_imageuris-test-imageuris.obj `if test -f 'test-imageuris.c'; then $(CYGPATH_W) 'test-imageuris.c'; else $(CYGPATH_W) '$(srcdir)/test-imageuris.c'; fi`
-
-test_imageuris-test-uris-common.o: test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -MT test_imageuris-test-uris-common.o -MD -MP -MF $(DEPDIR)/test_imageuris-test-uris-common.Tpo -c -o test_imageuris-test-uris-common.o `test -f 'test-uris-common.c' || echo '$(srcdir)/'`test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_imageuris-test-uris-common.Tpo $(DEPDIR)/test_imageuris-test-uris-common.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-uris-common.c' object='test_imageuris-test-uris-common.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -c -o test_imageuris-test-uris-common.o `test -f 'test-uris-common.c' || echo '$(srcdir)/'`test-uris-common.c
-
-test_imageuris-test-uris-common.obj: test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -MT test_imageuris-test-uris-common.obj -MD -MP -MF $(DEPDIR)/test_imageuris-test-uris-common.Tpo -c -o test_imageuris-test-uris-common.obj `if test -f 'test-uris-common.c'; then $(CYGPATH_W) 'test-uris-common.c'; else $(CYGPATH_W) '$(srcdir)/test-uris-common.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_imageuris-test-uris-common.Tpo $(DEPDIR)/test_imageuris-test-uris-common.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-uris-common.c' object='test_imageuris-test-uris-common.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_imageuris_CFLAGS) $(CFLAGS) -c -o test_imageuris-test-uris-common.obj `if test -f 'test-uris-common.c'; then $(CYGPATH_W) 'test-uris-common.c'; else $(CYGPATH_W) '$(srcdir)/test-uris-common.c'; fi`
-
 test_install_script-test-install-script.o: test-install-script.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_install_script_CFLAGS) $(CFLAGS) -MT test_install_script-test-install-script.o -MD -MP -MF $(DEPDIR)/test_install_script-test-install-script.Tpo -c -o test_install_script-test-install-script.o `test -f 'test-install-script.c' || echo '$(srcdir)/'`test-install-script.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_install_script-test-install-script.Tpo $(DEPDIR)/test_install_script-test-install-script.Po
@@ -1225,20 +1117,6 @@ test_install_script-test-install-script.obj: test-install-script.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-install-script.c' object='test_install_script-test-install-script.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_install_script_CFLAGS) $(CFLAGS) -c -o test_install_script-test-install-script.obj `if test -f 'test-install-script.c'; then $(CYGPATH_W) 'test-install-script.c'; else $(CYGPATH_W) '$(srcdir)/test-install-script.c'; fi`
-
-test_isodetect-test-isodetect.o: test-isodetect.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_isodetect_CFLAGS) $(CFLAGS) -MT test_isodetect-test-isodetect.o -MD -MP -MF $(DEPDIR)/test_isodetect-test-isodetect.Tpo -c -o test_isodetect-test-isodetect.o `test -f 'test-isodetect.c' || echo '$(srcdir)/'`test-isodetect.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_isodetect-test-isodetect.Tpo $(DEPDIR)/test_isodetect-test-isodetect.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-isodetect.c' object='test_isodetect-test-isodetect.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_isodetect_CFLAGS) $(CFLAGS) -c -o test_isodetect-test-isodetect.o `test -f 'test-isodetect.c' || echo '$(srcdir)/'`test-isodetect.c
-
-test_isodetect-test-isodetect.obj: test-isodetect.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_isodetect_CFLAGS) $(CFLAGS) -MT test_isodetect-test-isodetect.obj -MD -MP -MF $(DEPDIR)/test_isodetect-test-isodetect.Tpo -c -o test_isodetect-test-isodetect.obj `if test -f 'test-isodetect.c'; then $(CYGPATH_W) 'test-isodetect.c'; else $(CYGPATH_W) '$(srcdir)/test-isodetect.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_isodetect-test-isodetect.Tpo $(DEPDIR)/test_isodetect-test-isodetect.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-isodetect.c' object='test_isodetect-test-isodetect.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_isodetect_CFLAGS) $(CFLAGS) -c -o test_isodetect-test-isodetect.obj `if test -f 'test-isodetect.c'; then $(CYGPATH_W) 'test-isodetect.c'; else $(CYGPATH_W) '$(srcdir)/test-isodetect.c'; fi`
 
 test_list-test-list.o: test-list.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_list_CFLAGS) $(CFLAGS) -MT test_list-test-list.o -MD -MP -MF $(DEPDIR)/test_list-test-list.Tpo -c -o test_list-test-list.o `test -f 'test-list.c' || echo '$(srcdir)/'`test-list.c
@@ -1281,34 +1159,6 @@ test_media-test-media.obj: test-media.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-media.c' object='test_media-test-media.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_media_CFLAGS) $(CFLAGS) -c -o test_media-test-media.obj `if test -f 'test-media.c'; then $(CYGPATH_W) 'test-media.c'; else $(CYGPATH_W) '$(srcdir)/test-media.c'; fi`
-
-test_mediauris-test-mediauris.o: test-mediauris.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -MT test_mediauris-test-mediauris.o -MD -MP -MF $(DEPDIR)/test_mediauris-test-mediauris.Tpo -c -o test_mediauris-test-mediauris.o `test -f 'test-mediauris.c' || echo '$(srcdir)/'`test-mediauris.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_mediauris-test-mediauris.Tpo $(DEPDIR)/test_mediauris-test-mediauris.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-mediauris.c' object='test_mediauris-test-mediauris.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -c -o test_mediauris-test-mediauris.o `test -f 'test-mediauris.c' || echo '$(srcdir)/'`test-mediauris.c
-
-test_mediauris-test-mediauris.obj: test-mediauris.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -MT test_mediauris-test-mediauris.obj -MD -MP -MF $(DEPDIR)/test_mediauris-test-mediauris.Tpo -c -o test_mediauris-test-mediauris.obj `if test -f 'test-mediauris.c'; then $(CYGPATH_W) 'test-mediauris.c'; else $(CYGPATH_W) '$(srcdir)/test-mediauris.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_mediauris-test-mediauris.Tpo $(DEPDIR)/test_mediauris-test-mediauris.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-mediauris.c' object='test_mediauris-test-mediauris.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -c -o test_mediauris-test-mediauris.obj `if test -f 'test-mediauris.c'; then $(CYGPATH_W) 'test-mediauris.c'; else $(CYGPATH_W) '$(srcdir)/test-mediauris.c'; fi`
-
-test_mediauris-test-uris-common.o: test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -MT test_mediauris-test-uris-common.o -MD -MP -MF $(DEPDIR)/test_mediauris-test-uris-common.Tpo -c -o test_mediauris-test-uris-common.o `test -f 'test-uris-common.c' || echo '$(srcdir)/'`test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_mediauris-test-uris-common.Tpo $(DEPDIR)/test_mediauris-test-uris-common.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-uris-common.c' object='test_mediauris-test-uris-common.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -c -o test_mediauris-test-uris-common.o `test -f 'test-uris-common.c' || echo '$(srcdir)/'`test-uris-common.c
-
-test_mediauris-test-uris-common.obj: test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -MT test_mediauris-test-uris-common.obj -MD -MP -MF $(DEPDIR)/test_mediauris-test-uris-common.Tpo -c -o test_mediauris-test-uris-common.obj `if test -f 'test-uris-common.c'; then $(CYGPATH_W) 'test-uris-common.c'; else $(CYGPATH_W) '$(srcdir)/test-uris-common.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_mediauris-test-uris-common.Tpo $(DEPDIR)/test_mediauris-test-uris-common.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-uris-common.c' object='test_mediauris-test-uris-common.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_mediauris_CFLAGS) $(CFLAGS) -c -o test_mediauris-test-uris-common.obj `if test -f 'test-uris-common.c'; then $(CYGPATH_W) 'test-uris-common.c'; else $(CYGPATH_W) '$(srcdir)/test-uris-common.c'; fi`
 
 test_os-test-os.o: test-os.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_os_CFLAGS) $(CFLAGS) -MT test_os-test-os.o -MD -MP -MF $(DEPDIR)/test_os-test-os.Tpo -c -o test_os-test-os.o `test -f 'test-os.c' || echo '$(srcdir)/'`test-os.c
@@ -1394,33 +1244,19 @@ test_productfilter-test-productfilter.obj: test-productfilter.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_productfilter_CFLAGS) $(CFLAGS) -c -o test_productfilter-test-productfilter.obj `if test -f 'test-productfilter.c'; then $(CYGPATH_W) 'test-productfilter.c'; else $(CYGPATH_W) '$(srcdir)/test-productfilter.c'; fi`
 
-test_treeuris-test-treeuris.o: test-treeuris.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -MT test_treeuris-test-treeuris.o -MD -MP -MF $(DEPDIR)/test_treeuris-test-treeuris.Tpo -c -o test_treeuris-test-treeuris.o `test -f 'test-treeuris.c' || echo '$(srcdir)/'`test-treeuris.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_treeuris-test-treeuris.Tpo $(DEPDIR)/test_treeuris-test-treeuris.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-treeuris.c' object='test_treeuris-test-treeuris.o' libtool=no @AMDEPBACKSLASH@
+test_tree-test-tree.o: test-tree.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_tree_CFLAGS) $(CFLAGS) -MT test_tree-test-tree.o -MD -MP -MF $(DEPDIR)/test_tree-test-tree.Tpo -c -o test_tree-test-tree.o `test -f 'test-tree.c' || echo '$(srcdir)/'`test-tree.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_tree-test-tree.Tpo $(DEPDIR)/test_tree-test-tree.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-tree.c' object='test_tree-test-tree.o' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -c -o test_treeuris-test-treeuris.o `test -f 'test-treeuris.c' || echo '$(srcdir)/'`test-treeuris.c
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_tree_CFLAGS) $(CFLAGS) -c -o test_tree-test-tree.o `test -f 'test-tree.c' || echo '$(srcdir)/'`test-tree.c
 
-test_treeuris-test-treeuris.obj: test-treeuris.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -MT test_treeuris-test-treeuris.obj -MD -MP -MF $(DEPDIR)/test_treeuris-test-treeuris.Tpo -c -o test_treeuris-test-treeuris.obj `if test -f 'test-treeuris.c'; then $(CYGPATH_W) 'test-treeuris.c'; else $(CYGPATH_W) '$(srcdir)/test-treeuris.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_treeuris-test-treeuris.Tpo $(DEPDIR)/test_treeuris-test-treeuris.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-treeuris.c' object='test_treeuris-test-treeuris.obj' libtool=no @AMDEPBACKSLASH@
+test_tree-test-tree.obj: test-tree.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_tree_CFLAGS) $(CFLAGS) -MT test_tree-test-tree.obj -MD -MP -MF $(DEPDIR)/test_tree-test-tree.Tpo -c -o test_tree-test-tree.obj `if test -f 'test-tree.c'; then $(CYGPATH_W) 'test-tree.c'; else $(CYGPATH_W) '$(srcdir)/test-tree.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_tree-test-tree.Tpo $(DEPDIR)/test_tree-test-tree.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-tree.c' object='test_tree-test-tree.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -c -o test_treeuris-test-treeuris.obj `if test -f 'test-treeuris.c'; then $(CYGPATH_W) 'test-treeuris.c'; else $(CYGPATH_W) '$(srcdir)/test-treeuris.c'; fi`
-
-test_treeuris-test-uris-common.o: test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -MT test_treeuris-test-uris-common.o -MD -MP -MF $(DEPDIR)/test_treeuris-test-uris-common.Tpo -c -o test_treeuris-test-uris-common.o `test -f 'test-uris-common.c' || echo '$(srcdir)/'`test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_treeuris-test-uris-common.Tpo $(DEPDIR)/test_treeuris-test-uris-common.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-uris-common.c' object='test_treeuris-test-uris-common.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -c -o test_treeuris-test-uris-common.o `test -f 'test-uris-common.c' || echo '$(srcdir)/'`test-uris-common.c
-
-test_treeuris-test-uris-common.obj: test-uris-common.c
-@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -MT test_treeuris-test-uris-common.obj -MD -MP -MF $(DEPDIR)/test_treeuris-test-uris-common.Tpo -c -o test_treeuris-test-uris-common.obj `if test -f 'test-uris-common.c'; then $(CYGPATH_W) 'test-uris-common.c'; else $(CYGPATH_W) '$(srcdir)/test-uris-common.c'; fi`
-@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/test_treeuris-test-uris-common.Tpo $(DEPDIR)/test_treeuris-test-uris-common.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='test-uris-common.c' object='test_treeuris-test-uris-common.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_treeuris_CFLAGS) $(CFLAGS) -c -o test_treeuris-test-uris-common.obj `if test -f 'test-uris-common.c'; then $(CYGPATH_W) 'test-uris-common.c'; else $(CYGPATH_W) '$(srcdir)/test-uris-common.c'; fi`
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(test_tree_CFLAGS) $(CFLAGS) -c -o test_tree-test-tree.obj `if test -f 'test-tree.c'; then $(CYGPATH_W) 'test-tree.c'; else $(CYGPATH_W) '$(srcdir)/test-tree.c'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -1726,13 +1562,6 @@ test-loader.log: test-loader$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test-isodetect.log: test-isodetect$(EXEEXT)
-	@p='test-isodetect$(EXEEXT)'; \
-	b='test-isodetect'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
 test-install-script.log: test-install-script$(EXEEXT)
 	@p='test-install-script$(EXEEXT)'; \
 	b='test-install-script'; \
@@ -1754,23 +1583,9 @@ test-imagelist.log: test-imagelist$(EXEEXT)
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
 	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test-mediauris.log: test-mediauris$(EXEEXT)
-	@p='test-mediauris$(EXEEXT)'; \
-	b='test-mediauris'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test-treeuris.log: test-treeuris$(EXEEXT)
-	@p='test-treeuris$(EXEEXT)'; \
-	b='test-treeuris'; \
-	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
-	--log-file $$b.log --trs-file $$b.trs \
-	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
-	"$$tst" $(AM_TESTS_FD_REDIRECT)
-test-imageuris.log: test-imageuris$(EXEEXT)
-	@p='test-imageuris$(EXEEXT)'; \
-	b='test-imageuris'; \
+test-tree.log: test-tree$(EXEEXT)
+	@p='test-tree$(EXEEXT)'; \
+	b='test-tree'; \
 	$(am__check_pre) $(LOG_DRIVER) --test-name "$$f" \
 	--log-file $$b.log --trs-file $$b.trs \
 	$(am__common_driver_flags) $(AM_LOG_DRIVER_FLAGS) $(LOG_DRIVER_FLAGS) -- $(LOG_COMPILE) \
@@ -1876,23 +1691,17 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/test_filter-test-filter.Po
 	-rm -f ./$(DEPDIR)/test_image-test-image.Po
 	-rm -f ./$(DEPDIR)/test_imagelist-test-imagelist.Po
-	-rm -f ./$(DEPDIR)/test_imageuris-test-imageuris.Po
-	-rm -f ./$(DEPDIR)/test_imageuris-test-uris-common.Po
 	-rm -f ./$(DEPDIR)/test_install_script-test-install-script.Po
-	-rm -f ./$(DEPDIR)/test_isodetect-test-isodetect.Po
 	-rm -f ./$(DEPDIR)/test_list-test-list.Po
 	-rm -f ./$(DEPDIR)/test_loader-test-loader.Po
 	-rm -f ./$(DEPDIR)/test_media-test-media.Po
-	-rm -f ./$(DEPDIR)/test_mediauris-test-mediauris.Po
-	-rm -f ./$(DEPDIR)/test_mediauris-test-uris-common.Po
 	-rm -f ./$(DEPDIR)/test_os-test-os.Po
 	-rm -f ./$(DEPDIR)/test_oslist-test-oslist.Po
 	-rm -f ./$(DEPDIR)/test_platform-test-platform.Po
 	-rm -f ./$(DEPDIR)/test_platformlist-test-platformlist.Po
 	-rm -f ./$(DEPDIR)/test_product-test-product.Po
 	-rm -f ./$(DEPDIR)/test_productfilter-test-productfilter.Po
-	-rm -f ./$(DEPDIR)/test_treeuris-test-treeuris.Po
-	-rm -f ./$(DEPDIR)/test_treeuris-test-uris-common.Po
+	-rm -f ./$(DEPDIR)/test_tree-test-tree.Po
 	-rm -f Makefile
 distclean-am: clean-am distclean-compile distclean-generic \
 	distclean-tags
@@ -1946,23 +1755,17 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/test_filter-test-filter.Po
 	-rm -f ./$(DEPDIR)/test_image-test-image.Po
 	-rm -f ./$(DEPDIR)/test_imagelist-test-imagelist.Po
-	-rm -f ./$(DEPDIR)/test_imageuris-test-imageuris.Po
-	-rm -f ./$(DEPDIR)/test_imageuris-test-uris-common.Po
 	-rm -f ./$(DEPDIR)/test_install_script-test-install-script.Po
-	-rm -f ./$(DEPDIR)/test_isodetect-test-isodetect.Po
 	-rm -f ./$(DEPDIR)/test_list-test-list.Po
 	-rm -f ./$(DEPDIR)/test_loader-test-loader.Po
 	-rm -f ./$(DEPDIR)/test_media-test-media.Po
-	-rm -f ./$(DEPDIR)/test_mediauris-test-mediauris.Po
-	-rm -f ./$(DEPDIR)/test_mediauris-test-uris-common.Po
 	-rm -f ./$(DEPDIR)/test_os-test-os.Po
 	-rm -f ./$(DEPDIR)/test_oslist-test-oslist.Po
 	-rm -f ./$(DEPDIR)/test_platform-test-platform.Po
 	-rm -f ./$(DEPDIR)/test_platformlist-test-platformlist.Po
 	-rm -f ./$(DEPDIR)/test_product-test-product.Po
 	-rm -f ./$(DEPDIR)/test_productfilter-test-productfilter.Po
-	-rm -f ./$(DEPDIR)/test_treeuris-test-treeuris.Po
-	-rm -f ./$(DEPDIR)/test_treeuris-test-uris-common.Po
+	-rm -f ./$(DEPDIR)/test_tree-test-tree.Po
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
