@@ -446,9 +446,79 @@ test_identify_media(void)
     g_assert_false(osinfo_db_identify_media(db, media));
     g_object_unref(media);
 
+    /* Matching against an "all" architecture */
+    media = osinfo_media_new("foo", "x86_64");
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                            OSINFO_MEDIA_PROP_VOLUME_ID,
+                            "bootimg");
+    g_assert_true(osinfo_db_identify_media(db, media));
+    g_assert_cmpstr(osinfo_media_get_architecture(media), ==, "all");
+    g_object_unref(media);
+
+    /* Matching against a known architecture, which has to have precendence */
+    media = osinfo_media_new("foo", "i686");
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                            OSINFO_MEDIA_PROP_VOLUME_ID,
+                            "bootimg");
+    osinfo_entity_set_param(OSINFO_ENTITY(media),
+                            OSINFO_MEDIA_PROP_SYSTEM_ID,
+                            "LINUX");
+    g_assert_true(osinfo_db_identify_media(db, media));
+    g_assert_cmpstr(osinfo_media_get_architecture(media), ==, "i686");
+    g_object_unref(media);
+
     g_object_unref(loader);
 }
 
+
+static OsinfoTree *
+create_tree(const gchar *arch, gboolean set_treeinfo_arch)
+{
+    OsinfoTree *tree;
+
+    tree = osinfo_tree_new("foo", arch);
+    osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                            OSINFO_TREE_PROP_TREEINFO_FAMILY,
+                            "Tree");
+    osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                            OSINFO_TREE_PROP_TREEINFO_VERSION,
+                            "unknown");
+    if (set_treeinfo_arch)
+        osinfo_entity_set_param(OSINFO_ENTITY(tree),
+                                 OSINFO_TREE_PROP_TREEINFO_ARCH,
+                                 arch);
+
+    return tree;
+}
+
+
+static void
+test_identify_tree(void)
+{
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    OsinfoTree *tree;
+
+    GError *error = NULL;
+
+    osinfo_loader_process_path(loader, SRCDIR "/tests/dbdata", &error);
+    g_assert_no_error(error);
+    db = osinfo_loader_get_db(loader);
+
+    /* Matching against an "all" architecture" */
+    tree = create_tree("x86_64", FALSE);
+    g_assert_true(osinfo_db_identify_tree(db, tree));
+    g_assert_cmpstr(osinfo_tree_get_architecture(tree), ==, "all");
+    g_object_unref(tree);
+
+    /* Matching against a known architecture, which has to have precendence */
+    tree = create_tree("i686", TRUE);
+    g_assert_true(osinfo_db_identify_tree(db, tree));
+    g_assert_cmpstr(osinfo_tree_get_architecture(tree), ==, "i686");
+    g_object_unref(tree);
+
+    g_object_unref(loader);
+}
 
 
 int
@@ -465,6 +535,7 @@ main(int argc, char *argv[])
     g_test_add_func("/db/prop_os", test_prop_os);
     g_test_add_func("/db/rel_os", test_rel_os);
     g_test_add_func("/db/identify_media", test_identify_media);
+    g_test_add_func("/db/identify_tree", test_identify_tree);
 
     /* Upfront so we don't confuse valgrind */
     osinfo_entity_get_type();
@@ -480,13 +551,8 @@ main(int argc, char *argv[])
     osinfo_loader_get_type();
     osinfo_install_script_get_type();
     osinfo_install_scriptlist_get_type();
+    osinfo_tree_get_type();
+    osinfo_media_get_type();
 
     return g_test_run();
 }
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

@@ -201,7 +201,7 @@
         <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceDriver.html" title="OsinfoDeviceDriver">OsinfoDeviceDriver</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoDevice.html" title="OsinfoDevice">OsinfoDevice</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoDeviceLink.html" title="OsinfoDeviceLink">OsinfoDeviceLink</a>
-        <span class="lineart">├──</span> OsinfoImage
+        <span class="lineart">├──</span> <a class="link" href="OsinfoImage.html" title="OsinfoImage">OsinfoImage</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig">OsinfoInstallConfig</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam">OsinfoInstallConfigParam</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoInstallScript.html" title="OsinfoInstallScript">OsinfoInstallScript</a>
@@ -209,7 +209,7 @@
         <span class="lineart">├──</span> <a class="link" href="OsinfoProduct.html" title="OsinfoProduct">OsinfoProduct</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoOsVariant.html" title="OsinfoOsVariant">OsinfoOsVariant</a>
         <span class="lineart">├──</span> <a class="link" href="OsinfoResources.html" title="OsinfoResources">OsinfoResources</a>
-        <span class="lineart">╰──</span> <a class="link" href="OsinfoTree.html" title="OsinfoTree">OsinfoTree</a>
+        <span class="lineart">╰──</span> <a class="link" href="OsinfoInstallScript.html#OsinfoTree">OsinfoTree</a>
 </pre>
 </div>
 <div class="refsect1">
@@ -320,6 +320,36 @@ value is returned. If no value is associated, NULL is returned</p>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 osinfo_entity_get_param_value_boolean (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
                                        <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>Retrieve the parameter value associated with a named key as a
+boolean. If multiple values are stored against the key, only the
+first value is returned. If no value is associated, FALSE is returned</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-boolean.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-boolean.returns"></a><h4>Returns</h4>
+<p> the value associated with the key as a boolean, or FALSE</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -329,6 +359,47 @@ osinfo_entity_get_param_value_boolean_with_default
                                (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
                                 <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> default_value</code></em>);</pre>
+<p>Retrieve the parameter value associated with a named key as a
+boolean. If multiple values are stored against the key, only the
+first value is returned. If no value is associated, <em class="parameter"><code>default_value</code></em>
+
+is returned.</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-boolean-with-default.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>default_value</p></td>
+<td class="parameter_description"><p>the value to be returned in case there's no value
+associated with the <em class="parameter"><code>key</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-boolean-with-default.returns"></a><h4>Returns</h4>
+<p> the value associated with the key as a boolean, or
+<em class="parameter"><code>default_value</code></em>
+</p>
+</div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -338,6 +409,50 @@ osinfo_entity_get_param_value_enum (<em class="parameter"><code><a class="link" 
                                     <em class="parameter"><code>const <span class="type">char</span> *key</code></em>,
                                     <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> enum_type</code></em>,
                                     <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> default_value</code></em>);</pre>
+<p>Retrieve the parameter value associated with a named key as an
+enum value. If multiple values are stored against the key, only
+the first value is returned. If no value is associated, the
+<em class="parameter"><code>default_value</code></em>
+ is returned.</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-enum.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>enum_type</p></td>
+<td class="parameter_description"><p>the enum type</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>default_value</p></td>
+<td class="parameter_description"><p>the default value to be used, in case there's
+no value associated with the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-enum.returns"></a><h4>Returns</h4>
+<p> the enum value associated with the key, or <em class="parameter"><code>default_value</code></em>
+.</p>
+</div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -345,6 +460,36 @@ osinfo_entity_get_param_value_enum (<em class="parameter"><code><a class="link" 
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="returnvalue">gint64</span></a>
 osinfo_entity_get_param_value_int64 (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
                                      <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>);</pre>
+<p>Retrieve the parameter value associated with a named key as an
+int64. If multiple values are stored against the key, only the
+first value is returned. If no value is associated, -1 is returned.</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-int64.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-int64.returns"></a><h4>Returns</h4>
+<p> the value associated with the key as an int64, or -1.</p>
+</div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -354,6 +499,47 @@ osinfo_entity_get_param_value_int64_with_default
                                (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> default_value</code></em>);</pre>
+<p>Retrieve the parameter value associated with a named key as an
+int64. If multiple values are stored against the key, only the
+first value is returned. If no value is associated, <em class="parameter"><code>default_value</code></em>
+
+is returned.</p>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-int64-with-default.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>default_value</p></td>
+<td class="parameter_description"><p>the value to be returned in case there's no value
+associated with the <em class="parameter"><code>key</code></em>
+</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-entity-get-param-value-int64-with-default.returns"></a><h4>Returns</h4>
+<p> the value associated with the key as an int64, or
+<em class="parameter"><code>default_value</code></em>
+</p>
+</div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -436,6 +622,37 @@ cleared.</p>
 osinfo_entity_set_param_boolean (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
                                  <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
                                  <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> value</code></em>);</pre>
+<p>Sets a new parameter against the entity. If the key already
+has a value associated with it, the existing value will be
+cleared.</p>
+<div class="refsect3">
+<a name="osinfo-entity-set-param-boolean.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the boolean value to be associated with that key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -444,6 +661,37 @@ osinfo_entity_set_param_boolean (<em class="parameter"><code><a class="link" hre
 osinfo_entity_set_param_int64 (<em class="parameter"><code><a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> *entity</code></em>,
                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
                                <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint64"><span class="type">gint64</span></a> value</code></em>);</pre>
+<p>Sets a new parameter against the entity. If the key already
+has a value associated with it, the existing value will be
+cleared.</p>
+<div class="refsect3">
+<a name="osinfo-entity-set-param-int64.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the int64 value to be associated with that key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -453,6 +701,42 @@ osinfo_entity_set_param_enum (<em class="parameter"><code><a class="link" href="
                               <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *key</code></em>,
                               <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gint"><span class="type">gint</span></a> value</code></em>,
                               <em class="parameter"><code><a href="/usr/share/gtk-doc/html/gobject/gobject-Type-Information.html#GType"><span class="type">GType</span></a> enum_type</code></em>);</pre>
+<p>Sets a new parameter against the entity. If the key already
+has a value associated with it, the existing value will be
+cleared.</p>
+<div class="refsect3">
+<a name="osinfo-entity-set-param-enum.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>entity</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoEntity.html" title="OsinfoEntity"><span class="type">OsinfoEntity</span></a> containing the parameters</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>key</p></td>
+<td class="parameter_description"><p>the name of the key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>value</p></td>
+<td class="parameter_description"><p>the enum value to be associated with that key</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>enum_type</p></td>
+<td class="parameter_description"><p>the enum type</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">

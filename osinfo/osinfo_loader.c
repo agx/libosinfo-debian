@@ -151,6 +151,8 @@ OsinfoLoader *osinfo_loader_new(void)
  * Gets a #GQuark representing the string "libosinfo"
  *
  * Returns: the #GQuark representing the string.
+ *
+ * Since: 1.3.0
  **/
 GQuark
 osinfo_error_quark(void)
@@ -709,16 +711,27 @@ static void osinfo_loader_product(OsinfoLoader *loader,
         { OSINFO_PRODUCT_PROP_VENDOR, G_TYPE_STRING },
         { OSINFO_PRODUCT_PROP_VERSION, G_TYPE_STRING },
         { OSINFO_PRODUCT_PROP_LOGO, G_TYPE_STRING },
-        { OSINFO_PRODUCT_PROP_SHORT_ID, G_TYPE_STRING },
         { OSINFO_PRODUCT_PROP_RELEASE_DATE, G_TYPE_STRING },
         { OSINFO_PRODUCT_PROP_EOL_DATE, G_TYPE_STRING },
         { OSINFO_PRODUCT_PROP_CODENAME, G_TYPE_STRING },
         { NULL, G_TYPE_INVALID }
     };
+    xmlNodePtr *nodes = NULL;
+    gsize nnodes, i;
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(product), keys, ctxt, root, err);
     if (error_is_set(err))
         return;
+
+    nnodes = osinfo_loader_nodeset("./short-id", loader, ctxt, &nodes, err);
+    if (error_is_set(err))
+        return;
+
+    for (i = 0; i < nnodes; i++)
+        osinfo_entity_add_param(OSINFO_ENTITY(product),
+                                OSINFO_PRODUCT_PROP_SHORT_ID,
+                                (const gchar *)nodes[i]->children->content);
+    g_free(nodes);
 
     osinfo_loader_product_relshp(loader, product,
                                  OSINFO_PRODUCT_RELATIONSHIP_DERIVES_FROM,
@@ -1242,9 +1255,24 @@ static OsinfoTree *osinfo_loader_tree(OsinfoLoader *loader,
     OsinfoTree *tree = osinfo_tree_new(id, arch);
     xmlFree(arch);
 
+    gint nnodes = osinfo_loader_nodeset("./variant", loader, ctxt, &nodes, err);
+    if (error_is_set(err)) {
+        g_object_unref(tree);
+        return NULL;
+    }
+
+    for (i = 0; i < nnodes; i++) {
+        gchar *variant_id = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
+        osinfo_entity_add_param(OSINFO_ENTITY(tree),
+                                OSINFO_TREE_PROP_VARIANT,
+                                variant_id);
+        xmlFree(variant_id);
+    }
+    g_free(nodes);
+
     osinfo_loader_entity(loader, OSINFO_ENTITY(tree), keys, ctxt, root, err);
 
-    gint nnodes = osinfo_loader_nodeset("./treeinfo/*", loader, ctxt, &nodes, err);
+    nnodes = osinfo_loader_nodeset("./treeinfo/*", loader, ctxt, &nodes, err);
     if (error_is_set(err)) {
         g_object_unref(G_OBJECT(tree));
         return NULL;
@@ -1296,9 +1324,10 @@ static OsinfoImage *osinfo_loader_image(OsinfoLoader *loader,
         { OSINFO_IMAGE_PROP_URL, G_TYPE_STRING },
         { NULL, G_TYPE_INVALID }
     };
-
-    gchar *arch = (gchar *)xmlGetProp(root,
-                                      BAD_CAST OSINFO_IMAGE_PROP_ARCHITECTURE);
+    xmlNodePtr *nodes = NULL;
+    gint nnodes;
+    guint i;
+    gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
     gchar *format = (gchar *)xmlGetProp(root,
                                         BAD_CAST OSINFO_IMAGE_PROP_FORMAT);
     gchar *cloud_init = (gchar *)xmlGetProp(root,
@@ -1306,6 +1335,21 @@ static OsinfoImage *osinfo_loader_image(OsinfoLoader *loader,
     OsinfoImage *image = osinfo_image_new(id, arch, format);
     xmlFree(arch);
     xmlFree(format);
+
+    nnodes = osinfo_loader_nodeset("./variant", loader, ctxt, &nodes, err);
+    if (error_is_set(err)) {
+        g_object_unref(image);
+        return NULL;
+    }
+
+    for (i = 0; i < nnodes; i++) {
+        gchar *variant_id = (gchar *)xmlGetProp(nodes[i], BAD_CAST "id");
+        osinfo_entity_add_param(OSINFO_ENTITY(image),
+                                OSINFO_IMAGE_PROP_VARIANT,
+                                variant_id);
+        xmlFree(variant_id);
+    }
+    g_free(nodes);
 
     osinfo_loader_entity(loader, OSINFO_ENTITY(image), keys, ctxt, root, err);
     if (cloud_init) {
@@ -1521,6 +1565,7 @@ static void osinfo_loader_os(OsinfoLoader *loader,
         { OSINFO_OS_PROP_FAMILY, G_TYPE_STRING },
         { OSINFO_OS_PROP_DISTRO, G_TYPE_STRING },
         { OSINFO_OS_PROP_RELEASE_STATUS, G_TYPE_STRING },
+        { OSINFO_OS_PROP_KERNEL_URL_ARGUMENT, G_TYPE_STRING },
         { NULL, G_TYPE_INVALID }
     };
 
@@ -2560,7 +2605,9 @@ void osinfo_loader_process_default_path(OsinfoLoader *loader, GError **err)
  * @loader: the loader object
  * @err: (out): filled with error information upon failure
  *
- * Loads data from the default paths.
+ * Loads data from the system path.
+ *
+ * Since: 0.2.8
  */
 void osinfo_loader_process_system_path(OsinfoLoader *loader,
                                        GError **err)
@@ -2578,6 +2625,15 @@ void osinfo_loader_process_system_path(OsinfoLoader *loader,
     g_object_unref(dirs[2]);
 }
 
+/**
+ * osinfo_loader_process_local_path:
+ * @loader: the loader object
+ * @err: (out): filled with error information upen failures
+ *
+ * Loads data from the local path.
+ *
+ * Since: 0.2.8
+ */
 void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
 {
     GFile *dirs[] = {
@@ -2589,6 +2645,15 @@ void osinfo_loader_process_local_path(OsinfoLoader *loader, GError **err)
     g_object_unref(dirs[0]);
 }
 
+/**
+ * osinfo_loader_process_user_path:
+ * @loader: the loader object
+ * @err: (out): filled with error information upen failures
+ *
+ * Loads data from user path.
+ *
+ * Since: 0.2.8
+ */
 void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
 {
     GFile *dirs[] = {
@@ -2599,11 +2664,3 @@ void osinfo_loader_process_user_path(OsinfoLoader *loader, GError **err)
     osinfo_loader_process_list(loader, dirs, TRUE, err);
     g_object_unref(dirs[0]);
 }
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

@@ -125,6 +125,17 @@ osinfo_os_variant_init(OsinfoOsVariant *variant)
     variant->priv = OSINFO_OS_VARIANT_GET_PRIVATE(variant);
 }
 
+/**
+ * osinfo_os_variant_new:
+ *
+ * @id: the id of the os variant to be created
+ *
+ * Creates a new os variant
+ *
+ * Returns: (transfer full): An os variant entity
+ *
+ * Since: 0.2.9
+ */
 OsinfoOsVariant *osinfo_os_variant_new(const gchar *id)
 {
     OsinfoOsVariant *variant;
@@ -143,16 +154,11 @@ OsinfoOsVariant *osinfo_os_variant_new(const gchar *id)
  * The name of the @variant
  *
  * Returns: (transfer none): the name, or NULL
+ *
+ * Since: 0.2.9
  */
 const gchar *osinfo_os_variant_get_name(OsinfoOsVariant *variant)
 {
     return osinfo_entity_get_param_value(OSINFO_ENTITY(variant),
                                          OSINFO_OS_VARIANT_PROP_NAME);
 }
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

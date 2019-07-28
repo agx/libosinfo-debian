@@ -73,6 +73,8 @@ osinfo_datamaplist_init(OsinfoDatamapList *list)
  * Construct a new install_datamap list that is initially empty.
  *
  * Returns: (transfer full): an empty install_datamap list
+ *
+ * Since: 0.2.3
  */
 OsinfoDatamapList *osinfo_datamaplist_new(void)
 {
@@ -80,11 +82,3 @@ OsinfoDatamapList *osinfo_datamaplist_new(void)
                         "element-type", OSINFO_TYPE_DATAMAP,
                         NULL);
 }
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

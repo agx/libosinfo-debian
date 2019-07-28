@@ -199,6 +199,7 @@ osinfo_install_config_param_new (<em class="parameter"><code>const <a href="/usr
 <p>the new configuration parameter. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -225,6 +226,7 @@ osinfo_install_config_param_get_name (<em class="parameter"><code><a class="link
 <p>the name of the configuration parameter. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -252,6 +254,7 @@ osinfo_install_config_param_get_policy
 <p>the policy of the configuration parameter. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -280,6 +283,7 @@ osinfo_install_config_param_is_required
 FALSE otherwise. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -308,6 +312,7 @@ osinfo_install_config_param_is_optional
 FALSE otherwise. </p>
 <p><span class="annotation">[<acronym title="Don't free data after the code is done."><span class="acronym">transfer none</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.1</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -344,6 +349,7 @@ or NULL to disable transformations for this parameter</p></td>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -375,7 +381,6 @@ osinfo_install_config_param_get_value_map
 <hr>
 <div class="refsect2">
 <a name="OsinfoInstallConfigParamPolicy"></a><h3>enum OsinfoInstallConfigParamPolicy</h3>
-<p>Policy for configuration parameter presence</p>
 <div class="refsect3">
 <a name="OsinfoInstallConfigParamPolicy.members"></a><h4>Members</h4>
 <div class="informaltable"><table class="informaltable" width="100%" border="0">
@@ -387,28 +392,23 @@ osinfo_install_config_param_get_value_map
 <tbody>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-CONFIG-PARAM-POLICY-NONE:CAPS"></a>OSINFO_INSTALL_CONFIG_PARAM_POLICY_NONE</p></td>
-<td class="enum_member_description">
-<p>no policy defined</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-CONFIG-PARAM-POLICY-REQUIRED:CAPS"></a>OSINFO_INSTALL_CONFIG_PARAM_POLICY_REQUIRED</p></td>
-<td class="enum_member_description">
-<p>config parameter is required</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 <tr>
 <td class="enum_member_name"><p><a name="OSINFO-INSTALL-CONFIG-PARAM-POLICY-OPTIONAL:CAPS"></a>OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL</p></td>
-<td class="enum_member_description">
-<p>config parameter may be omitted</p>
-</td>
-<td class="enum_member_annotations"> </td>
+<td> </td>
+<td> </td>
 </tr>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 </div>
 <div class="refsect1">

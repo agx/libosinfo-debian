@@ -51,22 +51,70 @@ test_basic(void)
 }
 
 
+static void
+test_loaded(void)
+{
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    OsinfoOs *os;
+    OsinfoImageList *list;
+    gint list_len, i;
+    GError *error = NULL;
+
+    osinfo_loader_process_path(loader, SRCDIR "/tests/dbdata", &error);
+    g_assert_no_error(error);
+    db = osinfo_loader_get_db(loader);
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/db/image");
+
+    list = osinfo_os_get_image_list(os);
+    list_len = osinfo_list_get_length(OSINFO_LIST(list));
+    g_assert_cmpint(list_len, ==, 2);
+
+    for (i = 0; i < list_len; i++) {
+        OsinfoImage *image = OSINFO_IMAGE(osinfo_list_get_nth(OSINFO_LIST(list), i));
+        OsinfoOsVariantList *variant_list;
+        OsinfoOsVariant *variant;
+
+        variant_list = osinfo_image_get_os_variants(image);
+        g_assert_cmpint(osinfo_list_get_length(OSINFO_LIST(variant_list)), ==, 1);
+
+        variant = OSINFO_OS_VARIANT(osinfo_list_get_nth(OSINFO_LIST(variant_list), 0));
+
+        if (g_str_equal(osinfo_image_get_architecture(image), "i686")) {
+            g_assert_cmpstr(osinfo_image_get_url(image), ==, "http://libosinfo.org/db/image.vmdk");
+            g_assert_cmpstr(osinfo_image_get_format(image), ==, "vmdk");
+            g_assert_false(osinfo_image_get_cloud_init(image));
+            g_assert_cmpstr(osinfo_entity_get_id(OSINFO_ENTITY(variant)), ==, "bar");
+            g_assert_cmpstr(osinfo_os_variant_get_name(variant), ==, "Image Bar");
+        } else {
+            g_assert_cmpstr(osinfo_image_get_url(image), ==, "http://libosinfo.org/db/image.qcow2");
+            g_assert_cmpstr(osinfo_image_get_format(image), ==, "qcow2");
+            g_assert_true(osinfo_image_get_cloud_init(image));
+            g_assert_cmpstr(osinfo_entity_get_id(OSINFO_ENTITY(variant)), ==, "foo");
+            g_assert_cmpstr(osinfo_os_variant_get_name(variant), ==, "Image Foo");
+        }
+    }
+
+    g_object_unref(list);
+    g_object_unref(loader);
+}
+
+
 int
 main(int argc, char *argv[])
 {
     g_test_init(&argc, &argv, NULL);
 
     g_test_add_func("/image/basic", test_basic);
+    g_test_add_func("/image/loaded", test_loaded);
 
     /* Upfront so we don't confuse valgrind */
+    osinfo_db_get_type();
     osinfo_image_get_type();
+    osinfo_imagelist_get_type();
+    osinfo_loader_get_type();
+    osinfo_os_get_type();
 
     return g_test_run();
 }
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

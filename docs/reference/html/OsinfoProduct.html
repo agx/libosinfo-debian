@@ -129,6 +129,14 @@
 <a class="link" href="OsinfoProduct.html#osinfo-product-get-logo" title="osinfo_product_get_logo ()">osinfo_product_get_logo</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
+<tr>
+<td class="function_type">
+<a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoProduct.html#osinfo-product-get-short-id-list" title="osinfo_product_get_short_id_list ()">osinfo_product_get_short_id_list</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -347,6 +355,25 @@ osinfo_product_get_name (<em class="parameter"><code><a class="link" href="Osinf
 <a name="osinfo-product-get-codename"></a><h3>osinfo_product_get_codename ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_product_get_codename (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-product-get-codename.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>product</p></td>
+<td class="parameter_description"><p>an product</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-product-get-codename.returns"></a><h4>Returns</h4>
+<p> The product's codename, or NULL.</p>
+</div>
 </div>
 <hr>
 <div class="refsect2">
@@ -354,30 +381,142 @@ osinfo_product_get_codename (<em class="parameter"><code><a class="link" href="O
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_product_get_release_date_string
                                (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-product-get-release-date-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>product</p></td>
+<td class="parameter_description"><p>an product</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-product-get-release-date-string.returns"></a><h4>Returns</h4>
+<p> A string representing the product's release date, or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-product-get-eol-date-string"></a><h3>osinfo_product_get_eol_date_string ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_product_get_eol_date_string (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-product-get-eol-date-string.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>product</p></td>
+<td class="parameter_description"><p>an product</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-product-get-eol-date-string.returns"></a><h4>Returns</h4>
+<p> A string representing the product's EOL date, or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-product-get-release-date"></a><h3>osinfo_product_get_release_date ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *
 osinfo_product_get_release_date (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-product-get-release-date.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>product</p></td>
+<td class="parameter_description"><p>an product</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-product-get-release-date.returns"></a><h4>Returns</h4>
+<p>A <a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> representing the product's release date,
+or NULL. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-product-get-eol-date"></a><h3>osinfo_product_get_eol_date ()</h3>
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="returnvalue">GDate</span></a> *
 osinfo_product_get_eol_date (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-product-get-eol-date.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>product</p></td>
+<td class="parameter_description"><p>an product</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-product-get-eol-date.returns"></a><h4>Returns</h4>
+<p>A <a href="/usr/share/gtk-doc/html/glib/glib-Date-and-Time-Functions.html#GDate"><span class="type">GDate</span></a> representing the product's EOL date,
+or NULL. </p>
+<p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-product-get-logo"></a><h3>osinfo_product_get_logo ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_product_get_logo (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-product-get-short-id-list"></a><h3>osinfo_product_get_short_id_list ()</h3>
+<pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Doubly-Linked-Lists.html#GList"><span class="returnvalue">GList</span></a> *
+osinfo_product_get_short_id_list (<em class="parameter"><code><a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a> *prod</code></em>);</pre>
+<p>Retrieve all the short-ids associated with the product.</p>
+<div class="refsect3">
+<a name="osinfo-product-get-short-id-list.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>prod</p></td>
+<td class="parameter_description"><p>an <a class="link" href="OsinfoProduct.html" title="OsinfoProduct"><span class="type">OsinfoProduct</span></a></p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-product-get-short-id-list.returns"></a><h4>Returns</h4>
+<p>the list of short-ids. </p>
+<p><span class="annotation">[<acronym title="Free data container after the code is done."><span class="acronym">transfer container</span></acronym>][<acronym title="Generics and defining elements of containers and arrays."><span class="acronym">element-type</span></acronym> utf8]</span></p>
+</div>
+<p class="since">Since: 1.5.0</p>
 </div>
 </div>
 <div class="refsect1">

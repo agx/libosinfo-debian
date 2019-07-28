@@ -206,6 +206,8 @@ osinfo_install_config_param_init(OsinfoInstallConfigParam *config_param)
  * Construct a new configuration parameter for an #OsinfoInstallScript.
  *
  * Returns: (transfer full): the new configuration parameter
+ *
+ * Since: 0.2.0
  */
 OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name)
 {
@@ -220,6 +222,8 @@ OsinfoInstallConfigParam *osinfo_install_config_param_new(const gchar *name)
  * @config_param: the configuration parameter
  *
  * Returns: (transfer none): the name of the configuration parameter
+ *
+ * Since: 0.2.0
  */
 const gchar *osinfo_install_config_param_get_name(OsinfoInstallConfigParam *config_param)
 {
@@ -232,6 +236,8 @@ const gchar *osinfo_install_config_param_get_name(OsinfoInstallConfigParam *conf
  * @config_param: the configuration parameter
  *
  * Returns: (transfer none): the policy of the configuration parameter
+ *
+ * Since: 0.2.0
  */
 OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(OsinfoInstallConfigParam *config_param)
 {
@@ -247,6 +253,8 @@ OsinfoInstallConfigParamPolicy osinfo_install_config_param_get_policy(OsinfoInst
  *
  * Returns: (transfer none): TRUE if the config_param is required.
  *                           FALSE otherwise.
+ *
+ * Since: 0.2.1
  */
 gboolean osinfo_install_config_param_is_required(OsinfoInstallConfigParam *config_param)
 {
@@ -260,6 +268,8 @@ gboolean osinfo_install_config_param_is_required(OsinfoInstallConfigParam *confi
  *
  * Returns: (transfer none): TRUE if the config_param is optional.
  *                           FALSE otherwise.
+ *
+ * Since: 0.2.1
  */
 gboolean osinfo_install_config_param_is_optional(OsinfoInstallConfigParam *config_param)
 {
@@ -267,6 +277,15 @@ gboolean osinfo_install_config_param_is_optional(OsinfoInstallConfigParam *confi
             OSINFO_INSTALL_CONFIG_PARAM_POLICY_OPTIONAL);
 }
 
+/**
+ * osinfo_install_config_get_value_map:
+ * @config_param: the configuration parameter
+ *
+ * Returns: (transfer none): The data map used to transform values set for this
+ *                           parameter to OS-specific values, or NULL.
+ *
+ * Since: 0.2.8
+ */
 OsinfoDatamap *osinfo_install_config_param_get_value_map(OsinfoInstallConfigParam *config_param)
 {
     return config_param->priv->value_map;
@@ -281,6 +300,8 @@ OsinfoDatamap *osinfo_install_config_param_get_value_map(OsinfoInstallConfigPara
  * After a call to osinfo_install_config_param_set_value_map(), @datamap will
  * be used to transform values set for this parameter to OS-specific
  * values. A NULL @datamap will disable transformations.
+ *
+ * Since: 0.2.8
  */
 void osinfo_install_config_param_set_value_map(OsinfoInstallConfigParam *config_param, OsinfoDatamap *datamap)
 {
@@ -290,11 +311,3 @@ void osinfo_install_config_param_set_value_map(OsinfoInstallConfigParam *config_
         g_object_unref(G_OBJECT(config_param->priv->value_map));
     config_param->priv->value_map = g_object_ref(datamap);
 }
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

@@ -98,7 +98,7 @@ static GOptionEntry entries[] =
       N_("plain|env.") },
     { "type", 't', 0,
       G_OPTION_ARG_CALLBACK, parse_type_str,
-      N_("URL type. Default: media"),
+      N_("The type to be used. Default: media"),
       N_("media|tree.") },
     { 0 }
 };
@@ -137,10 +137,12 @@ static void print_media(OsinfoMedia *media)
     } else {
         OsinfoOsVariantList *variants;
         const gchar *name;
-        guint num_variants;
+        guint num_variants = 0;
 
         variants = osinfo_media_get_os_variants(media);
-        num_variants = osinfo_list_get_length(OSINFO_LIST(variants));
+        if (variants != NULL)
+            num_variants = osinfo_list_get_length(OSINFO_LIST(variants));
+
         if (num_variants == 1) {
             OsinfoEntity *variant;
 
@@ -173,8 +175,11 @@ static void print_media(OsinfoMedia *media)
     g_object_unref(os);
 }
 
-static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tree)
+static void print_tree(OsinfoTree *tree)
 {
+    OsinfoOs *os;
+
+    g_object_get(G_OBJECT(tree), "os", &os, NULL);
     if (os == NULL)
         return;
 
@@ -185,15 +190,15 @@ static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tr
         const gchar *bootiso = osinfo_tree_get_boot_iso_path(tree);
 
         if (!kernel)
-            kernel = osinfo_tree_get_kernel_path(matched_tree);
+            kernel = osinfo_tree_get_kernel_path(tree);
         if (!initrd)
-            initrd = osinfo_tree_get_initrd_path(matched_tree);
+            initrd = osinfo_tree_get_initrd_path(tree);
         if (!bootiso)
-            bootiso = osinfo_tree_get_boot_iso_path(matched_tree);
+            bootiso = osinfo_tree_get_boot_iso_path(tree);
 
         g_print("OSINFO_INSTALLER=%s\n", id);
         g_print("OSINFO_TREE=%s\n",
-                osinfo_entity_get_id(OSINFO_ENTITY(matched_tree)));
+                osinfo_entity_get_id(OSINFO_ENTITY(tree)));
         if (kernel)
             g_print("OSINFO_TREE_KERNEL=%s\n", kernel);
         if (initrd)
@@ -201,9 +206,39 @@ static void print_os_tree(OsinfoOs *os, OsinfoTree *tree, OsinfoTree *matched_tr
         if (bootiso)
             g_print("OSINFO_TREE_BOOT_ISO=%s\n", bootiso);
     } else {
-        const gchar *name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+        OsinfoOsVariantList *variants;
+        const gchar *name;
+        guint num_variants = 0;
+
+        variants = osinfo_tree_get_os_variants(tree);
+        if (variants != NULL)
+            num_variants = osinfo_list_get_length(OSINFO_LIST(variants));
+
+        if (num_variants == 1) {
+            OsinfoEntity *variant;
+
+            variant = osinfo_list_get_nth(OSINFO_LIST(variants), 0);
+            name = osinfo_os_variant_get_name(OSINFO_OS_VARIANT(variant));
+        } else {
+            name = osinfo_product_get_name(OSINFO_PRODUCT(os));
+        }
 
         g_print(_("Tree is an installer for OS '%s'\n"), name);
+
+        if (num_variants > 1) {
+            guint i;
+
+            g_print(_("Available OS variants on tree:\n"));
+            for (i = 0; i < num_variants; i++) {
+                OsinfoEntity *variant;
+
+                variant = osinfo_list_get_nth(OSINFO_LIST(variants), i);
+                name = osinfo_os_variant_get_name(OSINFO_OS_VARIANT(variant));
+                g_print("%s\n", name);
+            }
+        }
+
+        g_clear_object(&variants);
     }
 }
 
@@ -271,9 +306,7 @@ gint main(gint argc, gchar **argv)
         osinfo_db_identify_media(db, media);
         print_media(media);
     } else if (type == URL_TYPE_TREE) {
-        OsinfoOs *os = NULL;
         OsinfoTree *tree = NULL;
-        OsinfoTree *matched_tree = NULL;
         tree = osinfo_tree_create_from_location(argv[1], NULL, &error);
         if (error != NULL) {
             g_printerr(_("Error parsing installer tree: %s\n"), error->message);
@@ -281,8 +314,8 @@ gint main(gint argc, gchar **argv)
             ret = -3;
             goto EXIT;
         }
-        os = osinfo_db_guess_os_from_tree(db, tree, &matched_tree);
-        print_os_tree(os, tree, matched_tree);
+        osinfo_db_identify_tree(db, tree);
+        print_tree(tree);
     }
 
 
@@ -355,11 +388,3 @@ FOR A PARTICULAR PURPOSE
 
 =cut
 */
-
-/*
- * Local variables:
- *  indent-tabs-mode: nil
- *  c-indent-level: 4
- *  c-basic-offset: 4
- * End:
- */

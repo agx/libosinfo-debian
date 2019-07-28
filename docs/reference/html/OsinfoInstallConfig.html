@@ -6,7 +6,7 @@
 <meta name="generator" content="DocBook XSL Stylesheets Vsnapshot">
 <link rel="home" href="index.html" title="Libosinfo Reference Manual">
 <link rel="up" href="ch01.html" title="Libosinfo">
-<link rel="prev" href="OsinfoFilter.html" title="OsinfoFilter">
+<link rel="prev" href="OsinfoImageList.html" title="OsinfoImageList">
 <link rel="next" href="OsinfoInstallConfigParam.html" title="OsinfoInstallConfigParam">
 <meta name="generator" content="GTK-Doc V1.29 (XML mode)">
 <link rel="stylesheet" href="style.css" type="text/css">
@@ -20,7 +20,7 @@
 </td>
 <td><a accesskey="h" href="index.html"><img src="home.png" width="16" height="16" border="0" alt="Home"></a></td>
 <td><a accesskey="u" href="ch01.html"><img src="up.png" width="16" height="16" border="0" alt="Up"></a></td>
-<td><a accesskey="p" href="OsinfoFilter.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
+<td><a accesskey="p" href="OsinfoImageList.html"><img src="left.png" width="16" height="16" border="0" alt="Prev"></a></td>
 <td><a accesskey="n" href="OsinfoInstallConfigParam.html"><img src="right.png" width="16" height="16" border="0" alt="Next"></a></td>
 </tr></table>
 <div class="refentry">
@@ -396,6 +396,21 @@
 <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-driver-signing" title="osinfo_install_config_get_driver_signing ()">osinfo_install_config_get_driver_signing</a> <span class="c_punctuation">()</span>
 </td>
 </tr>
+<tr>
+<td class="function_type">
+<span class="returnvalue">void</span>
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-installation-url" title="osinfo_install_config_set_installation_url ()">osinfo_install_config_set_installation_url</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
+<tr>
+<td class="function_type">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+</td>
+<td class="function_name">
+<a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-get-installation-url" title="osinfo_install_config_get_installation_url ()">osinfo_install_config_get_installation_url</a> <span class="c_punctuation">()</span>
+</td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -499,6 +514,10 @@
 <td class="define_keyword">#define</td>
 <td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-DRIVER-SIGNING:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING">OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING</a></td>
 </tr>
+<tr>
+<td class="define_keyword">#define</td>
+<td class="function_name"><a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-INSTALLATION-URL:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_INSTALLATION_URL">OSINFO_INSTALL_CONFIG_PROP_INSTALLATION_URL</a></td>
+</tr>
 </tbody>
 </table></div>
 </div>
@@ -546,6 +565,7 @@ timezone. The admin password is set to a random 8 character password.</p>
 values. </p>
 <p><span class="annotation">[<acronym title="Free data after the code is done."><span class="acronym">transfer full</span></acronym>]</span></p>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -554,6 +574,31 @@ values. </p>
 osinfo_install_config_set_hardware_arch
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *arch</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HARDWARE-ARCH:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH"><span class="type">OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH</span></a> parameter.</p>
+<p>The list of valid architectures are part of osinfo.rng schema</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-hardware-arch.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>arch</p></td>
+<td class="parameter_description"><p>the hardware architecture</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -561,6 +606,27 @@ osinfo_install_config_set_hardware_arch
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_hardware_arch
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-hardware-arch.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-hardware-arch.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HARDWARE-ARCH:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH"><span class="type">OSINFO_INSTALL_CONFIG_PROP_HARDWARE_ARCH</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -594,6 +660,7 @@ osinfo_install_config_set_l10n_keyboard
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -601,6 +668,27 @@ osinfo_install_config_set_l10n_keyboard
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_l10n_keyboard
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-l10n-keyboard.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-l10n-keyboard.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-KEYBOARD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_L10N_KEYBOARD</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -637,6 +725,7 @@ but 'pt_BR.utf8' is not.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -644,6 +733,27 @@ but 'pt_BR.utf8' is not.</p>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_l10n_language
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-l10n-language.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-l10n-language.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-LANGUAGE:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE"><span class="type">OSINFO_INSTALL_CONFIG_PROP_L10N_LANGUAGE</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -652,6 +762,31 @@ osinfo_install_config_get_l10n_language
 osinfo_install_config_set_l10n_timezone
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *timezone</code></em>);</pre>
+<p>Set the <span class="type">OSINFO_INSTALL_CONFIG_PROP_L10B_TIMEZONE</span> parameter.</p>
+<p>The expected format of this string is the tzdata names standard.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-l10n-timezone.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config.</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>tz</p></td>
+<td class="parameter_description"><p>the timezone</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -659,6 +794,27 @@ osinfo_install_config_set_l10n_timezone
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_l10n_timezone
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-l10n-timezone.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-l10n-timezone.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-L10N-TIMEZONE:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE"><span class="type">OSINFO_INSTALL_CONFIG_PROP_L10N_TIMEZONE</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -667,6 +823,30 @@ osinfo_install_config_get_l10n_timezone
 osinfo_install_config_set_admin_password
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *password</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-ADMIN-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD</span></a> parameter</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-admin-password.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>password</p></td>
+<td class="parameter_description"><p>the administrator password to be set</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -674,6 +854,27 @@ osinfo_install_config_set_admin_password
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_admin_password
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-admin-password.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-admin-password.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-ADMIN-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_ADMIN_PASSWORD</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -681,12 +882,57 @@ osinfo_install_config_get_admin_password
 <pre class="programlisting"><span class="returnvalue">void</span>
 osinfo_install_config_set_user_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                       <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *username</code></em>);</pre>
+<p>Sets the value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-LOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN</span></a> parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-user-login.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>username</p></td>
+<td class="parameter_description"><p>the chosen username for the user log into the system</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-install-config-get-user-login"></a><h3>osinfo_install_config_get_user_login ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_user_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-login.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-login.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-LOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_LOGIN</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -695,6 +941,30 @@ osinfo_install_config_get_user_login (<em class="parameter"><code><a class="link
 osinfo_install_config_set_user_password
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *password</code></em>);</pre>
+<p>Sets the <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD</span></a> parameter</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-user-password.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>password</p></td>
+<td class="parameter_description"><p>the user password to be set</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -702,6 +972,27 @@ osinfo_install_config_set_user_password
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_user_password
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-password.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-password.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_PASSWORD</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -710,6 +1001,30 @@ osinfo_install_config_get_user_password
 osinfo_install_config_set_user_realname
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+<p>Sets the value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-REALNAME:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME</span></a> parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-user-realname.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>name</p></td>
+<td class="parameter_description"><p>the user real name to be displayed</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -717,6 +1032,27 @@ osinfo_install_config_set_user_realname
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_user_realname
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-realname.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-realname.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-REALNAME:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_REALNAME</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -725,6 +1061,30 @@ osinfo_install_config_get_user_realname
 osinfo_install_config_set_user_autologin
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> autologin</code></em>);</pre>
+<p>Sets the value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-AUTOLOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN</span></a> parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-user-autologin.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>autologin</p></td>
+<td class="parameter_description"><p>whether autologin should be set for the user or not</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -732,6 +1092,27 @@ osinfo_install_config_set_user_autologin
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 osinfo_install_config_get_user_autologin
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-autologin.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-autologin.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-AUTOLOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_AUTOLOGIN</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -740,6 +1121,30 @@ osinfo_install_config_get_user_autologin
 osinfo_install_config_set_user_administrator
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="type">gboolean</span></a> admin</code></em>);</pre>
+<p>Sets the value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-ADMIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN</span></a> parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-user-administrator.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>admin</p></td>
+<td class="parameter_description"><p>whether the user should be set as administrator or not</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -747,6 +1152,27 @@ osinfo_install_config_set_user_administrator
 <pre class="programlisting"><a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gboolean"><span class="returnvalue">gboolean</span></a>
 osinfo_install_config_get_user_administrator
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-administrator.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-user-administrator.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-USER-ADMIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_USER_ADMIN</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -754,12 +1180,57 @@ osinfo_install_config_get_user_administrator
 <pre class="programlisting"><span class="returnvalue">void</span>
 osinfo_install_config_set_reg_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                      <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *name</code></em>);</pre>
+<p>Sets the value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-LOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN</span></a> parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-reg-login.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>name</p></td>
+<td class="parameter_description"><p>the registration login</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-install-config-get-reg-login"></a><h3>osinfo_install_config_get_reg_login ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_reg_login (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-reg-login.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-reg-login.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-LOGIN:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN"><span class="type">OSINFO_INSTALL_CONFIG_PROP_REG_LOGIN</span></a> paramater,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -768,6 +1239,30 @@ osinfo_install_config_get_reg_login (<em class="parameter"><code><a class="link"
 osinfo_install_config_set_reg_password
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
                                 <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *password</code></em>);</pre>
+<p>Sets the value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD</span></a> parameter.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-reg-password.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>password</p></td>
+<td class="parameter_description"><p>the registration password</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -775,6 +1270,27 @@ osinfo_install_config_set_reg_password
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_reg_password
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-reg-password.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-reg-password.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PASSWORD:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD"><span class="type">OSINFO_INSTALL_CONFIG_PROP_REG_PASSWORD</span></a> paramater,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -790,6 +1306,27 @@ osinfo_install_config_set_reg_product_key
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_reg_product_key
                                (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-reg-product-key.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-reg-product-key.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-REG-PRODUCTKEY:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY"><span class="type">OSINFO_INSTALL_CONFIG_PROP_REG_PRODUCTKEY</span></a> paramater,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -826,12 +1363,34 @@ fail.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.0</p>
 </div>
 <hr>
 <div class="refsect2">
 <a name="osinfo-install-config-get-hostname"></a><h3>osinfo_install_config_get_hostname ()</h3>
 <pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
 osinfo_install_config_get_hostname (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<div class="refsect3">
+<a name="osinfo-install-config-get-hostname.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<div class="refsect3">
+<a name="osinfo-install-config-get-hostname.returns"></a><h4>Returns</h4>
+<p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-HOSTNAME:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_HOSTNAME"><span class="type">OSINFO_INSTALL_CONFIG_PROP_HOSTNAME</span></a> parameter,
+or NULL.</p>
+</div>
+<p class="since">Since: 0.2.8</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -869,6 +1428,7 @@ In case of <a class="link" href="OsinfoInstallScript.html#OSINFO-PATH-FORMAT-DOS
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -895,6 +1455,7 @@ osinfo_install_config_get_target_disk (<em class="parameter"><code><a class="lin
 <p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-TARGET-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_TARGET_DISK</span></a> parameter,
 or NULL.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -928,6 +1489,7 @@ explanation on the format of <em class="parameter"><code>disk</code></em>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -954,6 +1516,7 @@ osinfo_install_config_get_script_disk (<em class="parameter"><code><a class="lin
 <p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-SCRIPT-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_SCRIPT_DISK</span></a> parameter,
 or NULL.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -992,6 +1555,7 @@ and the leading ':' must not be included in the path.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1019,6 +1583,7 @@ osinfo_install_config_get_avatar_location
 <p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-LOCATION:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION"><span class="type">OSINFO_INSTALL_CONFIG_PROP_AVATAR_LOCATION</span></a> parameter,
 or NULL.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1052,6 +1617,7 @@ explanation on the format of <em class="parameter"><code>disk</code></em>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1078,6 +1644,7 @@ osinfo_install_config_get_avatar_disk (<em class="parameter"><code><a class="lin
 <p> The value of <a class="link" href="OsinfoInstallConfig.html#OSINFO-INSTALL-CONFIG-PROP-AVATAR-DISK:CAPS" title="OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK"><span class="type">OSINFO_INSTALL_CONFIG_PROP_AVATAR_DISK</span></a> parameter,
 or NULL.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1147,6 +1714,7 @@ osinfo_install_config_get_pre_install_drivers_disk
 <p> The disk on which pre-installation drivers are located, or NULL if
 its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-disk" title="osinfo_install_config_set_pre_install_drivers_disk ()"><code class="function">osinfo_install_config_set_pre_install_drivers_disk()</code></a>.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1184,6 +1752,7 @@ explanation on the format of <em class="parameter"><code>location</code></em>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1211,6 +1780,7 @@ osinfo_install_config_get_pre_install_drivers_location
 <p> The location on which pre-installation drivers are located, or NULL if
 its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-pre-install-drivers-location" title="osinfo_install_config_set_pre_install_drivers_location ()"><code class="function">osinfo_install_config_set_pre_install_drivers_location()</code></a>.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1249,6 +1819,7 @@ install script supports it.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1276,6 +1847,7 @@ osinfo_install_config_get_post_install_drivers_disk
 <p> The disk on which post-installation drivers are located, or NULL if
 its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-disk" title="osinfo_install_config_set_post_install_drivers_disk ()"><code class="function">osinfo_install_config_set_post_install_drivers_disk()</code></a>.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1314,6 +1886,7 @@ install script supports it.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1341,6 +1914,7 @@ osinfo_install_config_get_post_install_drivers_location
 <p> The disk on which post-installation drivers are located, or NULL if
 its not set using <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-post-install-drivers-location" title="osinfo_install_config_set_post_install_drivers_location ()"><code class="function">osinfo_install_config_set_post_install_drivers_location()</code></a>.</p>
 </div>
+<p class="since">Since: 0.2.2</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1374,6 +1948,7 @@ well mean disabling it permanently.</p>
 </tbody>
 </table></div>
 </div>
+<p class="since">Since: 0.2.6</p>
 </div>
 <hr>
 <div class="refsect2">
@@ -1402,6 +1977,64 @@ osinfo_install_config_get_driver_signing
 <a class="link" href="OsinfoInstallConfig.html#osinfo-install-config-set-driver-signing" title="osinfo_install_config_set_driver_signing ()"><code class="function">osinfo_install_config_set_driver_signing()</code></a> for more details about driver
 signing.</p>
 </div>
+<p class="since">Since: 0.2.6</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-set-installation-url"></a><h3>osinfo_install_config_set_installation_url ()</h3>
+<pre class="programlisting"><span class="returnvalue">void</span>
+osinfo_install_config_set_installation_url
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>,
+                                <em class="parameter"><code>const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="type">gchar</span></a> *url</code></em>);</pre>
+<p>When performing a tree based installation the script will need the installation
+URL to be set, whenever the installation is performed from a non canonical place.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-set-installation-url.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody>
+<tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+<tr>
+<td class="parameter_name"><p>url</p></td>
+<td class="parameter_description"><p>the URL used to perform the installation</p></td>
+<td class="parameter_annotations"> </td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p class="since">Since: 1.5.0</p>
+</div>
+<hr>
+<div class="refsect2">
+<a name="osinfo-install-config-get-installation-url"></a><h3>osinfo_install_config_get_installation_url ()</h3>
+<pre class="programlisting">const <a href="/usr/share/gtk-doc/html/glib/glib-Basic-Types.html#gchar"><span class="returnvalue">gchar</span></a> *
+osinfo_install_config_get_installation_url
+                               (<em class="parameter"><code><a class="link" href="OsinfoInstallConfig.html" title="OsinfoInstallConfig"><span class="type">OsinfoInstallConfig</span></a> *config</code></em>);</pre>
+<p>Returns the URL the script will use to perform the installation.</p>
+<div class="refsect3">
+<a name="osinfo-install-config-get-installation-url.parameters"></a><h4>Parameters</h4>
+<div class="informaltable"><table class="informaltable" width="100%" border="0">
+<colgroup>
+<col width="150px" class="parameters_name">
+<col class="parameters_description">
+<col width="200px" class="parameters_annotations">
+</colgroup>
+<tbody><tr>
+<td class="parameter_name"><p>config</p></td>
+<td class="parameter_description"><p>the install config</p></td>
+<td class="parameter_annotations"> </td>
+</tr></tbody>
+</table></div>
+</div>
+<p class="since">Since: 1.5.0</p>
 </div>
 </div>
 <div class="refsect1">
@@ -1541,6 +2174,12 @@ signing.</p>
 <div class="refsect2">
 <a name="OSINFO-INSTALL-CONFIG-PROP-DRIVER-SIGNING:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING</h3>
 <pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_DRIVER_SIGNING "driver-signing"
+</pre>
+</div>
+<hr>
+<div class="refsect2">
+<a name="OSINFO-INSTALL-CONFIG-PROP-INSTALLATION-URL:CAPS"></a><h3>OSINFO_INSTALL_CONFIG_PROP_INSTALLATION_URL</h3>
+<pre class="programlisting">#define OSINFO_INSTALL_CONFIG_PROP_INSTALLATION_URL "installation-url"
 </pre>
 </div>
 </div>

@@ -1,5 +1,5 @@
 
-EXTRA_DIST = isodata dbdata
+EXTRA_DIST = dbdata
 
 check_PROGRAMS = \
 	test-entity \
@@ -17,19 +17,11 @@ check_PROGRAMS = \
 	test-platformlist \
 	test-db \
 	test-loader \
-	test-isodetect \
 	test-install-script \
 	test-image \
 	test-imagelist \
+	test-tree \
         $(NULL)
-
-if HAVE_CURL
-check_PROGRAMS += \
-	test-mediauris \
-	test-treeuris \
-	test-imageuris \
-	$(NULL)
-endif
 
 COMMON_LDADD = \
 	$(COVERAGE_LDFLAGS) \
@@ -78,8 +70,8 @@ test_list_LDADD = $(COMMON_LDADD)
 test_list_CFLAGS = $(COMMON_CFLAGS)
 test_list_SOURCES = test-list.c
 
-test_media_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-test_media_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
+test_media_LDADD = $(COMMON_LDADD)
+test_media_CFLAGS = $(COMMON_CFLAGS)
 test_media_SOURCES = test-media.c
 
 test_devicelist_LDADD = $(COMMON_LDADD)
@@ -106,24 +98,6 @@ test_loader_LDADD = $(COMMON_LDADD)
 test_loader_CFLAGS = $(COMMON_CFLAGS)
 test_loader_SOURCES = test-loader.c
 
-test_isodetect_LDADD = $(COMMON_LDADD)
-test_isodetect_CFLAGS = $(COMMON_CFLAGS)
-test_isodetect_SOURCES = test-isodetect.c
-
-if HAVE_CURL
-test_mediauris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-test_mediauris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-test_mediauris_SOURCES = test-mediauris.c test-uris-common.c test-uris-common.h
-
-test_treeuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-test_treeuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-test_treeuris_SOURCES = test-treeuris.c test-uris-common.c test-uris-common.h
-
-test_imageuris_LDADD = $(COMMON_LDADD) $(CURL_LIBS)
-test_imageuris_CFLAGS = $(COMMON_CFLAGS) $(CURL_CFLAGS)
-test_imageuris_SOURCES = test-imageuris.c test-uris-common.c test-uris-common.h
-endif
-
 test_install_script_LDADD = $(COMMON_LDADD)
 test_install_script_CFLAGS = $(COMMON_CFLAGS)
 test_install_script_SOURCES = test-install-script.c
@@ -135,6 +109,10 @@ test_image_SOURCES = test-image.c
 test_imagelist_LDADD = $(COMMON_LDADD)
 test_imagelist_CFLAGS = $(COMMON_CFLAGS)
 test_imagelist_SOURCES = test-imagelist.c
+
+test_tree_LDADD = $(COMMON_LDADD)
+test_tree_CFLAGS = $(COMMON_CFLAGS)
+test_tree_SOURCES = test-tree.c
 
 TESTS = $(check_PROGRAMS) \
 	$(NULL)
