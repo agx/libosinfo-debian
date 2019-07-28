@@ -22,7 +22,7 @@ test_osinfo()
     osinfo-query os >/dev/null
 
     # Check if we can find Debian Jessie
-    osinfo-query os name="Debian Jessie" | grep -qs debian8
+    osinfo-query os name="Debian 8" | grep -qs debian8
 }
 
 test_osinfo
