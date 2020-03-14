@@ -22,7 +22,6 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
-#include <config.h>
 #include <glib/gi18n-lib.h>
 
 #include <osinfo/osinfo.h>
@@ -41,10 +40,10 @@
 #include "osinfo_resources_private.h"
 
 #ifndef USB_IDS
-#define USB_IDS PKG_DATA_DIR "/usb.ids"
+# define USB_IDS PKG_DATA_DIR "/usb.ids"
 #endif
 #ifndef PCI_IDS
-#define PCI_IDS PKG_DATA_DIR "/pci.ids"
+# define PCI_IDS PKG_DATA_DIR "/pci.ids"
 #endif
 
 G_DEFINE_TYPE(OsinfoLoader, osinfo_loader, G_TYPE_OBJECT);
@@ -1314,6 +1313,33 @@ static OsinfoTree *osinfo_loader_tree(OsinfoLoader *loader,
     return tree;
 }
 
+static OsinfoFirmware *osinfo_loader_firmware(OsinfoLoader *loader,
+                                              xmlXPathContextPtr ctxt,
+                                              xmlNodePtr root,
+                                              const gchar *id,
+                                              GError **err)
+{
+    gchar *arch = (gchar *)xmlGetProp(root, BAD_CAST "arch");
+    gchar *type = (gchar *)xmlGetProp(root, BAD_CAST "type");
+    gchar *supported = (gchar *)xmlGetProp(root, BAD_CAST "supported");
+    gboolean is_supported = TRUE;
+
+    OsinfoFirmware *firmware = osinfo_firmware_new(id, arch, type);
+    xmlFree(arch);
+    xmlFree(type);
+
+    if (supported != NULL) {
+        is_supported = g_str_equal(supported, "true");
+        xmlFree(supported);
+    }
+
+    osinfo_entity_set_param_boolean(OSINFO_ENTITY(firmware),
+                                    OSINFO_FIRMWARE_PROP_SUPPORTED,
+                                    is_supported);
+
+    return firmware;
+}
+
 static OsinfoImage *osinfo_loader_image(OsinfoLoader *loader,
                                         xmlXPathContextPtr ctxt,
                                         xmlNodePtr root,
@@ -1488,6 +1514,7 @@ static OsinfoDeviceDriver *osinfo_loader_driver(OsinfoLoader *loader,
     xmlChar *location = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_LOCATION);
     xmlChar *preinst = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE);
     xmlChar *is_signed = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_SIGNED);
+    xmlChar *priority = xmlGetProp(root, BAD_CAST OSINFO_DEVICE_DRIVER_PROP_PRIORITY);
 
     OsinfoDeviceDriver *driver = osinfo_device_driver_new(id);
 
@@ -1517,6 +1544,13 @@ static OsinfoDeviceDriver *osinfo_loader_driver(OsinfoLoader *loader,
                                 OSINFO_DEVICE_DRIVER_PROP_SIGNED,
                                 (gchar *)is_signed);
         xmlFree(is_signed);
+    }
+
+    if (priority) {
+        osinfo_entity_set_param(OSINFO_ENTITY(driver),
+                                OSINFO_DEVICE_DRIVER_PROP_PRIORITY,
+                                (gchar *)priority);
+        xmlFree(priority);
     }
 
     gint nnodes = osinfo_loader_nodeset("./*", loader, ctxt, &nodes, err);
@@ -1593,6 +1627,24 @@ static void osinfo_loader_os(OsinfoLoader *loader,
                               "./devices/device", ctxt, root, err);
     if (error_is_set(err))
         goto cleanup;
+
+    nnodes = osinfo_loader_nodeset("./firmware", loader, ctxt, &nodes, err);
+    if (error_is_set(err))
+        goto cleanup;
+
+    for (i = 0; i < nnodes; i++) {
+        xmlNodePtr saved = ctxt->node;
+        ctxt->node = nodes[i];
+        gchar *firmware_id = g_strdup_printf("%s:%u", id, i);
+        OsinfoFirmware *firmware = osinfo_loader_firmware(loader, ctxt, nodes[i], firmware_id, err);
+        g_free(firmware_id);
+        ctxt->node = saved;
+        if (error_is_set(err))
+            goto cleanup;
+
+        osinfo_os_add_firmware(os, firmware);
+        g_object_unref(firmware);
+    }
 
     nnodes = osinfo_loader_nodeset("./media", loader, ctxt, &nodes, err);
     if (error_is_set(err))
@@ -1844,7 +1896,7 @@ static void osinfo_loader_process_xml(OsinfoLoader *loader,
     pctxt->sax->error = catchXMLError;
 
     xml = xmlCtxtReadDoc(pctxt, BAD_CAST xmlStr, src, NULL,
-                         XML_PARSE_NOENT | XML_PARSE_NONET |
+                         XML_PARSE_NONET |
                          XML_PARSE_NOWARNING);
     if (!xml)
         goto cleanup;
@@ -2345,6 +2397,10 @@ static void osinfo_loader_process_list(OsinfoLoader *loader,
 
         case OSINFO_DATA_FORMAT_USB_IDS:
             osinfo_loader_process_file_reg_usb(loader, *tmp, allentries, &lerr);
+            break;
+
+        default:
+            g_warn_if_reached();
             break;
         }
 

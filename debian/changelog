@@ -1,3 +1,13 @@
+libosinfo (1.7.1-1~1.gbp6fa277) UNRELEASED; urgency=medium
+
+  ** SNAPSHOT build @6fa277066123b883a7eefe37938c84cbfce0ea4f **
+
+  * New upstream version 1.7.1
+    Closes: #953628
+  * [626293c] d/watch: Use xz compression
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 14 Mar 2020 19:56:30 +0100
+
 libosinfo (1.6.0-1) unstable; urgency=medium
 
   * New upstream version fixes CVE-2019-13313

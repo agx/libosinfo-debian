@@ -5,9 +5,9 @@ Name: libosinfo
 Version: @VERSION@
 Release: 1%{?dist}
 License: LGPLv2+
-Source: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source: https://releases.pagure.org/%{name}/%{name}-%{version}.tar.xz
 URL: https://libosinfo.org/
+BuildRequires: meson
 BuildRequires: gcc
 BuildRequires: gettext-devel
 BuildRequires: glib2-devel
@@ -48,32 +48,21 @@ Libraries, includes, etc. to compile with the libosinfo library
 %setup -q
 
 %build
-%configure --enable-introspection=yes --enable-vala=yes
-%__make %{?_smp_mflags} V=1
-
-chmod a-x examples/*.js examples/*.py
+%meson \
+    -Denable-gtk-doc=true \
+    -Denable-tests=true \
+    -Denable-introspection=enabled \
+    -Denable-vala=enabled
 
 %install
-rm -fr %{buildroot}
-%__make install DESTDIR=%{buildroot}
-rm -f %{buildroot}%{_libdir}/*.a
-rm -f %{buildroot}%{_libdir}/*.la
+%meson_install
 
 %find_lang %{name}
 
 %check
-if ! make check
-then
-  cat tests/test-suite.log || true
-  exit 1
-fi
+%meson_test
 
-%clean
-rm -fr %{buildroot}
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+%ldconfig_scriptlets
 
 %files -f %{name}.lang
 %doc AUTHORS ChangeLog COPYING.LIB NEWS README
@@ -87,8 +76,6 @@ rm -fr %{buildroot}
 %{_libdir}/girepository-1.0/Libosinfo-1.0.typelib
 
 %files devel
-%doc examples/demo.js
-%doc examples/demo.py
 %{_libdir}/%{name}-1.0.so
 %dir %{_includedir}/%{name}-1.0/
 %dir %{_includedir}/%{name}-1.0/osinfo/
@@ -99,6 +86,7 @@ rm -fr %{buildroot}
 
 %dir %{_datadir}/vala
 %dir %{_datadir}/vala/vapi
+%{_datadir}/vala/vapi/libosinfo-1.0.deps
 %{_datadir}/vala/vapi/libosinfo-1.0.vapi
 
 %changelog

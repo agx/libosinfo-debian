@@ -27,22 +27,22 @@
 #include <osinfo/osinfo_devicelist.h>
 
 #ifndef __OSINFO_DEVICE_DRIVER_H__
-#define __OSINFO_DEVICE_DRIVER_H__
+# define __OSINFO_DEVICE_DRIVER_H__
 
 /*
  * Type macros.
  */
-#define OSINFO_TYPE_DEVICE_DRIVER                  (osinfo_device_driver_get_type ())
-#define OSINFO_DEVICE_DRIVER(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
-                                                OSINFO_TYPE_DEVICE_DRIVER, OsinfoDeviceDriver))
-#define OSINFO_IS_DEVICE_DRIVER(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
-                                                OSINFO_TYPE_DEVICE_DRIVER))
-#define OSINFO_DEVICE_DRIVER_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST ((klass), \
-                                                OSINFO_TYPE_DEVICE_DRIVER, OsinfoDeviceDriverClass))
-#define OSINFO_IS_DEVICE_DRIVER_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), \
-                                                OSINFO_TYPE_DEVICE_DRIVER))
-#define OSINFO_DEVICE_DRIVER_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), \
-                                                OSINFO_TYPE_DEVICE_DRIVER, OsinfoDeviceDriverClass))
+# define OSINFO_TYPE_DEVICE_DRIVER                  (osinfo_device_driver_get_type ())
+# define OSINFO_DEVICE_DRIVER(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), \
+                                                     OSINFO_TYPE_DEVICE_DRIVER, OsinfoDeviceDriver))
+# define OSINFO_IS_DEVICE_DRIVER(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), \
+                                                     OSINFO_TYPE_DEVICE_DRIVER))
+# define OSINFO_DEVICE_DRIVER_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST ((klass), \
+                                                     OSINFO_TYPE_DEVICE_DRIVER, OsinfoDeviceDriverClass))
+# define OSINFO_IS_DEVICE_DRIVER_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), \
+                                                     OSINFO_TYPE_DEVICE_DRIVER))
+# define OSINFO_DEVICE_DRIVER_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), \
+                                                     OSINFO_TYPE_DEVICE_DRIVER, OsinfoDeviceDriverClass))
 
 typedef struct _OsinfoDeviceDriver        OsinfoDeviceDriver;
 
@@ -50,12 +50,14 @@ typedef struct _OsinfoDeviceDriverClass   OsinfoDeviceDriverClass;
 
 typedef struct _OsinfoDeviceDriverPrivate OsinfoDeviceDriverPrivate;
 
-#define OSINFO_DEVICE_DRIVER_PROP_ARCHITECTURE    "arch"
-#define OSINFO_DEVICE_DRIVER_PROP_LOCATION        "location"
-#define OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE "pre-installable"
-#define OSINFO_DEVICE_DRIVER_PROP_FILE            "file"
-#define OSINFO_DEVICE_DRIVER_PROP_DEVICE          "device"
-#define OSINFO_DEVICE_DRIVER_PROP_SIGNED          "signed"
+# define OSINFO_DEVICE_DRIVER_PROP_ARCHITECTURE    "arch"
+# define OSINFO_DEVICE_DRIVER_PROP_LOCATION        "location"
+# define OSINFO_DEVICE_DRIVER_PROP_PRE_INSTALLABLE "pre-installable"
+# define OSINFO_DEVICE_DRIVER_PROP_FILE            "file"
+# define OSINFO_DEVICE_DRIVER_PROP_DEVICE          "device"
+# define OSINFO_DEVICE_DRIVER_PROP_SIGNED          "signed"
+# define OSINFO_DEVICE_DRIVER_PROP_PRIORITY        "priority"
+# define OSINFO_DEVICE_DRIVER_DEFAULT_PRIORITY     50
 
 /* object */
 struct _OsinfoDeviceDriver
@@ -85,5 +87,6 @@ gboolean osinfo_device_driver_get_pre_installable(OsinfoDeviceDriver *driver);
 GList *osinfo_device_driver_get_files(OsinfoDeviceDriver *driver);
 OsinfoDeviceList *osinfo_device_driver_get_devices(OsinfoDeviceDriver *driver);
 gboolean osinfo_device_driver_get_signed(OsinfoDeviceDriver *driver);
+gint64 osinfo_device_driver_get_priority(OsinfoDeviceDriver *driver);
 
 #endif /* __OSINFO_DEVICE_DRIVER_H__ */

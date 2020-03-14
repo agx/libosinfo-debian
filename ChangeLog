@@ -1,4 +1,683 @@
+2019-12-04  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	Update NEWS for 1.7.1 release
+
+	build: Switch the project's version to 1.7.1
+	It's done as an 1.7.1 release is needed in order to fix the breakage
+	caused by not using versioned symbols in 1.7.0 release.
+
+	build: Only define {PCI,USB}_IDS in {pci,usb}-ids-path are defined
+	Setting those regardless of {pci,usb}-ids-path being explicitly set or
+	automatically detected is a regression compared to what we were doing
+	when using autotools.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	build: Set {pci,usb}.ids paths
+	In case pci.ids or usb.ids files are shipped by libosinfo, pci_ids_path
+	and usb_ids_path must be set accordingly.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-12-03  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	build: Use versioned symbols
+	During 25c45ffd9a1b8f18f56974d5b9b6b2c1da8cbd0c, supported for versioned
+	symbols were (wrongly) introduced but never used.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-12-02  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	mingw,spec: Use %autosetup
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	mingw,spec: Drop gettext BuildRequires
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	mingw.spec: Add hwdata as BuildRequires
+	Seems that when using `fedpkg scratch-build` we cannot rely on having
+	network access, making the download of the usb and pci ids files to
+	fail, causing then a build error as the files won't be found to be
+	shipped.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	mingw.spec: Add gcc as BuildRequires
+	meson requires both compiler and cross-compiler in order to perform a
+	cross build.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	mingw,spec: Add intltool as BuildRequires
+	Otherwise the translations are not generated.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	build: Install {usb,pci}.ids if not shipped
+	In case usb.ids and pci.ids are not shipped, let's also install them as
+	part of libosinfo installation.
+
+	install_data() will automatically install the files to the
+	standards-conforming location.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-11-29  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	Post release version bump to 1.8.0
+
+	build: Disable -Wcast-warn
+	It causes issues when generating Libosinfo-scan.c on armv7hl.
+	```
+	Libosinfo-scan.c: In function ‘describe_type’:
+	/usr/include/glib-2.0/gobject/gtype.h:2299:6: error: cast increases required alignment of target type [-Werror=cast-align]
+	 2299 |     ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+	      |      ^
+	/usr/include/glib-2.0/gobject/gtype.h:484:66: note: in expansion of macro ‘_G_TYPE_CIC’
+	  484 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+	      |                                                                  ^~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gparamspecs.h:216:45: note: in expansion of macro ‘G_TYPE_CHECK_INSTANCE_CAST’
+	  216 | #define G_PARAM_SPEC_INT64(pspec)          (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_INT64, GParamSpecInt64))
+	      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c:871:30: note: in expansion of macro ‘G_PARAM_SPEC_INT64’
+	  871 |     GParamSpecInt64 *pspec = G_PARAM_SPEC_INT64 (spec);
+	      |                              ^~~~~~~~~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gtype.h:2299:6: error: cast increases required alignment of target type [-Werror=cast-align]
+	 2299 |     ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+	      |      ^
+	/usr/include/glib-2.0/gobject/gtype.h:484:66: note: in expansion of macro ‘_G_TYPE_CIC’
+	  484 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+	      |                                                                  ^~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gparamspecs.h:239:45: note: in expansion of macro ‘G_TYPE_CHECK_INSTANCE_CAST’
+	  239 | #define G_PARAM_SPEC_UINT64(pspec)         (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_UINT64, GParamSpecUInt64))
+	      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c:887:31: note: in expansion of macro ‘G_PARAM_SPEC_UINT64’
+	  887 |     GParamSpecUInt64 *pspec = G_PARAM_SPEC_UINT64 (spec);
+	      |                               ^~~~~~~~~~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gtype.h:2299:6: error: cast increases required alignment of target type [-Werror=cast-align]
+	 2299 |     ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+	      |      ^
+	/usr/include/glib-2.0/gobject/gtype.h:484:66: note: in expansion of macro ‘_G_TYPE_CIC’
+	  484 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+	      |                                                                  ^~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gparamspecs.h:354:45: note: in expansion of macro ‘G_TYPE_CHECK_INSTANCE_CAST’
+	  354 | #define G_PARAM_SPEC_DOUBLE(pspec)         (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_DOUBLE, GParamSpecDouble))
+	      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c:921:31: note: in expansion of macro ‘G_PARAM_SPEC_DOUBLE’
+	  921 |     GParamSpecDouble *pspec = G_PARAM_SPEC_DOUBLE (spec);
+	      |                               ^~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c: In function ‘describe_default’:
+	/usr/include/glib-2.0/gobject/gtype.h:2299:6: error: cast increases required alignment of target type [-Werror=cast-align]
+	 2299 |     ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+	      |      ^
+	/usr/include/glib-2.0/gobject/gtype.h:484:66: note: in expansion of macro ‘_G_TYPE_CIC’
+	  484 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+	      |                                                                  ^~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gparamspecs.h:216:45: note: in expansion of macro ‘G_TYPE_CHECK_INSTANCE_CAST’
+	  216 | #define G_PARAM_SPEC_INT64(pspec)          (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_INT64, GParamSpecInt64))
+	      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c:1004:30: note: in expansion of macro ‘G_PARAM_SPEC_INT64’
+	 1004 |     GParamSpecInt64 *pspec = G_PARAM_SPEC_INT64 (spec);
+	      |                              ^~~~~~~~~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gtype.h:2299:6: error: cast increases required alignment of target type [-Werror=cast-align]
+	 2299 |     ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+	      |      ^
+	/usr/include/glib-2.0/gobject/gtype.h:484:66: note: in expansion of macro ‘_G_TYPE_CIC’
+	  484 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+	      |                                                                  ^~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gparamspecs.h:239:45: note: in expansion of macro ‘G_TYPE_CHECK_INSTANCE_CAST’
+	  239 | #define G_PARAM_SPEC_UINT64(pspec)         (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_UINT64, GParamSpecUInt64))
+	      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c:1010:33: note: in expansion of macro ‘G_PARAM_SPEC_UINT64’
+	 1010 |       GParamSpecUInt64 *pspec = G_PARAM_SPEC_UINT64 (spec);
+	      |                                 ^~~~~~~~~~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gtype.h:2299:6: error: cast increases required alignment of target type [-Werror=cast-align]
+	 2299 |     ((ct*) g_type_check_instance_cast ((GTypeInstance*) ip, gt))
+	      |      ^
+	/usr/include/glib-2.0/gobject/gtype.h:484:66: note: in expansion of macro ‘_G_TYPE_CIC’
+	  484 | #define G_TYPE_CHECK_INSTANCE_CAST(instance, g_type, c_type)    (_G_TYPE_CIC ((instance), (g_type), c_type))
+	      |                                                                  ^~~~~~~~~~~
+	/usr/include/glib-2.0/gobject/gparamspecs.h:354:45: note: in expansion of macro ‘G_TYPE_CHECK_INSTANCE_CAST’
+	  354 | #define G_PARAM_SPEC_DOUBLE(pspec)         (G_TYPE_CHECK_INSTANCE_CAST ((pspec), G_TYPE_PARAM_DOUBLE, GParamSpecDouble))
+	      |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+	Libosinfo-scan.c:1070:31: note: in expansion of macro ‘G_PARAM_SPEC_DOUBLE’
+	 1070 |     GParamSpecDouble *pspec = G_PARAM_SPEC_DOUBLE (spec);
+	      |                               ^~~~~~~~~~~~~~~~~~~
+	cc1: all warnings being treated as errors
+	```
+
+	Update NEWS for 1.7.0 release
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+	Reviewed-by: Ján Tomko <jtomko@redhat.com>
+
+	Refresh translations from zanata
+
+2019-11-26  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	os: Add "get_device_drivers_prioritized"
+	get_device_drivers_prioritized() returns the list of highest priority
+	device drivers for a given OS.
+
+	In case management apps would like to add a fallback mechanism, the
+	recommendation is to use get_device_drivers(), which returns all the
+	drivers.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	device-driver: Add "priority" attribute
+	Let's read the "priority" attribute from the "driver" element. If not
+	set, the priority will be set to OSINFO_DEVICE_DRIVER_DEFAULT_PRIORITY
+	(50) by default.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-11-11  Andrea Bolognani  <abologna@redhat.com>
+
+	ci: Remove Fedora 29
+	The OS is no longer supported by the libvirt-jenkins-ci project
+	and the existing container images will be deleted shortly.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	ci: Add Fedora 31
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-11-08  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	db: Take the media's volume size into account when sorting the medias
+	If volume-size is not taken into account, when dealing with identical
+	ISOs, we may end up wrongly matching an entry that has its volume-size
+	with one which doesn't have the value, simply because the one which does
+	not have the value may be declared first the in XML entry.
+
+	Reviewed-by; Daniel P. Berrangé <berrange@redhat.com>
+
+2019-11-06  Diego Escalante Urrelo  <diegoe@gnome.org>
+
+	list: Improve API safety
+	Add checks across the API to validate objects before trying to operate
+	on them.
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	list: Remove unnecessary casts
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	list: Fix gtk-doc string
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	list: Add osinfo_list_set_element_type
+	Add the corresponding setter for osinfo_list_get_element_type() and use
+	it internally to ensure safety.
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	list: Use osinfo_list_get_instance_private
+	Instead of repeateadly accessing the priv structure, use the GObject
+	defined helper to ensure safety.
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	list: Update GObject boilerplate
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+	list: Use API to avoid unsafe access
+	Use osinfo_list_get_element_type() instead of referencing members
+	directly. This ensures that we are not trying to reference invalid
+	members in invalid structs.
+
+	Also make said function safer by using
+	osinfo_list_get_instance_private() that checks the sanity of the
+	OsinfoList object for us.
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+2019-10-14  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	ci: Add Ubuntu 18 container
+
+	ci: Add Ubuntu 16 container
+
+	ci: Add Debian 9 container
+
+	ci: Add CentOS 7 container
+	We cannot run osinfo-db-tools-rpm job in the CentOS 7 container as it
+	doesn't have the needed meson macros.
+
+	ci: Keep the containers alphabetically sorted
+
+	ci: Deal with multilib path
+	When building a project using Meson, the project will be installed
+	respecting the multi-library path.
+
+	In order to get the right path we should do:
+	- Debian based machines:
+	  - Use the value of `dpkg-architecture -q DEB_TARGET_MULTIARCH`
+	- RPM based machines:
+	  - Use the value of `rpm --eval '%{_lib}'`
+
+	ci: Set NINJA environment variable
+	We'll start testing on CentOS 7, which doesn't have the "ninja" binary.
+	Knowing this, we better have a NINJA environment variable setting
+	accodingly.
+
+	meson: Disable -Wunsafe-loop-optimizations warnings
+	This commit is basically bringing b2574d33aa back:
+
+	'''
+	Disable -Wunsafe-loop-optimizations warnings
+
+	This warning option is not reporting broken code. Rather it is merely
+	identifying loops which GCC would not be able to optimize fully when
+	using -funsafe-loop-optimizations.  In GCC 7 this triggers on the
+	loader code
+
+	osinfo_loader.c: In function 'osinfo_loader_process_list':
+	osinfo_loader.c:2127:11: error: missed loop optimization, the loop counter may overflow [-Werror=unsafe-loop-optimizations]
+	     while (tmp && *tmp) {
+	           ^
+
+	The warning just needs to be turned off since the code is not broken,
+	and we don't care about the optimization level
+	'''
+
+2019-10-08  Pino Toscano  <ptoscano@redhat.com>
+
+	tools: Minor POD fixes
+	- use B<> for some parameters
+	- use C<> instead of a manually quoted identifier
+	- make the install-script config file a verbatim block, so it is kept
+	  as-is, and not wrapped as normal text block
+	- use L<> for linking to other man pages
+	- switch example from Fedora 16 to Fedora 30
+	- other minor changes
+
+	Reviewed-by: Fabiano Fidêncio <fidencio@redhat.com>
+
+2019-09-25  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	syms: Add osinfo_firmware_new
+	osinfo_firmware_new() has been introduced as part of commit 904b65e7a1.
+	However, it was not added to the libosinfo.syms file.
+
+	ci: Introduce CI
+	Let's introduce a basic CI, which basically runs an out-of-tree build
+	with `make check`, running against the following systems:
+	- Fedora 29, Fedora 30, Fedora Rawhide;
+	- Debian 10, Debian Sid;
+
+	meson: Disable gtk-doc for cross-builds
+	Let's disable gtk-doc build when performing a cross-build as
+	`./Libosinfo-scan` will be generated for the cross architecture and
+	cannot be run from the host machine architecture.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	meson: Fix build on BSDs
+	Unless explicitly passing "-Wno-typedef-redefinition" and
+	"-Wno-missing-field-initializers", builds would fail not only on macOS,
+	but also on BSDs.Knowing that, let's just use disable those warnings
+	when not building on Linux.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	meson: Add syntax-check as part of our test-suite
+	Let's take advantage of that we can run `make syntax-check` without the
+	need of having a Makefile around and add it as part of our test suite.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	Move files needed for `make syntax-check` to build-aux
+	Together with the changes, let's adapt GNUmakefile and maint.mk in order
+	to be able to run those files from build-aux.
+
+	GNUmakefile:
+	- changing both srcdir & top_srcdir, and adjusting the includes of
+	  cfg.mk and maint.mk were enough to be able to run `make syntax-check`
+	  from build-aux directory;
+
+	maint.mk:
+	- "ME" variable had to be changed to point to the right place;
+	- Some paths expecting cfg.mk in the top_srcdir had to be changed;
+	- tight-scope.mk target dependency has been changed from $(ME) to
+	  maint.mk;
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	Support `make syntax-check` without Makefile
+	A few dirty hacks have been done in GNUmakefile, cfg.mk, and maint.mk
+	in order to support running `make syntax-check` without having to have a
+	Makefile around.
+
+	GNUmakefile: set srcdir & top_srcdir and remove the parts that would
+	cause an error due to no presence of a Makefile.
+
+	cfg.mk: add sc_prohibit_always-defined_macros to the list of local
+	checks to skip as it looks for Makefile, which is generated after
+	running ./configure.
+
+	maint.mk: allow running `make syntax-check` without having a Makefile
+	generated.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	Drop autotools support
+	Let's try to drop autotools support as meson is in place. There are a
+	few files that were not dropped though, as:
+	- cfg.mk
+	- maint.mk
+	- GNUmakefile
+	- build-aux/bracket-spacing.pl
+	- build-aux/gitlog-to-changelog
+	- build-aux/useless-if-before-free
+	- build-aux/vc-list-files
+
+	From the list above, build-aux/gitlog-to-changelog is currently used by
+	meson as part of the `dist`.
+
+	All the other files, with a few changes, will be useful for meson as,
+	with a few changes, we will be able have `ninja syntax-check` working.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	prepare-release: Adapt to use meson
+	Let's adapt the prepare-release script to use meson build system instead
+	of autotools.
+
+	This change has been tested and is working fine on Fedora 30+.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	spec: Adapt to use meson
+	The changes needed in the spec files are not so intrusive.
+
+	One thing that has to be mentioned is the requirement for
+	mingw-filesystem >= 107 (which is only present on Fedora 30+) in order
+	to generate the mingw rpms for osinfo-db-tools. This huge bump in the
+	version happened because the `%mingw_ninja_install` was only recently
+	introduced to mingw-filesystem package.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	spec: Remove BuildRoot definition
+	None of the currently supported distributions need that. Last one which
+	did was EL5 (which, thankfully, is EOL now).
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	spec: Switch to %ldconfig_scriptlets
+	This change has been part of Fedora spec file for a quite long time, but
+	it was never replicated upstream.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	Add support to meson build system
+	Meson build system is a "simpler and easier" to understand build system
+	that that can provide (with some work-arounds here and there) the same
+	functionalities currently available with our current build system
+	(autotools).
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	loader: Fix "switch-default" warning
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	readme: Add "Testing" section
+	Let's add a short section explaning how to build & run the libosinfo
+	tests.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	Don't include config.h
+	config.h file is only used in osinfo-db-tools for the GETTEXT_PACKAGE
+	macro. Fortunately, when AC_CONFIG_HEADER macro is dropped from
+	configure, -DGETTEXT_PACKAGE=... is automatically passed as a compilar
+	argument, allowing us then to drop the file.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	maint.mk: Update to the latest gnulib
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	cfg.mk: Update exclude_file_name_regexp--sc_trailing_blank
+	tests/isodata/* have been removed a long time ago.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	cfg.mk: Update exclude_file_name_regexp--sc_bindtextdomain
+	Let's *not* run the check only for tests files.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	cfg.mk: Remove exclude_file_name_regexp--sc_space_tab
+	tests/isodata has been removed a long time ago.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	cfg.mk: Remove exclude_file_name_regexp--sc_prohibit_atoi_atof
+	Let's run sc_prohibit_atoi_atof in all files.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	cfg.mk: Remove exclude_file_name_regexp--sc_require_config_h*
+	Those were added as a copy & paste mistake from libvirt-glib.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	cfg.mk: Remove exclude_file_name_regexp--sc_preprocessor_indentation
+	Let's run the check in all files.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	Indent includes/defines
+	By doing this, we can stop excluding files from
+	sc_preprocessor_indentation check.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+	test-install-script: Use g_unlink() instead of unlink()
+	Not like unlink(), g_unlink() is a portable function and using it would
+	allow us to build this test using mingw.
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-09-17  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	test-firmware: Add tests
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	loader: Load Firmwares to OSes
+	Let's read the <firmware> attribute from the XMLs and store this into
+	our OS representation.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	os: Add support to Firmware
+	Let's add APIs for both adding a firmware to or retrieving the list of
+	firmwares from an OS.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	tests: Add test-firmwarelist
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	firmwarelist: Add OsinfoFirmwareList
+	OsinfoFirmwareList has been created in order to represent a list of
+	firmwares supported by an OS, as an OS may support various firmwares
+	without any issue.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	tests: Add test-firmware
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	firmware: Add OsinfoFirmware
+	OsinfoFirmware has been created in order to represent the firmware types
+	supported by an OS.
+
+	The schema representation of this object is:
+	<firmware arch="arch name" type="bios|efi"/>
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+2019-09-12  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	build: Use a minimum gettext requirement rather than an exact one
+	In configure.ac, specify the minimum gettext version we require, rather
+	than the exact one. This fixes a situation where the autoconf macros
+	used for gettext will be the latest available on the system (for
+	example, 0.20); but the copied-in Makefile.in.in will be for the exact
+	version specified in configure.ac (in this case, 0.19).
+
+	In that situation, the gettext build rules will error out at `make` time
+	with the message:
+	   *** error: gettext infrastructure mismatch: using a Makefile.in.in
+	   from gettext version 0.19 but the autoconf macros are from gettext
+	   version 0.20
+
+	Avoid that by specifying a minimum version dependency rather than an
+	exact one. This should not cause problems as we haven’t committed any
+	generated or external gettext files into git, so each developer will end
+	up regenerating the build system for their system’s version of gettext,
+	as expected.
+
+	See the subsection of
+	https://www.gnu.org/software/gettext/manual/html_node/Version-Control-Issues.html
+	for more information.
+
+	This patch is basically the same as
+	https://gitlab.gnome.org/GNOME/geocode-glib/commit/6ba0e38fd1987be0de8432afd93b9a5c1f487b63
+
+	Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+
+2019-09-02  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	media: Check whether an InputStream is seekable
+	SoupInputStream is not seekable, causing errors as:
+	```
+	fidencio@laerte ~/src/upstream/libosinfo $ ./tools/osinfo-detect https://cdimage.debian.org/cdimage/archive/8.10.0/powerpc/iso-dvd/debian-8.10.0-powerpc-DVD-1.iso
+	(lt-osinfo-detect:27922): GLib-GObject-WARNING **: 18:52:29.494: invalid cast from 'SoupClientInputStream' to 'GSeekable'
+	(lt-osinfo-detect:27922): GLib-GIO-CRITICAL **: 18:52:29.494: g_seekable_seek: assertion 'G_IS_SEEKABLE (seekable)' failed
+	(lt-osinfo-detect:27922): GLib-GIO-CRITICAL **: 18:52:29.494: g_task_return_error: assertion 'error != NULL' failed
+	```
+
+	In order to avoid those, let's check whether the InputStream is seekable
+	or not.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+2019-08-20  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	tools,detect: Don't leak OS when detecting trees
+	From g_object_get() documentation:
+
+	In general, a copy is made of the property contents and the caller is
+	responsible for freeing the memory in the appropriate manner for the
+	type, for instance by calling g_free() or g_object_unref().
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	tools,detect: Remove 'env' output type
+	--format env was intended for udev scripts which was dropped in
+
+	  commit 16cf1f797728dff9e361033937faea9f38ffbe49
+	  Author: Zeeshan Ali (Khattak) <zeeshanak@gnome.org>
+	  Date:   Fri Feb 15 19:00:37 2013 +0200
+
+	    Ditch udev rule
+
+	Let's remove this piece and avoid having two formats with discrepant
+	information being displayed.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	tools,detect: Print the arch of the detected tree/media
+	This information is useful in order to check whether we're not only
+	matching the right OS, but also the right architecture.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+2019-08-16  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	install-script: Don't expand entities when parsing XML
+	The XML_PARSE_NOENT flag to libxml will cause it to expand all entities
+	in the input XML document when parsing. Doing this is bad practice if the
+	XML input file comes from an untrusted source, because it can cause the
+	XML parser to load arbitrary files that are readable by the user running
+	XML parsing.
+
+	This is basically the same fix as 47233d0b9dc (from osinfo-db-tools)
+
+	Reviewed-by: Felipe Borges feborges@redhat.com
+
+	loader: Don't expand entities when parsing XML
+	The XML_PARSE_NOENT flag to libxml will cause it to expand all entities
+	in the input XML document when parsing. Doing this is bad practice if the
+	XML input file comes from an untrusted source, because it can cause the
+	XML parser to load arbitrary files that are readable by the user running
+	XML parsing.
+
+	This is basically the same fix as 47233d0b9dc (from osinfo-db-tools)
+
+	Reviewed-by: Felipe Borges feborges@redhat.com
+
+2019-08-07  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	tree: Deal with file:// trees
+	Let's add back the code we dropped as part of e0e06c7bc but, this time,
+	to be executed condionatilly only when dealing with "file://", which
+	does not require GVFS to be installed at all.
+
+	https://gitlab.com/libosinfo/libosinfo/issues/35
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	tree: Rename on_location_read() to on_soup_location_read()
+	In order to add back the support to create a tree from a location that's
+	a "file://...", let's, as the first step, rename on_location_read() to
+	os_soup_location_read() as it'll make things cleaner later on.
+
+	https://gitlab.com/libosinfo/libosinfo/issues/35
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+	tree: Add _create_from_treeinfo() API
+	osinfo_tree_create_from_treeinfo() API has been added so apps can stick
+	to whatever is their preference on downloading the treeinfo file, mainly
+	now that ftp:// is not supported by _create_from_location(), and just
+	pass the treeinfo file content to libosinfo in order to create an
+	OsinfoTree.
+
+	https://gitlab.com/libosinfo/libosinfo/issues/34
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+2019-08-06  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	examples: Remove non functional examples
+	libosinfo examples are not working for some time. Let's remove them and,
+	later on, we can come up with a new set of functional ones.
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
+2019-08-01  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	configure: Relax gettext requirement
+	Since commit 3a2dd3050, we've added gettext 0.19.8 as a dependency for
+	libosinfo. However, it broke libosinfo build on Ubuntu 16.04 as the
+	gettext provided by them is 0.19.7.
+
+	Taking a look at the "noteworthy"* changes, seems that for our usecase we
+	can just depend 0.19.7 and keep building on Ubuntu 16.04
+
+	*: https://lists.gnu.org/archive/html/info-gnu/2016-06/msg00003.html
+
+	Reviewed-by: Cole Robinson <crobinso@redhat.com>
+
 2019-07-26  Fabiano Fidêncio  <fidencio@redhat.com>
+
+	Post release version bump to 1.7.0
 
 	Update NEWS for 1.6.0 release
 	Reviewed-by: Cole Robinson <crobinso@redhat.com>

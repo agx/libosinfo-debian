@@ -23,8 +23,6 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
-#include <config.h>
-
 #include <osinfo/osinfo.h>
 #include "osinfo_media_private.h"
 #include "osinfo_util_private.h"
@@ -973,7 +971,8 @@ static void on_directory_record_extent_read(GObject *source,
     if (data->filepath_index == data->filepath_index_max)
         goto cleanup;
 
-    if (!g_seekable_seek(G_SEEKABLE(stream),
+    if (!G_IS_SEEKABLE(stream) ||
+        !g_seekable_seek(G_SEEKABLE(stream),
                          dr->extent_location[index]  * data->pvd->logical_blk_size[index],
                          G_SEEK_SET,
                          g_task_get_cancellable(data->res),
@@ -1028,7 +1027,8 @@ static void search_ppc_bootinfo_async(GInputStream *stream,
 
     root_directory_entry = (DirectoryRecord *)&data->pvd->root_directory_entry;
 
-    if (!g_seekable_seek(G_SEEKABLE(stream),
+    if (!G_IS_SEEKABLE(stream) ||
+        !g_seekable_seek(G_SEEKABLE(stream),
                          root_directory_entry->extent_location[index] * data->pvd->logical_blk_size[index],
                          G_SEEK_SET,
                          g_task_get_cancellable(data->res),
