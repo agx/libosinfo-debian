@@ -1,0 +1,19 @@
+From: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Sat, 14 Mar 2020 20:09:08 +0100
+Subject: syntax-check: Ignore debian/tests in bindtextdomain test
+
+Not needed in the smoketest and otherwise we fail that check.
+---
+ build-aux/cfg.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build-aux/cfg.mk b/build-aux/cfg.mk
+index df84cdf..db6ac05 100644
+--- a/build-aux/cfg.mk
++++ b/build-aux/cfg.mk
+@@ -106,4 +106,4 @@ prev_version_file = /dev/null
+ 
+ exclude_file_name_regexp--sc_trailing_blank = docs/object-model.fig
+ 
+-exclude_file_name_regexp--sc_bindtextdomain = ^tests/.*.c
++exclude_file_name_regexp--sc_bindtextdomain = ^(debian/tests|tests)/.*.c

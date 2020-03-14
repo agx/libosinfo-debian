@@ -1,0 +1,20 @@
+From: =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>
+Date: Sat, 14 Mar 2020 20:19:43 +0100
+Subject: syntax-check: Ignore trailing white space in debian/patches
+
+---
+ build-aux/cfg.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build-aux/cfg.mk b/build-aux/cfg.mk
+index db6ac05..1e6aa01 100644
+--- a/build-aux/cfg.mk
++++ b/build-aux/cfg.mk
+@@ -104,6 +104,6 @@ sc_bracket_spacing_check:
+ # We don't use this feature of maint.mk.
+ prev_version_file = /dev/null
+ 
+-exclude_file_name_regexp--sc_trailing_blank = docs/object-model.fig
++exclude_file_name_regexp--sc_trailing_blank = (docs/object-model.fig|debian/patches/.*.c)
+ 
+ exclude_file_name_regexp--sc_bindtextdomain = ^(debian/tests|tests)/.*.c
