@@ -38,17 +38,17 @@
 #include <osinfo/osinfo_imagelist.h>
 
 #ifndef __OSINFO_OS_H__
-#define __OSINFO_OS_H__
+# define __OSINFO_OS_H__
 
 /*
  * Type macros.
  */
-#define OSINFO_TYPE_OS                  (osinfo_os_get_type ())
-#define OSINFO_OS(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), OSINFO_TYPE_OS, OsinfoOs))
-#define OSINFO_IS_OS(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OSINFO_TYPE_OS))
-#define OSINFO_OS_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST ((klass), OSINFO_TYPE_OS, OsinfoOsClass))
-#define OSINFO_IS_OS_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_OS))
-#define OSINFO_OS_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_OS, OsinfoOsClass))
+# define OSINFO_TYPE_OS                  (osinfo_os_get_type ())
+# define OSINFO_OS(obj)                  (G_TYPE_CHECK_INSTANCE_CAST ((obj), OSINFO_TYPE_OS, OsinfoOs))
+# define OSINFO_IS_OS(obj)               (G_TYPE_CHECK_INSTANCE_TYPE ((obj), OSINFO_TYPE_OS))
+# define OSINFO_OS_CLASS(klass)          (G_TYPE_CHECK_CLASS_CAST ((klass), OSINFO_TYPE_OS, OsinfoOsClass))
+# define OSINFO_IS_OS_CLASS(klass)       (G_TYPE_CHECK_CLASS_TYPE ((klass), OSINFO_TYPE_OS))
+# define OSINFO_OS_GET_CLASS(obj)        (G_TYPE_INSTANCE_GET_CLASS ((obj), OSINFO_TYPE_OS, OsinfoOsClass))
 
 /*
  * Forward declared in osinfo_install_script.h
@@ -59,10 +59,10 @@ typedef struct _OsinfoOsClass   OsinfoOsClass;
 
 typedef struct _OsinfoOsPrivate OsinfoOsPrivate;
 
-#define OSINFO_OS_PROP_FAMILY                 "family"
-#define OSINFO_OS_PROP_DISTRO                 "distro"
-#define OSINFO_OS_PROP_RELEASE_STATUS         "release-status"
-#define OSINFO_OS_PROP_KERNEL_URL_ARGUMENT    "kernel-url-argument"
+# define OSINFO_OS_PROP_FAMILY                 "family"
+# define OSINFO_OS_PROP_DISTRO                 "distro"
+# define OSINFO_OS_PROP_RELEASE_STATUS         "release-status"
+# define OSINFO_OS_PROP_KERNEL_URL_ARGUMENT    "kernel-url-argument"
 
 /* object */
 struct _OsinfoOs
@@ -143,8 +143,12 @@ OsinfoInstallScriptList *osinfo_os_get_install_script_list(OsinfoOs *os);
 void osinfo_os_add_install_script(OsinfoOs *os, OsinfoInstallScript *script);
 
 OsinfoDeviceDriverList *osinfo_os_get_device_drivers(OsinfoOs *os);
+OsinfoDeviceDriverList *osinfo_os_get_device_drivers_prioritized(OsinfoOs *os);
 void osinfo_os_add_device_driver(OsinfoOs *os, OsinfoDeviceDriver *driver);
 
 const gchar *osinfo_os_get_kernel_url_argument(OsinfoOs *os);
+
+OsinfoFirmwareList *osinfo_os_get_firmware_list(OsinfoOs *os, OsinfoFilter *filter);
+void osinfo_os_add_firmware(OsinfoOs *os, OsinfoFirmware *firmware);
 
 #endif /* __OSINFO_OS_H__ */

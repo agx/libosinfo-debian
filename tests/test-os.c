@@ -18,8 +18,6 @@
  *   Daniel P. Berrange <berrange@redhat.com>
  */
 
-#include <config.h>
-
 #include <osinfo/osinfo.h>
 #include "osinfo/osinfo_product_private.h"
 
@@ -215,6 +213,57 @@ test_device_driver(void)
     g_object_unref(dev1);
     g_object_unref(dev2);
     g_object_unref(os);
+}
+
+
+static void
+test_device_driver_priority_helper(gint64* expected_priorities,
+                                   OsinfoDeviceDriverList *(*get_device_drivers_func)(OsinfoOs *),
+                                   gint expected_ddlist_length)
+{
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    OsinfoOs *os;
+    OsinfoDeviceDriverList *ddlist;
+    GError *error = NULL;
+
+    osinfo_loader_process_path(loader, SRCDIR "/tests/dbdata", &error);
+    g_assert_no_error(error);
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
+    os = osinfo_db_get_os(db, "http://libosinfo.org/test/os/drivers/priority");
+
+    ddlist = get_device_drivers_func(os);
+    g_assert_cmpint(osinfo_list_get_length(OSINFO_LIST(ddlist)), ==, expected_ddlist_length);
+    for (int i = 0; i < osinfo_list_get_length(OSINFO_LIST(ddlist)); i++) {
+        OsinfoDeviceDriver *dd = OSINFO_DEVICE_DRIVER(osinfo_list_get_nth(OSINFO_LIST(ddlist), i));
+        g_assert_cmpint(osinfo_device_driver_get_priority(dd), ==, expected_priorities[i]);
+    }
+
+    g_object_unref(db);
+}
+
+
+static void
+test_device_driver_priority(void)
+{
+    gint64 expected_priorities[] = { OSINFO_DEVICE_DRIVER_DEFAULT_PRIORITY, 100 };
+
+    test_device_driver_priority_helper(expected_priorities,
+                                       osinfo_os_get_device_drivers,
+                                       2);
+}
+
+
+static void
+test_device_driver_prioritized_priority(void)
+{
+    gint64 expected_priorities[] = { 100 };
+
+    test_device_driver_priority_helper(expected_priorities,
+                                       osinfo_os_get_device_drivers_prioritized,
+                                       1);
 }
 
 
@@ -686,6 +735,123 @@ test_kernel_url_arg(void)
     g_object_unref(loader);
 }
 
+
+static void
+check_firmwares(OsinfoDb *db,
+                const gchar *os_id,
+                gint list_len)
+{
+    OsinfoOs *os;
+    OsinfoFirmwareList *firmwarelist;
+
+    g_test_message("Testing \"%s\"", os_id);
+
+    os = osinfo_db_get_os(db, os_id);
+    g_assert_true(OSINFO_IS_OS(os));
+
+    firmwarelist = osinfo_os_get_firmware_list(os, NULL);
+    g_assert_cmpint(osinfo_list_get_length(OSINFO_LIST(firmwarelist)), ==, list_len);
+
+    g_object_unref(firmwarelist);
+}
+
+static void
+test_firmwares_inheritance(void)
+{
+    OsinfoLoader *loader = osinfo_loader_new();
+    OsinfoDb *db;
+    GError *error = NULL;
+
+    osinfo_loader_process_path(loader, SRCDIR "/tests/dbdata", &error);
+    g_assert_no_error(error);
+    db = g_object_ref(osinfo_loader_get_db(loader));
+    g_object_unref(loader);
+
+    /**
+     * os1:
+     * - firmwares:
+     *   - explicitly added
+     *     - x86_64 | bios
+     *     - x86_64 | efi
+     *   - explicitly removed
+     *   - expected:
+     *     - x86_64 | bios
+     *     - x86_64 | efi
+
+     */
+    check_firmwares(db,
+                    "http://libosinfo.org/test/os/firmwares/inheritance/1",
+                    2);
+
+    /**
+     * os2 (derives-from os1):
+     * - firmwares
+     *   - explicitly added
+     *   - explicitly removed
+     *   - expected:
+     *     - x86_64 | bios
+     *     - x86_64 | efi
+     */
+    check_firmwares(db,
+                    "http://libosinfo.org/test/os/firmwares/inheritance/2",
+                    2);
+
+    /**
+     * os3 (derives-from os2):
+     * - firmwares
+     *   - explicitly added
+     *   - explicitly removed
+     *     - x86_64 | bios
+     *   - expected:
+     *     - x86_64 | efi
+
+     */
+    check_firmwares(db,
+                    "http://libosinfo.org/test/os/firmwares/inheritance/3",
+                    1);
+
+    /**
+     * os4 (derives-from os3):
+     * - firmwares
+     *   - explicitly added
+     *   - explicitly removed
+     *   - expected:
+     *     - x86_64 | efi
+     */
+    check_firmwares(db,
+                    "http://libosinfo.org/test/os/firmwares/inheritance/4",
+                    1);
+
+    /**
+     * os5 (derives-from os4):
+     * - firmwares
+     *   - explicitly added
+     *     - x86_64 | bios
+     *   - explicitly removed
+     *   - expected:
+     *     - x86_64 | bios
+     *     - x86_64 | efi
+     */
+    check_firmwares(db,
+                    "http://libosinfo.org/test/os/firmwares/inheritance/5",
+                    2);
+
+    /**
+     * os6 (derives-from os5):
+     * - firmwares
+     *   - explicitly added
+     *   - explicitly removed
+     *   - expected:
+     *     - x86_64 | bios
+     *     - x86_64 | efi
+     */
+    check_firmwares(db,
+                    "http://libosinfo.org/test/os/firmwares/inheritance/6",
+                    2);
+
+    g_object_unref(db);
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -697,6 +863,9 @@ main(int argc, char *argv[])
     g_test_add_func("/os/devices", test_devices);
     g_test_add_func("/os/devices_filter", test_devices_filter);
     g_test_add_func("/os/device_driver", test_device_driver);
+    g_test_add_func("/os/device_driver/priority", test_device_driver_priority);
+    g_test_add_func("/os/device_driver/prioritized_priority",
+                    test_device_driver_prioritized_priority);
     g_test_add_func("/os/devices/inheritance/basic",
                     test_devices_inheritance_basic);
     g_test_add_func("/os/devices/inheritance/removal",
@@ -706,6 +875,7 @@ main(int argc, char *argv[])
     g_test_add_func("/os/find_install_script", test_find_install_script);
     g_test_add_func("/os/mulitple_short_ids", test_multiple_short_ids);
     g_test_add_func("/os/kernel_url_arg", test_kernel_url_arg);
+    g_test_add_func("/os/firmwares/inheritance", test_firmwares_inheritance);
 
     /* Upfront so we don't confuse valgrind */
     osinfo_platform_get_type();
