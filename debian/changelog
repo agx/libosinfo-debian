@@ -1,12 +1,17 @@
-libosinfo (1.7.1-1~1.gbp6fa277) UNRELEASED; urgency=medium
-
-  ** SNAPSHOT build @6fa277066123b883a7eefe37938c84cbfce0ea4f **
+libosinfo (1.7.1-1) unstable; urgency=medium
 
   * New upstream version 1.7.1
     Closes: #953628
   * [626293c] d/watch: Use xz compression
+  * [02d3ec9] d/rules: Adjust for meson
+  * [1466f23] d/copyright: Remove trailing white space
+  * [1f6a12c] Ignore files in debian/ in tests
+  * [c2dd066] Install vapi deps as well
+  * [a3885f1] Bump symbol verions
+  * [0918426] Add salsa-ci
+  * [d8b2521] Switch to meson
 
- -- Guido Günther <agx@sigxcpu.org>  Sat, 14 Mar 2020 19:56:30 +0100
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 14 Mar 2020 22:21:15 +0100
 
 libosinfo (1.6.0-1) unstable; urgency=medium
 
